@@ -1,0 +1,21 @@
+{
+  "name": "magicly",
+  "scripts": {
+    "build": "yarn workspace @magicly/client run build",
+    "start": "yarn workspace @magicly/server run start",
+    "dev": "export $(cat .env | xargs) && yarn workspace @magicly/server run dev"
+  },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": "13.x"
+  },
+  "//": [
+    "yarn workspace server run start"
+  ],
+  "dependencies": {
+    "concurrently": "^5.2.0"
+  }
+}
