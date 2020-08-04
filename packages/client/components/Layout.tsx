@@ -43,6 +43,11 @@ const Layout = (props) => (
           <a>Support</a>
         </Link>
       </li>
+      <li>
+        <Link href="/terms">
+          <a>Terms</a>
+        </Link>
+      </li>
     </ul>
     {props.children}
   </div>
