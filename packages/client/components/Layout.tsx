@@ -48,6 +48,11 @@ const Layout = (props) => (
           <a>Terms</a>
         </Link>
       </li>
+      <li>
+        <Link href="/settings">
+          <a>Settings</a>
+        </Link>
+      </li>
     </ul>
     {props.children}
   </div>
