@@ -5,7 +5,7 @@ const Layout = (props) => (
     <ul>
       <li>
         <Link href="/">
-          <a>No SSR</a>
+          <a>Home</a>
         </Link>
       </li>
       <li>
