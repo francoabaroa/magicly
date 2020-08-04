@@ -13,6 +13,36 @@ const Layout = (props) => (
           <a>SSR</a>
         </Link>
       </li>
+      <li>
+        <Link href="/about">
+          <a>About</a>
+        </Link>
+      </li>
+      <li>
+        <Link href="/blog">
+          <a>Blog</a>
+        </Link>
+      </li>
+      <li>
+        <Link href="/features">
+          <a>Features</a>
+        </Link>
+      </li>
+      <li>
+        <Link href="/mission">
+          <a>Mission</a>
+        </Link>
+      </li>
+      <li>
+        <Link href="/pricing">
+          <a>Pricing</a>
+        </Link>
+      </li>
+      <li>
+        <Link href="/support">
+          <a>Support</a>
+        </Link>
+      </li>
     </ul>
     {props.children}
   </div>
