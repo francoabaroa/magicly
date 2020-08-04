@@ -13,6 +13,8 @@
 10. Decide on best way to do Releases from Test -> Dev -> Master and what tool to use?
 11. ADD DOCUMENTATION FOR EVERYTHING UP UNTIL THIS MOMENT -> setting app from scratch, how to deploy, etc
 12. Rename master branch to main across everything
+13. Set up VS Code with (https://medium.com/productivity-freak/the-ultimate-vscode-setup-for-js-react-6a4f7bd51a2) & (https://gist.github.com/adamwathan/52a96a7ddc538eb73a2680c546861e95)
+14. NextJS and Apollo and Typescript tutorial
 
 *client*
 1. disable or enable SSR?
@@ -32,5 +34,10 @@
 2. Client -> Server -> postgres call -> return to client
 3. Add Auth0 or PassportJS integration for Auth
 4. Implement Sign Up and Sign In with JWT?
+
+*link resources*
+1. https://gregberge.com/blog/javascript-stack-2020\
+2. https://product.voxmedia.com/2020/3/17/21172182/how-we-rewrote-a-vue-app-with-react-and-tailwind-in-21-days
+3.
 
 
