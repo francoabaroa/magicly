@@ -5,12 +5,17 @@ import gql from 'graphql-tag';
 import { withApollo } from '../apollo/apollo';
 
 const QUERY = gql`
-  query GetHello {
-    hello
+  query GetMe {
+    me {
+      id
+      firstName
+      lastName
+      email
+    }
   }
 `;
 
-const NOSSR = () => {
+const Index = () => {
   const { data, loading, error, refetch } = useQuery(QUERY);
 
   if (loading) return <p>Loading...</p>;
@@ -19,10 +24,10 @@ const NOSSR = () => {
   return (
     <Layout>
       <h1>This should be rendered on client side</h1>
-      <pre>Data: {data.hello}</pre>
+      <pre>Data: {JSON.stringify(data)}</pre>
       <button onClick={() => refetch()}>Refetch</button>
     </Layout>
   );
 };
 
-export default withApollo({ ssr: false })(NOSSR);
+export default withApollo({ ssr: false })(Index);

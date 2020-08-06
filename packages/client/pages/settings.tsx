@@ -5,8 +5,13 @@ import gql from 'graphql-tag';
 import { withApollo } from '../apollo/apollo';
 
 const QUERY = gql`
-  query GetHello {
-    hello
+  query GetMe {
+    me {
+      id
+      firstName
+      lastName
+      email
+    }
   }
 `;
 
@@ -19,7 +24,7 @@ const SettingsPage = () => {
   return (
     <Layout>
       <h1>Settings Page</h1>
-      <pre>Data: {data.hello}</pre>
+      <pre>Data: {data.firstName}</pre>
       <button onClick={() => refetch()}>Refetch</button>
     </Layout>
   );

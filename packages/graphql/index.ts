@@ -1,17 +1,20 @@
 import { ApolloServer, gql } from 'apollo-server-express';
+import { GraphQLDateTime } from 'graphql-iso-date';
 
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`;
+import schema from './schema/index';
+import resolvers from './resolvers/index';
 
-const resolvers = {
-  Query: {
-    hello: () => 'Hello world, Franco',
+import users from './mockData/mockUserData';
+
+
+//TODO: pass in DB models through the context to keep resolvers pure and update resolvers
+
+const server = new ApolloServer({
+  typeDefs: schema,
+  resolvers,
+  context: {
+    me: users[1],
   },
-};
-
-const server = new ApolloServer({ typeDefs, resolvers });
+});
 
 export default server;

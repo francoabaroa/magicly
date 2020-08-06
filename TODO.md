@@ -1,7 +1,7 @@
 # magicly todo
 
 *general*
-1. delete clientOld and serverOld
+1. delete clientOld and serverOld (make sure to see which functionality from serverOld could be used)
 2. Add ESLint & Prettier
 3. Add Jest + React Testing Library + Cypress
 4. Make sure server + client test coverage adequate
@@ -15,6 +15,9 @@
 12. Rename master branch to main across everything
 13. Set up VS Code with (https://medium.com/productivity-freak/the-ultimate-vscode-setup-for-js-react-6a4f7bd51a2) & (https://gist.github.com/adamwathan/52a96a7ddc538eb73a2680c546861e95)
 14. NextJS and Apollo and Typescript tutorial
+15. Go through all package.jsons and see which dependencies / dev dependencies are not being used and need to be added
+16. Exercises under https://www.robinwieruch.de/graphql-apollo-server-tutorial#apollo-server-setup-with-express
+17. Alphabetize all imports, variables, state and props, etc. Start establishing coding best practices
 
 *client*
 1. disable or enable SSR?
@@ -24,20 +27,30 @@
 5. Hooks in depth
 6.
 
-
 *graphql*
 1. Connect to postgres for query + mutation support
 2. Add appropriate mutations, queries, subscriptions?
+3. see database TODOs below
+4. add support for ListItem
+5. seperate enums into seperate files (like schema and resolvers)
 
 *server*
 1. Add Postgres + Sequalize?
 2. Client -> Server -> postgres call -> return to client
 3. Add Auth0 or PassportJS integration for Auth
 4. Implement Sign Up and Sign In with JWT?
+5. How many salt rounds? Where is the salt stored? (https://stackoverflow.com/questions/1219899/where-do-you-store-your-salt-strings)
+
+*database*
+1. Check which fields are required in the schemas and which aren't? which are nullable? update this and update GraphQL
+2. Change some of the names (like status and hash) to be more descriptive
+3. Change language in SQL schema to be an ENUM and also change in GraphQL
+4. On storing currentCity, make sure to store lowercase? doesnt matter?
 
 *link resources*
 1. https://gregberge.com/blog/javascript-stack-2020\
 2. https://product.voxmedia.com/2020/3/17/21172182/how-we-rewrote-a-vue-app-with-react-and-tailwind-in-21-days
-3.
+3. https://www.executeprogram.com/
+4.
 
 
