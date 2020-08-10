@@ -18,6 +18,10 @@
 15. Go through all package.jsons and see which dependencies / dev dependencies are not being used and need to be added
 16. Exercises under https://www.robinwieruch.de/graphql-apollo-server-tutorial#apollo-server-setup-with-express
 17. Alphabetize all imports, variables, state and props, etc. Start establishing coding best practices
+18. Convert JS to Typescript, right now it seems like i'm only using JS
+19. Add PHONE NUMBER VALIDATION FROM TWILIO (https://www.twilio.com/blog/2016/06/how-to-validate-phone-numbers-in-nodejavascript-with-the-twilio-lookup-api.html)
+20. Add reset password email functionality
+21. Search for TODO's in all codebase to find additional ones
 
 *client*
 1. disable or enable SSR?
@@ -31,8 +35,11 @@
 1. Connect to postgres for query + mutation support
 2. Add appropriate mutations, queries, subscriptions?
 3. see database TODOs below
-4. add support for ListItem
+4. add support for ListItem!!!
 5. seperate enums into seperate files (like schema and resolvers)
+6. make sure name changes from SEQUELIZE REFLECT GRAPHQL SCHEMAS
+7. connect RESOLVERS for remaining schemas
+8. make sure null/not null is updated correctly for GRAPHQL schemas as well as Names
 
 *server*
 1. Add Postgres + Sequalize?
@@ -40,6 +47,7 @@
 3. Add Auth0 or PassportJS integration for Auth
 4. Implement Sign Up and Sign In with JWT?
 5. How many salt rounds? Where is the salt stored? (https://stackoverflow.com/questions/1219899/where-do-you-store-your-salt-strings)
+6. turn on "noImplicitAny": true,
 
 *database*
 1. Check which fields are required in the schemas and which aren't? which are nullable? update this and update GraphQL

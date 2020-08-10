@@ -30,6 +30,8 @@ export default {
       return homework;
     },
     deleteHomework: (parent, { id }) => {
+      // TODO: delete comment in line below
+      // const { [id]: homework, ...otherHomeworks } = homeworks;
       const homework = homeworks[id];
 
       if (!homework) {
