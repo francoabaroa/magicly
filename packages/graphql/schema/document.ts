@@ -7,17 +7,18 @@ export default gql`
   }
   type Document {
     id: ID!
-    user: User!
+    name: String!
     type: DocType!
     tag: DocTag
     keywords: [String]
-    name: String
-    bucketDocId: Int!
-    bucketName: String
+    bucketDocId: String!
+    bucketName: String!
     bucketPath: String
     docValue: Int
     notes: String
     createdAt: Date!
     updatedAt: Date!
+    user: User!
+    homework: Homework
   }
 `;

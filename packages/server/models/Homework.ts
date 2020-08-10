@@ -23,6 +23,18 @@ export interface HomeworkAttributes {
   services?: ServiceAttributes[] | ServiceAttributes['id'][];
 };
 
+
+/*
+TODO: Remove when no longer needed
+
+– Sequelize.BelongsToGetAssociationMixin<RoleInstance> is a generic type that takes some ModelInstance interface and produces a type for the corresponding getRole function (e.g. getAuthor).
+
+– Sequelize.BelongsToSetAssociationMixin<RoleInstance, RoleId> is a generic type that takes some ModelInstance interface and the type of the primary key of that model. It produces a type for the corresponding setRole function.
+
+– Sequelize.BelongsToCreateAssociationMixin<RoleAttributes> is a generic type that takes some ModelAttributes interface and produces a type for the corresponding createRole function.
+
+*/
+
 export interface HomeworkInstance extends Sequelize.Instance<HomeworkAttributes>, HomeworkAttributes {
   getUser: Sequelize.BelongsToGetAssociationMixin<UserInstance>;
   setUser: Sequelize.BelongsToSetAssociationMixin<UserInstance, UserInstance['id']>;

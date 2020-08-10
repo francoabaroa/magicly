@@ -16,7 +16,7 @@ export interface DocumentAttributes {
   notes?: string | null;
   createdAt?: Date;
   updatedAt?: Date;
-  homework?: HomeworkAttributes | HomeworkAttributes['id'];
+  homework?: HomeworkAttributes | HomeworkAttributes['id'] | null;
   user?: UserAttributes | UserAttributes['id'];
 };
 

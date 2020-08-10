@@ -7,13 +7,14 @@ export default gql`
   }
   type Question {
     id: ID!
-    user: User!
     body: String!
     type: QuestionType!
     keywords: [String]
     status: QuestionStatus!
+    notificationType: NotificationType!
     urgent: Boolean
     createdAt: Date!
     updatedAt: Date!
+    user: User!
   }
 `;

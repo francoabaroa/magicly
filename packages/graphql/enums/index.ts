@@ -113,6 +113,25 @@ const enums = gql`
     HOME
     PERSONAL
   }
+
+  enum NotificationType {
+    EMAIL
+    SMS
+    WHATSAPP
+    CALL
+  }
+
+  enum DefaultNotificationType {
+    EMAIL
+    SMS
+    WHATSAPP
+    CALL
+  }
+
+  enum LanguageIso2 {
+    EN
+    ES
+  }
 `;
 
 export default enums

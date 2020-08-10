@@ -99,7 +99,7 @@ export const ListItemFactory = (sequelize: Sequelize.Sequelize, DataTypes: Seque
     },
   };
 
-  const ListItem = sequelize.define<ListItemInstance, ListItemAttributes>('listitem', attributes);
+  const ListItem = sequelize.define<ListItemInstance, ListItemAttributes>('listItem', attributes);
 
   ListItem.associate = models => {
     ListItem.belongsTo(models.List);

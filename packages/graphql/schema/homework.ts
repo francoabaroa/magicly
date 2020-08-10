@@ -11,17 +11,20 @@ export default gql`
   }
   type Homework {
     id: ID!
-    user: User!
     title: String!
-    type: HomeworkType
+    type: HomeworkType!
     keywords: [String]
     status: Status!
+    notificationType: NotificationType!
     cost: Int!
     costCurrency: CostCurrency
     notes: String
-    executionDate: Date!
-    executor: String!
+    executionDate: Date
+    executor: String
     createdAt: Date!
     updatedAt: Date!
+    user: User!
+    documents: [Document]
+    services: [Service]
   }
 `;

@@ -7,9 +7,10 @@ export default gql`
   }
   type Setting {
     id: ID!
-    user: User!
-    language: String
+    languageIso2: LanguageIso2!
+    defaultNotificationType: DefaultNotificationType!
     createdAt: Date!
     updatedAt: Date!
+    user: User!
   }
 `;

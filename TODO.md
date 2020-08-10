@@ -22,6 +22,7 @@
 19. Add PHONE NUMBER VALIDATION FROM TWILIO (https://www.twilio.com/blog/2016/06/how-to-validate-phone-numbers-in-nodejavascript-with-the-twilio-lookup-api.html)
 20. Add reset password email functionality
 21. Search for TODO's in all codebase to find additional ones
+22. UPDATE POSTGRES/SEQUELIZE CODE TO WORK WITH HEROKU DEPLOYMENT
 
 *client*
 1. disable or enable SSR?

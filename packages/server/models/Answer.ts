@@ -12,7 +12,7 @@ export interface AnswerAttributes {
   updatedAt?: Date;
   employee?: EmployeeAttributes | EmployeeAttributes['id'];
   question?: QuestionAttributes | QuestionAttributes['id'];
-  attachments?: AttachmentAttributes[] | AttachmentAttributes['id'][];
+  attachments?: AttachmentAttributes[] | AttachmentAttributes['id'][] | null;
 };
 
 export interface AnswerInstance extends Sequelize.Instance<AnswerAttributes>, AnswerAttributes {

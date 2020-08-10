@@ -24,17 +24,23 @@ export default gql`
     firstName: String
     lastName: String
     displayName: String
-    socialAuthLogin: Boolean
+    hasSocialAuthLogin: Boolean!
     socialAuthId: String
     preferredSocialAuth: SocialAuth
     email: String!
     salt: String
-    hash: String
+    password: String
     gender: String
     cellphone: String
     dob: Date
     currentCity: String!
     createdAt: Date!
     updatedAt: Date!
+    documents: [Document]
+    homeworks: [Homework]
+    lists: [List]
+    products: [Product]
+    services: [Service]
+    questions: [Question]
   }
 `;

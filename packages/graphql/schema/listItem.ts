@@ -7,15 +7,17 @@ export default gql`
   }
   type ListItem {
     id: ID!
-    list: List!
     name: String!
+    type: ItemType!
     keywords: [String]
+    notificationType: NotificationType
     complete: Boolean
     favorite: Boolean
-    quantity: Int!
-    type: ItemType
-    executionDate: Date!
+    quantity: Int
+    executionDate: Date
+    executor: String
     createdAt: Date!
     updatedAt: Date!
+    list: List!
   }
 `;

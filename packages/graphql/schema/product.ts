@@ -7,15 +7,16 @@ export default gql`
   }
   type Product {
     id: ID!
-    user: User!
-    name: String
+    name: String!
+    type: ProductType!
     keywords: [String]
-    type: ProductType
     favorite: Boolean
     ratingScore: Int
     cost: Int
     costCurrency: CostCurrency
+    url: String
     createdAt: Date!
     updatedAt: Date!
+    user: User!
   }
 `;

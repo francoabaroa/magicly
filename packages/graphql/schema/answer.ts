@@ -7,13 +7,12 @@ export default gql`
   }
   type Answer {
     id: ID!
-    user: User!
-    employee: Employee!
-    question: Question!
-    attachment: Attachment!
-    body: String
+    body: String!
     keywords: [String]
     createdAt: Date!
     updatedAt: Date!
+    employee: Employee!
+    question: Question!
+    attachment: [Attachment]
   }
 `;

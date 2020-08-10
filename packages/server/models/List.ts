@@ -10,7 +10,7 @@ export interface ListAttributes {
   createdAt?: Date;
   updatedAt?: Date;
   user?: UserAttributes | UserAttributes['id'];
-  listitems?: ListItemAttributes[] | ListItemAttributes['id'][];
+  listItems?: ListItemAttributes[] | ListItemAttributes['id'][];
 };
 
 export interface ListInstance extends Sequelize.Instance<ListAttributes>, ListAttributes {

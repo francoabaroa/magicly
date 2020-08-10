@@ -7,14 +7,14 @@ export default gql`
   }
   type Attachment {
     id: ID!
-    user: User!
     name: String
     keywords: [String]
-    bucketDocId: Int!
-    bucketName: String
+    bucketDocId: String!
+    bucketName: String!
     bucketPath: String
     notes: String
     createdAt: Date!
     updatedAt: Date!
+    answer: Answer!
   }
 `;

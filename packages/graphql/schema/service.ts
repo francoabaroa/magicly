@@ -7,11 +7,9 @@ export default gql`
   }
   type Service {
     id: ID!
-    user: User!
-    homework: Homework
-    name: String
+    name: String!
+    type: ServiceType!
     keywords: [String]
-    type: ServiceType
     favorite: Boolean
     ratingScore: Int
     email: String
@@ -20,5 +18,7 @@ export default gql`
     costCurrency: CostCurrency
     createdAt: Date!
     updatedAt: Date!
+    user: User!
+    homework: Homework
   }
 `;

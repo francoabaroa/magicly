@@ -7,10 +7,11 @@ export default gql`
   }
   type Employee {
     id: ID!
-    firstName: String!
-    lastName: String!
-    displayName: String!
+    firstName: String
+    lastName: String
+    displayName: String
     createdAt: Date!
     updatedAt: Date!
+    answers: [Answer]
   }
 `;

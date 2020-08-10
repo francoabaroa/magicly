@@ -7,10 +7,11 @@ export default gql`
   }
   type List {
     id: ID!
-    user: User!
     name: String
     type: ListType!
     createdAt: Date!
     updatedAt: Date!
+    user: User!
+    listItems: [ListItem]
   }
 `;
