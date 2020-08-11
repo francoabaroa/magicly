@@ -71,10 +71,6 @@ export interface UserAttributes {
   questions?: QuestionAttributes[] | QuestionAttributes['id'][];
 };
 
-export interface UserModel extends Sequelize.Model<UserInstance, UserAttributes> {
-  findByEmail: (email: string) => Promise<UserInstance>;
-};
-
 export interface UserInstance extends Sequelize.Instance<UserAttributes>, UserAttributes {
   /* Document */
   getDocuments: Sequelize.HasManyGetAssociationsMixin<DocumentInstance>;
@@ -147,6 +143,10 @@ export interface UserInstance extends Sequelize.Instance<UserAttributes>, UserAt
   hasQuestion: Sequelize.HasManyHasAssociationMixin<QuestionInstance, QuestionInstance['id']>;
   hasQuestions: Sequelize.HasManyHasAssociationsMixin<QuestionInstance, QuestionInstance['id']>;
   countQuestions: Sequelize.HasManyCountAssociationsMixin;
+};
+
+export interface UserModel extends Sequelize.Model<UserInstance, UserAttributes> {
+  findByEmail: (email: string) => Promise<UserInstance>;
 };
 
 export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes): UserModel => {
@@ -245,17 +245,14 @@ export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
   const User: UserModel = sequelize.define<UserInstance, UserAttributes>(
     'user',
     attributes,
-    {
-      classMethods: {
-        async findByEmail(email: string): Promise<UserInstance> {
-          return await User.findOne({
-            where: { email },
-          });
-        }
-      },
-      instanceMethods: {}
-    }
   ) as UserModel;
+
+  User.findByEmail = async (email: string) => {
+    const user = await User.findOne({
+      where: { email }
+    });
+    return user;
+  };
 
   User.associate = models => {
     User.hasMany(models.Document, { onDelete: 'CASCADE' });
