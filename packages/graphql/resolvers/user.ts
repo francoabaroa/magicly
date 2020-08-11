@@ -1,21 +1,23 @@
-import users from '../mockData/mockUserData';
-
 export default {
   Query: {
-    me: (parent, args, { me }) => {
-      return me;
+    me: async (parent, args, { models, me }) => {
+      return await models.User.findByPk(me.id);
     },
-    user: (parent, { id }) => {
-      return users[id];
+    user: async (parent, { id }, { models }) => {
+      return await models.User.findByPk(id);
     },
-    users: () => {
-      return Object.values(users);
+    users: async (parent, args, { models }) => {
+      return await models.User.findAll();
     },
   },
   Mutation: {},
   User: {
-    firstName: user => {
-      return user.firstName;
+    homeworks: async (user, args, { models }) => {
+      return await models.Homework.findAll({
+        where: {
+          userId: user.id,
+        },
+      });
     },
   },
 };
