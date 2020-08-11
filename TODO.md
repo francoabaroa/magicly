@@ -41,6 +41,7 @@
 6. make sure name changes from SEQUELIZE REFLECT GRAPHQL SCHEMAS
 7. connect RESOLVERS for remaining schemas
 8. make sure null/not null is updated correctly for GRAPHQL schemas as well as Names
+9. I KEEP GETTING POST REQUEST to /graphql. Is this normal??
 
 *server*
 1. Add Postgres + Sequalize?
