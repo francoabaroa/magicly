@@ -16,7 +16,47 @@ export default {
       return await models.User.findAll();
     },
   },
-  Mutation: {},
+  Mutation: {
+    createUser: async (
+      parent,
+      {
+        email,
+        currentCity,
+        hasSocialAuthLogin,
+        firstName,
+        lastName,
+        displayName,
+        socialAuthId,
+        preferredSocialAuth,
+        salt,
+        password,
+        gender,
+        cellphone,
+        dob
+      },
+      { models }
+    ) => {
+      try {
+        return await models.User.create({
+          email,
+          currentCity,
+          hasSocialAuthLogin,
+          firstName,
+          lastName,
+          displayName,
+          socialAuthId,
+          preferredSocialAuth,
+          salt,
+          password,
+          gender,
+          cellphone,
+          dob
+        });
+      } catch (error) {
+        throw new Error(error);
+      }
+    }
+  },
   User: {
     homeworks: async (user, args, { models }) => {
       if (!user) {

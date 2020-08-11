@@ -12,7 +12,25 @@ export default gql`
       email: String!
       hash: String!
     ): Token!
-    signIn(login: String!, hash: String!): Token!
+    signIn(
+      login: String!
+      hash: String!
+    ): Token!
+    createUser(
+      email: String!
+      currentCity: String!
+      hasSocialAuthLogin: Boolean!
+      firstName: String
+      lastName: String
+      displayName: String
+      socialAuthId: String
+      preferredSocialAuth: SocialAuth
+      salt: String
+      password: String
+      gender: String
+      cellphone: String
+      dob: Date
+    ): User!
     updateUser(displayName: String!): User!
     deleteUser(id: ID!): Boolean!
   }

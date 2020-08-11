@@ -42,9 +42,7 @@ export const AnswerFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequeli
       type: DataTypes.TEXT,
       allowNull: false,
       validate: {
-        notEmpty: {
-          msg: 'An answer has to have a body.',
-        },
+        notEmpty: true,
       },
     },
     keywords: {
