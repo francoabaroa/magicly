@@ -241,7 +241,7 @@ export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
 
   User.associate = models => {
     User.hasMany(models.Document, { onDelete: 'CASCADE' });
-    User.hasMany(models.Homework, { onDelete: 'CASCADE' });
+    User.hasMany(models.Homework, { as: 'homeworks' , onDelete: 'CASCADE' });
     User.hasMany(models.List, { onDelete: 'CASCADE' });
     User.hasMany(models.Product);
     User.hasMany(models.Service);
