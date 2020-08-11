@@ -11,6 +11,8 @@ const QUERY = gql`
       firstName
       lastName
       email
+      currentCity
+      hasSocialAuthLogin
     }
   }
 `;
