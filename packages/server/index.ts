@@ -2,8 +2,9 @@ import cors from 'cors';
 import express from 'express';
 import morgan from 'morgan';
 
+import { ApolloServer } from 'apollo-server-express';
+import apolloServerConfig from '@magicly/graphql';
 import nextApp from '@magicly/client';
-import apolloServer from '@magicly/graphql';
 
 import { Request, Response } from 'express';
 import { createModels } from './models/index';
@@ -26,13 +27,13 @@ async function main() {
   app.use(cors());
   app.use(morgan('dev'));
 
-  await bootstrapApolloServer(app);
+  const db = createModels(sequelizeConfig);
+  await bootstrapApolloServer(app, db);
   await bootstrapClientApp(app);
 
   const isTest = !!process.env.DATABASE_TEST;
   const isProduction = !!process.env.DATABASE_URL;
 
-  const db = createModels(sequelizeConfig);
   db.sequelize.sync({ force: isTest || isProduction }).then(async () => {
     if (isTest || isProduction) {
       db.User.create({
@@ -58,7 +59,12 @@ async function bootstrapClientApp(expressApp) {
   expressApp.get('*', nextApp.getRequestHandler());
 }
 
-async function bootstrapApolloServer(expressApp) {
+async function bootstrapApolloServer(expressApp, db) {
+  apolloServerConfig.context = {
+    me: db.User.findByPk(1),
+    models: db
+  }
+  const apolloServer = new ApolloServer(apolloServerConfig);
   apolloServer.applyMiddleware({ app: expressApp });
 }
 

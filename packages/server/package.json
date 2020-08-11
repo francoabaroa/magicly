@@ -10,6 +10,7 @@
   "author": "francoabaroa",
   "license": "ISC",
   "dependencies": {
+    "apollo-server-express": "^2.16.1",
     "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "dataloader": "^2.0.0",
