@@ -34,7 +34,7 @@ async function main() {
 
   const isTest = !!process.env.DATABASE_TEST;
   const isProduction = !!process.env.DATABASE_URL;
-
+  // TODO: remove flag and update credentials for production
   db.sequelize.sync({ force: isTest || isProduction }).then(async () => {
     if (isTest || isProduction) {
       createUsersWithHomeworks(db);
@@ -52,10 +52,10 @@ async function bootstrapClientApp(expressApp) {
   expressApp.get('*', nextApp.getRequestHandler());
 }
 
-async function bootstrapApolloServer(expressApp, db) {
+async function bootstrapApolloServer(expressApp, db: DbInterface) {
   apolloServerConfig.context = async () => ({
     models: db,
-    me: await db.User.findByPk(1),
+    me: await db.User.findByEmail('franco@franco.com'),
   });
 
   const apolloServer = new ApolloServer(apolloServerConfig);

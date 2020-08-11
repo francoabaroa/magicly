@@ -10,7 +10,7 @@ import { ProductAttributes, ProductInstance } from '../../models/Product';
 import { QuestionAttributes, QuestionInstance } from '../../models/Question';
 import { ServiceAttributes, ServiceInstance } from '../../models/Service';
 import { SettingAttributes, SettingInstance } from '../../models/Setting';
-import { UserAttributes, UserInstance } from '../../models/User';
+import { UserModel } from '../../models/User';
 
 export interface DbInterface {
   sequelize: Sequelize.Sequelize;
@@ -26,5 +26,5 @@ export interface DbInterface {
   Question: Sequelize.Model<QuestionInstance, QuestionAttributes>;
   Service: Sequelize.Model<ServiceInstance, ServiceAttributes>;
   Setting: Sequelize.Model<SettingInstance, SettingAttributes>;
-  User: Sequelize.Model<UserInstance, UserAttributes>;
+  User: UserModel;
 }

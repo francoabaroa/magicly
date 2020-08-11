@@ -71,6 +71,10 @@ export interface UserAttributes {
   questions?: QuestionAttributes[] | QuestionAttributes['id'][];
 };
 
+export interface UserModel extends Sequelize.Model<UserInstance, UserAttributes> {
+  findByEmail: (email: string) => Promise<UserInstance>;
+};
+
 export interface UserInstance extends Sequelize.Instance<UserAttributes>, UserAttributes {
   /* Document */
   getDocuments: Sequelize.HasManyGetAssociationsMixin<DocumentInstance>;
@@ -145,7 +149,7 @@ export interface UserInstance extends Sequelize.Instance<UserAttributes>, UserAt
   countQuestions: Sequelize.HasManyCountAssociationsMixin;
 };
 
-export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes): Sequelize.Model<UserInstance, UserAttributes> => {
+export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes): UserModel => {
   const attributes: SequelizeAttributes<UserAttributes> = {
     firstName: {
       type: DataTypes.STRING,
@@ -237,7 +241,21 @@ export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
     },
   };
 
-  const User = sequelize.define<UserInstance, UserAttributes>('user', attributes);
+  // source: https://github.com/ahmerb/typescript-sequelize-example/issues/2
+  const User: UserModel = sequelize.define<UserInstance, UserAttributes>(
+    'user',
+    attributes,
+    {
+      classMethods: {
+        async findByEmail(email: string): Promise<UserInstance> {
+          return await User.findOne({
+            where: { email },
+          });
+        }
+      },
+      instanceMethods: {}
+    }
+  ) as UserModel;
 
   User.associate = models => {
     User.hasMany(models.Document, { onDelete: 'CASCADE' });
