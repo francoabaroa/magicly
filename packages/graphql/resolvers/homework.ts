@@ -1,50 +1,29 @@
-import users from '../mockData/mockUserData';
-import homeworks from '../mockData/mockHomeworkData';
-
 export default {
   Query: {
-    homework: (parent, { id }) => {
-      return homeworks[id];
+    homework: async (parent, { id }, { models }) => {
+      return await models.Homework.findByPk(id);
     },
-    homeworks: () => {
-      return Object.values(homeworks);
+    homeworks: async (parent, args, { models }) => {
+      return await models.Homework.findAll();
     }
   },
   Mutation: {
-    createHomework: (parent, { title, status, cost, executionDate, executor }, { me }) => {
-      let id = 3;
-      const homework = {
-        id,
-        userId: me.id,
+    createHomework: async (parent, { title, status, type, notificationType }, { me, models }) => {
+      return await models.Homework.create({
         title,
         status,
-        cost,
-        executionDate,
-        executor,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
-
-      homeworks[id] = homework;
-
-      return homework;
+        type,
+        notificationType,
+        userId: me.id,
+      });
     },
-    deleteHomework: (parent, { id }) => {
-      // TODO: delete comment in line below
-      // const { [id]: homework, ...otherHomeworks } = homeworks;
-      const homework = homeworks[id];
-
-      if (!homework) {
-        return false;
-      }
-      delete homeworks[id];
-
-      return true;
+    deleteHomework: async (parent, { id }, { models }) => {
+      return await models.Homework.destroy({ where: { id } });
     },
   },
   Homework: {
-    user: homework => {
-      return users[homework.userId];
+    user: async (homework, args, { models }) => {
+      return await models.User.findByPk(homework.userId);
     },
   },
 };
