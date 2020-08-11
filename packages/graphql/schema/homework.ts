@@ -6,7 +6,18 @@ export default gql`
     homework (id: ID!): Homework
   }
   extend type Mutation {
-    createHomework(title: String!, status: Status!, type: HomeworkType!, notificationType: NotificationType!): Homework!
+    createHomework(
+      title: String!,
+      status: Status!,
+      type: HomeworkType!,
+      notificationType: NotificationType!,
+      keywords: [String],
+      cost: Int,
+      costCurrency: CostCurrency,
+      notes: String,
+      executionDate: Date,
+      executor: String
+    ): Homework!
     deleteHomework(id: ID!): Boolean!
   }
   type Homework {
@@ -16,7 +27,7 @@ export default gql`
     keywords: [String]
     status: Status!
     notificationType: NotificationType!
-    cost: Int!
+    cost: Int
     costCurrency: CostCurrency
     notes: String
     executionDate: Date

@@ -8,12 +8,33 @@ export default {
     }
   },
   Mutation: {
-    createHomework: async (parent, { title, status, type, notificationType }, { me, models }) => {
+    createHomework: async (
+      parent,
+      {
+        title,
+        status,
+        type,
+        notificationType,
+        keywords,
+        cost,
+        costCurrency,
+        notes,
+        executionDate,
+        executor
+      },
+      { me, models }
+    ) => {
       return await models.Homework.create({
         title,
         status,
         type,
         notificationType,
+        keywords,
+        cost,
+        costCurrency,
+        notes,
+        executionDate,
+        executor,
         userId: me.id,
       });
     },
