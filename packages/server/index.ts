@@ -7,6 +7,7 @@ import apolloServerConfig from '@magicly/graphql';
 import nextApp from '@magicly/client';
 
 import { Request, Response } from 'express';
+import { DbInterface } from './typings/DbInterface';
 import { createModels } from './models/index';
 import { HomeworkInstance } from './models/Homework';
 import { UserInstance } from './models/User';
@@ -36,15 +37,7 @@ async function main() {
 
   db.sequelize.sync({ force: isTest || isProduction }).then(async () => {
     if (isTest || isProduction) {
-      db.User.create({
-        currentCity: 'Miami',
-        hasSocialAuthLogin: false,
-        email: 'franco@franco.com',
-      }).then(user => {
-        console.log(user);
-      }).catch(err => {
-        console.error(err);
-      });
+      createUsersWithHomeworks(db);
     }
 
     app.listen(PORT, (err) => {
@@ -60,12 +53,53 @@ async function bootstrapClientApp(expressApp) {
 }
 
 async function bootstrapApolloServer(expressApp, db) {
-  apolloServerConfig.context = {
-    me: db.User.findByPk(1),
-    models: db
-  }
+  apolloServerConfig.context = async () => ({
+    models: db,
+    me: await db.User.findByPk(1),
+  });
+
   const apolloServer = new ApolloServer(apolloServerConfig);
   apolloServer.applyMiddleware({ app: expressApp });
 }
+
+const createUsersWithHomeworks = async (db: DbInterface) => {
+  await db.User.create(
+    {
+      currentCity: 'Miami',
+      hasSocialAuthLogin: false,
+      email: 'franco1@franco.com',
+      homeworks: [
+        {
+          title: 'Fridge maintenance',
+          status: 'PAST',
+          type: 'MAINTENANCE',
+          notificationType: 'SMS'
+        }
+      ],
+    },
+    {
+      include: [{ model: db.Homework, as: 'homeworks' }],
+    },
+  );
+
+  await db.User.create(
+    {
+      currentCity: 'Miami',
+      hasSocialAuthLogin: false,
+      email: 'franco@franco.com',
+      homeworks: [
+        {
+          title: 'Hurricane debris cleanup',
+          status: 'UPCOMING',
+          type: 'CLEANING',
+          notificationType: 'SMS'
+        }
+      ],
+    },
+    {
+      include: [{ model: db.Homework, as: 'homeworks' }],
+    },
+  );
+};
 
 main();
