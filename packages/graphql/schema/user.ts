@@ -7,16 +7,11 @@ export default gql`
     me: User
   }
   extend type Mutation {
-    signUp(
-      displayName: String!
-      email: String!
-      hash: String!
-    ): Token!
     signIn(
-      login: String!
-      hash: String!
+      email: String!
+      password: String!
     ): Token!
-    createUser(
+    signUp(
       email: String!
       currentCity: String!
       hasSocialAuthLogin: Boolean!
@@ -30,7 +25,7 @@ export default gql`
       gender: String
       cellphone: String
       dob: Date
-    ): User!
+    ): Token!
     updateUser(displayName: String!): User!
     deleteUser(id: ID!): Boolean!
   }
@@ -47,7 +42,6 @@ export default gql`
     preferredSocialAuth: SocialAuth
     email: String!
     salt: String
-    password: String
     gender: String
     cellphone: String
     dob: Date

@@ -9,12 +9,10 @@ var debug = require('debug')('server:server');
 var http = require('http');
 var next = require('next');
 var dev = process.env.NODE_ENV !== 'production'
-console.log('FRANCO: ', next);
 var app = next({ dev });
 // var nextApp = require('@magicly/client');
 // import nextApp from '@magicly/client';
 // var handle = nextApp.getRequestHandler();
-console.log('HI: ', nextApp);
 
 /**
  * Get port from environment and store in Express.

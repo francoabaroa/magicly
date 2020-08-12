@@ -22,6 +22,4 @@ const nextApp = next({
   dir: __dirname,
 });
 
-console.log('Hello Frank!!');
-
 export default nextApp;

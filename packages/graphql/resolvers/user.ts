@@ -1,3 +1,14 @@
+import jwt from 'jsonwebtoken';
+import { AuthenticationError, UserInputError } from 'apollo-server';
+
+const createToken = async (user, secret, expiresIn) => {
+  const { id, email, currentCity } = user;
+  const token = await jwt.sign({ id, email, currentCity }, secret, {
+    expiresIn,
+  });
+  return token;
+}
+
 export default {
   Query: {
     me: async (parent, args, { models, me }) => {
@@ -17,7 +28,7 @@ export default {
     },
   },
   Mutation: {
-    createUser: async (
+    signUp: async (
       parent,
       {
         email,
@@ -34,10 +45,10 @@ export default {
         cellphone,
         dob
       },
-      { models }
+      { models, secret }
     ) => {
       try {
-        return await models.User.create({
+        const user = await models.User.create({
           email,
           currentCity,
           hasSocialAuthLogin,
@@ -52,10 +63,34 @@ export default {
           cellphone,
           dob
         });
+        return {
+          token: createToken(user, secret, '30m')
+        };
       } catch (error) {
         throw new Error(error);
       }
-    }
+    },
+    signIn: async (
+      parent,
+      { email, password },
+      { models, secret, me },
+    ) => {
+      const user = await models.User.findByEmail(email);
+
+      if (!user) {
+        throw new UserInputError(
+          'No user found with these login credentials.',
+        );
+      }
+
+      const isValid = await models.User.validatePassword(password, me.id);
+
+      if (!isValid) {
+        throw new AuthenticationError('Invalid password.');
+      }
+
+      return { token: createToken(user, secret, '30m') };
+    },
   },
   User: {
     homeworks: async (user, args, { models }) => {

@@ -23,6 +23,7 @@
 20. Add reset password email functionality
 21. Search for TODO's in all codebase to find additional ones
 22. UPDATE POSTGRES/SEQUELIZE CODE TO WORK WITH HEROKU DEPLOYMENT
+23. Add validation, error handling
 
 *client*
 1. disable or enable SSR?
@@ -42,6 +43,7 @@
 7. connect RESOLVERS for remaining schemas
 8. make sure null/not null is updated correctly for GRAPHQL schemas as well as Names
 9. I KEEP GETTING POST REQUEST to /graphql. Is this normal??
+10. validation: https://www.apollographql.com/blog/graphql-validation-using-directives-4908fd5c1055/
 
 *server*
 1. Add Postgres + Sequalize?
@@ -56,6 +58,10 @@
 2. Change some of the names (like status and hash) to be more descriptive
 3. Change language in SQL schema to be an ENUM and also change in GraphQL
 4. On storing currentCity, make sure to store lowercase? doesnt matter?
+5. add validation, error handling https://www.robinwieruch.de/graphql-apollo-server-tutorial#apollo-server-validation-and-errors
+6. address this "That's why it is possible to execute the function as method on each user instance, so you have the user itself available within the method as this. You can also take the user instance with its password as an argument, which I prefer, though using JavaScript's prototypal inheritance a good tool for any web developer."
+7. CREATEDAT timestamps is set up SPAIN TIME!!
+8. go over robinwieruch.de exercises to make sure im not missing anything crucial!!
 
 *link resources*
 1. https://gregberge.com/blog/javascript-stack-2020\

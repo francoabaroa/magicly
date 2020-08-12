@@ -1,42 +1,4 @@
-// import bcrypt from 'bcrypt';
-
-//   User.associate = models => {
-//     //TODO: what needs to be here? what should be cascaded and what shouldnt?
-//     User.hasMany(models.Message, { onDelete: 'CASCADE' });
-//   };
-
-//   User.findByLogin = async login => {
-//     let user = await User.findOne({
-//       where: { username: login },
-//     });
-
-//     if (!user) {
-//       user = await User.findOne({
-//         where: { email: login },
-//       });
-//     }
-
-//     return user;
-//   };
-
-//   User.beforeCreate(async user => {
-//     user.password = await user.generatePasswordHash();
-//   });
-
-//   User.prototype.generatePasswordHash = async function() {
-//     const saltRounds = 10;
-//     return await bcrypt.hash(this.password, saltRounds);
-//   };
-
-//   User.prototype.validatePassword = async function(password) {
-//     return await bcrypt.compare(password, this.password);
-//   };
-
-//   return User;
-// };
-
-// export default user;
-
+import bcrypt from 'bcrypt';
 import * as Sequelize from 'sequelize';
 import { DocumentAttributes, DocumentInstance } from './Document';
 import { HomeworkAttributes, HomeworkInstance } from './Homework';
@@ -146,7 +108,10 @@ export interface UserInstance extends Sequelize.Instance<UserAttributes>, UserAt
 };
 
 export interface UserModel extends Sequelize.Model<UserInstance, UserAttributes> {
+  //TODO: Franco update type any to correct
   findByEmail: (email: string) => Promise<UserInstance>;
+  generatePasswordHash: (password: string) => Promise<any>;
+  validatePassword: (password: string, userId: number) => Promise<any>;
 };
 
 export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes): UserModel => {
@@ -213,12 +178,12 @@ export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
       unique: false,
       allowNull: true,
     },
-    // TODO: WHAT IF THEY LOG IN WITH SOCIAL AUTH? THIS CAN BE EMPTY
-    // TODO: validate { len: [6, 42] }
     password: {
       type: DataTypes.STRING,
-      unique: false,
       allowNull: true,
+      validate: {
+        len: [7, 42],
+      },
     },
     gender: {
       type: DataTypes.ENUM(
@@ -249,6 +214,20 @@ export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
       where: { email }
     });
     return user;
+  };
+
+  User.beforeCreate(async (user: UserInstance) => {
+    user.password = await User.generatePasswordHash(user.password);
+  });
+
+  User.generatePasswordHash = async (password: string) => {
+    const saltRounds = 10;
+    return await bcrypt.hash(password, saltRounds);
+  };
+
+  User.validatePassword = async function (password: string, userId: number) {
+    const user = await User.findByPk(userId);
+    return await bcrypt.compare(password, user.password);
   };
 
   User.associate = models => {

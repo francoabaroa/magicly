@@ -12,6 +12,8 @@ import { createModels } from './models/index';
 import { HomeworkInstance } from './models/Homework';
 import { UserInstance } from './models/User';
 
+require('dotenv').config({ path: '../../.env' })
+
 const { PORT } = process.env;
 const sequelizeConfig = {
   'database': process.env.DATABASE_TEST || process.env.DATABASE,
@@ -56,6 +58,7 @@ async function bootstrapApolloServer(expressApp, db: DbInterface) {
   apolloServerConfig.context = async () => ({
     models: db,
     me: await db.User.findByEmail('franco@franco.com'),
+    secret: process.env.JWT_KEY,
   });
 
   const apolloServer = new ApolloServer(apolloServerConfig);
@@ -68,6 +71,7 @@ const createUsersWithHomeworks = async (db: DbInterface) => {
       currentCity: 'Miami',
       hasSocialAuthLogin: false,
       email: 'franco1@franco.com',
+      password: 'testa12',
       homeworks: [
         {
           title: 'Fridge maintenance',
@@ -87,6 +91,7 @@ const createUsersWithHomeworks = async (db: DbInterface) => {
       currentCity: 'Miami',
       hasSocialAuthLogin: false,
       email: 'franco@franco.com',
+      password: 'testa123',
       homeworks: [
         {
           title: 'Hurricane debris cleanup',
