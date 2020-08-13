@@ -53,6 +53,16 @@ const Layout = (props) => (
           <a>Settings</a>
         </Link>
       </li>
+      <li>
+        <Link href="/signup">
+          <a>Sign Up</a>
+        </Link>
+      </li>
+      <li>
+        <Link href="/signin">
+          <a>Sign In</a>
+        </Link>
+      </li>
     </ul>
     {props.children}
   </div>
