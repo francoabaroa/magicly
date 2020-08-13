@@ -24,6 +24,10 @@
 21. Search for TODO's in all codebase to find additional ones
 22. UPDATE POSTGRES/SEQUELIZE CODE TO WORK WITH HEROKU DEPLOYMENT
 23. Add validation, error handling
+24. Authorization CONSIDERATIONS:
+  We've added basic authorization for this application. It has the global authorization before every request hits the GraphQL resolvers; and authorization at the resolver level with protecting resolvers. They check whether a user is authenticated, whether the user is able to delete a message (permission-based authorization), and whether a user is able to delete a user (role-based authorization).
+  If you want to be even more exact than resolver level authorization, check out directive-based authorization or field level authorization in GraphQL. You can apply authorization at the data-access level with an ORM like Sequelize, too. Your application's requirements decide which level is most effective for authorization.
+25.
 
 *client*
 1. disable or enable SSR?
@@ -44,6 +48,8 @@
 8. make sure null/not null is updated correctly for GRAPHQL schemas as well as Names
 9. I KEEP GETTING POST REQUEST to /graphql. Is this normal??
 10. validation: https://www.apollographql.com/blog/graphql-validation-using-directives-4908fd5c1055/
+11. do i need subscriptions? https://www.robinwieruch.de/graphql-apollo-server-tutorial#graphql-subscriptions
+12. ADD E2E Tests!! https://www.robinwieruch.de/graphql-apollo-server-tutorial#testing-a-graphql-server
 
 *server*
 1. Add Postgres + Sequalize?
