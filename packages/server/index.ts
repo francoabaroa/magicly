@@ -2,6 +2,8 @@ import cors from 'cors';
 import express from 'express';
 import morgan from 'morgan';
 import jwt from 'jsonwebtoken';
+import DataLoader from 'dataloader';
+
 import { ApolloServer, AuthenticationError } from 'apollo-server-express';
 import apolloServerConfig from '@magicly/graphql';
 import nextApp from '@magicly/client';
@@ -9,6 +11,7 @@ import nextApp from '@magicly/client';
 import { Request, Response } from 'express';
 import { DbInterface } from './typings/DbInterface';
 import { createModels } from './models/index';
+import loaders from './loaders';
 import { HomeworkInstance } from './models/Homework';
 import { UserInstance } from './models/User';
 
@@ -61,6 +64,11 @@ async function bootstrapApolloServer(expressApp, db: DbInterface) {
       models: db,
       me,
       secret: process.env.JWT_KEY,
+      loaders: {
+        user: new DataLoader(keys =>
+          loaders.user.batchUsers(keys, db),
+        ),
+      },
     };
   };
   const apolloServer = new ApolloServer(apolloServerConfig);

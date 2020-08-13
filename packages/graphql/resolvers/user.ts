@@ -96,6 +96,7 @@ export default {
         where: { id },
       });
     },
+    // TODO: need updateUser eventually
   },
   User: {
     homeworks: async (user, args, { models }) => {

@@ -103,11 +103,8 @@ export default {
     ),
   },
   Homework: {
-    user: async (homework, args, { models }) => {
-      if (!homework) {
-        return null;
-      }
-      return await models.User.findByPk(homework.userId);
+    user: async (homework, args, { loaders }) => {
+      return await loaders.user.load(homework.userId);
     },
   },
 };
