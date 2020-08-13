@@ -1,8 +1,8 @@
 import cors from 'cors';
 import express from 'express';
 import morgan from 'morgan';
-
-import { ApolloServer } from 'apollo-server-express';
+import jwt from 'jsonwebtoken';
+import { ApolloServer, AuthenticationError } from 'apollo-server-express';
 import apolloServerConfig from '@magicly/graphql';
 import nextApp from '@magicly/client';
 
@@ -55,15 +55,32 @@ async function bootstrapClientApp(expressApp) {
 }
 
 async function bootstrapApolloServer(expressApp, db: DbInterface) {
-  apolloServerConfig.context = async () => ({
-    models: db,
-    me: await db.User.findByEmail('franco@franco.com'),
-    secret: process.env.JWT_KEY,
-  });
-
+  apolloServerConfig.context = async ({ req }) => {
+    const me = await getMe(req);
+    return {
+      models: db,
+      me,
+      secret: process.env.JWT_KEY,
+    };
+  };
   const apolloServer = new ApolloServer(apolloServerConfig);
   apolloServer.applyMiddleware({ app: expressApp });
 }
+
+const getMe = async (req: Request) => {
+  // TODO: update any type
+  const token: any = req.headers['x-token'];
+
+  if (token) {
+    try {
+      return await jwt.verify(token, process.env.JWT_KEY);
+    } catch (e) {
+      throw new AuthenticationError(
+        'Your session expired. Sign in again.',
+      );
+    }
+  }
+};
 
 const createUsersWithHomeworks = async (db: DbInterface) => {
   await db.User.create(

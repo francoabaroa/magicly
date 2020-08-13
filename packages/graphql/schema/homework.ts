@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    homeworks: [Homework]
+    homeworks(cursor: String, limit: Int): HomeworkConnection!
     homework (id: ID!): Homework
   }
   extend type Mutation {
@@ -37,5 +37,13 @@ export default gql`
     user: User!
     documents: [Document]
     services: [Service]
+  }
+  type HomeworkConnection {
+    edges: [Homework]!
+    pageInfo: PageInfo!
+  }
+  type PageInfo {
+    endCursor: String!
+    hasNextPage: Boolean!
   }
 `;
