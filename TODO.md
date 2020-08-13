@@ -50,6 +50,7 @@
 10. validation: https://www.apollographql.com/blog/graphql-validation-using-directives-4908fd5c1055/
 11. do i need subscriptions? https://www.robinwieruch.de/graphql-apollo-server-tutorial#graphql-subscriptions
 12. ADD E2E Tests!! https://www.robinwieruch.de/graphql-apollo-server-tutorial#testing-a-graphql-server
+13. brainstorm how you will deal with being able to delete users (admin role??)
 
 *server*
 1. Add Postgres + Sequalize?
