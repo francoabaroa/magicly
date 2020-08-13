@@ -17,16 +17,29 @@ import { UserInstance } from './models/User';
 
 require('dotenv').config({ path: '../../.env' })
 
-const { PORT } = process.env;
-const sequelizeConfig = {
-  'database': process.env.DATABASE_TEST || process.env.DATABASE,
-  'username': process.env.DATABASE_USER,
-  'password': process.env.DATABASE_PASSWORD,
-  'params': {
-    dialect: 'postgres',
-    operatorsAliases: false
-  }
-};
+const PORT = process.env.PORT || '3000';
+let sequelizeConfig = {};
+
+if (process.env.DATABASE_URL) {
+  sequelizeConfig = {
+    'database': process.env.DATABASE_URL,
+    'params': {
+      dialect: 'postgres',
+      operatorsAliases: false
+    },
+  };
+} else {
+  sequelizeConfig = {
+    // TODO: update database for development and test
+    'database': process.env.DATABASE_TEST || process.env.DATABASE,
+    'username': process.env.DATABASE_USER,
+    'password': process.env.DATABASE_PASSWORD,
+    'params': {
+      dialect: 'postgres',
+      operatorsAliases: false
+    }
+  };
+}
 
 async function main() {
   const app = express();
@@ -39,7 +52,7 @@ async function main() {
 
   const isTest = !!process.env.DATABASE_TEST;
   const isProduction = !!process.env.DATABASE_URL;
-  // TODO: remove flag and update credentials for production
+  // TODO: remove flag and update credentials for production BEFORE LAUNCH
   db.sequelize.sync({ force: isTest || isProduction }).then(async () => {
     if (isTest || isProduction) {
       createUsersWithHomeworks(db);
