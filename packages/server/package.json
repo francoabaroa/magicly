@@ -10,6 +10,7 @@
   "author": "francoabaroa",
   "license": "ISC",
   "dependencies": {
+    "@types/sequelize": "4",
     "apollo-server-express": "^2.16.1",
     "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
@@ -30,7 +31,6 @@
   "devDependencies": {
     "@types/express": "^4.17.7",
     "@types/node": "^13.11.1",
-    "@types/sequelize": "4",
     "axios": "^0.19.2",
     "chai": "^4.2.0",
     "mocha": "^8.1.1",

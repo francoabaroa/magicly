@@ -18,6 +18,8 @@ import { UserInstance } from './models/User';
 require('dotenv').config({ path: '../../.env' })
 
 const PORT = process.env.PORT || '3000';
+const isTest = !!process.env.DATABASE_TEST;
+const isProduction = !!process.env.DATABASE_URL;
 let sequelizeConfig = {};
 
 if (process.env.DATABASE_URL) {
@@ -25,6 +27,9 @@ if (process.env.DATABASE_URL) {
     'database': process.env.DATABASE_URL,
     'params': {
       dialect: 'postgres',
+      protocol: 'postgres',
+      logging: true,
+      ssl: true,
       operatorsAliases: false
     },
   };
@@ -36,6 +41,8 @@ if (process.env.DATABASE_URL) {
     'password': process.env.DATABASE_PASSWORD,
     'params': {
       dialect: 'postgres',
+      protocol: 'postgres',
+      logging: true,
       operatorsAliases: false
     }
   };
@@ -46,12 +53,14 @@ async function main() {
   app.use(cors());
   app.use(morgan('dev'));
 
-  const db = createModels(sequelizeConfig);
+  const db = createModels(
+    sequelizeConfig,
+    isProduction
+  );
+
   await bootstrapApolloServer(app, db);
   await bootstrapClientApp(app);
 
-  const isTest = !!process.env.DATABASE_TEST;
-  const isProduction = !!process.env.DATABASE_URL;
   // TODO: remove flag and update credentials for production BEFORE LAUNCH
   db.sequelize.sync({ force: isTest || isProduction }).then(async () => {
     if (isTest || isProduction) {

@@ -13,9 +13,12 @@ import { ServiceFactory } from './Service';
 import { SettingFactory } from './Setting';
 import { UserFactory } from './User';
 
-export const createModels = (sequelizeConfig: any): DbInterface => {
+export const createModels = (sequelizeConfig: any, isProduction: boolean): DbInterface => {
   const { database, username, password, params } = sequelizeConfig;
-  const sequelize = new Sequelize(database, username, password, params);
+  let sequelize = new Sequelize(database, username, password, params);
+  if (isProduction) {
+    sequelize = new Sequelize(database, params);
+  }
 
   const db: DbInterface = {
     sequelize,
