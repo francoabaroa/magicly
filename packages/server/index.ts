@@ -12,8 +12,6 @@ import { Request, Response } from 'express';
 import { DbInterface } from './typings/DbInterface';
 import { createModels } from './models/index';
 import loaders from './loaders';
-import { HomeworkInstance } from './models/Homework';
-import { UserInstance } from './models/User';
 
 require('dotenv').config({ path: '../../.env' })
 

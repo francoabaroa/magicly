@@ -12,9 +12,6 @@
   "engines": {
     "node": "13.x"
   },
-  "//": [
-    "yarn workspace server run start"
-  ],
   "dependencies": {
     "concurrently": "^5.2.0"
   }
