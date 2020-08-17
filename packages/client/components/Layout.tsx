@@ -5,12 +5,7 @@ const Layout = (props) => (
     <ul>
       <li>
         <Link href="/">
-          <a>Home</a>
-        </Link>
-      </li>
-      <li>
-        <Link href="/ssr">
-          <a>SSR</a>
+          <a>Landing Page</a>
         </Link>
       </li>
       <li>
