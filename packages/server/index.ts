@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import jwt from 'jsonwebtoken';
 import DataLoader from 'dataloader';
@@ -8,7 +9,7 @@ import { ApolloServer, AuthenticationError } from 'apollo-server-express';
 import apolloServerConfig from '@magicly/graphql';
 import nextApp from '@magicly/client';
 
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { DbInterface } from './typings/DbInterface';
 import { createModels } from './models/index';
 import loaders from './loaders';
@@ -26,7 +27,6 @@ if (process.env.DATABASE_URL) {
     'params': {
       dialect: 'postgres',
       protocol: 'postgres',
-      logging: true,
       ssl: true,
       operatorsAliases: false
     },
@@ -40,16 +40,30 @@ if (process.env.DATABASE_URL) {
     'params': {
       dialect: 'postgres',
       protocol: 'postgres',
-      logging: true,
       operatorsAliases: false
     }
   };
 }
 
+const createToken = async (user, secret, expiresIn) => {
+  const { id, email, currentCity } = user;
+  const token = await jwt.sign({ id, email, currentCity }, secret, {
+    expiresIn,
+  });
+  return token;
+};
+
 async function main() {
   const app = express();
-  app.use(cors());
+  const corsOptions = {
+    // TODO: I believe it is the same origin!!
+    origin: 'http://localhost:3000', //change with your own client URL
+    credentials: true
+  }
+  app.use(cors(corsOptions));
+  app.use(cookieParser());
   app.use(morgan('dev'));
+  app.use(express.urlencoded({ extended: true }));
 
   const db = createModels(
     sequelizeConfig,
@@ -65,6 +79,40 @@ async function main() {
       createUsersWithHomeworks(db);
     }
 
+    app.post('/signin', async (req, res) => {
+      const { email, password } = req.body
+      const user = await db.User.findByEmail(email);
+
+      if (!user) {
+        res.status(404).send({
+          success: false,
+          message: `Could not find account: ${email}`,
+        });
+        return;
+      }
+
+      const match = await db.User.validatePassword(password, user.id);
+      if (!match) {
+        res.status(401).send({
+          success: false,
+          message: 'Incorrect credentials',
+        });
+        return;
+      }
+
+      const token = await createToken(user, process.env.JWT_KEY, '1800000');
+      res.cookie('jwt', token, {
+        httpOnly: true,
+        // TODO: turn these options on for PROD
+        //secure: true, //on HTTPS
+        //domain: 'example.com', //set your domain
+      });
+
+      res.send({
+        success: true
+      });
+    });
+
     app.listen(PORT, (err) => {
       if (err) throw err;
       console.log(`[ server ] ready on port ${PORT}`);
@@ -72,14 +120,44 @@ async function main() {
   })
 }
 
+const context = async (req: Request) => {
+  const token = req.cookies['jwt'] || '';
+  try {
+    return await jwt.verify(token, process.env.JWT_KEY)
+  } catch (e) {
+    throw new AuthenticationError(
+      'Authentication token is invalid, please log in',
+    )
+  }
+}
+
 async function bootstrapClientApp(expressApp) {
   await nextApp.prepare();
+  // protected routes
+  expressApp.get(['/main'], async (req, res) => {
+    const handle = nextApp.getRequestHandler();
+    try {
+      const me = await context(req);
+      if (me) {
+        handle(req, res);
+      } else {
+        res.clearCookie('jwt');
+        res.clearCookie('signedin');
+        res.redirect(301, '/signin');
+      }
+    } catch (e) {
+      res.clearCookie('jwt');
+      res.clearCookie('signedin');
+      res.redirect(301, '/signin');
+      console.error(e);
+    }
+  });
   expressApp.get('*', nextApp.getRequestHandler());
 }
 
 async function bootstrapApolloServer(expressApp, db: DbInterface) {
   apolloServerConfig.context = async ({ req }) => {
-    const me = await getMe(req);
+    const me = await context(req);
     return {
       models: db,
       me,
@@ -92,23 +170,8 @@ async function bootstrapApolloServer(expressApp, db: DbInterface) {
     };
   };
   const apolloServer = new ApolloServer(apolloServerConfig);
-  apolloServer.applyMiddleware({ app: expressApp });
+  apolloServer.applyMiddleware({ app: expressApp, cors: false });
 }
-
-const getMe = async (req: Request) => {
-  // TODO: update any type
-  const token: any = req.headers['x-token'];
-
-  if (token) {
-    try {
-      return await jwt.verify(token, process.env.JWT_KEY);
-    } catch (e) {
-      throw new AuthenticationError(
-        'Your session expired. Sign in again.',
-      );
-    }
-  }
-};
 
 const createUsersWithHomeworks = async (db: DbInterface) => {
   await db.User.create(

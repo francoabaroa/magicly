@@ -1,3 +1,6 @@
+There are several mystery BUGS/ERRORS:
+
+
 1)
 
 2020-08-15T22:04:50.690175+00:00 app[web.1]: TypeError: Cannot read property 'kind' of undefined
@@ -26,3 +29,22 @@
 2020-08-15T22:04:52.743990+00:00 heroku[router]: at=info method=GET path="/pricing" host=magiclyapp.herokuapp.com request_id=f702d943-2c4a-4d32-8792-bb4a7bae39c7 fwd="76.108.199.96" dyno=web.1 connect=0ms service=3225ms status=500 bytes=1316 protocol=https
 
 ---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+2)
+
+Uncaught (in promise) Error: GraphQL error: No user found with these login credentials.
+
+UNHANDLED in GRAPHQL SIDE: No user found with these login credentials
+
+error.message.includes('No user found with these login credentials')
+
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+3)
+
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+4)

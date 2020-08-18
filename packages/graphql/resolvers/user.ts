@@ -7,7 +7,7 @@ const createToken = async (user, secret, expiresIn) => {
     expiresIn,
   });
   return token;
-}
+};
 
 export default {
   Query: {

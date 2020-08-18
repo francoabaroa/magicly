@@ -27,7 +27,10 @@
 24. Authorization CONSIDERATIONS:
   We've added basic authorization for this application. It has the global authorization before every request hits the GraphQL resolvers; and authorization at the resolver level with protecting resolvers. They check whether a user is authenticated, whether the user is able to delete a message (permission-based authorization), and whether a user is able to delete a user (role-based authorization).
   If you want to be even more exact than resolver level authorization, check out directive-based authorization or field level authorization in GraphQL. You can apply authorization at the data-access level with an ORM like Sequelize, too. Your application's requirements decide which level is most effective for authorization.
-25.
+25. token AUTH system is not stable when localStorage is used and token is outdated or invalid
+26. LOG when a user with bad credentials log in (only log in email!)
+27. SSR vs not SSR, and how it affects auth, and main/signup/signin pages
+28. remove unused packages/modules, alphabetize/organize imports and properties, remove comments (TODO's), add validation/meaningful error messages, organize methods/files
 
 *client*
 1. disable or enable SSR?

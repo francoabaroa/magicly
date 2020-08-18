@@ -4,6 +4,7 @@ import Layout from '../components/Layout';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { withApollo } from '../apollo/apollo';
+import Cookies from 'js-cookie';
 
 const QUERY = gql`
   query GetMe {
@@ -25,11 +26,9 @@ const MainPage = () => {
   const { data, loading, error, refetch } = useQuery(QUERY);
 
   if (loading) return <p>Loading...</p>;
-  // TODO: a user should not even be able to hit this page if token is expired, not valid or no one is logged in
-  if (process.browser && (error || (data && data.me === null))) {
-    // TODO: this is janky
-    // localStorage.removeItem('token');
-    // router.push('/signin', undefined, { shallow: true });
+  if (error) return <p>Error: {error.message}</p>;
+  if (!Cookies.get('signedin')) {
+    // navigate('/')
   }
 
   return (
