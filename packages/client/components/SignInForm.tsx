@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import { APP_CONFIG } from '../static/appStrings';
 
 // TODO: clean up before prod
 let url = null;
 if (process.env.NODE_ENV === 'development') {
-  url = 'http://localhost:3000/signin';
+  url = APP_CONFIG.devUrl;
 } else {
-  url = 'https://magiclyapp.herokuapp.com/signin';
+  url = APP_CONFIG.prodUrl;
 }
 
 const Form = () => {
@@ -26,7 +27,7 @@ const Form = () => {
       body: `email=${email}&password=${password}`
     };
 
-    fetch(url, options)
+    fetch(url + 'signin', options)
       .then(response => {
         if (!response.ok) {
           if (response.status === 404) {
@@ -44,9 +45,9 @@ const Form = () => {
       .then(data => {
         if (data.success) {
           document.cookie = 'signedin=true';
-          router.push('/main', undefined, { shallow: true });
+          window.location.replace(url + 'main');
         }
-      })
+      });
   }
 
   return (

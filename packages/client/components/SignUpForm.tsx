@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import { APP_CONFIG } from '../static/appStrings';
 
 // TODO: clean up before prod
 let url = null;
 if (process.env.NODE_ENV === 'development') {
-  url = 'http://localhost:3000/signup';
+  url = APP_CONFIG.devUrl;
 } else {
-  url = 'https://magiclyapp.herokuapp.com/signup';
+  url = APP_CONFIG.prodUrl;
 }
 
 // const Form = () => {
@@ -29,7 +30,7 @@ if (process.env.NODE_ENV === 'development') {
 //       body: `email=${email}&password=${password}&currentCity=${password}`
 //     };
 
-//     fetch(url, options)
+//     fetch(url + 'signup', options)
 //       .then(response => {
 //         if (!response.ok) {
 //           if (response.status === 404) {
