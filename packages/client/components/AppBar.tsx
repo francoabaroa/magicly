@@ -22,10 +22,12 @@ import { APP_CONFIG } from '../static/appStrings';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     authButtons: {
-      margin: '9px'
+      margin: '9px',
+      color: '#E5DADA',
+      backgroundColor: '#840032',
     },
     appbar: {
-      backgroundColor: '#F6E6E6'
+      backgroundColor: '#E5DADA'
     },
     grow: {
       flexGrow: 1,
@@ -34,14 +36,18 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: theme.spacing(2),
     },
     title: {
-      color: '#F8CB2E',
+      color: '#840032',
+      fontFamily: 'Fredoka One',
+      fontSize: '34px',
       display: 'none',
       [theme.breakpoints.up('sm')]: {
         display: 'block',
       },
     },
     why: {
-      color: '#F8CB2E',
+      fontFamily: 'Playfair Display, serif',
+      fontWeight: 700,
+      color: '#840032',
       display: 'none',
       padding: '9px',
       [theme.breakpoints.up('sm')]: {
@@ -49,7 +55,8 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     pages: {
-      color: '#D6B6B6',
+      fontFamily: 'Playfair Display, serif',
+      color: '#002642',
       display: 'none',
       padding: '9px',
       [theme.breakpoints.up('sm')]: {
@@ -230,14 +237,14 @@ export default function PrimarySearchAppBar(props) {
     <div className={classes.grow}>
       <AppBar position="static" className={classes.appbar}>
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography className={classes.title} onClick={routePage.bind(this, '')} variant="h6" noWrap>
             { APP_CONFIG.appName }
           </Typography>
@@ -275,7 +282,7 @@ export default function PrimarySearchAppBar(props) {
                 :
                 <div className={classes.sectionDesktop}>
                 <Typography className={classes.why} onClick={routePage.bind(this, 'why')} variant="h6" noWrap>
-                  why Magicly?
+                  Why Magicly?
                 </Typography>
                     <Typography className={classes.pages} onClick={routePage.bind(this, 'pricing')} variant="h6" noWrap>
                       Pricing
