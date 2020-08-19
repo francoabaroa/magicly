@@ -30,7 +30,7 @@
 25. token AUTH system is not stable when localStorage is used and token is outdated or invalid
 26. LOG when a user with bad credentials log in (only log in email!)
 27. SSR vs not SSR, and how it affects auth, and main/signup/signin pages
-28. remove unused packages/modules, alphabetize/organize imports and properties, remove comments (TODO's), add validation/meaningful error messages, organize methods/files
+28. remove unused packages/modules, alphabetize/organize imports and properties, remove comments (TODO's), add validation/meaningful error messages, organize methods/files, strings, enums, etc
 
 *client*
 1. disable or enable SSR?
