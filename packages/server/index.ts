@@ -100,7 +100,7 @@ async function main() {
         return;
       }
 
-      const token = await createToken(user, process.env.JWT_KEY, '1800000');
+      const token = await createToken(user, process.env.JWT_KEY, '1d');
       res.cookie('jwt', token, {
         httpOnly: true,
         // TODO: turn these options on for PROD
@@ -113,6 +113,12 @@ async function main() {
       });
     });
 
+    app.post('/signout', async (req, res) => {
+      res.clearCookie('jwt');
+      res.clearCookie('signedin');
+      res.redirect(301, '/signin');
+    });
+
     app.listen(PORT, (err) => {
       if (err) throw err;
       console.log(`[ server ] ready on port ${PORT}`);
@@ -122,12 +128,14 @@ async function main() {
 
 const context = async (req: Request) => {
   const token = req.cookies['jwt'] || '';
-  try {
-    return await jwt.verify(token, process.env.JWT_KEY)
-  } catch (e) {
-    throw new AuthenticationError(
-      'Authentication token is invalid, please log in',
-    )
+  if (token) {
+    try {
+      return await jwt.verify(token, process.env.JWT_KEY)
+    } catch (e) {
+      throw new AuthenticationError(
+        'Authentication token is invalid, please log in',
+      )
+    }
   }
 }
 
