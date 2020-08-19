@@ -14,6 +14,8 @@
   "dependencies": {
     "@apollo/react-hooks": "^3.1.4",
     "@apollo/react-ssr": "^3.1.4",
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.8",
     "apollo-link-context": "^1.0.20",
@@ -25,10 +27,12 @@
     "next": "^9.3.4",
     "next-with-apollo": "^5.0.0",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "styled-components": "^5.1.1"
   },
   "devDependencies": {
     "@types/react": "16.9.33",
+    "babel-plugin-styled-components": "^1.11.1",
     "typescript": "^3.8.3"
   }
 }
