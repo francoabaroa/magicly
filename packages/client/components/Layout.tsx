@@ -1,8 +1,30 @@
 import Link from 'next/link';
+import AppBar from './AppBar';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
-const Layout = (props) => (
+const QUERY = gql`
+  query GetMe {
+    me {
+      id
+      firstName
+      lastName
+      email
+      homeworks {
+        title
+        status
+      }
+    }
+  }
+`;
+
+const Layout = (props) => {
+  const { data, loading, error, refetch } = useQuery(QUERY);
+  return (
   <div>
-    <ul>
+      <AppBar signedInUser={data && data.me ? data.me : null} />
+    {props.children}
+    {/* <ul>
       <li>
         <Link href="/">
           <a>Landing Page</a>
@@ -58,9 +80,8 @@ const Layout = (props) => (
           <a>Sign In</a>
         </Link>
       </li>
-    </ul>
-    {props.children}
+    </ul> */}
   </div>
-);
+  )};
 
 export default Layout;
