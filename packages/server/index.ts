@@ -79,6 +79,36 @@ async function main() {
       createUsersWithHomeworks(db);
     }
 
+    app.post('/signup', async (req, res) => {
+      const { email, password, currentCity, hasSocialAuthLogin } = req.body
+      const user = await db.User.create({
+        email,
+        currentCity,
+        password,
+        hasSocialAuthLogin
+      });
+
+      if (!user) {
+        res.status(404).send({
+          success: false,
+          message: `Could not create account: ${email}`,
+        });
+        return;
+      }
+
+      const token = await createToken(user, process.env.JWT_KEY, '1d');
+      res.cookie('jwt', token, {
+        httpOnly: true,
+        // TODO: turn these options on for PROD
+        //secure: true, //on HTTPS
+        //domain: 'example.com', //set your domain
+      });
+
+      res.send({
+        success: true
+      });
+    });
+
     app.post('/signin', async (req, res) => {
       const { email, password } = req.body
       const user = await db.User.findByEmail(email);

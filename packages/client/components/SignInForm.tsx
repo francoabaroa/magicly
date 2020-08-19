@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'development') {
   url = APP_CONFIG.prodUrl;
 }
 
-const Form = () => {
+const SignInForm = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -61,4 +61,4 @@ const Form = () => {
   )
 }
 
-export default Form
+export default SignInForm

@@ -7,6 +7,8 @@ import useSignUpForm from '../components/SignUpForm_DEPRECATED';
 import gql from 'graphql-tag';
 import { withApollo } from '../apollo/apollo';
 
+import SignUpForm from '../components/SignUpForm';
+
 const SIGN_UP = gql`
   mutation SignUp(
     $email: String!,
@@ -82,6 +84,7 @@ const SignUpPage = () => {
     <Layout>
       <h1>SignUp Page</h1>
       <pre> Mutation Data: {JSON.stringify(data)}</pre>
+      <SignUpForm />
       <h4>
         Already have an account?
         <Link href="/signin">
