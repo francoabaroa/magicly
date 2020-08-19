@@ -112,6 +112,9 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'none',
       },
     },
+    userEmail: {
+      pointerEvents: 'none',
+    }
   }),
 );
 
@@ -183,7 +186,7 @@ export default function PrimarySearchAppBar(props) {
       onClose={handleMenuClose}
     >
       {props.signedInUser && props.signedInUser.email ?
-        <MenuItem>{props.signedInUser.email}</MenuItem> :
+        <MenuItem className={classes.userEmail}>{props.signedInUser.email}</MenuItem> :
         null
       }
       <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
