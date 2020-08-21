@@ -27,7 +27,8 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#0A7EF2'
     },
     pricingPage: {
-      backgroundColor: '#000',
+      marginRight: '30px',
+      marginLeft: '30px',
     }
   }),
 );
@@ -35,7 +36,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const PricingPage = () => {
   const classes = useStyles();
   return (
-    <Layout className={classes.pricingPage}>
+    <Layout>
+      <div className={classes.pricingPage}>
       <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
         <Grid item xs={12}>
           <h1 className={classes.title}>Pricing</h1>
@@ -74,6 +76,7 @@ const PricingPage = () => {
             </Paper>
           </Grid>
         </Grid>
+      </div>
       </div>
     </Layout>
   );
