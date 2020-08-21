@@ -103,7 +103,11 @@ const NewHomeWorkForm = () => {
   if (error) return <p>Error: {error.message}</p>;
   if (data && data.createHomework && data.createHomework.id) {
     // TODO: show dialog message when homework is created!
-    router.push('/home/work', undefined);
+    if (process.browser || (window && window.location)) {
+      window.location.href = url + 'home/work';
+    } else {
+      router.push('/home/work', undefined);
+    }
   }
 
   return (
@@ -128,6 +132,7 @@ const NewHomeWorkForm = () => {
 
         {/* if YES, show option to select notificationType */}
         {/* TODO: need to add NONE to notificationType */}
+        {/* TODO: need to get their phone number for this */}
         <p>Would you like to set a reminder for this?</p>
         <input type='radio' id='no' name='reminder' value='no' onChange={event => setReminder(event.target.value)}/>
         <label>no</label><br />
