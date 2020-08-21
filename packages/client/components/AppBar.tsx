@@ -12,6 +12,12 @@ import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import AttachMoney from '@material-ui/icons/AttachMoney';
+import DoubleArrow from '@material-ui/icons/DoubleArrow';
+import ContactSupport from '@material-ui/icons/ContactSupport';
+import DataUsage from '@material-ui/icons/DataUsage';
+import ExitToApp from '@material-ui/icons/ExitToApp';
+import Settings from '@material-ui/icons/Settings';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
@@ -31,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#840032',
     },
     appbar: {
-      backgroundColor: '#FFFFFF'
+      backgroundColor: '#E5DADA'
     },
     grow: {
       flexGrow: 1,
@@ -128,6 +134,7 @@ export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
+  const mobileMenuId = 'primary-search-account-menu-mobile';
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -174,8 +181,106 @@ export default function PrimarySearchAppBar(props) {
           window.location.replace(url);
         }
       });
+  };
 
-
+  const renderMobileMenu = (signedInUser: any) => {
+    if (signedInUser && signedInUser.email) {
+      return (
+        <Menu
+          anchorEl={mobileMoreAnchorEl}
+          style={{ color: 'black' }}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          id={mobileMenuId}
+          keepMounted
+          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+          open={isMobileMenuOpen}
+          onClose={handleMobileMenuClose}
+        >
+          {props.signedInUser && props.signedInUser.email ?
+            <MenuItem className={classes.userEmail}>
+              <IconButton color="inherit">
+                <AccountCircle />
+              </IconButton>
+              <p>{props.signedInUser.email}</p>
+            </MenuItem> :
+            null
+          }
+          <MenuItem onClick={routePage.bind(this, 'settings')}>
+            <IconButton color="inherit">
+              <Settings />
+            </IconButton>
+            <p>Settings</p>
+          </MenuItem>
+          <MenuItem onClick={routePage.bind(this, 'support')}>
+            <IconButton color="inherit">
+              <ContactSupport />
+            </IconButton>
+            <p>Contact Us</p>
+          </MenuItem>
+          <MenuItem onClick={signOut}>
+            <IconButton color="inherit">
+              <ExitToApp />
+            </IconButton>
+            <p>Sign Out</p>
+          </MenuItem>
+          {/* <MenuItem onClick={signOut}>Sign Out</MenuItem> */}
+          {/* <MenuItem onClick={handleProfileMenuOpen}>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="primary-search-account-menu"
+              aria-haspopup="true"
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+            <p>Profile</p>
+          </MenuItem> */}
+        </Menu>
+      );
+    } else {
+      return (
+        <Menu
+          anchorEl={mobileMoreAnchorEl}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          id={mobileMenuId}
+          keepMounted
+          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+          open={isMobileMenuOpen}
+          onClose={handleMobileMenuClose}
+        >
+          <MenuItem onClick={routePage.bind(this, 'why')}>
+            <IconButton color="inherit">
+              <DoubleArrow />
+            </IconButton>
+            <p>Why Magicly?</p>
+          </MenuItem>
+          <MenuItem onClick={routePage.bind(this, 'signin')}>
+            <IconButton color="inherit">
+              <AccountCircle />
+            </IconButton>
+            <p>Sign In</p>
+          </MenuItem>
+          <MenuItem onClick={routePage.bind(this, 'pricing')}>
+            <IconButton color="inherit">
+              <AttachMoney />
+            </IconButton>
+            <p>Pricing</p>
+          </MenuItem>
+          <MenuItem onClick={routePage.bind(this, 'privacy')}>
+            <IconButton color="inherit">
+              <DataUsage />
+            </IconButton>
+            <p>Privacy</p>
+          </MenuItem>
+          <MenuItem onClick={routePage.bind(this, 'support')}>
+            <IconButton color="inherit">
+              <ContactSupport />
+            </IconButton>
+            <p>Contact Us</p>
+          </MenuItem>
+        </Menu>
+      );
+    }
   };
 
   const menuId = 'primary-search-account-menu';
@@ -193,50 +298,8 @@ export default function PrimarySearchAppBar(props) {
         <MenuItem className={classes.userEmail}>{props.signedInUser.email}</MenuItem> :
         null
       }
-      <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
+      <MenuItem onClick={routePage.bind(this, 'settings')}>Settings</MenuItem>
       <MenuItem onClick={signOut}>Sign Out</MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuId = 'primary-search-account-menu-mobile';
-  // TODO: Franco add in mobile menu options
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
     </Menu>
   );
 
@@ -317,7 +380,7 @@ export default function PrimarySearchAppBar(props) {
           </div>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
+      {renderMobileMenu(props.signedInUser)}
       {renderMenu}
     </div>
   );
