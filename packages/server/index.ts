@@ -191,6 +191,23 @@ async function bootstrapClientApp(expressApp) {
       console.error(e);
     }
   });
+  expressApp.get(['/', '/signin'], async (req, res) => {
+    const handle = nextApp.getRequestHandler();
+    try {
+      const me = await context(req);
+      if (me) {
+        res.redirect(301, '/main');
+      } else {
+        handle(req, res);
+      }
+    } catch (e) {
+      // TODO: remove or leave this?
+      res.clearCookie('jwt');
+      res.clearCookie('signedin');
+      res.redirect(301, '/signin');
+      console.error(e);
+    }
+  });
   expressApp.get('*', nextApp.getRequestHandler());
 }
 
