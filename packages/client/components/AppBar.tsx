@@ -21,6 +21,7 @@ import Settings from '@material-ui/icons/Settings';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import ArrowDropDownCircle from '@material-ui/icons/ArrowDropDownCircle';
 import { useRouter } from 'next/router';
 
 import { APP_CONFIG } from '../constants/appStrings';
@@ -35,6 +36,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     accountCircle: {
       color: '#840032',
+    },
+    arrowDropDownCircle: {
+      color: '#840032'
     },
     appbar: {
       backgroundColor: '#E5DADA'
@@ -52,6 +56,18 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'none',
       [theme.breakpoints.up('sm')]: {
         display: 'block',
+      },
+    },
+    titleMobile: {
+      color: '#840032',
+      fontFamily: 'Fredoka One',
+      fontSize: '24px',
+      display: 'none',
+      [theme.breakpoints.down('sm')]: {
+        display: 'inline-block',
+      },
+      [theme.breakpoints.up('sm')]: {
+        display: 'none',
       },
     },
     why: {
@@ -319,6 +335,11 @@ export default function PrimarySearchAppBar(props) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div> */}
+          <div className={classes.sectionMobile}>
+            <Typography className={classes.titleMobile} onClick={routePage.bind(this, '')}>
+              {APP_CONFIG.appName}
+            </Typography>
+          </div>
           <div className={classes.grow} />
             {
               props.signedInUser && props.signedInUser.id && props.signedInUser.id !== null ?
@@ -363,7 +384,7 @@ export default function PrimarySearchAppBar(props) {
               onClick={handleMobileMenuOpen}
               color="inherit"
             >
-              <MoreIcon />
+              <ArrowDropDownCircle className={classes.arrowDropDownCircle} />
             </IconButton>
           </div>
         </Toolbar>
