@@ -172,6 +172,7 @@ const context = async (req: Request) => {
 async function bootstrapClientApp(expressApp) {
   await nextApp.prepare();
   // protected routes
+  // TODO: add other protected routes
   expressApp.get(['/main'], async (req, res) => {
     const handle = nextApp.getRequestHandler();
     try {

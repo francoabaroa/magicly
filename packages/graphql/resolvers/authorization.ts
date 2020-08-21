@@ -1,8 +1,9 @@
 import { ForbiddenError } from 'apollo-server';
 import { skip } from 'graphql-resolvers';
 
-export const isAuthenticated = (parent, args, { models, me }) =>
-  me ? skip : new ForbiddenError('Not authenticated as user.');
+export const isAuthenticated = (parent, args, { models, me }) => {
+  return me ? skip : new ForbiddenError('Not authenticated as user.');
+}
 
 export const isHomeworkOwner = async (
   parent,
