@@ -26,8 +26,11 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#E5DADA',
       backgroundColor: '#840032',
     },
+    accountCircle: {
+      color: '#840032',
+    },
     appbar: {
-      backgroundColor: '#E5DADA'
+      backgroundColor: '#FFFFFF'
     },
     grow: {
       flexGrow: 1,
@@ -279,7 +282,7 @@ export default function PrimarySearchAppBar(props) {
                   onClick={handleProfileMenuOpen}
                   color="inherit"
                 >
-                  <AccountCircle />
+                  <AccountCircle className={classes.accountCircle}/>
                 </IconButton>
                 </div>
                 :
