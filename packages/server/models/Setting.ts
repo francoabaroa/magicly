@@ -5,7 +5,7 @@ import { SequelizeAttributes } from '../typings/SequelizeAttributes';
 export interface SettingAttributes {
   id?: number;
   languageIso2: 'EN' | 'ES';
-  defaultNotificationType: 'EMAIL' | 'SMS' | 'WHATSAPP' | 'CALL';
+  defaultNotificationType: 'EMAIL' | 'SMS' | 'WHATSAPP' | 'CALL' | 'NONE';
   createdAt?: Date;
   updatedAt?: Date;
   user?: UserAttributes | UserAttributes['id'];

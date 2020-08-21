@@ -119,6 +119,7 @@ const enums = gql`
     SMS
     WHATSAPP
     CALL
+    NONE
   }
 
   enum DefaultNotificationType {
@@ -126,6 +127,7 @@ const enums = gql`
     SMS
     WHATSAPP
     CALL
+    NONE
   }
 
   enum LanguageIso2 {

@@ -10,7 +10,7 @@ export interface HomeworkAttributes {
   type: 'MAINTENANCE' | 'REPAIR' | 'INSTALLATION' | 'CLEANING' | 'OTHER';
   keywords?: string[] | null;
   status: 'UPCOMING' | 'PAST';
-  notificationType: 'EMAIL' | 'SMS' | 'WHATSAPP' | 'CALL';
+  notificationType: 'EMAIL' | 'SMS' | 'WHATSAPP' | 'CALL' | 'NONE';
   cost?: number | null;
   costCurrency?: 'USD' | 'MXN' | null;
   notes?: string | null;
@@ -108,6 +108,7 @@ export const HomeworkFactory = (sequelize: Sequelize.Sequelize, DataTypes: Seque
         'SMS',
         'WHATSAPP',
         'CALL',
+        'NONE'
       ),
       unique: false,
       allowNull: false,

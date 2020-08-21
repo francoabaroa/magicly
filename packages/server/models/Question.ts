@@ -8,7 +8,7 @@ export interface QuestionAttributes {
   type: 'TECH' | 'HOME' | 'FINANCE' | 'SCAM' | 'SERVICE' | 'PRODUCT' | 'APP';
   keywords?: string[] | null;
   status: 'PENDING' | 'SOLVED' | 'UNSOLVED' | 'CANCELLED';
-  notificationType: 'EMAIL' | 'SMS' | 'WHATSAPP' | 'CALL';
+  notificationType: 'EMAIL' | 'SMS' | 'WHATSAPP' | 'CALL' | 'NONE';
   urgent?: boolean | null;
   createdAt?: Date;
   updatedAt?: Date;
@@ -73,6 +73,7 @@ export const QuestionFactory = (sequelize: Sequelize.Sequelize, DataTypes: Seque
         'SMS',
         'WHATSAPP',
         'CALL',
+        'NONE'
       ),
       unique: false,
       allowNull: false,
