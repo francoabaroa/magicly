@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { APP_CONFIG } from '../static/appStrings';
+import { APP_CONFIG } from '../constants/appStrings';
 
 // TODO: clean up before prod
 let url = null;

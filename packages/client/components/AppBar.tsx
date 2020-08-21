@@ -17,7 +17,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { useRouter } from 'next/router';
 
-import { APP_CONFIG } from '../static/appStrings';
+import { APP_CONFIG } from '../constants/appStrings';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
