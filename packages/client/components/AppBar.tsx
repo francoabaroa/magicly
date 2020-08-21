@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: '9px',
       color: '#E5DADA',
       backgroundColor: '#840032',
+      borderRadius: '50px',
     },
     accountCircle: {
       color: '#840032',
