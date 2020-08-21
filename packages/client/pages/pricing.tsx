@@ -18,11 +18,13 @@ const useStyles = makeStyles((theme: Theme) =>
     paper: {
       padding: theme.spacing(2),
       textAlign: 'center',
-      color: '#F6E6E6',
-      backgroundColor: "#D6B6B6",
+      color: '#840032',
+      backgroundColor: "#E5DADA",
+      border: '5px #840032 solid',
+      borderColor: '#840032',
     },
     pricingAmt: {
-      color: '#4860B6'
+      color: '#0A7EF2'
     },
     pricingPage: {
       backgroundColor: '#000',
