@@ -223,18 +223,6 @@ export default function PrimarySearchAppBar(props) {
             </IconButton>
             <p>Sign Out</p>
           </MenuItem>
-          {/* <MenuItem onClick={signOut}>Sign Out</MenuItem> */}
-          {/* <MenuItem onClick={handleProfileMenuOpen}>
-            <IconButton
-              aria-label="account of current user"
-              aria-controls="primary-search-account-menu"
-              aria-haspopup="true"
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-            <p>Profile</p>
-          </MenuItem> */}
         </Menu>
       );
     } else {
