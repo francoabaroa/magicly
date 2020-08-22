@@ -99,6 +99,10 @@ const Index = () => {
   const router = useRouter();
   const classes = useStyles();
 
+  const routePage = (pageName: string) => {
+    router.push('/' + pageName, undefined, { shallow: true });
+  };
+
   if (Cookies.get('signedin')) {
     router.push('/main', undefined);
   }
@@ -114,7 +118,7 @@ const Index = () => {
             <h2 className={classes.subtitle}>do everything in one app, and gain the freedom and time to focus on the things you love</h2>
           </Grid>
           <Grid item xs={12}>
-            <Button className={classes.getStartedButton}> Get Started </Button>
+            <Button className={classes.getStartedButton} onClick={routePage.bind(this, 'signup')}> Get Started </Button>
           </Grid>
           <Grid item xs={8}>
             <h3 className={classes.or}>or</h3>
