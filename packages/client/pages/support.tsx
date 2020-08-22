@@ -43,8 +43,8 @@ const SupportPage = () => {
           <h1 className={classes.title}>Support</h1>
         </Grid>
       </Grid>
-      <div className={classes.root}>
-      </div>
+      {/* <div className={classes.root}>
+      </div> */}
       </div>
     </Layout>
   );

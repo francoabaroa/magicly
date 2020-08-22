@@ -2,12 +2,102 @@ import React from 'react';
 import AppBar from '../components/AppBar';
 import AppContainer from '../components/AppContainer';
 import Layout from '../components/Layout';
+import Button from '@material-ui/core/Button';
 import { withApollo } from '../apollo/apollo';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    title: {
+      fontFamily: 'Playfair Display, serif',
+      fontWeight: 'bold',
+      fontSize: '48px',
+      color: '#002642',
+      marginTop: '45px',
+      margin: 'auto',
+      textAlign: 'center',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '30px',
+        marginTop: '35px',
+      },
+    },
+    getStartedButton: {
+      fontFamily: 'Fredoka One',
+      margin: '0 auto',
+      display: 'block',
+      marginTop: '35px',
+      color: '#FFF',
+      backgroundColor: '#840032',
+      borderRadius: '50px',
+      width: '200px',
+      height: '40px',
+      [theme.breakpoints.down('sm')]: {
+        marginTop: '20px',
+      },
+    },
+    subtitle: {
+      fontFamily: 'Playfair Display, serif',
+      fontWeight: 'normal',
+      fontSize: '36px',
+      color: '#002642',
+      marginTop: '40px',
+      margin: 'auto',
+      textAlign: 'center',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '26px',
+        marginTop: '20px',
+      },
+    },
+    or: {
+      fontFamily: 'Playfair Display, serif',
+      fontWeight: 'normal',
+      fontSize: '26px',
+      color: '#002642',
+      marginTop: '10px',
+      margin: 'auto',
+      textAlign: 'center',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '22px',
+        marginTop: '5px',
+      },
+    },
+    call: {
+      fontFamily: 'Playfair Display, serif',
+      fontWeight: 'normal',
+      fontSize: '28px',
+      color: '#E59500',
+      marginTop: '10px',
+      margin: 'auto',
+      textAlign: 'center',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '24px',
+        marginTop: '5px',
+      },
+    },
+    paper: {
+      padding: theme.spacing(2),
+      textAlign: 'center',
+      color: '#840032',
+      backgroundColor: "#E5DADA",
+      border: '5px #840032 solid',
+      borderColor: '#840032',
+    },
+    indexPage: {
+      marginRight: '30px',
+      marginLeft: '30px',
+    },
+  }),
+);
 
 const Index = () => {
   const router = useRouter();
+  const classes = useStyles();
 
   if (Cookies.get('signedin')) {
     router.push('/main', undefined);
@@ -15,7 +105,27 @@ const Index = () => {
 
   return (
     <Layout>
-      <h1>This should be rendered on client side</h1>
+      <div className={classes.indexPage}>
+        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+          <Grid item xs={12}>
+            <h1 className={classes.title}>Run your life like magic</h1>
+          </Grid>
+          <Grid item xs={8}>
+            <h2 className={classes.subtitle}>do everything in one app, and gain the freedom and time to focus on the things you love</h2>
+          </Grid>
+          <Grid item xs={12}>
+            <Button className={classes.getStartedButton}> Get Started </Button>
+          </Grid>
+          <Grid item xs={8}>
+            <h3 className={classes.or}>or</h3>
+          </Grid>
+          <Grid item xs={8}>
+            <h3 className={classes.call}>call to learn more 1-800-123-4567</h3>
+          </Grid>
+        </Grid>
+        {/* <div className={classes.root}>
+        </div> */}
+      </div>
     </Layout>
   );
 };

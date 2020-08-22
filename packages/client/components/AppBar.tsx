@@ -28,13 +28,15 @@ import { APP_CONFIG } from '../constants/appStrings';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    signOutButton: {
+    signUpButton: {
+      fontFamily: 'Fredoka One',
       margin: '9px',
       color: '#FFF',
       backgroundColor: '#840032',
       borderRadius: '50px',
     },
     signInButton: {
+      fontFamily: 'Fredoka One',
       margin: '9px',
       color: '#840032',
       backgroundColor: '#FFF',
@@ -379,7 +381,7 @@ export default function PrimarySearchAppBar(props) {
                     <Typography className={classes.pages} onClick={routePage.bind(this, 'support')} variant="h6" noWrap>
                       Contact Us
                 </Typography>
-                <Button className={classes.signOutButton} onClick={routePage.bind(this, 'signup')} variant="contained">Sign Up</Button>
+                <Button className={classes.signUpButton} onClick={routePage.bind(this, 'signup')} variant="contained">Sign Up</Button>
                 <Button className={classes.signInButton} onClick={routePage.bind(this, 'signin')} variant="contained">Sign In</Button>
                 </div>
             }
