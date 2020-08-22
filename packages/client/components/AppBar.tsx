@@ -28,11 +28,18 @@ import { APP_CONFIG } from '../constants/appStrings';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    authButtons: {
+    signOutButton: {
       margin: '9px',
-      color: '#E5DADA',
+      color: '#FFF',
       backgroundColor: '#840032',
       borderRadius: '50px',
+    },
+    signInButton: {
+      margin: '9px',
+      color: '#840032',
+      backgroundColor: '#FFF',
+      borderRadius: '50px',
+      border: '3px solid #840032'
     },
     accountCircle: {
       color: '#840032',
@@ -372,8 +379,8 @@ export default function PrimarySearchAppBar(props) {
                     <Typography className={classes.pages} onClick={routePage.bind(this, 'support')} variant="h6" noWrap>
                       Contact Us
                 </Typography>
-                <Button className={classes.authButtons} onClick={routePage.bind(this, 'signup')} variant="contained">Sign Up</Button>
-                <Button className={classes.authButtons} onClick={routePage.bind(this, 'signin')} variant="contained">Sign In</Button>
+                <Button className={classes.signOutButton} onClick={routePage.bind(this, 'signup')} variant="contained">Sign Up</Button>
+                <Button className={classes.signInButton} onClick={routePage.bind(this, 'signin')} variant="contained">Sign In</Button>
                 </div>
             }
           <div className={classes.sectionMobile}>
