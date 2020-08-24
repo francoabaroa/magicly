@@ -27,29 +27,46 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     findButton: {
-      fontFamily: 'Fredoka One',
+      fontFamily: 'Fredoka One, cursive',
+      fontSize: '28px',
       margin: '0 auto',
+      pointerEvents: 'none',
       display: 'block',
-      marginTop: '35px',
+      marginTop: '0px',
       color: '#FFF',
       backgroundColor: '#0A7EF2',
       borderRadius: '50px',
-      width: '400px',
-      height: '40px',
+      width: '550px',
+      height: '60px',
       [theme.breakpoints.down('sm')]: {
-        marginTop: '20px',
+        fontSize: '14px',
+        width: '300px',
+        height: '40px'
       },
     },
     paper: {
-      padding: theme.spacing(2),
+      padding: theme.spacing(1),
       fontFamily: 'Playfair Display, serif',
       textAlign: 'center',
       color: '#FFF',
       backgroundColor: "#840032",
-      borderRadius: '10px'
+      borderRadius: '10px',
     },
     valueProp: {
-      color: '#0A7EF2'
+      color: '#FFF',
+      fontWeight: 'bold',
+      fontSize: '32px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '26px',
+      },
+    },
+    subheader: {
+      fontFamily: 'Playfair Display, serif',
+      margin: '10px',
+      marginTop: '20px',
+      marginBottom: '0px',
+      fontSize: '20px',
+      textAlign: 'center',
     },
     pricingPage: {
       marginRight: '30px',
@@ -72,36 +89,40 @@ const WhyPage = () => {
           <Grid container spacing={3}>
             <Grid item xs={12} lg={4} md={4} sm={4}>
               <Paper className={classes.paper}>
-                <h2>
+                <h2 className={classes.valueProp}>
                   my home
               </h2>
-                <h3 className={classes.valueProp}>
-                  VALUE PROP
+                <h3>
+                  value proposition of section
               </h3>
               </Paper>
+              <p className={classes.subheader}>save time and avoid mental exhaustion by offloading many of your routines to Magicly</p>
             </Grid>
             <Grid item xs={12} lg={4} md={4} sm={4}>
               <Paper className={classes.paper}>
-                <h2>
+                <h2 className={classes.valueProp}>
                   finances
               </h2>
-                <h3 className={classes.valueProp}>
-                  VALUE PROP
+                <h3>
+                  value proposition of section
               </h3>
               </Paper>
+              <p className={classes.subheader}>empower you by helping you stay on top of your finances easily</p>
             </Grid>
             <Grid item xs={12} lg={4} md={4} sm={4}>
               <Paper className={classes.paper}>
-                <h2>
+                <h2 className={classes.valueProp}>
                   productivity
               </h2>
-                <h3 className={classes.valueProp}>
-                  VALUE PROP
+                <h3>
+                  value proposition of section
               </h3>
               </Paper>
+              <p className={classes.subheader}>save time by increasing productivity in a simple and organized way</p>
             </Grid>
             <Grid item xs={12}>
               <Button className={classes.findButton}> Find Products & Services </Button>
+              <p className={classes.subheader}>find trustworthy service-providers and products to keep your home running efficiently</p>
             </Grid>
           </Grid>
         </div>
