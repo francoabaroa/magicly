@@ -21,6 +21,8 @@ const isTest = !!process.env.DATABASE_TEST;
 const isProduction = !!process.env.DATABASE_URL;
 let sequelizeConfig = {};
 
+// TODO: if user lands on HTTP, important to redirect to HTTPS. Form submissions should only happen via HTTPS
+
 if (process.env.DATABASE_URL) {
   sequelizeConfig = {
     'database': process.env.DATABASE_URL,
