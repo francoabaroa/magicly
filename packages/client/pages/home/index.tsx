@@ -75,7 +75,7 @@ const HomePage = () => {
               Home Work Events
               </h2>
             <h3 className={classes.description}>
-              save any work you’ve had done to your home, such as repairs, maintenances, installations and more
+              Save any work you’ve had done to your home, such as repairs, maintenances, installations and more
               </h3>
           </Paper>
         </Grid>
@@ -85,7 +85,7 @@ const HomePage = () => {
               Important Documents
               </h2>
             <h3 className={classes.description}>
-              upload important documents to stay organized
+              Upload important documents to stay organized
               </h3>
           </Paper>
         </Grid>
@@ -94,9 +94,6 @@ const HomePage = () => {
             <h2 className={classes.sectionTitle}>
               Find Home Service Providers
               </h2>
-            <h3 className={classes.description}>
-              value proposition of section
-              </h3>
           </Paper>
         </Grid>
       </Grid>

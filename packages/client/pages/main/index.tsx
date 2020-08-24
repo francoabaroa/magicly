@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 'bold',
       fontSize: '40px',
       color: '#002642',
-      marginTop: '45px',
+      marginTop: '15px',
       marginBottom: '45px',
       margin: 'auto',
       textAlign: 'center',
@@ -64,6 +64,7 @@ const useStyles = makeStyles((theme: Theme) =>
     mainPage: {
       marginRight: '30px',
       marginLeft: '30px',
+      marginTop: '55px',
     },
     findButton: {
       fontFamily: 'Fredoka One, cursive',
@@ -71,7 +72,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: '0 auto',
       pointerEvents: 'none',
       display: 'block',
-      marginTop: '0px',
+      marginTop: '40px',
       color: '#FFF',
       backgroundColor: '#0A7EF2',
       borderRadius: '50px',
@@ -114,30 +115,30 @@ const MainPage = () => {
             <Grid item xs={12} lg={4} md={4} sm={4}>
               <Paper className={classes.paper} onClick={routePage.bind(this, 'home')}>
                 <h2 className={classes.appSection}>
-                  my home
+                  My Home
               </h2>
                 <h3>
-                  value proposition of section
+                  The most important information pertaining to your home
               </h3>
               </Paper>
             </Grid>
             <Grid item xs={12} lg={4} md={4} sm={4}>
               <Paper className={classes.paper} onClick={routePage.bind(this, 'finance')}>
                 <h2 className={classes.appSection}>
-                  finances
+                  Finances
               </h2>
                 <h3>
-                  value proposition of section
+                  Stay on top of your finances easily and ask questions
               </h3>
               </Paper>
             </Grid>
             <Grid item xs={12} lg={4} md={4} sm={4}>
               <Paper className={classes.paper} onClick={routePage.bind(this, 'productivity')}>
                 <h2 className={classes.appSection}>
-                  productivity
+                  Productivity
               </h2>
                 <h3>
-                  value proposition of section
+                  Increase your productivity in a simple and organized way
               </h3>
               </Paper>
             </Grid>
