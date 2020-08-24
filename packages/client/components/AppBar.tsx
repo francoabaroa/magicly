@@ -89,6 +89,16 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'block',
       },
     },
+    mainPages: {
+      fontFamily: 'Playfair Display, serif',
+      fontWeight: 'normal',
+      color: '#840032',
+      display: 'none',
+      padding: '9px',
+      [theme.breakpoints.up('sm')]: {
+        display: 'block',
+      },
+    },
     pages: {
       fontFamily: 'Playfair Display, serif',
       color: '#002642',
@@ -353,6 +363,15 @@ export default function PrimarySearchAppBar(props) {
             {
               props.signedInUser && props.signedInUser.id && props.signedInUser.id !== null ?
                 <div className={classes.sectionDesktop}>
+                <Typography className={classes.mainPages} onClick={routePage.bind(this, 'home')} variant="h6" noWrap>
+                  My Home
+                </Typography>
+                <Typography className={classes.mainPages} onClick={routePage.bind(this, 'finance')} variant="h6" noWrap>
+                  Finances
+                </Typography>
+                <Typography className={classes.mainPages} onClick={routePage.bind(this, 'productivity')} variant="h6" noWrap>
+                  Productivity
+                </Typography>
                 <Typography className={classes.pages} onClick={routePage.bind(this, 'support')} variant="h6" noWrap>
                   Contact Us
                 </Typography>
