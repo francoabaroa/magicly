@@ -80,7 +80,6 @@ const ViewHomeWorkPage = () => {
   const { data, loading, error, refetch } = useQuery(QUERY, {
     variables: { id },
   });
-  console.log('hi frank: ', id, data, error);
 
   const getCapitalizedStatusTitle = (title: string) => {
     const lowerCaseTitle = title.toLowerCase();
