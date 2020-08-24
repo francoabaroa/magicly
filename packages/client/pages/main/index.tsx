@@ -111,9 +111,6 @@ const MainPage = () => {
         </Grid>
         <div className={classes.root}>
           <Grid container spacing={3}>
-            <Grid item xs={12} lg={12} md={12} sm={12}>
-              <Button className={classes.findButton}> Find Products & Services </Button>
-            </Grid>
             <Grid item xs={12} lg={4} md={4} sm={4}>
               <Paper className={classes.paper} onClick={routePage.bind(this, 'home')}>
                 <h2 className={classes.appSection}>
@@ -143,6 +140,9 @@ const MainPage = () => {
                   value proposition of section
               </h3>
               </Paper>
+            </Grid>
+            <Grid item xs={12} lg={12} md={12} sm={12}>
+              <Button className={classes.findButton}> Find Products & Services </Button>
             </Grid>
           </Grid>
         </div>
