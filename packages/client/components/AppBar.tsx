@@ -279,12 +279,12 @@ export default function PrimarySearchAppBar(props) {
             </IconButton>
             <p>Pricing</p>
           </MenuItem>
-          <MenuItem onClick={routePage.bind(this, 'privacy')}>
+          {/* <MenuItem onClick={routePage.bind(this, 'privacy')}>
             <IconButton color="inherit">
               <DataUsage />
             </IconButton>
             <p>Privacy</p>
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem onClick={routePage.bind(this, 'support')}>
             <IconButton color="inherit">
               <ContactSupport />
@@ -375,9 +375,9 @@ export default function PrimarySearchAppBar(props) {
                     <Typography className={classes.pages} onClick={routePage.bind(this, 'plans')} variant="h6" noWrap>
                       Pricing
                 </Typography>
-                    <Typography className={classes.pages} onClick={routePage.bind(this, 'privacy')} variant="h6" noWrap>
+                    {/* <Typography className={classes.pages} onClick={routePage.bind(this, 'privacy')} variant="h6" noWrap>
                       Privacy
-                </Typography>
+                </Typography> */}
                     <Typography className={classes.pages} onClick={routePage.bind(this, 'support')} variant="h6" noWrap>
                       Contact Us
                 </Typography>
