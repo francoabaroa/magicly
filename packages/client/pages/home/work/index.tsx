@@ -51,9 +51,13 @@ const HomeWorkPage = () => {
     hasHomeWork = true;
     data.me.homeworks.forEach((homework, key) => {
       if (homework.status === HOME_WORK_STATUS.PAST) {
-        pastWork.push(<p key={key}>{homework.title + ' - ' + homework.type}</p>);
+        pastWork.push(<Link key={key} href="work/view/[id]" as={`work/view/${homework.id}`}>
+          <a>{homework.title}</a>
+        </Link>);
       } else {
-        upcomingWork.push(<p key={key}>{homework.title + ' - ' + homework.type}</p>);
+        upcomingWork.push(<Link key={key} href="work/view/[id]" as={`work/view/${homework.id}`}>
+          <a>{homework.title}</a>
+        </Link>);
       }
     });
   }
@@ -98,6 +102,7 @@ const HomeWorkPage = () => {
       );
     }
   }
+
 
   return (
     <Layout>
