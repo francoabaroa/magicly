@@ -51,7 +51,7 @@ const Layout = (props) => {
         </Link>
       </li>
       <li>
-        <Link href="/pricing">
+        <Link href="/plans">
           <a>Pricing</a>
         </Link>
       </li>

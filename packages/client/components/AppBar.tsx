@@ -273,7 +273,7 @@ export default function PrimarySearchAppBar(props) {
             </IconButton>
             <p>Sign In</p>
           </MenuItem>
-          <MenuItem onClick={routePage.bind(this, 'pricing')}>
+          <MenuItem onClick={routePage.bind(this, 'plans')}>
             <IconButton color="inherit">
               <AttachMoney />
             </IconButton>
@@ -372,7 +372,7 @@ export default function PrimarySearchAppBar(props) {
                 <Typography className={classes.why} onClick={routePage.bind(this, 'why')} variant="h6" noWrap>
                   Why Magicly?
                 </Typography>
-                    <Typography className={classes.pages} onClick={routePage.bind(this, 'pricing')} variant="h6" noWrap>
+                    <Typography className={classes.pages} onClick={routePage.bind(this, 'plans')} variant="h6" noWrap>
                       Pricing
                 </Typography>
                     <Typography className={classes.pages} onClick={routePage.bind(this, 'privacy')} variant="h6" noWrap>
