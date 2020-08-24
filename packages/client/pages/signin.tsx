@@ -100,6 +100,9 @@ const useStyles = makeStyles((theme: Theme) =>
     label: {
       fontFamily: 'Playfair Display, serif',
       width: '350px',
+      [theme.breakpoints.down('sm')]: {
+        width: '200px',
+      },
     },
   })
 );

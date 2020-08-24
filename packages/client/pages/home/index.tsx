@@ -6,6 +6,10 @@ import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
 import Cookies from 'js-cookie';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 
 const QUERY = gql`
   query GetMe {
@@ -22,38 +26,80 @@ const QUERY = gql`
   }
 `;
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    paper: {
+      padding: theme.spacing(1),
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      color: '#840032',
+      backgroundColor: "#E5DADA",
+      borderRadius: '10px',
+    },
+    sectionTitle: {
+      color: '#840032',
+      fontWeight: 'bold',
+      fontSize: '28px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '26px',
+      },
+    },
+    description: {
+      fontWeight: 'normal'
+    }
+  }),
+);
+
 const HomePage = () => {
   const router = useRouter();
+  const classes = useStyles();
   const { data, loading, error, refetch } = useQuery(QUERY);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-  if (!Cookies.get('signedin')) {
-    // navigate('/')
-  }
+
+  const routePage = (pageName: string) => {
+    router.push('/' + pageName, undefined, { shallow: true });
+  };
 
   return (
     <Layout>
-      <h1>Home Page</h1>
-      {/* <pre>Data: {JSON.stringify(data)}</pre>
-      <button onClick={() => refetch()}>Refetch</button> */}
-      <ul>
-        <li>
-          <Link href="/home/work">
-            <a>Home Work</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/home/documents">
-            <a>Home Documents</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/home/providers">
-            <a>Home Providers</a>
-          </Link>
-        </li>
-      </ul>
+      <h3 style={{color: 'white'}}>Home Page</h3>
+      <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+        <Grid item xs={7} lg={7} md={7} sm={7}>
+          <Paper className={classes.paper} onClick={routePage.bind(this, 'home/work')}>
+            <h2 className={classes.sectionTitle}>
+              Home Work Events
+              </h2>
+            <h3 className={classes.description}>
+              save any work you’ve had done to your home, such as repairs, maintenances, installations and more
+              </h3>
+          </Paper>
+        </Grid>
+        <Grid item xs={7} lg={7} md={7} sm={7}>
+          <Paper className={classes.paper} onClick={routePage.bind(this, 'home/documents')}>
+            <h2 className={classes.sectionTitle}>
+              Important Documents
+              </h2>
+            <h3 className={classes.description}>
+              upload important documents to stay organized
+              </h3>
+          </Paper>
+        </Grid>
+        <Grid item xs={7} lg={7} md={7} sm={7}>
+          <Paper className={classes.paper} onClick={routePage.bind(this, 'home/providers')}>
+            <h2 className={classes.sectionTitle}>
+              Find Home Service Providers
+              </h2>
+            <h3 className={classes.description}>
+              value proposition of section
+              </h3>
+          </Paper>
+        </Grid>
+      </Grid>
     </Layout>
   );
 };

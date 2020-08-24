@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: '20px',
       textAlign: 'center',
     },
-    pricingPage: {
+    whyPage: {
       marginRight: '30px',
       marginLeft: '30px',
     }
@@ -79,7 +79,7 @@ const WhyPage = () => {
   const classes = useStyles();
   return (
     <Layout>
-      <div className={classes.pricingPage}>
+      <div className={classes.whyPage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
             <h1 className={classes.title}>Manage and control your digital and physical life in one place</h1>
