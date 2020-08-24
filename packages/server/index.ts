@@ -263,7 +263,23 @@ const createUsersWithHomeworks = async (db: DbInterface) => {
           title: 'Hurricane debris cleanup',
           status: 'UPCOMING',
           type: 'CLEANING',
-          notificationType: 'SMS'
+          notificationType: 'SMS',
+          executionDate: new Date(),
+          executor: 'Francisco',
+          cost: 150,
+          costCurrency: 'USD',
+          notes: 'Hurricane irma left a huge mess.'
+        },
+        {
+          title: 'Fridge coolant replacement',
+          status: 'PAST',
+          type: 'MAINTENANCE',
+          notificationType: 'SMS',
+          executionDate: new Date(),
+          executor: 'Edward',
+          cost: 75,
+          costCurrency: 'USD',
+          notes: 'Last time we did this was 5 years ago in 2015.'
         }
       ],
     },
