@@ -81,7 +81,7 @@ const ViewHomeWorkPage = () => {
     variables: { id },
   });
 
-  const getCapitalizedStatusTitle = (title: string) => {
+  const getCapitalizedString = (title: string) => {
     const lowerCaseTitle = title.toLowerCase();
     if (typeof lowerCaseTitle !== 'string') return ''
     return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
@@ -94,18 +94,18 @@ const ViewHomeWorkPage = () => {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h1 className={classes.title}> { getCapitalizedStatusTitle(data.homework.status) + ' Home Work' }</h1>
+            <h1 className={classes.title}> { getCapitalizedString(data.homework.title) }</h1>
           </Grid>
-          <Grid item xs={7} lg={7} md={7} sm={7}>
+          {/* <Grid item xs={7} lg={7} md={7} sm={7}>
             <div className={classes.individualFeature}>
               <Title fontSize={'small'} className={classes.icon} />
               <span className={classes.details}>{data.homework.title}</span>
             </div>
-          </Grid>
+          </Grid> */}
           <Grid item xs={7} lg={7} md={7} sm={7}>
             <div className={classes.individualFeature}>
               <Add fontSize={'small'} style={{ color: '#0A7EF2'}}/>
-              <span className={classes.details}>{data.homework.type}</span>
+              <span className={classes.details}>{ getCapitalizedString(data.homework.type) }</span>
             </div>
           </Grid>
           <Grid item xs={7} lg={7} md={7} sm={7}>

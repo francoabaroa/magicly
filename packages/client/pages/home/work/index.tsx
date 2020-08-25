@@ -83,16 +83,16 @@ const useStyles = makeStyles((theme: Theme) =>
       fontFamily: 'Playfair Display, serif',
       textAlign: 'center',
       fontWeight: 'normal',
-      fontSize: '24px',
+      fontSize: '18px',
       margin: 'auto',
       marginLeft: '10px',
       [theme.breakpoints.down('sm')]: {
-        fontSize: '18px',
+        fontSize: '16px',
       },
     },
     icon: {
       color: '#0A7EF2',
-      fontSize: '14px',
+      fontSize: '12px',
     },
     homeWorkPage: {
       marginRight: '50px',
