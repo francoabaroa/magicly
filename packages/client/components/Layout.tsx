@@ -19,10 +19,15 @@ const QUERY = gql`
 const Layout = (props) => {
   const router = useRouter();
   const { data, loading, error, refetch } = useQuery(QUERY);
+  const shouldDisplayBackButton = router.pathname === '/' || router.pathname === '/main' ? false : true;
   return (
   <div>
       <AppBar signedInUser={data && data.me ? data.me : null} />
-      <Button onClick={() => router.back()}>{'< Back'}</Button>
+      {shouldDisplayBackButton ?
+        <Button onClick={() => router.back()}>{'< Back'}</Button> :
+        null
+      }
+
     {props.children}
   </div>
   )};
