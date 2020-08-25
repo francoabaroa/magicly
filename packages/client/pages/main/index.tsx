@@ -50,8 +50,11 @@ const useStyles = makeStyles((theme: Theme) =>
       fontFamily: 'Playfair Display, serif',
       textAlign: 'center',
       color: '#FFF',
-      backgroundColor: "#840032",
+      backgroundColor: '#840032',
       borderRadius: '10px',
+      '&:hover': {
+        background: '#002642',
+      },
     },
     appSection: {
       color: '#FFF',

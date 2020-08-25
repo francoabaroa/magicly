@@ -35,12 +35,15 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(1),
       fontFamily: 'Playfair Display, serif',
       textAlign: 'center',
-      color: '#840032',
-      backgroundColor: "#E5DADA",
+      color: '#FFF',
+      backgroundColor: "#840032",
       borderRadius: '10px',
+      '&:hover': {
+        background: '#002642',
+      },
     },
     sectionTitle: {
-      color: '#840032',
+      color: '#FFF',
       fontWeight: 'bold',
       fontSize: '28px',
       [theme.breakpoints.down('sm')]: {
