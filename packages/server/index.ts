@@ -238,6 +238,12 @@ const createUsersWithHomeworks = async (db: DbInterface) => {
       hasSocialAuthLogin: false,
       email: 'franco1@franco.com',
       password: 'testa12',
+      lists: [
+        {
+          name: 'Recommendation',
+          type: 'RECOMMENDATION',
+        },
+      ],
       homeworks: [
         {
           title: 'Fridge maintenance',
@@ -248,7 +254,7 @@ const createUsersWithHomeworks = async (db: DbInterface) => {
       ],
     },
     {
-      include: [{ model: db.Homework, as: 'homeworks' }],
+      include: [{ model: db.Homework, as: 'homeworks' }, { model: db.List, as: 'lists' }],
     },
   );
 
@@ -282,9 +288,15 @@ const createUsersWithHomeworks = async (db: DbInterface) => {
           notes: 'Last time we did this was 5 years ago in 2015.'
         }
       ],
+      lists: [
+        {
+          name: 'Recommendation',
+          type: 'RECOMMENDATION',
+        },
+      ],
     },
     {
-      include: [{ model: db.Homework, as: 'homeworks' }],
+      include: [{ model: db.Homework, as: 'homeworks' }, { model: db.List, as: 'lists' }],
     },
   );
 };
