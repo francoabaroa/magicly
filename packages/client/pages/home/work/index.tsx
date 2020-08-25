@@ -130,17 +130,37 @@ const HomeWorkPage = () => {
     // navigate('/')
   }
 
+  const getIndividualHomeWork = (key: any, homework: any) => {
+    return (
+      <span key={key}>
+        <Grid item xs={12} lg={12} md={12} sm={12}>
+          <Build className={classes.toolIcon} />
+          <Link href="work/view/[id]" as={`work/view/${homework.id}`}>
+            <span className={classes.link}>{homework.title}</span>
+          </Link>
+        </Grid>
+        <hr className={classes.horizontalLine} />
+      </span>
+    );
+  };
+
   if (data && data.me && data.me.homeworks) {
     hasHomeWork = true;
     data.me.homeworks.forEach((homework, key) => {
       if (homework.status === HOME_WORK_STATUS.PAST) {
-        pastWork.push(<span><Grid item xs={12} lg={12} md={12} sm={12}><Build className={classes.toolIcon} /><Link key={key} href="work/view/[id]" as={`work/view/${homework.id}`}>
-          <span className={classes.link}>{homework.title}</span>
-        </Link></Grid><hr className={classes.horizontalLine}/></span>);
+        pastWork.push(
+          getIndividualHomeWork(
+            key,
+            homework
+          )
+        );
       } else {
-        upcomingWork.push(<span><Grid item xs={12} lg={12} md={12} sm={12}><Build className={classes.toolIcon} /><Link key={key} href="work/view/[id]" as={`work/view/${homework.id}`}>
-          <span className={classes.link}>{homework.title}</span>
-        </Link></Grid><hr className={classes.horizontalLine}/></span>);
+        upcomingWork.push(
+          getIndividualHomeWork(
+            key,
+            homework
+          )
+        );
       }
     });
   }
