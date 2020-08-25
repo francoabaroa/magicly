@@ -3,7 +3,7 @@ import Layout from '../../../components/Layout';
 import NewHomeWorkForm from '../../../components/home/NewHomeWorkForm';
 import { withApollo } from '../../../apollo/apollo';
 
-const NewHomeWork = () => {
+const AddHomeWork = () => {
   return (
     <Layout>
       <h1>Add New Home Work</h1>
@@ -12,4 +12,4 @@ const NewHomeWork = () => {
   );
 };
 
-export default withApollo({ ssr: false })(NewHomeWork);
+export default withApollo({ ssr: false })(AddHomeWork);
