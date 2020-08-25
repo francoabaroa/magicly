@@ -105,11 +105,11 @@ const MainPage = () => {
   return (
     <Layout>
       <div className={classes.mainPage}>
-        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+        {/* <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
             <h1 className={classes.title}>The key to a more organized, tech-forward and informed life with Magicly</h1>
           </Grid>
-        </Grid>
+        </Grid> */}
         <div className={classes.root}>
           <Grid container spacing={3}>
             <Grid item xs={12} lg={4} md={4} sm={4}>
@@ -117,9 +117,9 @@ const MainPage = () => {
                 <h2 className={classes.appSection}>
                   My Home
               </h2>
-                <h3>
+                {/* <h3>
                   The most important information pertaining to your home
-              </h3>
+              </h3> */}
               </Paper>
             </Grid>
             <Grid item xs={12} lg={4} md={4} sm={4}>
@@ -127,9 +127,9 @@ const MainPage = () => {
                 <h2 className={classes.appSection}>
                   Finances
               </h2>
-                <h3>
+                {/* <h3>
                   Stay on top of your finances easily and ask questions
-              </h3>
+              </h3> */}
               </Paper>
             </Grid>
             <Grid item xs={12} lg={4} md={4} sm={4}>
@@ -137,9 +137,9 @@ const MainPage = () => {
                 <h2 className={classes.appSection}>
                   Productivity
               </h2>
-                <h3>
+                {/* <h3>
                   Increase your productivity in a simple and organized way
-              </h3>
+              </h3> */}
               </Paper>
             </Grid>
             <Grid item xs={12} lg={12} md={12} sm={12}>
