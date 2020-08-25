@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 'normal',
       fontSize: '24px',
       margin: 'auto',
-      marginLeft: '20px',
+      marginLeft: '10px',
       [theme.breakpoints.down('sm')]: {
         fontSize: '18px',
       },
