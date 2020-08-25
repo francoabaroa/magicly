@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import AddCircle from '@material-ui/icons/AddCircle';
 import Search from '@material-ui/icons/Search';
+import Build from '@material-ui/icons/Build';
 import Edit from '@material-ui/icons/Edit';
 
 import { HOME_WORK_STATUS } from '../../../constants/appStrings';
@@ -50,33 +51,28 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: '32px',
       color: '#002642',
       marginTop: '25px',
-      marginBottom: '5px',
+      marginBottom: '30px',
       margin: 'auto',
       textAlign: 'center',
       [theme.breakpoints.down('sm')]: {
         fontSize: '26px',
         marginTop: '15px',
-        marginBottom: '0px',
+        marginBottom: '10px',
       },
     },
     findButton: {
       fontFamily: 'Fredoka One, cursive',
-      fontSize: '18px',
+      fontSize: '14px',
       margin: '0 auto',
       pointerEvents: 'none',
       display: 'block',
-      marginTop: '50px',
-      marginBottom: '30px',
+      marginTop: '20px',
+      marginBottom: '20px',
       color: '#FFF',
       backgroundColor: '#0A7EF2',
       borderRadius: '50px',
-      width: '320px',
-      height: '45px',
-      [theme.breakpoints.down('sm')]: {
-        fontSize: '14px',
-        width: '250px',
-        height: '35px'
-      },
+      width: '250px',
+      height: '35px',
     },
     individualFeature: {
       textAlign: 'center',
@@ -102,6 +98,20 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: '50px',
       marginLeft: '50px',
     },
+    link: {
+      marginLeft: '15px',
+      fontSize: '20px',
+      textDecoration: 'none',
+      fontFamily: 'Playfair Display',
+      color: '#002642',
+    },
+    horizontalLine: {
+      marginTop: '20px'
+    },
+    toolIcon: {
+      color: '#002642',
+      fontSize: '14px',
+    },
   }),
 );
 
@@ -124,13 +134,13 @@ const HomeWorkPage = () => {
     hasHomeWork = true;
     data.me.homeworks.forEach((homework, key) => {
       if (homework.status === HOME_WORK_STATUS.PAST) {
-        pastWork.push(<Grid item xs={12} lg={12} md={12} sm={12}><Link key={key} href="work/view/[id]" as={`work/view/${homework.id}`}>
-          <a>{homework.title}</a>
-        </Link></Grid>);
+        pastWork.push(<span><Grid item xs={12} lg={12} md={12} sm={12}><Build className={classes.toolIcon} /><Link key={key} href="work/view/[id]" as={`work/view/${homework.id}`}>
+          <span className={classes.link}>{homework.title}</span>
+        </Link></Grid><hr className={classes.horizontalLine}/></span>);
       } else {
-        upcomingWork.push(<Grid item xs={12} lg={12} md={12} sm={12}><Link key={key} href="work/view/[id]" as={`work/view/${homework.id}`}>
-          <a>{homework.title}</a>
-        </Link></Grid>);
+        upcomingWork.push(<span><Grid item xs={12} lg={12} md={12} sm={12}><Build className={classes.toolIcon} /><Link key={key} href="work/view/[id]" as={`work/view/${homework.id}`}>
+          <span className={classes.link}>{homework.title}</span>
+        </Link></Grid><hr className={classes.horizontalLine}/></span>);
       }
     });
   }
@@ -179,28 +189,26 @@ const HomeWorkPage = () => {
         <Grid item xs={12} lg={12} md={12} sm={12}>
           <Button className={classes.findButton}> Find Products & Services </Button>
         </Grid>
-        <Grid item xs={12} lg={4} md={4} sm={4}>
+        <Grid item xs={12} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
               <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>{'Add home work event'}</span>
+              <span className={classes.details}>add home work event</span>
             </div>
           </Grid>
-        <Grid item xs={12} lg={4} md={4} sm={4}>
+        <Grid item xs={12} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature}>
               <Search fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>{'Search home work'}</span>
+              <span className={classes.details}>search home work</span>
             </div>
           </Grid>
-        <Grid item xs={12} lg={4} md={4} sm={4}>
+        {/* <Grid item xs={12} lg={4} md={4} sm={4}>
             <div className={classes.individualFeature}>
               <Edit fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>{'Edit'}</span>
+              <span className={classes.details}>edit</span>
             </div>
-          </Grid>
+          </Grid> */}
           {getMainUI(hasHomeWork, pastWork, upcomingWork)}
       </Grid>
-      {/* <pre>Data: {JSON.stringify(data)}</pre>
-      <button onClick={() => refetch()}>Refetch</button> */}
       </div>
     </Layout>
   );
