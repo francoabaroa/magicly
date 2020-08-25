@@ -14,6 +14,7 @@ export default gql`
     complete: Boolean
     favorite: Boolean
     quantity: Int
+    notes: String
     executionDate: Date
     executor: String
     createdAt: Date!

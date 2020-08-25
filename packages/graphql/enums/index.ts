@@ -45,8 +45,10 @@ const enums = gql`
     MOVIE
     TV
     FOOD
+    RESTAURANT
     MUSIC
     TRAVEL
+    ACCOMODATION
     PRODUCT
     SERVICE
     PERSONAL

@@ -59,7 +59,7 @@ export const ListFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
 
   List.associate = models => {
     List.belongsTo(models.User);
-    List.hasMany(models.ListItem);
+    List.hasMany(models.ListItem, { as: 'listItems', onDelete: 'CASCADE' });
   };
 
   return List;
