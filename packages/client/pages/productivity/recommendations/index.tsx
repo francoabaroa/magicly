@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../../components/Layout';
@@ -34,8 +35,11 @@ const RecommendationsPage = () => {
   return (
     <Layout>
       <h1>Recommendations Page</h1>
-      <pre>Data: {JSON.stringify(data)}</pre>
-      <button onClick={() => refetch()}>Refetch</button>
+      {/* <pre>Data: {JSON.stringify(data)}</pre> */}
+      {/* <button onClick={() => refetch()}>Refetch</button> */}
+      <Link href="recommendations/add">
+        <a>tap here to start adding recommendations you’ve gotten, such as tv series or movies, restaurants, hotels, and more </a>
+      </Link>
     </Layout>
   );
 };
