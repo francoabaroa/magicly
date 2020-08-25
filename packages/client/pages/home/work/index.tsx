@@ -6,6 +6,12 @@ import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { withApollo } from '../../../apollo/apollo';
 import Cookies from 'js-cookie';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import AddCircle from '@material-ui/icons/AddCircle';
+import Search from '@material-ui/icons/Search';
+import Edit from '@material-ui/icons/Edit';
 
 import { HOME_WORK_STATUS } from '../../../constants/appStrings';
 
@@ -33,7 +39,74 @@ const QUERY = gql`
   }
 `;
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    title: {
+      fontFamily: 'Playfair Display, serif',
+      fontWeight: 'bold',
+      fontSize: '32px',
+      color: '#002642',
+      marginTop: '25px',
+      marginBottom: '5px',
+      margin: 'auto',
+      textAlign: 'center',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '26px',
+        marginTop: '15px',
+        marginBottom: '0px',
+      },
+    },
+    findButton: {
+      fontFamily: 'Fredoka One, cursive',
+      fontSize: '18px',
+      margin: '0 auto',
+      pointerEvents: 'none',
+      display: 'block',
+      marginTop: '50px',
+      marginBottom: '30px',
+      color: '#FFF',
+      backgroundColor: '#0A7EF2',
+      borderRadius: '50px',
+      width: '320px',
+      height: '45px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '14px',
+        width: '250px',
+        height: '35px'
+      },
+    },
+    individualFeature: {
+      textAlign: 'center',
+      marginBottom: '5px',
+    },
+    details: {
+      color: '#0A7EF2',
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      fontWeight: 'normal',
+      fontSize: '24px',
+      margin: 'auto',
+      marginLeft: '10px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '18px',
+      },
+    },
+    icon: {
+      color: '#0A7EF2',
+      fontSize: '14px',
+    },
+    homeWorkPage: {
+      marginRight: '50px',
+      marginLeft: '50px',
+    },
+  }),
+);
+
 const HomeWorkPage = () => {
+  const classes = useStyles();
   const router = useRouter();
   const { data, loading, error, refetch } = useQuery(QUERY);
 
@@ -51,18 +124,20 @@ const HomeWorkPage = () => {
     hasHomeWork = true;
     data.me.homeworks.forEach((homework, key) => {
       if (homework.status === HOME_WORK_STATUS.PAST) {
-        pastWork.push(<Link key={key} href="work/view/[id]" as={`work/view/${homework.id}`}>
+        pastWork.push(<Grid item xs={12} lg={12} md={12} sm={12}><Link key={key} href="work/view/[id]" as={`work/view/${homework.id}`}>
           <a>{homework.title}</a>
-        </Link>);
+        </Link></Grid>);
       } else {
-        upcomingWork.push(<Link key={key} href="work/view/[id]" as={`work/view/${homework.id}`}>
+        upcomingWork.push(<Grid item xs={12} lg={12} md={12} sm={12}><Link key={key} href="work/view/[id]" as={`work/view/${homework.id}`}>
           <a>{homework.title}</a>
-        </Link>);
+        </Link></Grid>);
       }
     });
   }
 
-  const viewHomeWork = () => {};
+  const routePage = (pageName: string) => {
+    router.push('/' + pageName, undefined, { shallow: true });
+  };
 
   const getMainUI = (
     hasHomeWork: boolean,
@@ -72,33 +147,26 @@ const HomeWorkPage = () => {
     if (hasHomeWork) {
       return (
         <div>
-          <ul>
-            <li>
-              <Link href="/home/work/add">
-                <a>Home Work Add</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/home/work/view">
-                <a>Home Work View</a>
-              </Link>
-            </li>
-          </ul>
-          <h1>Upcoming</h1>
+          <Grid item xs={12} lg={12} md={12} sm={12}>
+            <h1 className={classes.title}>Upcoming Home Work</h1>
+          </Grid>
           { upcomingWork }
-          <h1>Past</h1>
+          <Grid item xs={12} lg={12} md={12} sm={12}>
+            <h1 className={classes.title}>Past Home Work</h1>
+          </Grid>
           { pastWork }
         </div>
       );
     } else {
       return (
-        <ul>
-          <li>
-            <Link href="/home/work/add">
-              <a>Home Work Add</a>
-            </Link>
-          </li>
-        </ul>
+        <div>
+          <Grid item xs={12} lg={12} md={12} sm={12}>
+            <h1 className={classes.title}>Upcoming Home Work</h1>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12}>
+            <h1 className={classes.title}>Past Home Work</h1>
+          </Grid>
+        </div>
       );
     }
   }
@@ -106,10 +174,34 @@ const HomeWorkPage = () => {
 
   return (
     <Layout>
-      <h1>HomeWork Page</h1>
+      <div className={classes.homeWorkPage}>
+      <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+        <Grid item xs={12} lg={12} md={12} sm={12}>
+          <Button className={classes.findButton}> Find Products & Services </Button>
+        </Grid>
+        <Grid item xs={12} lg={4} md={4} sm={4}>
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
+              <AddCircle fontSize={'small'} className={classes.icon} />
+              <span className={classes.details}>{'Add home work event'}</span>
+            </div>
+          </Grid>
+        <Grid item xs={12} lg={4} md={4} sm={4}>
+            <div className={classes.individualFeature}>
+              <Search fontSize={'small'} className={classes.icon} />
+              <span className={classes.details}>{'Search home work'}</span>
+            </div>
+          </Grid>
+        <Grid item xs={12} lg={4} md={4} sm={4}>
+            <div className={classes.individualFeature}>
+              <Edit fontSize={'small'} className={classes.icon} />
+              <span className={classes.details}>{'Edit'}</span>
+            </div>
+          </Grid>
+          {getMainUI(hasHomeWork, pastWork, upcomingWork)}
+      </Grid>
       {/* <pre>Data: {JSON.stringify(data)}</pre>
       <button onClick={() => refetch()}>Refetch</button> */}
-      { getMainUI(hasHomeWork, pastWork, upcomingWork) }
+      </div>
     </Layout>
   );
 };
