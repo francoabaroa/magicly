@@ -43,7 +43,7 @@ export default gql`
     pageInfo: PageInfo!
   }
   type PageInfo {
-    endCursor: String!
+    endCursor: String
     hasNextPage: Boolean!
   }
 `;
