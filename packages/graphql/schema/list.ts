@@ -5,6 +5,13 @@ export default gql`
     lists: [List]
     list (id: ID!): List
   }
+  extend type Mutation {
+    createList(
+      name: String,
+      type: ListType!
+    ): List!
+    deleteList(id: ID!): Boolean!
+  }
   type List {
     id: ID!
     name: String
