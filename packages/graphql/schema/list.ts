@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    lists: [List]
+    lists(cursor: String, limit: Int): ListConnection!
     list (id: ID!): List
   }
   extend type Mutation {
@@ -20,5 +20,9 @@ export default gql`
     updatedAt: Date!
     user: User!
     listItems: [ListItem]
+  }
+  type ListConnection {
+    edges: [List]!
+    pageInfo: PageInfo!
   }
 `;
