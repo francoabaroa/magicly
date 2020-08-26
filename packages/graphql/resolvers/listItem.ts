@@ -17,19 +17,33 @@ export default {
       }
       return await models.ListItem.findByPk(id);
     },
-    listItems: async (parent, { cursor, limit = 100 }, { models, me }) => {
+    listItems: async (parent, { listType, cursor, limit = 100 }, { models, me }) => {
+      const list = await models.List.findOne({
+        where: { type: listType, userId: me.id }
+      });
+
+      if (list === null) {
+        throw new ApolloError('No list found.');
+      }
+
+      const listId = list && list.id ? list.id : null;
+
+      if (listId === null) {
+        throw new ApolloError('No list id.');
+      }
+
       const cursorOptions = cursor
         ? {
           where: {
             createdAt: {
               [Sequelize.Op.lt]: fromCursorHash(cursor),
             },
-            userId: me.id
+            listId: listId
           },
         }
         : {
           where: {
-            userId: me.id
+            listId: listId
           }
         };
 
@@ -38,16 +52,18 @@ export default {
         limit: limit + 1,
         ...cursorOptions,
       });
+
       const hasNextPage = listItems.length > limit;
       const edges = hasNextPage ? listItems.slice(0, -1) : listItems;
+      const endCursor = edges.length > 0 ? toCursorHash(
+        // TODO: this is coming back undefined when cursor is being used
+        edges[edges.length - 1].createdAt.toString(),
+      ) : null;
       return {
         edges,
         pageInfo: {
           hasNextPage,
-          endCursor: toCursorHash(
-            // TODO: this is coming back undefined when cursor is being used
-            edges[edges.length - 1].createdAt.toString(),
-          ),
+          endCursor: endCursor,
         },
       };
     }
@@ -105,9 +121,8 @@ export default {
     ),
   },
   ListItem: {
-    // TODO: listItemId
     list: async (listItem, args, { loaders, models }) => {
-      return await models.List.findByPk(listItem.listId);
+      return await loaders.list.load(listItem.listId);
     },
   },
 };

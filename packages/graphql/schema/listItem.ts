@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    listItems: [ListItem]
+    listItems (listType: ListType!, cursor: String, limit: Int): ListItemConnection!
     listItem (id: ID!): ListItem
   }
   extend type Mutation {
@@ -37,5 +37,9 @@ export default gql`
     createdAt: Date!
     updatedAt: Date!
     list: List!
+  }
+  type ListItemConnection {
+    edges: [ListItem]!
+    pageInfo: PageInfo!
   }
 `;
