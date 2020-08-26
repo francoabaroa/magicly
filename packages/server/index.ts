@@ -251,6 +251,9 @@ async function bootstrapApolloServer(expressApp, db: DbInterface) {
         user: new DataLoader(keys =>
           loaders.user.batchUsers(keys, db),
         ),
+        list: new DataLoader(keys =>
+          loaders.list.batchLists(keys, db),
+        ),
       },
     };
   };
