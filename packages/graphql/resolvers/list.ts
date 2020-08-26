@@ -9,6 +9,18 @@ const toCursorHash = string => Buffer.from(string).toString('base64');
 const fromCursorHash = string =>
   Buffer.from(string, 'base64').toString('ascii');
 
+// query lists {
+//   lists(limit: 2) {
+//     edges {
+//       id
+//       name
+//     }
+//     pageInfo {
+//       endCursor
+//     }
+//   }
+// }
+
 export default {
   Query: {
     list: async (parent, { id }, { models }) => {
