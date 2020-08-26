@@ -7,7 +7,7 @@ export interface ListItemAttributes {
   name: string;
   type: 'TODO' | 'MOVIE' | 'TV' | 'FOOD' | 'RESTAURANT' | 'MUSIC' | 'TRAVEL' | 'ACCOMODATION' |  'PRODUCT' | 'SERVICE' | 'PERSONAL' | 'WORK' | 'FAMILY' | 'HEALTH' | 'SHOPPING' | 'GIFT';
   keywords?: string[] | null;
-  notificationType: 'EMAIL' | 'SMS' | 'WHATSAPP' | 'CALL' | 'NONE';
+  notificationType?: 'EMAIL' | 'SMS' | 'WHATSAPP' | 'CALL' | 'NONE';
   complete?: boolean | null;
   favorite?: boolean | null;
   quantity?: number | null;
@@ -73,10 +73,7 @@ export const ListItemFactory = (sequelize: Sequelize.Sequelize, DataTypes: Seque
         'NONE'
       ),
       unique: false,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
+      allowNull: true,
     },
     complete: {
       type: DataTypes.BOOLEAN,
