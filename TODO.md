@@ -63,6 +63,7 @@
 4. Implement Sign Up and Sign In with JWT?
 5. How many salt rounds? Where is the salt stored? (https://stackoverflow.com/questions/1219899/where-do-you-store-your-salt-strings)
 6. turn on "noImplicitAny": true,
+7. TODO:: MAKE ALL CHECKS TO MAKE SURE NO ONE CAN QUERY DATA THAT ISNT THERES.
 
 *database*
 1. Check which fields are required in the schemas and which aren't? which are nullable? update this and update GraphQL
