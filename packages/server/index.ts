@@ -83,12 +83,39 @@ async function main() {
 
     app.post('/signup', async (req, res) => {
       const { email, password, currentCity, hasSocialAuthLogin } = req.body
-      const user = await db.User.create({
-        email,
-        currentCity,
-        password,
-        hasSocialAuthLogin
-      });
+      const user = await db.User.create(
+          {
+          email,
+          currentCity,
+          password,
+          hasSocialAuthLogin,
+          lists: [
+            {
+              name: 'todo',
+              type: 'TODO',
+            },
+            {
+              name: 'later',
+              type: 'LATER',
+            },
+            {
+              name: 'watch',
+              type: 'WATCH',
+            },
+            {
+              name: 'anti',
+              type: 'ANTI',
+            },
+            {
+              name: 'recommendation',
+              type: 'RECOMMENDATION',
+            },
+          ],
+        },
+        {
+          include: [{ model: db.List, as: 'lists' }],
+        }
+      );
 
       if (!user) {
         res.status(404).send({
@@ -290,7 +317,23 @@ const createUsersWithHomeworks = async (db: DbInterface) => {
       ],
       lists: [
         {
-          name: 'Recommendation',
+          name: 'todo',
+          type: 'TODO',
+        },
+        {
+          name: 'later',
+          type: 'LATER',
+        },
+        {
+          name: 'watch',
+          type: 'WATCH',
+        },
+        {
+          name: 'anti',
+          type: 'ANTI',
+        },
+        {
+          name: 'recommendation',
           type: 'RECOMMENDATION',
         },
       ],
@@ -300,5 +343,7 @@ const createUsersWithHomeworks = async (db: DbInterface) => {
     },
   );
 };
+
+
 
 main();
