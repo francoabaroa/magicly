@@ -126,7 +126,7 @@ const NewRecommendationForm = () => {
 
         <p>Notes: <textarea name="notes" cols={50} rows={5} onChange={event => setNotes(event.target.value)} /></p>
 
-        <p><button type='submit'>Add</button></p>
+        <p><button onClick={() => router.back()}>Cancel</button><button type='submit'>Add</button></p>
       </form>
     </div>
   )

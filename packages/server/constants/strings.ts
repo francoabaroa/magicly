@@ -50,7 +50,7 @@ export const PROTECTED_ROUTES = [
   '/productivity',
   '/productivity/*',
   '/finance',
-  'finance/*',
+  '/finance/*',
   '/home',
   '/home/*',
   '/settings',

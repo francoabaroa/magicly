@@ -158,7 +158,7 @@ const NewHomeWorkForm = () => {
 
         <p>Notes: <input type='text' onChange={event => setNotes(event.target.value)} autoComplete='on' /></p>
 
-        <p><button type='submit'>Add</button></p>
+        <p><button onClick={() => router.back()}>Cancel</button><button type='submit'>Add</button></p>
       </form>
     </div>
   )
