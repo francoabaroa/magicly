@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { APP_CONFIG, LIST_TYPE } from '../../constants/appStrings';
+import { APP_CONFIG, LIST_TYPE, ITEM_TYPE } from '../../constants/appStrings';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { withApollo } from '../../apollo/apollo';
 
 // TODO: clean up before prod
@@ -31,7 +36,20 @@ const CREATE_LIST_ITEM = gql`
   }
 `;
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 220,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+  }),
+);
+
 const NewRecommendationForm = () => {
+  const classes = useStyles();
   const [createListItem, { data, loading, error }] = useMutation(CREATE_LIST_ITEM);
   const router = useRouter();
   const [name, setName] = useState('');
@@ -64,44 +82,49 @@ const NewRecommendationForm = () => {
     }
   }
 
+  const handleTypeSelect = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setType(event.target.value as string);
+  };
+
+  const getCapitalizedString = (name: string) => {
+    const lowerCaseTitle = name.toLowerCase();
+    if (typeof lowerCaseTitle !== 'string') return ''
+    return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
+  };
+
   return (
     <div>
       <form onSubmit={submitForm}>
         <p>Name: <input type='text' onChange={event => setName(event.target.value)} autoComplete='on' required /></p>
 
-        <p>What type of recommendation is it?</p>
-        <input type='radio' id='movie' name='type' value='movie' onChange={event => setType(event.target.value.toUpperCase())} required />
-        <label>movie</label><br />
-        <input type='radio' id='tv' name='type' value='tv' onChange={event => setType(event.target.value.toUpperCase())} required />
-        <label>tv</label><br />
-        <input type='radio' id='food' name='type' value='food' onChange={event => setType(event.target.value.toUpperCase())} required />
-        <label>food</label><br />
-        <input type='radio' id='restaurant' name='type' value='restaurant' onChange={event => setType(event.target.value.toUpperCase())} required />
-        <label>restaurant</label><br />
-        <input type='radio' id='music' name='type' value='music' onChange={event => setType(event.target.value.toUpperCase())} required />
-        <label>music</label><br />
-        <input type='radio' id='travel' name='type' value='travel' onChange={event => setType(event.target.value.toUpperCase())} required />
-        <label>travel</label><br />
-        <input type='radio' id='accomodation' name='type' value='accomodation' onChange={event => setType(event.target.value.toUpperCase())} required />
-        <label>accomodation</label><br />
-        <input type='radio' id='product' name='type' value='product' onChange={event => setType(event.target.value.toUpperCase())} required />
-        <label>product</label><br />
-        <input type='radio' id='service' name='type' value='service' onChange={event => setType(event.target.value.toUpperCase())} required />
-        <label>service</label><br />
-        <input type='radio' id='personal' name='type' value='personal' onChange={event => setType(event.target.value.toUpperCase())} required />
-        <label>personal</label><br />
-        <input type='radio' id='work' name='type' value='work' onChange={event => setType(event.target.value.toUpperCase())} required />
-        <label>work</label><br />
-        <input type='radio' id='family' name='type' value='family' onChange={event => setType(event.target.value.toUpperCase())} required />
-        <label>family</label><br />
-        <input type='radio' id='health' name='type' value='health' onChange={event => setType(event.target.value.toUpperCase())} required />
-        <label>health</label><br />
-        <input type='radio' id='shopping' name='type' value='shopping' onChange={event => setType(event.target.value.toUpperCase())} required />
-        <label>shopping</label><br />
-        <input type='radio' id='gift' name='type' value='gift' onChange={event => setType(event.target.value.toUpperCase())} required />
-        <label>gift</label><br />
+        <FormControl className={classes.formControl}>
+          <InputLabel id="demo-simple-select-label">Type of recommendation</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={type}
+            onChange={handleTypeSelect}
+          >
+            <MenuItem value={ITEM_TYPE.MOVIE}>{getCapitalizedString(ITEM_TYPE.MOVIE)}</MenuItem>
+            <MenuItem value={ITEM_TYPE.TV}>{ITEM_TYPE.TV}</MenuItem>
+            <MenuItem value={ITEM_TYPE.FOOD}>{getCapitalizedString(ITEM_TYPE.FOOD)}</MenuItem>
+            <MenuItem value={ITEM_TYPE.RESTAURANT}>{getCapitalizedString(ITEM_TYPE.RESTAURANT)}</MenuItem>
+            <MenuItem value={ITEM_TYPE.MUSIC}>{getCapitalizedString(ITEM_TYPE.MUSIC)}</MenuItem>
+            <MenuItem value={ITEM_TYPE.TRAVEL}>{getCapitalizedString(ITEM_TYPE.TRAVEL)}</MenuItem>
+            <MenuItem value={ITEM_TYPE.ACCOMODATION}>{getCapitalizedString(ITEM_TYPE.ACCOMODATION)}</MenuItem>
+            <MenuItem value={ITEM_TYPE.PRODUCT}>{getCapitalizedString(ITEM_TYPE.PRODUCT)}</MenuItem>
+            <MenuItem value={ITEM_TYPE.SERVICE}>{getCapitalizedString(ITEM_TYPE.SERVICE)}</MenuItem>
+            <MenuItem value={ITEM_TYPE.PERSONAL}>{getCapitalizedString(ITEM_TYPE.PERSONAL)}</MenuItem>
+            <MenuItem value={ITEM_TYPE.WORK}>{getCapitalizedString(ITEM_TYPE.WORK)}</MenuItem>
+            <MenuItem value={ITEM_TYPE.FAMILY}>{getCapitalizedString(ITEM_TYPE.FAMILY)}</MenuItem>
+            <MenuItem value={ITEM_TYPE.HEALTH}>{getCapitalizedString(ITEM_TYPE.HEALTH)}</MenuItem>
+            <MenuItem value={ITEM_TYPE.SHOPPING}>{getCapitalizedString(ITEM_TYPE.SHOPPING)}</MenuItem>
+            <MenuItem value={ITEM_TYPE.GIFT}>{getCapitalizedString(ITEM_TYPE.GIFT)}</MenuItem>
+            <MenuItem value={ITEM_TYPE.OTHER}>{getCapitalizedString(ITEM_TYPE.OTHER)}</MenuItem>
+          </Select>
+        </FormControl>
 
-        <p>Notes: <input type='text' onChange={event => setNotes(event.target.value)} autoComplete='on' /></p>
+        <p>Notes: <textarea name="notes" cols={50} rows={5} onChange={event => setNotes(event.target.value)} /></p>
 
         <p><button type='submit'>Add</button></p>
       </form>
