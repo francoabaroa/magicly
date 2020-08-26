@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { APP_CONFIG } from '../../constants/appStrings';
+import { APP_CONFIG, LIST_TYPE } from '../../constants/appStrings';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { withApollo } from '../../apollo/apollo';
@@ -17,14 +17,14 @@ const CREATE_LIST_ITEM = gql`
   mutation CreateListItem(
     $name: String!,
     $type: ItemType!,
+    $listType: ListType!,
     $notes: String,
-    $listType: String,
   ) {
     createListItem(
       name: $name,
       type: $type,
+      listType: $listType,
       notes: $notes,
-      listType: $listType
     ) {
       id
     }
@@ -40,15 +40,17 @@ const NewRecommendationForm = () => {
 
   const submitForm = event => {
     event.preventDefault();
+
     const variables = {
       variables: {
         name,
         type,
         notes,
+        listType: LIST_TYPE.RECOMMENDATION
       }
     };
-
     createListItem(variables);
+
   }
 
   if (loading) return <p>Loading...</p>;
@@ -56,9 +58,9 @@ const NewRecommendationForm = () => {
   if (data && data.createListItem && data.createListItem.id) {
     // TODO: show dialog message when homework is created!
     if (process.browser || (window && window.location)) {
-      window.location.href = url + 'home/work';
+      window.location.href = url + 'productivity/recommendations';
     } else {
-      router.push('/home/work', undefined);
+      router.push('/productivity/recommendations', undefined);
     }
   }
 
