@@ -5,6 +5,23 @@ export default gql`
     listItems: [ListItem]
     listItem (id: ID!): ListItem
   }
+  extend type Mutation {
+    createListItem(
+      name: String!
+      type: ItemType!
+      listType: ListType!
+      notes: String
+      keywords: [String]
+      notificationType: NotificationType
+      complete: Boolean
+      favorite: Boolean
+      quantity: Int
+      notes: String
+      executionDate: Date
+      executor: String
+    ): ListItem!
+    deleteListItem(id: ID!): Boolean!
+  }
   type ListItem {
     id: ID!
     name: String!
