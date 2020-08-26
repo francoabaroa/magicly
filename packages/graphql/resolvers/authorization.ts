@@ -18,3 +18,17 @@ export const isHomeworkOwner = async (
 
   return skip;
 };
+
+export const isListOwner = async (
+  parent,
+  { id },
+  { models, me },
+) => {
+  const list = await models.List.findByPk(id, { raw: true });
+
+  if (list.userId !== me.id) {
+    throw new ForbiddenError('Not authenticated as owner.');
+  }
+
+  return skip;
+};
