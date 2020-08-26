@@ -5,7 +5,7 @@ import { SequelizeAttributes } from '../typings/SequelizeAttributes';
 export interface ListItemAttributes {
   id?: number;
   name: string;
-  type: 'TODO' | 'MOVIE' | 'TV' | 'FOOD' | 'RESTAURANT' | 'MUSIC' | 'TRAVEL' | 'ACCOMODATION' |  'PRODUCT' | 'SERVICE' | 'PERSONAL' | 'WORK' | 'FAMILY' | 'HEALTH' | 'SHOPPING' | 'GIFT';
+  type: 'TODO' | 'MOVIE' | 'TV' | 'FOOD' | 'RESTAURANT' | 'MUSIC' | 'TRAVEL' | 'ACCOMODATION' |  'PRODUCT' | 'SERVICE' | 'PERSONAL' | 'WORK' | 'FAMILY' | 'HEALTH' | 'SHOPPING' | 'GIFT' | 'OTHER';
   keywords?: string[] | null;
   notificationType?: 'EMAIL' | 'SMS' | 'WHATSAPP' | 'CALL' | 'NONE';
   complete?: boolean | null;
@@ -51,7 +51,8 @@ export const ListItemFactory = (sequelize: Sequelize.Sequelize, DataTypes: Seque
         'FAMILY',
         'HEALTH',
         'SHOPPING',
-        'GIFT'
+        'GIFT',
+        'OTHER'
       ),
       unique: false,
       allowNull: false,

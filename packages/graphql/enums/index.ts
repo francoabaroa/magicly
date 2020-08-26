@@ -57,6 +57,7 @@ const enums = gql`
     HEALTH
     SHOPPING
     GIFT
+    OTHER
   }
 
   enum DocType {

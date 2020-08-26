@@ -41,6 +41,7 @@ export enum ITEM_TYPE {
   FAMILY = "FAMILY",
   HEALTH = "HEALTH",
   SHOPPING = "SHOPPING",
-  GIFT = "GIFT"
+  GIFT = "GIFT",
+  OTHER = "OTHER"
 }
 
