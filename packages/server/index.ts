@@ -13,6 +13,7 @@ import { Request } from 'express';
 import { DbInterface } from './typings/DbInterface';
 import { createModels } from './models/index';
 import loaders from './loaders';
+import { PROTECTED_ROUTES } from './constants/strings';
 
 require('dotenv').config({ path: '../../.env' })
 
@@ -202,7 +203,7 @@ async function bootstrapClientApp(expressApp) {
   await nextApp.prepare();
   // protected routes
   // TODO: add other protected routes
-  expressApp.get(['/main'], async (req, res) => {
+  expressApp.get(PROTECTED_ROUTES, async (req, res) => {
     const handle = nextApp.getRequestHandler();
     try {
       const me = await context(req);
