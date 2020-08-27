@@ -209,24 +209,24 @@ const HomeWorkPage = () => {
         <Grid item xs={12} lg={12} md={12} sm={12}>
           <Button className={classes.findButton}> Find Products & Services </Button>
         </Grid>
-        <Grid item xs={12} lg={5} md={5} sm={5}>
+        <Grid item xs={12} lg={4} md={4} sm={4}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
               <AddCircle fontSize={'small'} className={classes.icon} />
               <span className={classes.details}>add home work event</span>
             </div>
           </Grid>
-        <Grid item xs={12} lg={5} md={5} sm={5}>
+        <Grid item xs={12} lg={4} md={4} sm={4}>
             <div className={classes.individualFeature}>
               <Search fontSize={'small'} className={classes.icon} />
               <span className={classes.details}>search home work</span>
             </div>
           </Grid>
-        {/* <Grid item xs={12} lg={4} md={4} sm={4}>
+        <Grid item xs={12} lg={4} md={4} sm={4}>
             <div className={classes.individualFeature}>
               <Edit fontSize={'small'} className={classes.icon} />
               <span className={classes.details}>edit</span>
             </div>
-          </Grid> */}
+          </Grid>
           {getMainUI(hasHomeWork, pastWork, upcomingWork)}
       </Grid>
       </div>
