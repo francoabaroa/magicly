@@ -87,7 +87,7 @@ const NewTodoListItemForm = () => {
   const [createListItem, { data, loading, error }] = useMutation(CREATE_LIST_ITEM);
   const router = useRouter();
   const [name, setName] = useState('');
-  const [list, setList] = useState('');
+  const [list, setList] = useState(LIST_TYPE.TODO);
   const [type, setType] = useState(ITEM_TYPE.TODO);
   const [notes, setNotes] = useState('');
   const [moreDetails, setMoreDetails] = useState(false);
