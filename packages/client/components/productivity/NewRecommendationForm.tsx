@@ -58,6 +58,10 @@ const NewRecommendationForm = () => {
 
   const submitForm = event => {
     event.preventDefault();
+    if (type === '') {
+      alert('You need to select a recommendation type');
+      return;
+    }
 
     const variables = {
       variables: {
