@@ -49,6 +49,10 @@ const enums = gql`
     MUSIC
     TRAVEL
     ACCOMODATION
+    HOME
+    FINANCE
+    BOOK
+    PODCAST
     PRODUCT
     SERVICE
     PERSONAL
