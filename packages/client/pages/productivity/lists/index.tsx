@@ -77,6 +77,36 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: '10px',
       },
     },
+    mediumTitle: {
+      fontFamily: 'Playfair Display, serif',
+      fontWeight: 'bold',
+      fontSize: '24px',
+      color: '#002642',
+      marginTop: '25px',
+      marginBottom: '15px',
+      margin: 'auto',
+      textAlign: 'center',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '16px',
+        marginTop: '10px',
+        marginBottom: '10px',
+      },
+    },
+    smallTitle: {
+      fontFamily: 'Playfair Display, serif',
+      fontWeight: 'normal',
+      fontSize: '18px',
+      color: '#002642',
+      marginTop: '25px',
+      marginBottom: '15px',
+      margin: 'auto',
+      textAlign: 'center',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '12px',
+        marginTop: '10px',
+        marginBottom: '10px',
+      },
+    },
     link: {
       marginLeft: '15px',
       fontSize: '20px',
@@ -135,6 +165,7 @@ const ListsPage = () => {
   let watchListItemsUI: Array<any> = [];
   let laterListItems: Array<any> = [];
   let laterListItemsUI: Array<any> = [];
+  let hasSavedListItems: boolean = false;
 
   const { data, loading, error } = useQuery(
     QUERY,
@@ -189,63 +220,91 @@ const ListsPage = () => {
   }
 
   if (todoListItems.length > 0) {
+    hasSavedListItems = true;
     todoListItems.forEach((item, key) => {
       todoListItemsUI.push(getIndividualListItem(key, item))
     });
   }
 
   if (watchListItems.length > 0) {
+    hasSavedListItems = true;
     watchListItems.forEach((item, key) => {
       watchListItemsUI.push(getIndividualListItem(key, item))
     });
   }
 
   if (laterListItems.length > 0) {
+    hasSavedListItems = true;
     laterListItems.forEach((item, key) => {
       laterListItemsUI.push(getIndividualListItem(key, item))
     });
   }
 
+  const getMainUI = () => {
+    if (hasSavedListItems) {
+      return (
+        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+          <Grid item xs={12} lg={4} md={4} sm={4}>
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists/add')}>
+              <AddCircle fontSize={'small'} className={classes.icon} />
+              <span className={classes.details}>add to-do item</span>
+            </div>
+          </Grid>
+          <Grid item xs={12} lg={4} md={4} sm={4}>
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists/add')}>
+              <Search fontSize={'small'} className={classes.icon} />
+              <span className={classes.details}>search lists</span>
+            </div>
+          </Grid>
+          <Grid item xs={12} lg={4} md={4} sm={4}>
+            <div className={classes.individualFeature}>
+              <Edit fontSize={'small'} className={classes.icon} />
+              <span className={classes.details}>edit</span>
+            </div>
+          </Grid>
+
+          <Grid item xs={8}>
+            <h1 className={classes.firstTitle}>Now List</h1>
+          </Grid>
+          {todoListItemsUI}
+
+          <Grid item xs={8}>
+            <h1 className={classes.title}>Upcoming List</h1>
+          </Grid>
+          {watchListItemsUI}
+
+          <Grid item xs={8}>
+            <h1 className={classes.title}>Someday List</h1>
+          </Grid>
+          {laterListItemsUI}
+
+        </Grid>
+      );
+    } else {
+      return (
+        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+          <Grid item xs={8} lg={7} md={7} sm={7}>
+            <h1 className={classes.mediumTitle}>save your tasks in organized to-do-lists to be more productive than ever</h1>
+          </Grid>
+          <Grid item xs={12} lg={6} md={6} sm={6}>
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists/add')}>
+              <AddCircle fontSize={'small'} className={classes.icon} />
+              <span className={classes.details}>add to-do item</span>
+            </div>
+          </Grid>
+          <Grid item xs={8} lg={7} md={7} sm={7}>
+            <h1 className={classes.smallTitle}>tap the plus icon to start adding tasks or items you have to do now, do later, or just remember</h1>
+          </Grid>
+        </Grid>
+      );
+    }
+  };
+
   // TODO: CSS BUG where width extends past appBar width
   // TODO: need to add complete item checkbox functionality
   return (
     <Layout>
-      <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
-        <Grid item xs={12} lg={4} md={4} sm={4}>
-          <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists/add')}>
-            <AddCircle fontSize={'small'} className={classes.icon} />
-            <span className={classes.details}>add to-do item</span>
-          </div>
-        </Grid>
-        <Grid item xs={12} lg={4} md={4} sm={4}>
-          <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists/add')}>
-            <Search fontSize={'small'} className={classes.icon} />
-            <span className={classes.details}>search lists</span>
-          </div>
-        </Grid>
-        <Grid item xs={12} lg={4} md={4} sm={4}>
-          <div className={classes.individualFeature}>
-            <Edit fontSize={'small'} className={classes.icon} />
-            <span className={classes.details}>edit</span>
-          </div>
-        </Grid>
-
-        <Grid item xs={8}>
-          <h1 className={classes.firstTitle}>Now List</h1>
-        </Grid>
-        {todoListItemsUI}
-
-        <Grid item xs={8}>
-          <h1 className={classes.title}>Upcoming List</h1>
-        </Grid>
-        {watchListItemsUI}
-
-        <Grid item xs={8}>
-          <h1 className={classes.title}>Someday List</h1>
-        </Grid>
-        {laterListItemsUI}
-
-      </Grid>
+      {getMainUI()}
     </Layout>
   );
 };
