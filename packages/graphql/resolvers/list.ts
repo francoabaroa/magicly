@@ -29,21 +29,28 @@ export default {
       }
       return await models.List.findByPk(id);
     },
-    lists: async (parent, { cursor, limit = 100 }, { models, me }) => {
+    lists: async (parent, { listTypes, cursor, limit = 100 }, { models, me }) => {
       const cursorOptions = cursor
         ? {
           where: {
             createdAt: {
               [Sequelize.Op.lt]: fromCursorHash(cursor),
             },
-            userId: me.id
+            userId: me.id,
+            type: {
+              [Sequelize.Op.in]: listTypes
+            }
           },
         }
         : {
           where: {
-            userId: me.id
+            userId: me.id,
+            type: {
+              [Sequelize.Op.in]: listTypes
+            }
           }
         };
+
 
       const lists = await models.List.findAll({
         order: [['createdAt', 'DESC']],
@@ -104,6 +111,16 @@ export default {
     user: async (list, args, { loaders, models }) => {
       // return await models.User.findByPk(list.userId);
       return await loaders.user.load(list.userId);
+    },
+    listItems: async (list, args, { models }) => {
+      if (!list) {
+        return null;
+      }
+      return await models.ListItem.findAll({
+        where: {
+          listId: list.id,
+        },
+      });
     },
   },
 };
