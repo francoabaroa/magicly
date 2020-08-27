@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, SetStateAction } from 'react';
 import { useRouter } from 'next/router';
 import { APP_CONFIG, LIST_TYPE, ITEM_TYPE } from '../../constants/appStrings';
 import gql from 'graphql-tag';
@@ -128,7 +128,7 @@ const NewTodoListItemForm = () => {
     return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
   };
 
-  const selectList = (listName: string) => {
+  const selectList = (listName: SetStateAction<LIST_TYPE>) => {
     setList(listName);
   };
 
