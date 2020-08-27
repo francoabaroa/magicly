@@ -5,22 +5,15 @@ import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AttachMoney from '@material-ui/icons/AttachMoney';
 import DoubleArrow from '@material-ui/icons/DoubleArrow';
 import ContactSupport from '@material-ui/icons/ContactSupport';
-import DataUsage from '@material-ui/icons/DataUsage';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import Settings from '@material-ui/icons/Settings';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
+import Book from '@material-ui/icons/Book';
 import ArrowDropDownCircle from '@material-ui/icons/ArrowDropDownCircle';
 import { useRouter } from 'next/router';
 
@@ -50,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#840032'
     },
     appbar: {
-      backgroundColor: '#E5DADA'
+      backgroundColor: '#FFF'
     },
     grow: {
       flexGrow: 1,
@@ -277,29 +270,29 @@ export default function PrimarySearchAppBar(props) {
             </IconButton>
             <p>Why Magicly?</p>
           </MenuItem>
-          <MenuItem onClick={routePage.bind(this, 'signin')}>
-            <IconButton color="inherit">
-              <AccountCircle />
-            </IconButton>
-            <p>Sign In</p>
-          </MenuItem>
           <MenuItem onClick={routePage.bind(this, 'plans')}>
             <IconButton color="inherit">
               <AttachMoney />
             </IconButton>
             <p>Pricing</p>
           </MenuItem>
-          {/* <MenuItem onClick={routePage.bind(this, 'privacy')}>
+          <MenuItem onClick={routePage.bind(this, 'blog')}>
             <IconButton color="inherit">
-              <DataUsage />
+              <Book />
             </IconButton>
-            <p>Privacy</p>
-          </MenuItem> */}
+            <p>Blog</p>
+          </MenuItem>
           <MenuItem onClick={routePage.bind(this, 'support')}>
             <IconButton color="inherit">
               <ContactSupport />
             </IconButton>
             <p>Contact Us</p>
+          </MenuItem>
+          <MenuItem onClick={routePage.bind(this, 'signin')}>
+            <IconButton color="inherit">
+              <AccountCircle />
+            </IconButton>
+            <p>Sign In</p>
           </MenuItem>
         </Menu>
       );
@@ -394,11 +387,11 @@ export default function PrimarySearchAppBar(props) {
                     <Typography className={classes.pages} onClick={routePage.bind(this, 'plans')} variant="h6" noWrap>
                       Pricing
                 </Typography>
-                    {/* <Typography className={classes.pages} onClick={routePage.bind(this, 'privacy')} variant="h6" noWrap>
-                      Privacy
-                </Typography> */}
-                    <Typography className={classes.pages} onClick={routePage.bind(this, 'support')} variant="h6" noWrap>
-                      Contact Us
+                <Typography className={classes.pages} onClick={routePage.bind(this, 'blog')} variant="h6" noWrap>
+                  Blog
+                </Typography>
+                <Typography className={classes.pages} onClick={routePage.bind(this, 'support')} variant="h6" noWrap>
+                  Contact Us
                 </Typography>
                 <Button className={classes.signUpButton} onClick={routePage.bind(this, 'signup')} variant="contained">Sign Up</Button>
                 <Button className={classes.signInButton} onClick={routePage.bind(this, 'signin')} variant="contained">Sign In</Button>
