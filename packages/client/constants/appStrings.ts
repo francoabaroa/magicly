@@ -1,3 +1,4 @@
+// TODO: either export this one to @magicly/server or import from @magicly/server so we dont have to keep updating two files
 export const APP_CONFIG = {
   appName: 'Magicly',
   devUrl: 'http://localhost:3000/',
@@ -47,5 +48,16 @@ export enum ITEM_TYPE {
   SHOPPING = "SHOPPING",
   GIFT = "GIFT",
   OTHER = "OTHER"
+}
+
+export enum QUESTION_TYPE {
+  TECH = "TECH",
+  HOME = "HOME",
+  FINANCE = "FINANCE",
+  SCAM = "SCAM",
+  SERVICE = "SERVICE",
+  PRODUCT = "PRODUCT",
+  APP = "APP",
+  OTHER = "OTHER",
 }
 
