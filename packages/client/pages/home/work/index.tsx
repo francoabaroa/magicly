@@ -206,7 +206,7 @@ const HomeWorkPage = () => {
     <Layout>
       <div className={classes.homeWorkPage}>
       <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
-        <Grid item xs={12} lg={12} md={12} sm={12}>
+          <Grid item xs={12} lg={12} md={12} sm={12} onClick={routePage.bind(this, 'find')}>
           <Button className={classes.findButton}> Find Products & Services </Button>
         </Grid>
         <Grid item xs={12} lg={4} md={4} sm={4}>
