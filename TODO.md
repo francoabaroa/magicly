@@ -32,6 +32,7 @@
 27. SSR vs not SSR, and how it affects auth, and main/signup/signin pages
 28. remove unused packages/modules, alphabetize/organize imports and properties, remove comments (TODO's), add validation/meaningful error messages, organize methods/files, strings, enums, etc
 29. add typescript types!!! lol
+30. explore https://devcenter.heroku.com/articles/pipelines
 
 *client*
 1. disable or enable SSR?
@@ -63,7 +64,7 @@
 4. Implement Sign Up and Sign In with JWT?
 5. How many salt rounds? Where is the salt stored? (https://stackoverflow.com/questions/1219899/where-do-you-store-your-salt-strings)
 6. turn on "noImplicitAny": true,
-7. TODO:: MAKE ALL CHECKS TO MAKE SURE NO ONE CAN QUERY DATA THAT ISNT THERES.
+7. TODO:: MAKE ALL CHECKS TO MAKE SURE NO ONE CAN QUERY, MODIFY DATA THAT ISNT THEIRS!!!
 
 *database*
 1. Check which fields are required in the schemas and which aren't? which are nullable? update this and update GraphQL
