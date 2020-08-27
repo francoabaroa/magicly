@@ -133,10 +133,6 @@ const NewTodoListItemForm = () => {
   };
 
   const toggleMoreDetailsButton = () => {
-    if (moreDetails) {
-      setType(ITEM_TYPE.TODO);
-      setNotes('');
-    }
     setMoreDetails(!moreDetails)
   };
 
