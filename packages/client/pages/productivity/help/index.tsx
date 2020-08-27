@@ -132,7 +132,7 @@ const TechHelpPage = () => {
       <Grid key={key} container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
         <Grid item xs={4} lg={3} md={4} sm={4}>
           <Link href="help/view/[id]" as={`help/view/${question.id}`}>
-            <span className={classes.link}>{question.body}</span>
+            <span className={classes.link}>{question.body.substring(0, 29) + '...'}</span>
           </Link>
         </Grid>
         <Grid item xs={4} lg={3} md={4} sm={4}>
