@@ -24,9 +24,23 @@ export const isListOwner = async (
   { id },
   { models, me },
 ) => {
-  const list = await models.List.findByPk(id, { raw: true });
+  const question = await models.List.findByPk(id, { raw: true });
 
-  if (list.userId !== me.id) {
+  if (question.userId !== me.id) {
+    throw new ForbiddenError('Not authenticated as owner.');
+  }
+
+  return skip;
+};
+
+export const isQuestionOwner = async (
+  parent,
+  { id },
+  { models, me },
+) => {
+  const question = await models.Question.findByPk(id, { raw: true });
+
+  if (question.userId !== me.id) {
     throw new ForbiddenError('Not authenticated as owner.');
   }
 

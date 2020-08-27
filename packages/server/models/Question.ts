@@ -61,6 +61,7 @@ export const QuestionFactory = (sequelize: Sequelize.Sequelize, DataTypes: Seque
         'UNSOLVED',
         'CANCELLED',
       ),
+      defaultValue: 'PENDING',
       unique: false,
       allowNull: false,
       validate: {
@@ -75,6 +76,7 @@ export const QuestionFactory = (sequelize: Sequelize.Sequelize, DataTypes: Seque
         'CALL',
         'NONE'
       ),
+      defaultValue: 'NONE',
       unique: false,
       allowNull: false,
       validate: {
