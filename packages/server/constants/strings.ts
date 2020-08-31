@@ -70,5 +70,7 @@ export const PROTECTED_ROUTES = [
   '/home',
   '/home/*',
   '/settings',
+  '/find',
+  '/find/*',
 ];
 

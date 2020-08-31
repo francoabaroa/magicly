@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../components/Layout';
 import { useRouter } from 'next/router';
@@ -9,7 +9,12 @@ import Cookies from 'js-cookie';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControl from '@material-ui/core/FormControl';
+import { PRODUCT_OR_SERVICE } from '../../constants/appStrings';
 
 const QUERY = gql`
   query GetMe {
@@ -78,6 +83,7 @@ const FindPage = () => {
   const router = useRouter();
   const classes = useStyles();
   const { data, loading, error, refetch } = useQuery(QUERY);
+  const [productOrService, setProductOrService] = useState('');
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -89,18 +95,36 @@ const FindPage = () => {
     router.push('/' + pageName, undefined, { shallow: true });
   };
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setProductOrService(event.target.value);
+  };
+
+  const getCapitalizedString = (name: string) => {
+    const lowerCaseTitle = name.toLowerCase();
+    if (typeof lowerCaseTitle !== 'string') return ''
+    return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
+  };
+
   return (
     <Layout>
       <div className={classes.findPage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={12} lg={12} md={12} sm={12}>
-            <Button className={classes.viewProdsServs}> View Saved Services & Products </Button>
+            <Button className={classes.viewProdsServs} onClick={routePage.bind(this, 'find/saved')}> View Saved Services & Products </Button>
           </Grid>
         </Grid>
         <div className={classes.root}>
           <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+            <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+              <h4 className={classes.subtitle}>What are you looking for today?</h4>
+              <FormControl component="fieldset">
+                <RadioGroup aria-label="productOrService" name="productOrService1" value={productOrService} onChange={handleChange}>
+                  <FormControlLabel value={PRODUCT_OR_SERVICE.PRODUCT} control={<Radio />} label={getCapitalizedString(PRODUCT_OR_SERVICE.PRODUCT)} />
+                  <FormControlLabel value={PRODUCT_OR_SERVICE.SERVICE} control={<Radio />} label={getCapitalizedString(PRODUCT_OR_SERVICE.SERVICE)} />
+                </RadioGroup>
+              </FormControl>
+            </Grid>
             <Grid item xs={8} className={classes.centerText}>
-              <h4 className={classes.subtitle}>What kind of product or service are you looking for today?</h4>
               <input type='text' onChange={() => {}} required />
               <Button>Search</Button>
             </Grid>

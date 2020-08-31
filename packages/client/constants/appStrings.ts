@@ -61,3 +61,8 @@ export enum QUESTION_TYPE {
   OTHER = "OTHER",
 }
 
+export enum PRODUCT_OR_SERVICE {
+  SERVICE = "SERVICE",
+  PRODUCT = "PRODUCT",
+}
+
