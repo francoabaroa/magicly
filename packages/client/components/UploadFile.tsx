@@ -15,6 +15,7 @@ const SINGLE_UPLOAD = gql`
 
 const UploadFile = () => {
   const [lastUploaded, setLastUploaded] = useState({});
+  const [uploadedDoc, setUploadedDoc] = useState({});
   const [mutate, { loading, error, data }] = useMutation(SINGLE_UPLOAD);
   const onChange = ({
     target: {
@@ -22,8 +23,12 @@ const UploadFile = () => {
       files: [file]
     }
   }: any) => {
-    validity.valid && mutate({ variables: { file } });
+    validity.valid && setUploadedDoc(file);
   }
+
+  const uploadDoc = () => {
+    mutate({ variables: { file: uploadedDoc } });
+  };
 
   useEffect(() => {
     if (data) setLastUploaded(data.singleUpload);
@@ -35,6 +40,7 @@ const UploadFile = () => {
   return (
     <React.Fragment>
       <input type="file" required onChange={onChange} />
+      <button onClick={uploadDoc}>upload doc</button>
       <br />
       {Object.keys(lastUploaded).length !== 0 && (
         <div>

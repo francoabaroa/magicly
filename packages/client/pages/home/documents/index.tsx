@@ -36,8 +36,6 @@ const HomeDocumentsPage = () => {
   return (
     <Layout>
       <h1>HomeDocuments Page</h1>
-      <pre>Data: {JSON.stringify(data)}</pre>
-      <button onClick={() => refetch()}>Refetch</button>
       <UploadFile />
     </Layout>
   );

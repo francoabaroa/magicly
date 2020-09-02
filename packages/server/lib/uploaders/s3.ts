@@ -59,16 +59,22 @@ export class AWSS3Uploader implements ApolloServerFileUploads.IUploader {
     me: any
   ): Promise<ApolloServerFileUploads.UploadedFileResponse> {
     const { createReadStream, filename, mimetype, encoding } = await file;
+    const fileName = filename.split('.')[0];
+    const fileEnding = filename.split('.')[1];
+    const userId = me && me.id ? me.id : '';
+    const dateString = new Date().getTime();
+    const finalFileName =
+      userId + '_' + dateString + '_' + fileName + '.' + fileEnding;
     const stream = createReadStream();
     const filePath = this.createDestinationFilePath(
-      filename,
+      finalFileName,
       mimetype,
       encoding
     );
     const uploadStream = this.createUploadStream(filePath, me.id);
     stream.pipe(uploadStream.writeStream);
     const result = await uploadStream.promise;
-    return { filename, mimetype, encoding, url: result.Location };
+    return { filename: finalFileName, mimetype, encoding, url: result.Location };
   }
 
   async multipleUploadsResolver(
