@@ -20,6 +20,7 @@
     "apollo-client": "^2.6.8",
     "apollo-link-context": "^1.0.20",
     "apollo-link-http": "^1.5.17",
+    "apollo-upload-client": "12.1.0",
     "graphql": "^15.0.0",
     "graphql-tag": "^2.10.3",
     "isomorphic-unfetch": "^3.0.0",
@@ -35,5 +36,9 @@
     "@types/react": "16.9.33",
     "babel-plugin-styled-components": "^1.11.1",
     "typescript": "^4.0.2"
+  },
+  "resolutions": {
+    "fs-capacitor": "5.0.0",
+    "graphql-upload": "11.0.0"
   }
 }
