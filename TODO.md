@@ -33,6 +33,7 @@
 28. remove unused packages/modules, alphabetize/organize imports and properties, remove comments (TODO's), add validation/meaningful error messages, organize methods/files, strings, enums, etc
 29. add typescript types!!! lol
 30. explore https://devcenter.heroku.com/articles/pipelines
+31. CHANGE ACCESS KEYS in S3 TO IAM ROLE, OR THE SAFEST WAY. CHECK PERMISSIONS
 
 *client*
 1. disable or enable SSR?
