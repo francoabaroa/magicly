@@ -53,6 +53,9 @@ export default {
     // }
   },
   Mutation: {
+    singleUpload: async (parent, { file }, { singleUpload, me }) => {
+      return await singleUpload(file, me);
+    },
     // createList: combineResolvers(
     //   isAuthenticated,
     //   async (

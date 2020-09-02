@@ -5,6 +5,9 @@ export default gql`
     documents: [Document]
     document (id: ID!): Document
   }
+  extend type Mutation {
+    singleUpload(file: Upload!): UploadedFileResponse!
+  }
   type Document {
     id: ID!
     name: String!
@@ -20,5 +23,11 @@ export default gql`
     updatedAt: Date!
     user: User!
     homework: Homework
+  }
+  type UploadedFileResponse {
+    filename: String!
+    mimetype: String!
+    encoding: String!
+    url: String!
   }
 `;

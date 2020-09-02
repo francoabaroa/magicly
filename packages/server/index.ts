@@ -15,12 +15,20 @@ import { createModels } from './models/index';
 import loaders from './loaders';
 import { PROTECTED_ROUTES } from './constants/strings';
 
-require('dotenv').config({ path: '../../.env' })
+import { AWSS3Uploader } from './lib/uploaders/s3';
+
+require('dotenv').config({ path: '../../.env' });
 
 const PORT = process.env.PORT || '3000';
 const isTest = !!process.env.DATABASE_TEST;
 const isProduction = !!process.env.DATABASE_URL;
 let sequelizeConfig = {};
+
+const s3Uploader = new AWSS3Uploader({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  destinationBucketName: process.env.AWS_BUCKET
+});
 
 // TODO: if user lands on HTTP, important to redirect to HTTPS. Form submissions should only happen via HTTPS
 
@@ -248,6 +256,8 @@ async function bootstrapApolloServer(expressApp, db: DbInterface) {
       models: db,
       me,
       secret: process.env.JWT_KEY,
+      singleUpload: s3Uploader.singleFileUploadResolver.bind(s3Uploader),
+      multipleUpload: s3Uploader.multipleUploadsResolver.bind(s3Uploader),
       loaders: {
         user: new DataLoader(keys =>
           loaders.user.batchUsers(keys, db),

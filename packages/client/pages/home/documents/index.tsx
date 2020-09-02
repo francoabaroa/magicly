@@ -6,6 +6,8 @@ import gql from 'graphql-tag';
 import { withApollo } from '../../../apollo/apollo';
 import Cookies from 'js-cookie';
 
+import UploadFile from '../../../components/UploadFile';
+
 const QUERY = gql`
   query GetMe {
     me {
@@ -36,6 +38,7 @@ const HomeDocumentsPage = () => {
       <h1>HomeDocuments Page</h1>
       <pre>Data: {JSON.stringify(data)}</pre>
       <button onClick={() => refetch()}>Refetch</button>
+      <UploadFile />
     </Layout>
   );
 };
