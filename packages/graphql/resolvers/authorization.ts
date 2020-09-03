@@ -46,3 +46,17 @@ export const isQuestionOwner = async (
 
   return skip;
 };
+
+export const isDocumentOwner = async (
+  parent,
+  { id },
+  { models, me },
+) => {
+  const document = await models.Document.findByPk(id, { raw: true });
+
+  if (document.userId !== me.id) {
+    throw new ForbiddenError('Not authenticated as owner.');
+  }
+
+  return skip;
+};

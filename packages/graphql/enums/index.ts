@@ -75,6 +75,8 @@ const enums = gql`
     CERTIFICATE
     FAMILY
     OTHER
+    EXPENSE
+    INVESTMENT
   }
 
   enum DocTag {

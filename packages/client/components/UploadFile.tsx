@@ -1,10 +1,42 @@
-import React, { useEffect, useState } from "react";
-import { useMutation } from '@apollo/react-hooks';
+import React, { useState, SetStateAction, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { APP_CONFIG, DOC_TYPE } from '../constants/appStrings';
 import gql from 'graphql-tag';
+import { useMutation } from '@apollo/react-hooks';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import Grid from '@material-ui/core/Grid';
 
-const SINGLE_UPLOAD = gql`
-  mutation($file: Upload!) {
-    singleUpload(file: $file) {
+// TODO: clean up before prod
+let url = null;
+if (process.env.NODE_ENV === 'development') {
+  url = APP_CONFIG.devUrl;
+} else {
+  url = APP_CONFIG.prodUrl;
+}
+
+const ADD_DOCUMENT = gql`
+  mutation AddDocument(
+    $file: Upload!,
+    $name: String!,
+    $type: DocType!,
+    $keywords: [String]
+    $notes: String,
+  ) {
+    addDocument(
+      file: $file,
+      name: $name,
+      type: $type,
+      keywords: $keywords,
+      notes: $notes,
+      ) {
       filename
       mimetype
       encoding
@@ -13,10 +45,40 @@ const SINGLE_UPLOAD = gql`
   }
 `;
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      '& > *': {
+        margin: theme.spacing(1),
+      },
+    },
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 220,
+    },
+    centerText: {
+      marginBottom: '14px',
+      textAlign: 'center',
+    },
+  }),
+);
+
 const UploadFile = () => {
+  const classes = useStyles();
+  const router = useRouter();
   const [lastUploaded, setLastUploaded] = useState({});
   const [uploadedDoc, setUploadedDoc] = useState({});
-  const [mutate, { loading, error, data }] = useMutation(SINGLE_UPLOAD);
+  const [uploadSingleDoc, { loading, error, data }] = useMutation(ADD_DOCUMENT);
+  const [name, setName] = useState('');
+  const [notes, setNotes] = useState('');
+  const [type, setType] = useState('');
+  const [keywords, setKeywords] = useState([]);
+  const [folder, setFolder] = useState('Existing');
+  const [newFolderName, setNewFolderName] = useState('');
+
   const onChange = ({
     target: {
       validity,
@@ -24,32 +86,148 @@ const UploadFile = () => {
     }
   }: any) => {
     validity.valid && setUploadedDoc(file);
-  }
+  };
 
   const uploadDoc = () => {
-    mutate({ variables: { file: uploadedDoc } });
+    uploadSingleDoc({ variables: {
+      file: uploadedDoc,
+      name,
+      type,
+      keywords,
+      notes
+    } });
   };
 
   useEffect(() => {
-    if (data) setLastUploaded(data.singleUpload);
+    if (data) setLastUploaded(data.addDocument);
   }, [data]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{JSON.stringify(error, null, 2)}</div>;
 
-  return (
-    <React.Fragment>
-      <input type="file" required onChange={onChange} />
-      <button onClick={uploadDoc}>upload doc</button>
-      <br />
-      {Object.keys(lastUploaded).length !== 0 && (
-        <div>
-          {" "}
-          Last uploaded details = {JSON.stringify(lastUploaded, null, 2)}{" "}
-        </div>
-      )}
-    </React.Fragment>
-  );
-};
+  const submitForm = event => {
+    event.preventDefault();
+    if (type === '') {
+      alert('You need to select a document type');
+      return;
+    }
 
-export default UploadFile
+    const variables = {
+      variables: {
+        file: uploadedDoc,
+        name,
+        type,
+        keywords,
+        notes
+      }
+    };
+    uploadSingleDoc(variables);
+  }
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+  if (data && data.createQuestion && data.createQuestion.id) {
+    // TODO: show dialog message when homework is created!
+    if (process.browser || (window && window.location)) {
+      window.location.href = url + 'productivity/help';
+    } else {
+      router.push('/productivity/help', undefined);
+    }
+  }
+
+  const handleTypeSelect = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setType(event.target.value as DOC_TYPE);
+  };
+
+  const getCapitalizedString = (name: string) => {
+    const lowerCaseTitle = name.toLowerCase();
+    if (typeof lowerCaseTitle !== 'string') return ''
+    return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let folderType: string = event.target.value === 'Existing' ? 'Existing' : 'New';
+    setFolder(folderType);
+  };
+
+  const separateKeywords = (event) => {
+    const keywords =
+      event.target.value.split(',')
+      .map(
+        keyword => keyword.trim()
+      )
+      .filter(
+        keyword => keyword.length >= 1
+      );
+    setKeywords(keywords);
+  };
+
+  return (
+    <div className={classes.root}>
+      {/* <h1>Add a new todo list item</h1> */}
+      <form onSubmit={submitForm}>
+        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+          <Grid item xs={12} lg={12} md={12} sm={12}>
+            <input type="file" required onChange={onChange} />
+            {/* <button onClick={uploadDoc}>upload doc</button> */}
+            <br />
+            {Object.keys(lastUploaded).length !== 0 && (
+              <div>
+                {" "}
+          Last uploaded details = {JSON.stringify(lastUploaded, null, 2)}{" "}
+              </div>
+            )}
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12}>
+            <p>Name: <input type='text' onChange={event => setName(event.target.value)} autoComplete='on' required /></p>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12}>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="demo-simple-select-label">Type of document</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={type}
+                onChange={handleTypeSelect}
+              >
+                <MenuItem value={DOC_TYPE.IMAGE}>{getCapitalizedString(DOC_TYPE.IMAGE)}</MenuItem>
+                <MenuItem value={DOC_TYPE.RECEIPT}>{getCapitalizedString(DOC_TYPE.RECEIPT)}</MenuItem>
+                <MenuItem value={DOC_TYPE.MANUAL}>{getCapitalizedString(DOC_TYPE.MANUAL)}</MenuItem>
+                <MenuItem value={DOC_TYPE.WARRANTY}>{getCapitalizedString(DOC_TYPE.WARRANTY)}</MenuItem>
+                <MenuItem value={DOC_TYPE.TAX}>{getCapitalizedString(DOC_TYPE.TAX)}</MenuItem>
+                <MenuItem value={DOC_TYPE.PROPERTY}>{getCapitalizedString(DOC_TYPE.PROPERTY)}</MenuItem>
+                <MenuItem value={DOC_TYPE.INSURANCE}>{getCapitalizedString(DOC_TYPE.INSURANCE)}</MenuItem>
+                <MenuItem value={DOC_TYPE.CERTIFICATE}>{getCapitalizedString(DOC_TYPE.CERTIFICATE)}</MenuItem>
+                <MenuItem value={DOC_TYPE.FAMILY}>{getCapitalizedString(DOC_TYPE.FAMILY)}</MenuItem>
+                <MenuItem value={DOC_TYPE.EXPENSE}>{getCapitalizedString(DOC_TYPE.EXPENSE)}</MenuItem>
+                <MenuItem value={DOC_TYPE.INVESTMENT}>{getCapitalizedString(DOC_TYPE.INVESTMENT)}</MenuItem>
+                <MenuItem value={DOC_TYPE.OTHER}>{getCapitalizedString(DOC_TYPE.OTHER)}</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12}>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Do you want to save this in an existing folder or new one?</FormLabel>
+              <RadioGroup aria-label="folder" name="folder1" value={folder} onChange={handleChange}>
+                <FormControlLabel value={"Existing"} control={<Radio />} label="Existing" />
+                <FormControlLabel value={"New"} control={<Radio />} label="New" />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12}>
+            <p>Enter keywords describing this document (separated by a comma, for example: home, warranty, 2009): <input type='text' onChange={separateKeywords} autoComplete='on' required /></p>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12}>
+            <p> Any notes or details you’d like to add?</p>
+            <textarea name="notes" cols={50} rows={5} onChange={event => setNotes(event.target.value)} required />
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12}>
+            <p><button type='submit'>Save</button><button onClick={() => router.back()}>Cancel</button></p>
+          </Grid>
+        </Grid>
+      </form>
+    </div>
+  )
+}
+
+export default UploadFile;

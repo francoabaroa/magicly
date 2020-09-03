@@ -2,11 +2,22 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    documents: [Document]
+    documents(
+      documentTypes: [DocType],
+      cursor: String,
+      limit: Int
+    ): DocumentConnection!
     document (id: ID!): Document
   }
   extend type Mutation {
-    singleUpload(file: Upload!): UploadedFileResponse!
+    addDocument(
+      file: Upload!
+      name: String!
+      type: DocType!
+      keywords: [String]
+      notes: String
+      ): UploadedFileResponse!
+    deleteDocument(id: ID!): Boolean!
   }
   type Document {
     id: ID!
@@ -29,5 +40,9 @@ export default gql`
     mimetype: String!
     encoding: String!
     url: String!
+  }
+  type DocumentConnection {
+    edges: [Document]!
+    pageInfo: PageInfo!
   }
 `;

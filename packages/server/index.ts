@@ -255,6 +255,7 @@ async function bootstrapApolloServer(expressApp, db: DbInterface) {
     return {
       models: db,
       me,
+      bucketName: process.env.AWS_BUCKET,
       secret: process.env.JWT_KEY,
       singleUpload: s3Uploader.singleFileUploadResolver.bind(s3Uploader),
       multipleUpload: s3Uploader.multipleUploadsResolver.bind(s3Uploader),

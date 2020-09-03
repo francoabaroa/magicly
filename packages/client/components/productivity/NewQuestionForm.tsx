@@ -143,7 +143,7 @@ const NewQuestionForm = () => {
           <Grid item xs={12} lg={12} md={12} sm={12}>
             <FormControl component="fieldset">
               <FormLabel component="legend">Is this question urgent?</FormLabel>
-              <RadioGroup aria-label="gender" name="gender1" value={urgent} onChange={handleChange}>
+              <RadioGroup aria-label="urgent" name="urgent1" value={urgent} onChange={handleChange}>
                 <FormControlLabel value={true} control={<Radio />} label="Yes" />
                 <FormControlLabel value={false} control={<Radio />} label="No" />
               </RadioGroup>
