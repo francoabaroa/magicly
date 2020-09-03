@@ -11,6 +11,19 @@ const fromCursorHash = string =>
 
 export default {
   Query: {
+    getDocumentAndUrl: combineResolvers(
+      isAuthenticated,
+      isDocumentOwner,
+      async (parent, { id }, { me, models, getS3Url }) => {
+        try {
+          const document = await models.Document.findByPk(id);
+          const url = await getS3Url(me.id, document.bucketDocId);
+          return { url: url, document: document }
+        } catch (error) {
+          throw new Error(error);
+        }
+      },
+    ),
     document: async (parent, { id }, { models }) => {
       if (!id) {
         return null;
@@ -39,15 +52,16 @@ export default {
           }
         };
 
-
       const documents = await models.Document.findAll({
         order: [['createdAt', 'DESC']],
         limit: limit + 1,
         ...cursorOptions,
       });
-      const hasNextPage = documents.length > limit;
+
+      //TODO: add this protection for hasNextPage and edges and endCursor in other resolvers
+      const hasNextPage = documents && documents.length > limit;
       const edges = hasNextPage ? documents.slice(0, -1) : documents;
-      const endCursor = edges.length > 0 ? toCursorHash(
+      const endCursor = edges && edges.length > 0 ? toCursorHash(
         // TODO: this is coming back undefined when cursor is being used
         edges[edges.length - 1].createdAt.toString(),
       ) : null;

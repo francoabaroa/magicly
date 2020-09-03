@@ -3,11 +3,14 @@ import { gql } from 'apollo-server-express';
 export default gql`
   extend type Query {
     documents(
-      documentTypes: [DocType],
+      docTypes: [DocType],
       cursor: String,
       limit: Int
     ): DocumentConnection!
     document (id: ID!): Document
+    getDocumentAndUrl(
+      id: ID!
+    ): DocumentUrl
   }
   extend type Mutation {
     addDocument(
@@ -34,6 +37,10 @@ export default gql`
     updatedAt: Date!
     user: User!
     homework: Homework
+  }
+  type DocumentUrl {
+    url: String
+    document: Document
   }
   type UploadedFileResponse {
     filename: String!

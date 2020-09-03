@@ -10,12 +10,13 @@ import Add from '@material-ui/icons/Add';
 import Notes from '@material-ui/icons/Notes';
 
 const QUERY = gql`
-  query GetListItem ($id: ID!) {
-    listItem(id: $id) {
-      id
-      notes
-      name
-      type
+  query GetDocumentUrl ($id: ID!) {
+    getDocumentAndUrl(id: $id) {
+      url
+      document {
+        id
+        name
+      }
     }
   }
 `;
@@ -59,17 +60,34 @@ const useStyles = makeStyles((theme: Theme) =>
     icon: {
       color: '#0A7EF2',
       fontSize: '14px',
+    },
+    imagePreview: {
+      width: '500px',
+      height: '200px',
+    },
+    thumb: {
+      display: 'inline-block',
+      width: '500px',
+      height: '200px',
+      margin: '5px',
+      border: '3px solid #c99',
+      backgroundPosition: 'top top',
+      backgroundSize: 'cover',
     }
   }),
 );
 
-const ViewRecommendationItemPage = () => {
+const ViewDocumentPage = () => {
   const router = useRouter();
   const classes = useStyles();
   const { id } = router.query;
   const { data, loading, error, refetch } = useQuery(QUERY, {
     variables: { id },
   });
+
+  const openInNewWindow = (url: string) => {
+    window.open(url);
+  }
 
   const getCapitalizedString = (title: string) => {
     const lowerCaseTitle = title.toLowerCase();
@@ -80,10 +98,21 @@ const ViewRecommendationItemPage = () => {
   const getUI = (data: any) => {
     // TODO: adapt function if only required fields are passed, to show right things on the UI
     // TODO: add edit and delete functionality
-    if (data && data.listItem) {
+    if (data && data.getDocumentAndUrl && data.getDocumentAndUrl.url) {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
+            <div
+              key={id.toString()}
+              onClick={openInNewWindow.bind(this, data.getDocumentAndUrl.url)}
+              className={classes.thumb}
+              style={{ backgroundImage: `url('${data.getDocumentAndUrl.url}')` }}>
+            </div>
+          </Grid>
+          <Grid item xs={8}>
+            <p>To protect you and your data, the image at <a target="_blank" href={data.getDocumentAndUrl.url}>this link</a> will only be available for 15 minutes. Please refresh the page for a new link.</p>
+          </Grid>
+          {/* <Grid item xs={8}>
             <h1 className={classes.title}> {data.listItem.name}</h1>
           </Grid>
           <Grid item xs={7} lg={7} md={7} sm={7}>
@@ -101,13 +130,14 @@ const ViewRecommendationItemPage = () => {
                 </div>
               </Grid> :
               null
-          }
+          } */}
         </Grid>
       );
     } else {
       return null;
     }
   };
+
   return (
     <Layout>
       {getUI(data)}
@@ -115,4 +145,4 @@ const ViewRecommendationItemPage = () => {
   );
 };
 
-export default withApollo({ ssr: false })(ViewRecommendationItemPage);
+export default withApollo({ ssr: false })(ViewDocumentPage);

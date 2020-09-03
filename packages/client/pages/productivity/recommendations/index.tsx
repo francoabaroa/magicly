@@ -187,7 +187,7 @@ const RecommendationsPage = () => {
       );
     });
   }
-  console.log('hi frankl ', data, hasSavedListItems);
+
   const getMainUI = () => {
     if (hasSavedListItems) {
       return (

@@ -32,7 +32,7 @@ export class AWSS3Uploader implements ApolloServerFileUploads.IUploader {
     this.config = config;
   }
 
-  private createUploadStream(key: string, userId: any): S3UploadStream {
+  private createUploadStream(key: string, userId: any, mimetype: string): S3UploadStream {
     const pass = new stream.PassThrough();
     return {
       writeStream: pass,
@@ -40,6 +40,7 @@ export class AWSS3Uploader implements ApolloServerFileUploads.IUploader {
         .upload({
           Bucket: this.config.destinationBucketName + '/' + userId,
           Key: key,
+          ContentType: mimetype,
           Body: pass
         })
         .promise()
@@ -52,6 +53,24 @@ export class AWSS3Uploader implements ApolloServerFileUploads.IUploader {
     encoding: string
   ): string {
     return fileName;
+  }
+
+  async getPresignedUrl(userId: any, bucketDocId: any): Promise<any> {
+    const params = {
+      Bucket: this.config.destinationBucketName + '/' + userId,
+      Key: bucketDocId,
+      Expires: 900
+    };
+
+    return new Promise((resolve, reject) => {
+      this.s3.getSignedUrl('getObject', params, function (err, url) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(url)
+        }
+      })
+    });
   }
 
   async singleFileUploadResolver(
@@ -71,7 +90,7 @@ export class AWSS3Uploader implements ApolloServerFileUploads.IUploader {
       mimetype,
       encoding
     );
-    const uploadStream = this.createUploadStream(filePath, me.id);
+    const uploadStream = this.createUploadStream(filePath, userId, mimetype);
     stream.pipe(uploadStream.writeStream);
     const result = await uploadStream.promise;
     return { filename: finalFileName, mimetype, encoding, url: result.Location };
