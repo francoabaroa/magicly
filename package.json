@@ -10,7 +10,7 @@
     "packages/*"
   ],
   "engines": {
-    "node": "13.x"
+    "node": "12.16.1"
   },
   "dependencies": {
     "concurrently": "^5.2.0"
