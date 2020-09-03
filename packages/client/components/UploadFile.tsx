@@ -126,12 +126,12 @@ const UploadFile = () => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-  if (data && data.createQuestion && data.createQuestion.id) {
-    // TODO: show dialog message when homework is created!
+  if (data && data.addDocument && data.addDocument.filename) {
+    // TODO: show dialog message when document is created!
     if (process.browser || (window && window.location)) {
-      window.location.href = url + 'productivity/help';
+      window.location.href = url + 'home/documents';
     } else {
-      router.push('/productivity/help', undefined);
+      router.push('/home/documents', undefined);
     }
   }
 
