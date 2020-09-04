@@ -32,19 +32,19 @@ export class AWSS3Uploader implements ApolloServerFileUploads.IUploader {
     this.config = config;
   }
 
-  private createUploadStream(key: string, userId: any, mimetype: string): S3UploadStream {
-    const pass = new stream.PassThrough();
-    return {
-      writeStream: pass,
-      promise: this.s3
-        .upload({
-          Bucket: this.config.destinationBucketName + '/' + userId,
-          Key: key,
-          ContentType: mimetype,
-          Body: pass
-        })
-        .promise()
-    };
+  private createUploadStream(key: string, userId: any, mimetype: string): any {
+    // const pass = new stream.PassThrough();
+    // return {
+    //   writeStream: pass,
+    //   promise: this.s3
+    //     .upload({
+    //       Bucket: this.config.destinationBucketName + '/' + userId,
+    //       Key: key,
+    //       ContentType: mimetype,
+    //       Body: pass
+    //     })
+    //     .promise()
+    // };
   }
 
   private createDestinationFilePath(
@@ -76,24 +76,25 @@ export class AWSS3Uploader implements ApolloServerFileUploads.IUploader {
   async singleFileUploadResolver(
     file: ApolloServerFileUploads.File,
     me: any
-  ): Promise<any> {
-    // const { createReadStream, filename, mimetype, encoding } = await file;
-    // const fileName = filename.split('.')[0];
-    // const fileEnding = filename.split('.')[1];
-    // const userId = me && me.id ? me.id : '';
-    // const dateString = new Date().getTime();
-    // const finalFileName =
-    //   userId + '_' + dateString + '_' + fileName + '.' + fileEnding;
-    // const stream = createReadStream();
-    // const filePath = this.createDestinationFilePath(
-    //   finalFileName,
-    //   mimetype,
-    //   encoding
-    // );
-    // const uploadStream = this.createUploadStream(filePath, userId, mimetype);
+  ): Promise<ApolloServerFileUploads.UploadedFileResponse> {
+    const { createReadStream, filename, mimetype, encoding } = await file;
+    const fileName = filename.split('.')[0];
+    const fileEnding = filename.split('.')[1];
+    const userId = me && me.id ? me.id : '';
+    const dateString = new Date().getTime();
+    const finalFileName =
+      userId + '_' + dateString + '_' + fileName + '.' + fileEnding;
+    const stream = createReadStream();
+    const filePath = this.createDestinationFilePath(
+      finalFileName,
+      mimetype,
+      encoding
+    );
+    // const uploadStream = this.createUploadStream(filePath, me.id, mimetype);
     // stream.pipe(uploadStream.writeStream);
     // const result = await uploadStream.promise;
     // return { filename: finalFileName, mimetype, encoding, url: result.Location };
+    return { filename: finalFileName, mimetype, encoding, url: 'result.Location' };
   }
 
   async multipleUploadsResolver(

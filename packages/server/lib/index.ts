@@ -19,7 +19,7 @@ export namespace ApolloServerFileUploads {
 
   export interface IUploader {
     getPresignedUrl: (userId, bucketDocId) => Promise<any>;
-    singleFileUploadResolver: (file, me) => Promise<any>;
+    singleFileUploadResolver: (file, me) => Promise<UploadedFileResponse>;
     multipleUploadsResolver: (parent, { files }: { files: File[] }) => Promise<UploadedFileResponse[]>;
   }
 }
