@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": ["esnext"],
+    "lib": ["esnext", "es5", "es2015.promise"],
     "allowJs": true,
     "noImplicitAny": false,
     "skipLibCheck": true,
