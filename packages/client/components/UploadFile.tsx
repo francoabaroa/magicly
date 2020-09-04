@@ -13,6 +13,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Grid from '@material-ui/core/Grid';
+import HomeWorkDropdown from './home/HomeWorkDropdown';
 
 // TODO: clean up before prod
 let url = null;
@@ -29,6 +30,7 @@ const ADD_DOCUMENT = gql`
     $type: DocType!,
     $keywords: [String]
     $notes: String,
+    $homeworkId: String,
   ) {
     addDocument(
       file: $file,
@@ -36,6 +38,7 @@ const ADD_DOCUMENT = gql`
       type: $type,
       keywords: $keywords,
       notes: $notes,
+      homeworkId: $homeworkId,
       ) {
       filename
       mimetype
@@ -77,6 +80,7 @@ const UploadFile = () => {
   const [type, setType] = useState('');
   const [keywords, setKeywords] = useState([]);
   const [folder, setFolder] = useState('Existing');
+  const [homeworkId, setHomeworkId] = React.useState('');
   const [newFolderName, setNewFolderName] = useState('');
 
   const onChange = ({
@@ -86,16 +90,6 @@ const UploadFile = () => {
     }
   }: any) => {
     validity.valid && setUploadedDoc(file);
-  };
-
-  const uploadDoc = () => {
-    uploadSingleDoc({ variables: {
-      file: uploadedDoc,
-      name,
-      type,
-      keywords,
-      notes
-    } });
   };
 
   useEffect(() => {
@@ -118,14 +112,13 @@ const UploadFile = () => {
         name,
         type,
         keywords,
-        notes
+        notes,
+        homeworkId
       }
     };
     uploadSingleDoc(variables);
   }
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
   if (data && data.addDocument && data.addDocument.filename) {
     // TODO: show dialog message when document is created!
     if (process.browser || (window && window.location)) {
@@ -162,6 +155,10 @@ const UploadFile = () => {
     setKeywords(keywords);
   };
 
+  const setHWID = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setHomeworkId(event.target.value as string);
+  };
+
   return (
     <div className={classes.root}>
       {/* <h1>Add a new todo list item</h1> */}
@@ -169,7 +166,6 @@ const UploadFile = () => {
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
           <Grid item xs={12} lg={12} md={12} sm={12}>
             <input type="file" required onChange={onChange} />
-            {/* <button onClick={uploadDoc}>upload doc</button> */}
             <br />
             {Object.keys(lastUploaded).length !== 0 && (
               <div>
@@ -213,6 +209,9 @@ const UploadFile = () => {
                 <FormControlLabel value={"New"} control={<Radio />} label="New" />
               </RadioGroup>
             </FormControl>
+          </Grid>
+          <Grid item xs={12} lg={12}>
+            <HomeWorkDropdown setHomeworkId={setHWID} homeworkId={homeworkId} />
           </Grid>
           <Grid item xs={12} lg={12} md={12} sm={12}>
             <p>Enter keywords describing this document (separated by a comma, for example: home, warranty, 2009): <input type='text' onChange={separateKeywords} autoComplete='on' required /></p>

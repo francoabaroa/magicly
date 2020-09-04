@@ -79,7 +79,7 @@ export default {
       isAuthenticated,
       async (
         parent,
-        { file, name, type, keywords, notes },
+        { file, name, type, keywords, notes, homeworkId },
         { singleUpload, me, models, bucketName }
       ) => {
         try {
@@ -96,6 +96,7 @@ export default {
               keywords,
               notes,
               userId: me.id,
+              homeworkId: homeworkId ? homeworkId : null,
             });
           }
 

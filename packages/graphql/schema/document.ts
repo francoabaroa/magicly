@@ -19,6 +19,7 @@ export default gql`
       type: DocType!
       keywords: [String]
       notes: String
+      homeworkId: String
       ): UploadedFileResponse!
     deleteDocument(id: ID!): Boolean!
   }
