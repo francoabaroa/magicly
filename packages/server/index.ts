@@ -24,11 +24,11 @@ const isTest = !!process.env.DATABASE_TEST;
 const isProduction = !!process.env.DATABASE_URL;
 let sequelizeConfig = {};
 
-const s3Uploader = new AWSS3Uploader({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  destinationBucketName: process.env.AWS_BUCKET
-});
+// const s3Uploader = new AWSS3Uploader({
+//   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+//   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+//   destinationBucketName: process.env.AWS_BUCKET
+// });
 
 // TODO: if user lands on HTTP, important to redirect to HTTPS. Form submissions should only happen via HTTPS
 
@@ -256,10 +256,13 @@ async function bootstrapApolloServer(expressApp, db: DbInterface) {
       models: db,
       me,
       bucketName: process.env.AWS_BUCKET,
-      getS3Url: s3Uploader.getPresignedUrl.bind(s3Uploader),
+      // getS3Url: s3Uploader.getPresignedUrl.bind(s3Uploader),
+      getS3Url: () => {console.log('hello')},
       secret: process.env.JWT_KEY,
-      singleUpload: s3Uploader.singleFileUploadResolver.bind(s3Uploader),
-      multipleUpload: s3Uploader.multipleUploadsResolver.bind(s3Uploader),
+      // singleUpload: s3Uploader.singleFileUploadResolver.bind(s3Uploader),
+      singleUpload: () => { console.log('hello') },
+      // multipleUpload: s3Uploader.multipleUploadsResolver.bind(s3Uploader),
+      multipleUpload: () => { console.log('hello') },
       loaders: {
         user: new DataLoader(keys =>
           loaders.user.batchUsers(keys, db),
