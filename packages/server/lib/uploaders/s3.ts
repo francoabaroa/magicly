@@ -1,4 +1,5 @@
 // import AWS from 'aws-sdk';
+import * as AWS from 'aws-sdk';
 import stream from 'stream';
 import { ApolloServerFileUploads } from '../index';
 require('dotenv').config({ path: '../../../.env' });
