@@ -15,7 +15,7 @@
   "dependencies": {
     "@types/sequelize": "4",
     "apollo-server-express": "^2.16.1",
-    "aws-sdk": "^2.747.0",
+    "aws-sdk": "^2.228.0",
     "bcrypt": "^5.0.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
