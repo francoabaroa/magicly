@@ -20,31 +20,31 @@ export class AWSS3Uploader implements ApolloServerFileUploads.IUploader {
   public config: S3UploadConfig;
 
   constructor(config: S3UploadConfig) {
-    AWS.config = new AWS.Config();
-    AWS.config.update({
-      region: config.region || process.env.AWS_DEFAULT_REGION ||'us-east-1',
+    // AWS.config = new AWS.Config();
+    // AWS.config.update({
+    //   region: config.region || process.env.AWS_DEFAULT_REGION ||'us-east-1',
 
-      accessKeyId: config.accessKeyId,
-      secretAccessKey: config.secretAccessKey
-    });
+    //   accessKeyId: config.accessKeyId,
+    //   secretAccessKey: config.secretAccessKey
+    // });
 
-    this.s3 = new AWS.S3();
-    this.config = config;
+    // this.s3 = new AWS.S3();
+    // this.config = config;
   }
 
-  private createUploadStream(key: string, userId: any, mimetype: string): any {
-    // const pass = new stream.PassThrough();
-    // return {
-    //   writeStream: pass,
-    //   promise: this.s3
-    //     .upload({
-    //       Bucket: this.config.destinationBucketName + '/' + userId,
-    //       Key: key,
-    //       ContentType: mimetype,
-    //       Body: pass
-    //     })
-    //     .promise()
-    // };
+  private createUploadStream(key: string, userId: any, mimetype: string): S3UploadStream {
+    const pass = new stream.PassThrough();
+    return {
+      writeStream: pass,
+      promise: this.s3
+        .upload({
+          Bucket: this.config.destinationBucketName + '/' + userId,
+          Key: key,
+          ContentType: mimetype,
+          Body: pass
+        })
+        .promise()
+    };
   }
 
   private createDestinationFilePath(
@@ -56,21 +56,21 @@ export class AWSS3Uploader implements ApolloServerFileUploads.IUploader {
   }
 
   async getPresignedUrl(userId: any, bucketDocId: any): Promise<any> {
-    const params = {
-      Bucket: this.config.destinationBucketName + '/' + userId,
-      Key: bucketDocId,
-      Expires: 900
-    };
+    // const params = {
+    //   Bucket: this.config.destinationBucketName + '/' + userId,
+    //   Key: bucketDocId,
+    //   Expires: 900
+    // };
 
-    return new Promise((resolve, reject) => {
-      this.s3.getSignedUrl('getObject', params, function (err, url) {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(url)
-        }
-      })
-    });
+    // return new Promise((resolve, reject) => {
+    //   this.s3.getSignedUrl('getObject', params, function (err, url) {
+    //     if (err) {
+    //       reject(err)
+    //     } else {
+    //       resolve(url)
+    //     }
+    //   })
+    // });
   }
 
   async singleFileUploadResolver(
@@ -90,11 +90,10 @@ export class AWSS3Uploader implements ApolloServerFileUploads.IUploader {
       mimetype,
       encoding
     );
-    // const uploadStream = this.createUploadStream(filePath, me.id, mimetype);
-    // stream.pipe(uploadStream.writeStream);
-    // const result = await uploadStream.promise;
-    // return { filename: finalFileName, mimetype, encoding, url: result.Location };
-    return { filename: finalFileName, mimetype, encoding, url: 'result.Location' };
+    const uploadStream = this.createUploadStream(filePath, me.id, mimetype);
+    stream.pipe(uploadStream.writeStream);
+    const result = await uploadStream.promise;
+    return { filename: finalFileName, mimetype, encoding, url: result.Location };
   }
 
   async multipleUploadsResolver(
