@@ -1,25 +1,25 @@
 import AWS from 'aws-sdk';
-import stream from 'stream';
+// import stream from 'stream';
 import { ApolloServerFileUploads } from '../index';
 require('dotenv').config({ path: '../../../.env' });
 
-type S3UploadConfig = {
-  accessKeyId: string;
-  secretAccessKey: string;
-  region?: string;
-  destinationBucketName: string;
-};
+// type S3UploadConfig = {
+//   accessKeyId: string;
+//   secretAccessKey: string;
+//   region?: string;
+//   destinationBucketName: string;
+// };
 
-type S3UploadStream = {
-  writeStream: stream.PassThrough;
-  promise: Promise<AWS.S3.ManagedUpload.SendData>;
-};
+// type S3UploadStream = {
+//   writeStream: stream.PassThrough;
+//   promise: Promise<AWS.S3.ManagedUpload.SendData>;
+// };
 
-export class AWSS3Uploader implements ApolloServerFileUploads.IUploader {
+export class AWSS3Uploader {
   // private s3: AWS.S3;
   // public config: S3UploadConfig;
 
-  constructor(config: S3UploadConfig) {
+  constructor(config) {
     // AWS.config = new AWS.Config();
     // AWS.config.update({
     //   region: config.region || process.env.AWS_DEFAULT_REGION ||'us-east-1',
