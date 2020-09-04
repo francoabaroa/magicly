@@ -16,20 +16,20 @@ type S3UploadStream = {
 };
 
 export class AWSS3Uploader implements ApolloServerFileUploads.IUploader {
-  private s3: AWS.S3;
-  public config: S3UploadConfig;
+  // private s3: AWS.S3;
+  // public config: S3UploadConfig;
 
   constructor(config: S3UploadConfig) {
-    AWS.config = new AWS.Config();
-    AWS.config.update({
-      region: config.region || process.env.AWS_DEFAULT_REGION ||'us-east-1',
+    // AWS.config = new AWS.Config();
+    // AWS.config.update({
+    //   region: config.region || process.env.AWS_DEFAULT_REGION ||'us-east-1',
 
-      accessKeyId: config.accessKeyId,
-      secretAccessKey: config.secretAccessKey
-    });
+    //   accessKeyId: config.accessKeyId,
+    //   secretAccessKey: config.secretAccessKey
+    // });
 
-    this.s3 = new AWS.S3();
-    this.config = config;
+    // this.s3 = new AWS.S3();
+    // this.config = config;
   }
 
   private createUploadStream(key: string, userId: any, mimetype: string): any {
