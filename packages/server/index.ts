@@ -15,7 +15,7 @@ import { createModels } from './models/index';
 import loaders from './loaders';
 import { PROTECTED_ROUTES } from './constants/strings';
 
-import { AWSS3Uploader } from './lib/uploaders/s3';
+// import { AWSS3Uploader } from './lib/uploaders/s3';
 
 require('dotenv').config({ path: '../../.env' });
 
