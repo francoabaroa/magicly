@@ -14,9 +14,5 @@
   },
   "dependencies": {
     "concurrently": "^5.2.0"
-  },
-  "resolutions": {
-    "fs-capacitor": "5.0.0",
-    "graphql-upload": "11.0.0"
   }
 }

@@ -16,9 +16,5 @@
     "graphql-resolvers": "^0.4.2",
     "jsonwebtoken": "^8.5.1",
     "sequelize": "^6.3.4"
-  },
-  "resolutions": {
-    "fs-capacitor": "5.0.0",
-    "graphql-upload": "11.0.0"
   }
 }
