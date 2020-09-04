@@ -1,4 +1,4 @@
-import AWS from 'aws-sdk';
+// import AWS from 'aws-sdk';
 // import stream from 'stream';
 import { ApolloServerFileUploads } from '../index';
 require('dotenv').config({ path: '../../../.env' });
@@ -47,13 +47,13 @@ export class AWSS3Uploader {
     // };
   }
 
-  private createDestinationFilePath(
-    fileName: string,
-    mimetype: string,
-    encoding: string
-  ): string {
-    return fileName;
-  }
+  // private createDestinationFilePath(
+  //   fileName: string,
+  //   mimetype: string,
+  //   encoding: string
+  // ): string {
+  //   return fileName;
+  // }
 
   async getPresignedUrl(userId: any, bucketDocId: any): Promise<any> {
     // const params = {
@@ -74,8 +74,8 @@ export class AWSS3Uploader {
   }
 
   async singleFileUploadResolver(
-    file: ApolloServerFileUploads.File,
-    me: any
+    // file: ApolloServerFileUploads.File,
+    // me: any
   ): Promise<any> {
     // const { createReadStream, filename, mimetype, encoding } = await file;
     // const fileName = filename.split('.')[0];
@@ -98,7 +98,7 @@ export class AWSS3Uploader {
 
   async multipleUploadsResolver(
     parent,
-    { files }: { files: ApolloServerFileUploads.File[] }
+    // { files }: { files: ApolloServerFileUploads.File[] }
   ): Promise<any> {
     // TODO: before using, change 0 to me.id
     // return Promise.all(
