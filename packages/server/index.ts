@@ -14,6 +14,7 @@ import { DbInterface } from './typings/DbInterface';
 import { createModels } from './models/index';
 import loaders from './loaders';
 import { APP_CONFIG, PROTECTED_ROUTES } from './constants/strings';
+import moment from 'moment';
 
 import { AWSS3Uploader } from './lib/uploaders/s3';
 
@@ -79,6 +80,30 @@ const client = new plaid.Client({
   options: {}
 });
 
+const getTransactions = (req, res) => {
+  // TODO: startDate &  endDate is temp until we have front end for it
+  // Pull transactions for the last 90 days
+
+  let startDate = moment()
+    .subtract(90, "days")
+    .format("YYYY-MM-DD");
+  let endDate = moment().format("YYYY-MM-DD");
+
+  // TODO: need to get access_token from user record
+  client.getTransactions(
+    ACCESS_TOKEN,
+    startDate,
+    endDate,
+    {
+      count: 250,
+      offset: 0
+    },
+    function (error, transactionsResponse) {
+      res.json({ transactions: transactionsResponse });
+    }
+  );
+};
+
 async function main() {
   const app = express();
   const corsOptions = {
@@ -91,6 +116,9 @@ async function main() {
   app.use(morgan('dev'));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+
+  // Get Transactions
+  app.get("/finance/transactionsList", getTransactions);
 
   const db = createModels(
     sequelizeConfig,
