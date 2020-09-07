@@ -263,8 +263,6 @@ const context = async (req: Request) => {
         'Authentication token is invalid, please log in',
       )
     }
-  } else {
-    return {};
   }
 }
 
