@@ -13,9 +13,11 @@ import { Request } from 'express';
 import { DbInterface } from './typings/DbInterface';
 import { createModels } from './models/index';
 import loaders from './loaders';
-import { PROTECTED_ROUTES } from './constants/strings';
+import { APP_CONFIG, PROTECTED_ROUTES } from './constants/strings';
 
 import { AWSS3Uploader } from './lib/uploaders/s3';
+
+import plaid from 'plaid';
 
 require('dotenv').config({ path: '../../.env' });
 
@@ -25,6 +27,7 @@ const isProduction = !!process.env.DATABASE_URL;
 let sequelizeConfig = {};
 
 const s3Uploader = new AWSS3Uploader({
+  region: process.env.AWS_DEFAULT_REGION || 'us-east-1',
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   destinationBucketName: process.env.AWS_BUCKET
@@ -64,6 +67,18 @@ const createToken = async (user, secret, expiresIn) => {
   return token;
 };
 
+// We store the access_token in memory - in production, store it in
+// a secure persistent data store.
+let ACCESS_TOKEN = null;
+let ITEM_ID = null;
+
+const client = new plaid.Client({
+  clientID: process.env.PLAID_CLIENT_ID,
+  secret: process.env.PLAID_SECRET,
+  env: plaid.environments.sandbox,
+  options: {}
+});
+
 async function main() {
   const app = express();
   const corsOptions = {
@@ -74,6 +89,7 @@ async function main() {
   app.use(cors(corsOptions));
   app.use(cookieParser());
   app.use(morgan('dev'));
+  app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
   const db = createModels(
@@ -89,6 +105,49 @@ async function main() {
     if (isTest || isProduction) {
       createUsersWithHomeworks(db);
     }
+
+    // Create a link_token to initialize Link
+    app.post('/create_link_token', async function (request, response, next) {
+      // Grab the client_user_id by searching for the current user in your database
+      const user: any = await context(request);
+      let clientUserId;
+      if (user && user.id) {
+        clientUserId = user.id;
+      } else {
+        return;
+      }
+      // Create the link_token with all of your configurations
+      client.createLinkToken({
+        user: {
+          client_user_id: clientUserId.toString(),
+        },
+        client_name: APP_CONFIG.appName,
+        products: ['transactions'],
+        country_codes: ['US'],
+        language: 'en',
+        webhook: 'https://sample.webhook.com',
+      }, function (error, linkTokenResponse) {
+        // Pass the result to your client-side app to initialize Link
+        response.json({ link_token: linkTokenResponse.link_token });
+      });
+    });
+
+    // Accept the public_token sent from Link
+    app.post('/get_access_token', function (request, response, next) {
+      const public_token = request.body.public_token;
+      client.exchangePublicToken(public_token, function (error, publicTokenResponse) {
+        if (error != null) {
+          console.log('Could not exchange public_token!' + '\n' + error);
+          return response.json({ error: 'ERROR: Could not exchange public_token' });
+        }
+
+        // Store the access_token and item_id in your database
+        ACCESS_TOKEN = publicTokenResponse.access_token;
+        ITEM_ID = publicTokenResponse.item_id;
+
+        response.json({ 'error': false });
+      });
+    });
 
     app.post('/signup', async (req, res) => {
       const { email, password, currentCity, hasSocialAuthLogin } = req.body
@@ -204,6 +263,8 @@ const context = async (req: Request) => {
         'Authentication token is invalid, please log in',
       )
     }
+  } else {
+    return {};
   }
 }
 

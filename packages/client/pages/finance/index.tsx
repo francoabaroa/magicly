@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../components/Layout';
 import { useRouter } from 'next/router';
@@ -7,9 +7,9 @@ import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
 import Cookies from 'js-cookie';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+
+import PlaidLink from '../../components/PlaidLink';
 
 const QUERY = gql`
   query GetMe {
@@ -81,30 +81,28 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: '30px',
       marginTop: '55px',
     },
-    getStartedBtn: {
-      fontFamily: 'Fredoka One, cursive',
-      fontSize: '22px',
-      margin: '0 auto',
-      display: 'block',
-      marginTop: '40px',
-      color: '#FFF',
-      backgroundColor: '#0A7EF2',
-      borderRadius: '50px',
-      width: '250px',
-      height: '50px',
-      [theme.breakpoints.down('sm')]: {
-        fontSize: '14px',
-        width: '150px',
-        height: '30px'
-      },
-    },
   }),
 );
+
+const fetchLinkToken = async () => {
+  const response = await fetch('/create_link_token', { method: 'POST' });
+  const responseJSON = await response.json();
+  return responseJSON.link_token;
+};
 
 const FinancePage = () => {
   const router = useRouter();
   const classes = useStyles();
+  const [token, setToken] = useState('');
   const { data, loading, error, refetch } = useQuery(QUERY);
+
+  useEffect(() => {
+    async function linkToken() {
+      let token = await fetchLinkToken();
+      setToken(token);
+    }
+    linkToken();
+  }, []);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -143,7 +141,7 @@ const FinancePage = () => {
               </Link></h4>
             </Grid>
             <Grid item xs={12} lg={12} md={12} sm={12}>
-              <Button className={classes.getStartedBtn}> Get Started </Button>
+              {token ? <PlaidLink token={token} /> : null}
             </Grid>
           </Grid>
         </div>
