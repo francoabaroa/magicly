@@ -83,7 +83,6 @@ export default {
         { me, models }
       ) => {
         try {
-          console.log('helo world', name, type, me);
           const list = await models.List.create({
             name,
             type,
