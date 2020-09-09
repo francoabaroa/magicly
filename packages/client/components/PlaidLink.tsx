@@ -37,7 +37,7 @@ const PlaidLink = (props) => {
       // Optional, called when Link loads
     },
     onSuccess: async function (token, metadata) {
-      const body = JSON.stringify({ public_token: token });
+      const body = JSON.stringify({ public_token: token, metadata });
       await fetch('/get_access_token', {
         method: 'POST',
         credentials: 'same-origin',
