@@ -7,6 +7,7 @@ import { EmployeeFactory } from './Employee';
 import { HomeworkFactory } from './Homework';
 import { ListFactory } from './List';
 import { ListItemFactory } from './ListItem';
+import { PlaidAccountFactory } from './PlaidAccount';
 import { ProductFactory } from './Product';
 import { QuestionFactory } from './Question';
 import { ServiceFactory } from './Service';
@@ -30,6 +31,7 @@ export const createModels = (sequelizeConfig: any, isProduction: boolean): DbInt
     Homework: HomeworkFactory(sequelize, Sequelize),
     List: ListFactory(sequelize, Sequelize),
     ListItem: ListItemFactory(sequelize, Sequelize),
+    PlaidAccount: PlaidAccountFactory(sequelize, Sequelize),
     Product: ProductFactory(sequelize, Sequelize),
     Question: QuestionFactory(sequelize, Sequelize),
     Service: ServiceFactory(sequelize, Sequelize),

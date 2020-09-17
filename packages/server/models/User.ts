@@ -3,6 +3,7 @@ import * as Sequelize from 'sequelize';
 import { DocumentAttributes, DocumentInstance } from './Document';
 import { HomeworkAttributes, HomeworkInstance } from './Homework';
 import { ListAttributes, ListInstance } from './List';
+import { PlaidAccountAttributes, PlaidAccountInstance } from './PlaidAccount';
 import { ProductAttributes, ProductInstance } from './Product';
 import { ServiceAttributes, ServiceInstance } from './Service';
 import { QuestionAttributes, QuestionInstance } from './Question';
@@ -31,6 +32,7 @@ export interface UserAttributes {
   products?: ProductAttributes[] | ProductAttributes['id'][];
   services?: ServiceAttributes[] | ServiceAttributes['id'][];
   questions?: QuestionAttributes[] | QuestionAttributes['id'][];
+  plaidAccounts?: PlaidAccountAttributes[] | PlaidAccountAttributes['id'][];
 };
 
 export interface UserInstance extends Sequelize.Instance<UserAttributes>, UserAttributes {
@@ -69,6 +71,18 @@ export interface UserInstance extends Sequelize.Instance<UserAttributes>, UserAt
   hasList: Sequelize.HasManyHasAssociationMixin<ListInstance, ListInstance['id']>;
   hasLists: Sequelize.HasManyHasAssociationsMixin<ListInstance, ListInstance['id']>;
   countLists: Sequelize.HasManyCountAssociationsMixin;
+
+  /* PlaidAccount */
+  getPlaidAccounts: Sequelize.HasManyGetAssociationsMixin<PlaidAccountInstance>;
+  setPlaidAccounts: Sequelize.HasManySetAssociationsMixin<PlaidAccountInstance, PlaidAccountInstance['id']>;
+  addPlaidAccounts: Sequelize.HasManyAddAssociationsMixin<PlaidAccountInstance, PlaidAccountInstance['id']>;
+  addPlaidAccount: Sequelize.HasManyAddAssociationMixin<PlaidAccountInstance, PlaidAccountInstance['id']>;
+  createPlaidAccount: Sequelize.HasManyCreateAssociationMixin<PlaidAccountAttributes, PlaidAccountInstance>;
+  removePlaidAccount: Sequelize.HasManyRemoveAssociationMixin<PlaidAccountInstance, PlaidAccountInstance['id']>;
+  removePlaidAccounts: Sequelize.HasManyRemoveAssociationsMixin<PlaidAccountInstance, PlaidAccountInstance['id']>;
+  hasPlaidAccount: Sequelize.HasManyHasAssociationMixin<PlaidAccountInstance, PlaidAccountInstance['id']>;
+  hasPlaidAccounts: Sequelize.HasManyHasAssociationsMixin<PlaidAccountInstance, PlaidAccountInstance['id']>;
+  countPlaidAccounts: Sequelize.HasManyCountAssociationsMixin;
 
   /* Product */
   getProducts: Sequelize.HasManyGetAssociationsMixin<ProductInstance>;
@@ -235,6 +249,7 @@ export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
     User.hasMany(models.Homework, { as: 'homeworks' , onDelete: 'CASCADE' });
     User.hasMany(models.List, { as: 'lists', onDelete: 'CASCADE' });
     User.hasMany(models.Product);
+    User.hasMany(models.PlaidAccount, { as: 'plaidAccounts', onDelete: 'CASCADE' });
     User.hasMany(models.Service);
     User.hasMany(models.Question);
     User.hasOne(models.Setting);
