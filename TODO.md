@@ -36,6 +36,7 @@
 31. CHANGE ACCESS KEYS in S3 TO IAM ROLE, OR THE SAFEST WAY. CHECK PERMISSIONS
 32. Warning: There are no listeners for SIGINT. If your application receives a SIGINT signal, it is possible that some temporary files will not be cleaned up. Please see https://github.com/mike-marcacci/fs-capacitor#ensuring-cleanup-on-termination-by-process-signal
 33. MEMORY LEAKS ISSUE
+34. https://khalilstemmler.com/blogs/tooling/prettier/
 
 *client*
 1. disable or enable SSR?
