@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { usePlaidLink } from 'react-plaid-link';
+import { useRouter } from 'next/router';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
@@ -30,6 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const PlaidLink = (props) => {
   const classes = useStyles();
+  const router = useRouter();
 
   const config = {
     token: props.token,
@@ -46,6 +48,7 @@ const PlaidLink = (props) => {
         },
         body: body,
       });
+      router.push('/finance/dashboard', undefined, { shallow: true });
       // send token to server
     },
     onExit: async function (err, metadata) {
@@ -57,6 +60,8 @@ const PlaidLink = (props) => {
           // invalid credentials. We want to destroy the old iframe
           // and reinitialize Plaid Link with a new link_token.
         }
+      } else {
+        router.push('/finance/dashboard', undefined, { shallow: true });
       }
       // metadata contains information about the institution
       // that the user selected and the most recent API request IDs.

@@ -17,7 +17,6 @@ import { APP_CONFIG, PROTECTED_ROUTES } from './constants/strings';
 import moment from 'moment';
 
 import { AWSS3Uploader } from './lib/uploaders/s3';
-
 import plaid from 'plaid';
 
 require('dotenv').config({ path: '../../.env' });
@@ -68,41 +67,12 @@ const createToken = async (user, secret, expiresIn) => {
   return token;
 };
 
-// We store the access_token in memory - in production, store it in
-// a secure persistent data store.
-let ACCESS_TOKEN = null;
-let ITEM_ID = null;
-
 const client = new plaid.Client({
   clientID: process.env.PLAID_CLIENT_ID,
   secret: process.env.PLAID_SECRET,
   env: plaid.environments.sandbox,
   options: {}
 });
-
-const getTransactions = (req, res) => {
-  // TODO: startDate &  endDate is temp until we have front end for it
-  // Pull transactions for the last 90 days
-
-  let startDate = moment()
-    .subtract(90, "days")
-    .format("YYYY-MM-DD");
-  let endDate = moment().format("YYYY-MM-DD");
-
-  // TODO: need to get access_token from user record
-  client.getTransactions(
-    ACCESS_TOKEN,
-    startDate,
-    endDate,
-    {
-      count: 250,
-      offset: 0
-    },
-    function (error, transactionsResponse) {
-      res.json({ transactions: transactionsResponse });
-    }
-  );
-};
 
 async function main() {
   const app = express();
@@ -117,22 +87,72 @@ async function main() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  // Get Transactions
-  app.get("/finance/transactionsList", getTransactions);
-
   const db = createModels(
     sequelizeConfig,
     isProduction
   );
 
   await bootstrapApolloServer(app, db);
-  await bootstrapClientApp(app);
 
   // TODO: remove flag and update credentials for production BEFORE LAUNCH
   db.sequelize.sync({ force: isTest || isProduction }).then(async () => {
     if (isTest || isProduction) {
       createUsersWithHomeworks(db);
     }
+
+    app.get("/finance/hasPlaidAccounts", async function (request, response, next) {
+      const me: any = await context(request);
+      let clientUserId;
+      if (me && me.id) {
+        clientUserId = me.id;
+      } else {
+        return;
+      }
+
+      const plaidAccount = await db.PlaidAccount.findOne({ where: { userId: clientUserId } });
+      const hasPlaidAccounts = plaidAccount ? true : false;
+      response.json({ hasPlaidAccounts });
+    });
+
+    app.get("/finance/transactionsList", async function (request, response, next) {
+      const me: any = await context(request);
+      let clientUserId;
+      if (me && me.id) {
+        clientUserId = me.id;
+      } else {
+        return;
+      }
+
+      // TODO: eventually we need a findAll
+      const plaidAccount = await db.PlaidAccount.findOne({ where: { userId: clientUserId } });
+      if (plaidAccount === null) {
+        response.redirect(301, '/finance');
+      }
+
+      // TODO: startDate &  endDate is temp until we have front end for it
+      // Pull transactions for the last 90 days
+      let startDate = moment()
+        .subtract(90, "days")
+        .format("YYYY-MM-DD");
+      let endDate = moment().format("YYYY-MM-DD");
+
+      // TODO: need to get access_token from user record
+      client.getTransactions(
+        plaidAccount.accessToken,
+        startDate,
+        endDate,
+        {
+          count: 250,
+          offset: 0
+        },
+        function (error, transactionsResponse) {
+          response.json({ transactions: transactionsResponse });
+        }
+      );
+    });
+
+    // TODO: where should I place this?
+    await bootstrapClientApp(app);
 
     // Create a link_token to initialize Link
     app.post('/create_link_token', async function (request, response, next) {
@@ -161,19 +181,33 @@ async function main() {
     });
 
     // Accept the public_token sent from Link
-    app.post('/get_access_token', function (request, response, next) {
+    app.post('/get_access_token', async function (request, response, next) {
+      const me: any = await context(request);
       const public_token = request.body.public_token;
-      client.exchangePublicToken(public_token, function (error, publicTokenResponse) {
+      const institution = request.body.metadata.institution;
+      const { name, institution_id } = institution;
+
+      client.exchangePublicToken(public_token, async function (error, publicTokenResponse) {
         if (error != null) {
           console.log('Could not exchange public_token!' + '\n' + error);
           return response.json({ error: 'ERROR: Could not exchange public_token' });
         }
 
-        // Store the access_token and item_id in your database
-        ACCESS_TOKEN = publicTokenResponse.access_token;
-        ITEM_ID = publicTokenResponse.item_id;
+        let plaidAccount = null;
+        if (me && me.id) {
+          // TODO: need to check if account already exists for user with INSTITUTION ID
+          const user = await db.User.findByPk(me.id);
+          plaidAccount = await db.PlaidAccount.create({
+            accessToken: publicTokenResponse.access_token,
+            itemId: publicTokenResponse.item_id,
+            institutionId: institution_id,
+            institutionName: name,
+            user: me.id,
+          });
+          plaidAccount.setUser(user);
+        }
 
-        response.json({ 'error': false });
+        response.redirect(301, '/finance/dashboard');
       });
     });
 

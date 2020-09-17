@@ -90,6 +90,12 @@ const fetchLinkToken = async () => {
   return responseJSON.link_token;
 };
 
+const fetchHasPlaidAccounts = async () => {
+  const response = await fetch('/finance/hasPlaidAccounts', { method: 'GET' });
+  const responseJSON = await response.json();
+  return responseJSON.hasPlaidAccounts;
+};
+
 const FinancePage = () => {
   const router = useRouter();
   const classes = useStyles();
@@ -101,7 +107,15 @@ const FinancePage = () => {
       let token = await fetchLinkToken();
       setToken(token);
     }
-    linkToken();
+    async function hasPlaidAccounts() {
+      const hasPlaidAccountsVerdict = await fetchHasPlaidAccounts();
+      if (hasPlaidAccountsVerdict) {
+        router.push('/finance/dashboard', undefined, { shallow: true });
+      } else {
+        linkToken();
+      }
+    }
+    hasPlaidAccounts();
   }, []);
 
   if (loading) return <p>Loading...</p>;
