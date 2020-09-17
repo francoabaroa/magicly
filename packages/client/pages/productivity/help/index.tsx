@@ -130,12 +130,12 @@ const TechHelpPage = () => {
   const getIndividualQuestion = (key: any, question: any) => {
     return (
       <Grid key={key} container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
-        <Grid item xs={4} lg={3} md={4} sm={4}>
+        <Grid item xs={5} lg={5} md={5} sm={5}>
           <Link href="help/view/[id]" as={`help/view/${question.id}`}>
-            <span className={classes.link}>{question.body.substring(0, 29) + '...'}</span>
+            <span className={classes.link}>{question.body.substring(0, 50) + '...'}</span>
           </Link>
         </Grid>
-        <Grid item xs={4} lg={3} md={4} sm={4}>
+        <Grid item xs={5} lg={5} md={5} sm={5}>
           <Link href="help/view/[id]" as={`help/view/${question.id}`}>
             <span className={classes.type}>{question.status}</span>
           </Link>
