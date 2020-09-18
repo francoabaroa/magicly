@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
     },
+    bold: {
+      fontWeight: 'bold',
+    },
     title: {
       fontFamily: 'Playfair Display, serif',
       fontWeight: 'bold',
@@ -71,7 +74,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontFamily: 'Playfair Display, serif',
       fontWeight: 'normal',
       fontSize: '28px',
-      color: '#E59500',
+      color: '#0A7EF2',
       marginTop: '10px',
       margin: 'auto',
       textAlign: 'center',
@@ -112,10 +115,10 @@ const Index = () => {
       <div className={classes.indexPage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={12}>
-            <h1 className={classes.title}>Run your life like magic</h1>
+            <h1 className={classes.title}>Run Your Life Like Magic</h1>
           </Grid>
           <Grid item xs={8}>
-            <h2 className={classes.subtitle}>do everything in one app, and gain the freedom and time to focus on the things you love</h2>
+            <h2 className={classes.subtitle}>Do <span className={classes.bold}>everything in one app</span> to gain the freedom and time to focus on the things you love</h2>
           </Grid>
           <Grid item xs={12}>
             <Button className={classes.getStartedButton} onClick={routePage.bind(this, 'signup')}> Get Started </Button>
@@ -124,7 +127,7 @@ const Index = () => {
             <h3 className={classes.or}>or</h3>
           </Grid>
           <Grid item xs={8}>
-            <h3 className={classes.call}>call to learn more 1-800-123-4567</h3>
+            <h3 className={classes.call}>Call to Learn More 1-800-123-4567</h3>
           </Grid>
         </Grid>
         {/* <div className={classes.root}>
