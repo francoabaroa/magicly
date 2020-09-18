@@ -64,14 +64,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     getStarted: {
       fontFamily: 'Fredoka One, cursive',
-      fontSize: '18px',
+      fontSize: '16px',
       margin: '0 auto',
       display: 'block',
       marginTop: '40px',
       color: '#E5DADA',
       backgroundColor: '#840032',
       borderRadius: '50px',
-      width: '220px',
+      width: '180px',
       height: '50px',
       [theme.breakpoints.down('sm')]: {
         fontSize: '12px',
@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme: Theme) =>
     details: {
       marginLeft: '20px',
       fontFamily: 'Playfair Display, serif',
-      fontSize: '24px',
+      fontSize: '18px',
       color: '#002642'
     },
     individualFeature: {
