@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: '40px',
       color: '#E5DADA',
       marginTop: '45px',
-      marginBottom: '45px',
+      marginBottom: '35px',
       margin: 'auto',
       textAlign: 'center',
       [theme.breakpoints.down('sm')]: {
@@ -35,27 +35,27 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: "#E5DADA",
     },
     planName: {
-      fontSize: '30px',
+      fontSize: '26px',
       fontFamily: 'Playfair Display, serif',
       color: '#002642',
       [theme.breakpoints.down('sm')]: {
-        fontSize: '22px',
+        fontSize: '18px',
       },
     },
     pricingAmt: {
-      fontSize: '30px',
+      fontSize: '22px',
       fontFamily: 'Playfair Display, serif',
-      color: '#840032',
+      color: '#0A7EF2',
       [theme.breakpoints.down('sm')]: {
-        fontSize: '22px',
+        fontSize: '16px',
       },
     },
     pricingAmtHidden: {
-      fontSize: '30px',
+      fontSize: '22px',
       fontFamily: 'Playfair Display, serif',
       color: '#E5DADA',
       [theme.breakpoints.down('sm')]: {
-        fontSize: '22px',
+        fontSize: '16px',
       },
     },
     pricingPage: {
@@ -93,6 +93,9 @@ const useStyles = makeStyles((theme: Theme) =>
     individualFeature: {
       marginBottom: '5px',
     },
+    checkmark: {
+      color: '#002642',
+    }
   }),
 );
 
@@ -125,15 +128,15 @@ const PricingPage = () => {
                 <Button className={classes.getStarted} onClick={routePage.bind(this, 'plans/free')}>Get started</Button>
                 <div className={classes.features}>
                   <div className={classes.individualFeature}>
-                    <DoneOutline fontSize={'small'} />
+                    <DoneOutline fontSize={'small'} className={classes.checkmark}/>
                     <span className={classes.details}>details</span>
                   </div>
                   <div className={classes.individualFeature}>
-                    <DoneOutline fontSize={'small'} />
+                    <DoneOutline fontSize={'small'} className={classes.checkmark}/>
                     <span className={classes.details}>details</span>
                   </div>
                   <div className={classes.individualFeature}>
-                    <DoneOutline fontSize={'small'} />
+                    <DoneOutline fontSize={'small'} className={classes.checkmark}/>
                     <span className={classes.details}>details</span>
                   </div>
                 </div>
@@ -150,15 +153,15 @@ const PricingPage = () => {
                 <Button className={classes.getStarted} onClick={routePage.bind(this, 'plans/basic')}>Get started</Button>
                 <div className={classes.features}>
                   <div className={classes.individualFeature}>
-                    <DoneOutline fontSize={'small'} />
+                    <DoneOutline fontSize={'small'} className={classes.checkmark}/>
                     <span className={classes.details}>details</span>
                   </div>
                   <div className={classes.individualFeature}>
-                    <DoneOutline fontSize={'small'} />
+                    <DoneOutline fontSize={'small'} className={classes.checkmark}/>
                     <span className={classes.details}>details</span>
                   </div>
                   <div className={classes.individualFeature}>
-                    <DoneOutline fontSize={'small'} />
+                    <DoneOutline fontSize={'small'} className={classes.checkmark}/>
                     <span className={classes.details}>details</span>
                   </div>
                 </div>
@@ -175,15 +178,15 @@ const PricingPage = () => {
                 <Button className={classes.getStarted} onClick={routePage.bind(this, 'plans/premium')}>Get started</Button>
                 <div className={classes.features}>
                   <div className={classes.individualFeature}>
-                    <DoneOutline fontSize={'small'} />
+                    <DoneOutline fontSize={'small'} className={classes.checkmark}/>
                     <span className={classes.details}>details</span>
                   </div>
                   <div className={classes.individualFeature}>
-                    <DoneOutline fontSize={'small'} />
+                    <DoneOutline fontSize={'small'} className={classes.checkmark}/>
                     <span className={classes.details}>details</span>
                   </div>
                   <div className={classes.individualFeature}>
-                    <DoneOutline fontSize={'small'} />
+                    <DoneOutline fontSize={'small'} className={classes.checkmark}/>
                     <span className={classes.details}>details</span>
                   </div>
                 </div>
