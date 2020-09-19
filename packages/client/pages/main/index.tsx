@@ -33,14 +33,14 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       fontFamily: 'Playfair Display, serif',
       fontWeight: 'bold',
-      fontSize: '40px',
+      fontSize: '24px',
       color: '#002642',
       marginTop: '15px',
       marginBottom: '45px',
       margin: 'auto',
       textAlign: 'center',
       [theme.breakpoints.down('sm')]: {
-        fontSize: '26px',
+        fontSize: '18px',
         marginTop: '35px',
         marginBottom: '35px',
       },
@@ -71,15 +71,15 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     findButton: {
       fontFamily: 'Fredoka One, cursive',
-      fontSize: '28px',
+      fontSize: '22px',
       margin: '0 auto',
       pointerEvents: 'none',
       display: 'block',
       marginTop: '40px',
       color: '#FFF',
-      backgroundColor: '#0A7EF2',
+      backgroundColor: '#840032',
       borderRadius: '50px',
-      width: '550px',
+      width: '360px',
       height: '60px',
       [theme.breakpoints.down('sm')]: {
         fontSize: '14px',
@@ -105,12 +105,26 @@ const MainPage = () => {
     router.push('/' + pageName, undefined, { shallow: true });
   };
 
+  const getCapitalizedString = (name: string) => {
+    const lowerCaseTitle = name.toLowerCase();
+    if (typeof lowerCaseTitle !== 'string') return ''
+    return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
+  };
+
+  const getInitialPartOfEmail = (email: string) => {
+    if (email && email.length > 0) {
+      return ', ' + getCapitalizedString(email.split('@')[0]);
+    }
+    return '!';
+  };
+
+
   return (
     <Layout>
       <div className={classes.mainPage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h1 className={classes.title}>The key to a more organized, tech-forward and informed life with Magicly</h1>
+            <h5 className={classes.title}>{'Welcome back' + getInitialPartOfEmail(data.me.email)}</h5>
           </Grid>
         </Grid>
         <div className={classes.root}>
