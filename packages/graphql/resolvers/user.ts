@@ -109,5 +109,15 @@ export default {
         },
       });
     },
+    documents: async (user, args, { models }) => {
+      if (!user) {
+        return null;
+      }
+      return await models.Document.findAll({
+        where: {
+          userId: user.id,
+        },
+      });
+    },
   },
 };
