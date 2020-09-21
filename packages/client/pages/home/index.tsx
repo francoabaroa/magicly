@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#FFF',
       backgroundColor: "#840032",
       borderRadius: '10px',
+      boxShadow: '-15px 15px 0 0px #E59500, -5px 5px 0 1px white',
     },
     sectionTitle: {
       color: '#FFF',
