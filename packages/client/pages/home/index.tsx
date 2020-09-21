@@ -94,9 +94,9 @@ const HomePage = () => {
 
   const getDocumentPreviews = () => {
     let documentPreviews = [];
-    data.me.documents.forEach(document => {
+    data.me.documents.forEach((document, key) => {
       documentPreviews.push(
-        <Link href="home/documents/view/[id]" as={`home/documents/view/${document.id}`}>
+        <Link key={key} href="home/documents/view/[id]" as={`home/documents/view/${document.id}`}>
           <div>- {document.name}</div>
         </Link>
       );
@@ -106,9 +106,9 @@ const HomePage = () => {
 
   const getHomeWorkPreviews = () => {
     let homeworkPreviews = [];
-    data.me.homeworks.forEach(homework => {
+    data.me.homeworks.forEach((homework, key) => {
       homeworkPreviews.push(
-        <Link href="home/work/view/[id]" as={`home/work/view/${homework.id}`}>
+        <Link key={key} href="home/work/view/[id]" as={`home/work/view/${homework.id}`}>
           <div>- {homework.title}</div>
         </Link>
       );
