@@ -47,9 +47,6 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#FFF',
       backgroundColor: "#840032",
       borderRadius: '10px',
-      '&:hover': {
-        background: '#002642',
-      },
     },
     sectionTitle: {
       color: '#FFF',
