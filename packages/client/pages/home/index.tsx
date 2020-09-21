@@ -5,8 +5,6 @@ import Layout from '../../components/Layout';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
-import Cookies from 'js-cookie';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -202,19 +200,25 @@ const HomePage = () => {
     }
   };
 
+  const getHomeServiceProvidersSection = () => {
+    return (
+      <Grid item xs={7} lg={7} md={7} sm={7}>
+        <Paper className={classes.paper} onClick={routePage.bind(this, 'home/providers')}>
+          <h2 className={classes.sectionTitle}>
+            Find Home Service Providers
+              </h2>
+        </Paper>
+      </Grid>
+    );
+  };
+
   return (
     <Layout>
       <h3 style={{color: 'white'}}>Home Page</h3>
       <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
         { getHomeWorkSection() }
         { getDocumentsSection() }
-        <Grid item xs={7} lg={7} md={7} sm={7}>
-          <Paper className={classes.paper} onClick={routePage.bind(this, 'home/providers')}>
-            <h2 className={classes.sectionTitle}>
-              Find Home Service Providers
-              </h2>
-          </Paper>
-        </Grid>
+        { getHomeServiceProvidersSection() }
       </Grid>
     </Layout>
   );
