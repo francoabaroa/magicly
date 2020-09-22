@@ -6,7 +6,6 @@ import { withApollo } from '../../../apollo/apollo';
 const AddHomeWork = () => {
   return (
     <Layout>
-      <h1>Add New Home Work</h1>
       <NewHomeWorkForm />
     </Layout>
   );

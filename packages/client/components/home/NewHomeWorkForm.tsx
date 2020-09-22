@@ -3,7 +3,28 @@ import { useRouter } from 'next/router';
 import { APP_CONFIG } from '../../constants/appStrings';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import { withApollo } from '../../apollo/apollo';
+
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
 
 // TODO: clean up before prod
 let url = null;
@@ -43,14 +64,34 @@ const CREATE_HOMEWORK = gql`
   }
 `;
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    inputStyling: {
+      backgroundColor: '#E5DADA',
+    },
+    centerText: {
+      textAlign: 'center',
+    },
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+    form: {
+      marginBottom: '60px'
+    }
+  }),
+);
+
 const NewHomeWorkForm = () => {
-  const [createHomework, { data, loading, error }] = useMutation(CREATE_HOMEWORK);
+  const classes = useStyles();
   const router = useRouter();
+
+  const [createHomework, { data, loading, error }] = useMutation(CREATE_HOMEWORK);
 
   const [cost, setCost] = useState('');
   const [costCurrency, setCostCurrency] = useState('USD');
   const [document, setDocument] = useState('');
-  const [executionDate, setExecutionDate] = useState('');
+  const [executionDate, setExecutionDate] = useState(new Date());
   const [executor, setExecutor] = useState('');
   const [keywords, setKeywords] = useState([]);
   const [notes, setNotes] = useState('');
@@ -79,13 +120,12 @@ const NewHomeWorkForm = () => {
         executor
       }
     };
-
     createHomework(variables);
   }
 
   const setReminderType = () => {
     return (
-      <span>
+      <Grid item xs={12} lg={6} md={12} sm={12} className={classes.centerText}>
         <p>How do you want to be reminded?</p>
         <input type='radio' id='sms' name='notificationType' value='sms' onChange={event => setNotificationType(event.target.value.toUpperCase())} required/>
         <label>sms</label><br />
@@ -95,7 +135,7 @@ const NewHomeWorkForm = () => {
         <label>whatsapp</label><br />
         <input type='radio' id='email' name='notificationType' value='email' onChange={event => setNotificationType(event.target.value.toUpperCase())} required/>
         <label>email</label><br />
-      </span>
+      </Grid>
     );
   }
 
@@ -110,55 +150,112 @@ const NewHomeWorkForm = () => {
     }
   }
 
+  const setHomeWorkType = (event) => {
+    if (event && event.target.value && typeof event.target.value === 'string') {
+      setType(event.target.value.toUpperCase());
+    }
+  };
+
+  const handleDateChange = (date) => {
+    setExecutionDate(date);
+  };
+
   return (
     <div>
-      <form onSubmit={submitForm}>
-        <p>Title: <input type='text' onChange={event => setTitle(event.target.value)} autoComplete='on' required /></p>
+      <form onSubmit={submitForm} className={classes.form}>
+        <Grid container spacing={1} justify="center" alignContent="center" alignItems="center">
+          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+            <h1>New Home Work</h1>
+          </Grid>
 
-        <p>What type of home work is it?</p>
-        <input type='radio' id='maintenance' name='type' value='maintenance' onChange={event => setType(event.target.value.toUpperCase())} required/>
-        <label>maintenance</label><br/>
-        <input type='radio' id='repair' name='type' value='repair' onChange={event => setType(event.target.value.toUpperCase())} required/>
-        <label>repair</label><br/>
-        <input type='radio' id='installation' name='type' value='installation' onChange={event => setType(event.target.value.toUpperCase())} required/>
-        <label>installation</label><br />
-        <input type='radio' id='cleaning' name='type' value='cleaning' onChange={event => setType(event.target.value.toUpperCase())} required/>
-        <label>cleaning</label><br />
-        <input type='radio' id='other' name='type' value='other' onChange={event => setType(event.target.value.toUpperCase())} required/>
-        <label>other</label>
+          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+            <TextField autoComplete="off" id="standard-basic" label="Title" onChange={event => setTitle(event.target.value)} required />
+          </Grid>
 
-        {/* TODO: date storage for backend!! 2020-08-27 */}
-        <p>When will it occur? <input type='date' onChange={event => setExecutionDate(event.target.value)} autoComplete='on' required/></p>
+          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+            <TextField autoComplete="off" id="standard-basic" label="Who will do it?" onChange={event => setExecutor(event.target.value)} />
+          </Grid>
 
-        {/* if YES, show option to select notificationType */}
-        {/* TODO: need to add NONE to notificationType */}
-        {/* TODO: need to get their phone number for this */}
-        <p>Would you like to set a reminder for this?</p>
-        <input type='radio' id='no' name='reminder' value='no' onChange={event => setReminder(event.target.value)}/>
-        <label>no</label><br />
-        <input type='radio' id='yes' name='reminder' value='yes' onChange={event => setReminder(event.target.value)}/>
-        <label>yes</label><br />
+          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+            <TextField autoComplete="off" type="number" id="standard-basic" label="Cost Estimate (USD):" onChange={event => setCost(event.target.value)} />
+          </Grid>
 
-        {
-          reminder === 'yes' ?
-            setReminderType() :
-            null
-        }
+          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+            <TextField autoComplete="off" id="standard-basic" label="Additional notes" onChange={event => setNotes(event.target.value)} />
+          </Grid>
 
-        <p>Cost Estimate (USD): <input type='number' onChange={event => setCost(event.target.value)} autoComplete='on' /></p>
+          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+            <FormControl className={classes.formControl} required>
+            <InputLabel>Work Type</InputLabel>
+            <Select
+              value={type}
+              onChange={setHomeWorkType}
+            >
+              <MenuItem value='MAINTENANCE'>Maintenance</MenuItem>
+                <MenuItem value='REPAIR'>Repair</MenuItem>
+                <MenuItem value='INSTALLATION'>Installation</MenuItem>
+                <MenuItem value='CLEANING'>Cleaning</MenuItem>
+                <MenuItem value='OTHER'>Other</MenuItem>
+            </Select>
+          </FormControl>
+          </Grid>
 
-        <p>Who did it/will be doing it?: <input type='text' onChange={event => setExecutor(event.target.value)} autoComplete='on' /></p>
+          {/* TODO: date storage for backend!! 2020-08-27 */}
+          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                margin="normal"
+                id="date-picker-dialog"
+                label="Home Work Date"
+                format="MM/dd/yyyy"
+                value={executionDate}
+                onChange={handleDateChange}
+                KeyboardButtonProps={{
+                  'aria-label': 'change date',
+                }}
+              />
+            </MuiPickersUtilsProvider>
+          </Grid>
+
+          {/* if YES, show option to select notificationType */}
+          {/* TODO: need to add NONE to notificationType */}
+          {/* TODO: need to get their phone number for this */}
+          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Would you like to set an email reminder for this?</FormLabel>
+              <RadioGroup aria-label="notif" name="notif1" value={reminder} onChange={event => setReminder(event.target.value)}>
+                <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="no" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          {/* {
+            reminder === 'yes' ?
+              setReminderType() :
+              null
+          } */}
 
         {/* if YES, show option to attach doc */}
-        <p>Would you like to attach a document for this?</p>
-        <input type='radio' id='no' name='document' value='no' />
-        <label>no</label><br />
-        <input type='radio' id='yes' name='document' value='yes' />
-        <label>yes</label><br />
+        <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Would you like to attach a document for this?</FormLabel>
+            <RadioGroup aria-label="attach" name="attach1" value={document} onChange={event => setDocument(event.target.value)}>
+              <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+              <FormControlLabel value="no" control={<Radio />} label="No" />
+            </RadioGroup>
+          </FormControl>
+        </Grid>
 
-        <p>Notes: <input type='text' onChange={event => setNotes(event.target.value)} autoComplete='on' /></p>
+        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+          <Button variant="contained" color="primary" type='submit'>
+            Save
+        </Button>
+        </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+          <Button onClick={() => router.back()} variant="contained">Cancel</Button>
+        </Grid>
 
-        <p><button onClick={() => router.back()}>Cancel</button><button type='submit'>Add</button></p>
+        </Grid>
       </form>
     </div>
   )
