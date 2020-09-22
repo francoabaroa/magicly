@@ -5,8 +5,6 @@ import Layout from '../../components/Layout';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
-import Cookies from 'js-cookie';
-import Button from '@material-ui/core/Button';
 import { LIST_TYPE } from '../../constants/appStrings';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -147,33 +145,31 @@ const ProductivityPage = () => {
     return recommendationItems;
   };
 
+  const containsTodoListItems = () => {
+    if (data && data.lists && data.lists.edges && data.lists.edges.length > 0) {
+      if (
+        data.lists.edges[0].listItems.length > 0 ||
+        data.lists.edges[1].listItems.length > 0 ||
+        data.lists.edges[2].listItems.length > 0
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   const getTodoListItemsPreview = () => {
     let todoListItemsPreview = [];
-    if (data.lists.edges[0].listItems.length > 0) {
-      let item = data.lists.edges[1].listItems[0];
-      todoListItemsPreview.push(
-        <Link key={item.id} href="productivity/lists/view/[id]" as={`productivity/lists/view/${item.id}`}>
-          <div>- {item.name}</div>
-        </Link>
-      );
-    }
 
-    if (data.lists.edges[2].listItems.length > 0) {
-      let item = data.lists.edges[1].listItems[0];
-      todoListItemsPreview.push(
-        <Link key={item.id} href="productivity/lists/view/[id]" as={`productivity/lists/view/${item.id}`}>
-          <div>- {item.name}</div>
-        </Link>
-      );
-    }
-
-    if (data.lists.edges[1].listItems.length > 0) {
-      let item = data.lists.edges[1].listItems[0];
-      todoListItemsPreview.push(
-        <Link key={item.id} href="productivity/lists/view/[id]" as={`productivity/lists/view/${item.id}`}>
-          <div>- {item.name}</div>
-        </Link>
-      );
+    for (let i = 0; i < 3; i++) {
+      if (data.lists.edges[i].listItems.length > 0) {
+        let item = data.lists.edges[i].listItems[0];
+        todoListItemsPreview.push(
+          <Link key={item.id} href="productivity/lists/view/[id]" as={`productivity/lists/view/${item.id}`}>
+            <div>- {item.name}</div>
+          </Link>
+        );
+      }
     }
 
     return todoListItemsPreview;
@@ -222,7 +218,7 @@ const ProductivityPage = () => {
   };
 
   const getTodoListSection = () => {
-    if (data && data.lists && data.lists.edges && data.lists.edges.length > 0) {
+    if (containsTodoListItems()) {
       let todoListItems = getTodoListItemsPreview();
       return (
         <Grid item xs={7} lg={7} md={7} sm={7}>
