@@ -90,13 +90,13 @@ const NewHomeWorkForm = () => {
 
   const [cost, setCost] = useState('');
   const [costCurrency, setCostCurrency] = useState('USD');
-  const [document, setDocument] = useState('');
+  const [document, setDocument] = useState('no');
   const [executionDate, setExecutionDate] = useState(new Date());
   const [executor, setExecutor] = useState('');
   const [keywords, setKeywords] = useState([]);
   const [notes, setNotes] = useState('');
   const [notificationType, setNotificationType] = useState('NONE');
-  const [reminder, setReminder] = useState('');
+  const [reminder, setReminder] = useState('no');
   const [title, setTitle] = useState('');
   const [type, setType] = useState('');
 
