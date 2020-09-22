@@ -37,6 +37,7 @@
 32. Warning: There are no listeners for SIGINT. If your application receives a SIGINT signal, it is possible that some temporary files will not be cleaned up. Please see https://github.com/mike-marcacci/fs-capacitor#ensuring-cleanup-on-termination-by-process-signal
 33. MEMORY LEAKS ISSUE
 34. https://khalilstemmler.com/blogs/tooling/prettier/
+35. AWS BUCKET DELETE MOCK DATA!!!
 
 *client*
 1. disable or enable SSR?
