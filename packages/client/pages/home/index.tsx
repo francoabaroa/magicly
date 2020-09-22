@@ -95,25 +95,31 @@ const HomePage = () => {
 
   const getDocumentPreviews = () => {
     let documentPreviews = [];
-    data.me.documents.forEach((document, key) => {
+    let length = data.me.documents.length >= 3 ? 3 : data.me.documents.length;
+    let documents = data.me.documents.slice().reverse();
+    for (let i = 0; i < length; i++) {
+      let document = documents[i];
       documentPreviews.push(
-        <Link key={key} href="home/documents/view/[id]" as={`home/documents/view/${document.id}`}>
+        <Link key={i} href="home/documents/view/[id]" as={`home/documents/view/${document.id}`}>
           <div>- {document.name}</div>
         </Link>
       );
-    });
+    }
     return documentPreviews;
   };
 
   const getHomeWorkPreviews = () => {
     let homeworkPreviews = [];
-    data.me.homeworks.forEach((homework, key) => {
+    let length = data.me.homeworks.length >= 3 ? 3 : data.me.homeworks.length;
+    let homeworks = data.me.homeworks.slice().reverse();
+    for (let i = 0; i < length; i++) {
+      let homework = homeworks[i];
       homeworkPreviews.push(
-        <Link key={key} href="home/work/view/[id]" as={`home/work/view/${homework.id}`}>
+        <Link key={i} href="home/work/view/[id]" as={`home/work/view/${homework.id}`}>
           <div>- {homework.title}</div>
         </Link>
       );
-    });
+    }
     return homeworkPreviews;
   };
 
