@@ -8,6 +8,7 @@ import { withApollo } from '../../apollo/apollo';
 import Cookies from 'js-cookie';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 import PlaidLink from '../../components/PlaidLink';
 
@@ -31,11 +32,33 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
     },
+    pageHeading: {
+      fontFamily: 'Playfair Display, serif',
+      fontSize: '32px',
+      fontStyle: 'normal',
+      fontWeight: 'bold',
+      lineHeight: '64px',
+      letterSpacing: '0em',
+      textAlign: 'center',
+      marginBottom: '0px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '28px',
+      },
+    },
+    paper: {
+      padding: theme.spacing(1),
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      color: '#02040F',
+      backgroundColor: "#E5DADA",
+      borderRadius: '10px',
+      boxShadow: '15px 15px 0 0px #02040F',
+      marginBottom: '10px',
+    },
     title: {
       fontFamily: 'Playfair Display, serif',
-      fontWeight: 'bold',
       fontSize: '30px',
-      color: '#002642',
+      color: '#FFF',
       marginTop: '0px',
       marginBottom: '25px',
       margin: 'auto',
@@ -50,7 +73,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontFamily: 'Playfair Display, serif',
       fontWeight: 'normal',
       fontSize: '24px',
-      color: '#002642',
+      color: '#FFF',
       marginTop: '0px',
       marginBottom: '10px',
       margin: 'auto',
@@ -65,7 +88,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontFamily: 'Playfair Display, serif',
       fontWeight: 'normal',
       fontSize: '18px',
-      color: '#002642',
+      color: '#FFF',
       marginTop: '0px',
       marginBottom: '5px',
       margin: 'auto',
@@ -77,9 +100,17 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     financePage: {
-      marginRight: '30px',
-      marginLeft: '30px',
-      marginTop: '55px',
+      boxShadow: '15px 15px 0 0px #0A7EF2',
+      marginRight: '160px',
+      marginLeft: '160px',
+      padding: '25px',
+      marginBottom: '60px',
+      backgroundColor: '#002642',
+      borderRadius: '10px',
+      [theme.breakpoints.down('sm')]: {
+        marginRight: '0px',
+        marginLeft: '0px',
+      },
     },
   }),
 );
@@ -130,14 +161,17 @@ const FinancePage = () => {
 
   return (
     <Layout>
+      <div style={{ textAlign: 'center' }}>
+        <h2 className={classes.pageHeading}>Finances</h2>
+      </div>
       <div className={classes.financePage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
             <h2
               className={classes.title}>
-              <span style={{ color: '#002642' }}>Secure. </span>
-              <span style={{ color: '#034F87' }}>Easy. </span>
-              <span style={{ color: '#0A7EF2' }}>Quick. </span>
+              <span style={{ fontWeight: 'normal', color: '#FFF' }}>Secure. </span>
+              <span style={{ fontWeight: 'bold', color: '#FFF' }}>Easy. </span>
+              <span style={{ color: '#E59500' }}>Quick. </span>
           </h2>
           </Grid>
         </Grid>

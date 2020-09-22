@@ -45,19 +45,51 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: '35px',
       },
     },
-    paper: {
+    homePaper: {
       padding: theme.spacing(1),
       fontFamily: 'Playfair Display, serif',
       textAlign: 'center',
       color: '#FFF',
       backgroundColor: '#840032',
       borderRadius: '10px',
-      '&:hover': {
-        background: '#002642',
-      },
+      boxShadow: '15px 15px 0 0px #E59500',
+    },
+    productivityPaper: {
+      padding: theme.spacing(1),
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      color: '#02040F',
+      backgroundColor: '#E5DADA',
+      borderRadius: '10px',
+      boxShadow: '15px 15px 0 0px #02040F',
+    },
+    financesPaper: {
+      padding: theme.spacing(1),
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      color: '#FFF',
+      backgroundColor: '#002642',
+      borderRadius: '10px',
+      boxShadow: '15px 15px 0 0px #0A7EF2',
     },
     appSection: {
       color: '#FFF',
+      fontWeight: 'bold',
+      fontSize: '32px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '26px',
+      },
+    },
+    productivityAppSection: {
+      color: '#02040F',
+      fontWeight: 'bold',
+      fontSize: '32px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '26px',
+      },
+    },
+    financesAppSection: {
+      color: '#02040F',
       fontWeight: 'bold',
       fontSize: '32px',
       [theme.breakpoints.down('sm')]: {
@@ -130,32 +162,32 @@ const MainPage = () => {
         <div className={classes.root}>
           <Grid container spacing={3}>
             <Grid item xs={12} lg={4} md={4} sm={4}>
-              <Paper className={classes.paper} onClick={routePage.bind(this, 'home')}>
+              <Paper className={classes.homePaper} onClick={routePage.bind(this, 'home')}>
                 <h2 className={classes.appSection}>
                   My Home
               </h2>
-                <h3>
+                <h3 style={{ fontWeight: 'normal' }}>
                   The most important information pertaining to your home
               </h3>
               </Paper>
             </Grid>
             <Grid item xs={12} lg={4} md={4} sm={4}>
-              <Paper className={classes.paper} onClick={routePage.bind(this, 'finance')}>
-                <h2 className={classes.appSection}>
-                  Finances
+              <Paper className={classes.productivityPaper} onClick={routePage.bind(this, 'productivity')}>
+                <h2 className={classes.productivityAppSection}>
+                  Productivity
               </h2>
-                <h3>
-                  Stay on top of your finances easily and ask questions
+                <h3 style={{fontWeight: 'normal'}}>
+                  Increase your productivity in a simple and organized way
               </h3>
               </Paper>
             </Grid>
             <Grid item xs={12} lg={4} md={4} sm={4}>
-              <Paper className={classes.paper} onClick={routePage.bind(this, 'productivity')}>
+              <Paper className={classes.financesPaper} onClick={routePage.bind(this, 'finance')}>
                 <h2 className={classes.appSection}>
-                  Productivity
+                  Finances
               </h2>
-                <h3>
-                  Increase your productivity in a simple and organized way
+                <h3 style={{ fontWeight: 'normal' }}>
+                  Stay on top of your finances easily and ask questions
               </h3>
               </Paper>
             </Grid>

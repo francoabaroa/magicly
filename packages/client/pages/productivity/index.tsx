@@ -62,17 +62,31 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
     },
+    pageHeading: {
+      fontFamily: 'Playfair Display, serif',
+      fontSize: '32px',
+      fontStyle: 'normal',
+      fontWeight: 'bold',
+      lineHeight: '64px',
+      letterSpacing: '0em',
+      textAlign: 'center',
+      marginBottom: '0px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '28px',
+      },
+    },
     paper: {
       padding: theme.spacing(1),
       fontFamily: 'Playfair Display, serif',
       textAlign: 'center',
-      color: '#FFF',
-      backgroundColor: "#840032",
+      color: '#02040F',
+      backgroundColor: "#E5DADA",
       borderRadius: '10px',
-      boxShadow: '-15px 15px 0 0px #E59500, -5px 5px 0 1px white',
+      boxShadow: '15px 15px 0 0px #02040F',
+      marginBottom: '10px',
     },
     sectionTitle: {
-      color: '#FFF',
+      color: '#02040F',
       fontWeight: 'bold',
       fontSize: '28px',
       [theme.breakpoints.down('sm')]: {
@@ -90,7 +104,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: '5px',
     },
     details: {
-      color: '#FFF',
+      color: '#02040F',
       fontFamily: 'Playfair Display, serif',
       textAlign: 'center',
       fontWeight: 'normal',
@@ -102,7 +116,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     icon: {
-      color: '#FFF',
+      color: '#02040F',
       fontSize: '12px',
     },
   }),
@@ -261,7 +275,7 @@ const ProductivityPage = () => {
 
   const getTechHelpSection = () => {
     return (
-      <Grid item xs={7} lg={7} md={7} sm={7}>
+      <Grid item xs={7} lg={7} md={7} sm={7} style={{marginBottom: '50px'}}>
         <Paper className={classes.paper}>
           <h2 className={classes.sectionTitle}>
             Ask a Tech Question
@@ -280,8 +294,10 @@ const ProductivityPage = () => {
 
   return (
     <Layout>
-      <h3 style={{ color: 'white' }}>Productivity Page</h3>
       <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{textAlign: 'center'}}>
+          <h2 className={classes.pageHeading}>Productivity</h2>
+        </Grid>
         { getTodoListSection() }
         { getRecommendationsSection() }
         { getTechHelpSection() }

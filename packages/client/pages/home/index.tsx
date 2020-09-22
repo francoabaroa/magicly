@@ -38,6 +38,19 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
     },
+    pageHeading: {
+      fontFamily: 'Playfair Display, serif',
+      fontSize: '32px',
+      fontStyle: 'normal',
+      fontWeight: 'bold',
+      lineHeight: '64px',
+      letterSpacing: '0em',
+      textAlign: 'center',
+      marginBottom: '0px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '28px',
+      },
+    },
     paper: {
       padding: theme.spacing(1),
       fontFamily: 'Playfair Display, serif',
@@ -45,7 +58,8 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#FFF',
       backgroundColor: "#840032",
       borderRadius: '10px',
-      boxShadow: '-15px 15px 0 0px #E59500, -5px 5px 0 1px white',
+      boxShadow: '15px 15px 0 0px #E59500',
+      marginBottom: '10px',
     },
     sectionTitle: {
       color: '#FFF',
@@ -209,7 +223,7 @@ const HomePage = () => {
 
   const getHomeServiceProvidersSection = () => {
     return (
-      <Grid item xs={7} lg={7} md={7} sm={7}>
+      <Grid item xs={7} lg={7} md={7} sm={7} style={{ marginBottom: '50px' }}>
         <Paper className={classes.paper} onClick={routePage.bind(this, 'home/providers')}>
           <h2 className={classes.sectionTitle}>
             Find Home Service Providers
@@ -221,8 +235,10 @@ const HomePage = () => {
 
   return (
     <Layout>
-      <h3 style={{color: 'white'}}>Home Page</h3>
       <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
+          <h2 className={classes.pageHeading}>My Home</h2>
+        </Grid>
         { getHomeWorkSection() }
         { getDocumentsSection() }
         { getHomeServiceProvidersSection() }

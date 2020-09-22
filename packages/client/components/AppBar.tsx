@@ -359,11 +359,11 @@ export default function PrimarySearchAppBar(props) {
                 <Typography className={classes.mainPages} onClick={routePage.bind(this, 'home')} variant="h6" noWrap>
                   My Home
                 </Typography>
-                <Typography className={classes.mainPages} onClick={routePage.bind(this, 'finance')} variant="h6" noWrap>
-                  Finances
-                </Typography>
                 <Typography className={classes.mainPages} onClick={routePage.bind(this, 'productivity')} variant="h6" noWrap>
                   Productivity
+                </Typography>
+                <Typography className={classes.mainPages} onClick={routePage.bind(this, 'finance')} variant="h6" noWrap>
+                  Finances
                 </Typography>
                 <Typography className={classes.pages} onClick={routePage.bind(this, 'support')} variant="h6" noWrap>
                   Contact Us
