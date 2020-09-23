@@ -94,6 +94,12 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#FFF',
       fontSize: '12px',
     },
+    recent: {
+      fontFamily: 'Playfair Display, serif',
+      fontStyle: 'normal',
+      fontWeight: 'bold',
+      fontSize: '18px',
+    }
   }),
 );
 
@@ -149,7 +155,7 @@ const HomePage = () => {
               Important Documents
             </h2>
           </Grid>
-          <Grid item xs={4} lg={4} md={4} sm={4}>
+          <Grid item xs={4} lg={4} md={4} sm={4} className={classes.recent}>
             <div>Recent Documents: </div>
           </Grid>
           <Grid item xs={4} lg={4} md={4} sm={4}>
@@ -195,7 +201,7 @@ const HomePage = () => {
               Home Work
               </h2>
           </Grid>
-          <Grid item xs={4} lg={4} md={4} sm={4}>
+          <Grid item xs={4} lg={4} md={4} sm={4} className={classes.recent}>
             <div>Recent Home Work: </div>
           </Grid>
           <Grid item xs={4} lg={4} md={4} sm={4}>
