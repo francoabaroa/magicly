@@ -167,7 +167,7 @@ const MainPage = () => {
                   My Home
               </h2>
                 <h3 style={{ fontWeight: 'normal' }}>
-                  The most important information pertaining to your home
+                  Important information pertaining to your home
               </h3>
               </Paper>
             </Grid>
@@ -177,7 +177,7 @@ const MainPage = () => {
                   Productivity
               </h2>
                 <h3 style={{fontWeight: 'normal'}}>
-                  Increase your productivity in a simple and organized way and ask tech questions
+                  Increase your productivity in a simple way and ask tech questions
               </h3>
               </Paper>
             </Grid>
