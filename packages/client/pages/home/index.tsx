@@ -163,12 +163,12 @@ const HomePage = () => {
           </Grid>
           <Grid item xs={4} lg={4} md={4} sm={4}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/add')}>
-              <Visibility fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>view all documents</span>
-            </div>
-            <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents')}>
               <AddCircle fontSize={'small'} className={classes.icon} />
               <span className={classes.details}>add a document</span>
+            </div>
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents')}>
+              <Visibility fontSize={'small'} className={classes.icon} />
+              <span className={classes.details}>view all documents</span>
             </div>
           </Grid>
         </Grid>

@@ -6,7 +6,6 @@ import { withApollo } from '../../../apollo/apollo';
 const AddDocument = () => {
   return (
     <Layout>
-      <h1>Add a New Document</h1>
       <UploadFile />
     </Layout>
   );

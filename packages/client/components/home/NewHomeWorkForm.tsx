@@ -183,7 +183,7 @@ const NewHomeWorkForm = () => {
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
             <FormControl className={classes.formControl} required>
-              <InputLabel>Work Type</InputLabel>
+              <InputLabel>Work type</InputLabel>
               <Select
                 value={type}
                 onChange={setHomeWorkType}
@@ -202,7 +202,7 @@ const NewHomeWorkForm = () => {
           </Grid>
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <TextField autoComplete="off" type="number" id="standard-basic" label="Cost Estimate (USD):" onChange={event => setCost(event.target.value)} />
+            <TextField autoComplete="off" type="number" id="standard-basic" label="Cost estimate (USD)" onChange={event => setCost(event.target.value)} />
           </Grid>
 
           {/* TODO: date storage for backend!! 2020-08-27 */}
@@ -213,7 +213,7 @@ const NewHomeWorkForm = () => {
                 className={classes.datePicker}
                 margin="normal"
                 id="date-picker-dialog"
-                label="Home Work Date"
+                label="Date"
                 format="MM/dd/yyyy"
                 value={executionDate}
                 onChange={handleDateChange}
@@ -257,14 +257,17 @@ const NewHomeWorkForm = () => {
               null
           } */}
 
-        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-          <Button variant="contained" color="primary" type='submit'>
-            Save
-        </Button>
-        </Grid>
-        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-          <Button onClick={() => router.back()} variant="contained">Cancel</Button>
-        </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+            <Button variant="contained" color="primary" type='submit'>
+              Save
+            </Button>
+            <Button
+              onClick={() => router.back()}
+              variant="contained"
+              style={{ marginLeft: '10px' }}>
+              Cancel
+            </Button>
+          </Grid>
 
         </Grid>
       </form>

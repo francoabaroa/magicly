@@ -13,6 +13,8 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import HomeWorkDropdown from './home/HomeWorkDropdown';
 
 // TODO: clean up before prod
@@ -59,12 +61,18 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     formControl: {
-      margin: theme.spacing(1),
-      minWidth: 220,
+      minWidth: 167,
     },
     centerText: {
-      marginBottom: '14px',
       textAlign: 'center',
+    },
+    xButton: {
+      fontSize: '26px',
+      fontWeight: 'bold'
+    },
+    notes: {
+      minWidth: '330px',
+      marginBottom: '40px',
     },
   }),
 );
@@ -74,6 +82,7 @@ const UploadFile = () => {
   const router = useRouter();
   const [lastUploaded, setLastUploaded] = useState({});
   const [uploadedDoc, setUploadedDoc] = useState({});
+  const [filename, setFilename] = useState('');
   const [uploadSingleDoc, { loading, error, data }] = useMutation(ADD_DOCUMENT);
   const [name, setName] = useState('');
   const [notes, setNotes] = useState('');
@@ -90,6 +99,7 @@ const UploadFile = () => {
     }
   }: any) => {
     validity.valid && setUploadedDoc(file);
+    setFilename(file.name);
   };
 
   useEffect(() => {
@@ -159,30 +169,51 @@ const UploadFile = () => {
     setHomeworkId(event.target.value as string);
   };
 
+  const clearFileInput = (file) => {
+    try {
+      file.value = null;
+    } catch (ex) { }
+    if (file.value) {
+      file.parentNode.replaceChild(file.cloneNode(true), file);
+    }
+  };
+
+  const removeFile = () => {
+    setUploadedDoc({});
+    setFilename('');
+    clearFileInput(document.getElementById('fileinput'));
+  };
+
   return (
     <div className={classes.root}>
-      {/* <h1>Add a new todo list item</h1> */}
       <form onSubmit={submitForm}>
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
           <Grid item xs={12} lg={12} md={12} sm={12}>
-            <input type="file" required onChange={onChange} />
-            <br />
-            {Object.keys(lastUploaded).length !== 0 && (
-              <div>
-                {" "}
-          Last uploaded details = {JSON.stringify(lastUploaded, null, 2)}{" "}
-              </div>
-            )}
+            <h1>Add a New Document</h1>
           </Grid>
+
           <Grid item xs={12} lg={12} md={12} sm={12}>
-            <p>Name: <input type='text' onChange={event => setName(event.target.value)} autoComplete='on' required /></p>
+            <Button
+              variant="contained"
+              component="label"
+            >
+              Choose Document
+              <input id="fileinput" type="file" required onChange={onChange} style={{ display: "none" }} />
+            </Button>
+            {filename.length > 0 ?
+              <div style={{ paddingLeft: '5px' }}> <span>{filename}</span> <span onClick={removeFile} className={classes.xButton}>×</span></div> :
+              null
+            }
           </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12}>
-            <FormControl className={classes.formControl}>
-              <InputLabel id="demo-simple-select-label">Type of document</InputLabel>
+
+          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+            <TextField autoComplete="off" id="standard-basic" label="Document name" onChange={event => setName(event.target.value)} required />
+          </Grid>
+
+          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+            <FormControl className={classes.formControl} required>
+              <InputLabel>Document type</InputLabel>
               <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
                 value={type}
                 onChange={handleTypeSelect}
               >
@@ -201,7 +232,12 @@ const UploadFile = () => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12}>
+
+          <Grid item xs={12} lg={12}>
+            <HomeWorkDropdown setHomeworkId={setHWID} homeworkId={homeworkId} />
+          </Grid>
+
+          {/* <Grid item xs={12} lg={12} md={12} sm={12}>
             <FormControl component="fieldset">
               <FormLabel component="legend">Do you want to save this in an existing folder or new one?</FormLabel>
               <RadioGroup aria-label="folder" name="folder1" value={folder} onChange={handleChange}>
@@ -209,19 +245,26 @@ const UploadFile = () => {
                 <FormControlLabel value={"New"} control={<Radio />} label="New" />
               </RadioGroup>
             </FormControl>
-          </Grid>
-          <Grid item xs={12} lg={12}>
-            <HomeWorkDropdown setHomeworkId={setHWID} homeworkId={homeworkId} />
-          </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12}>
+          </Grid> */}
+
+          {/* <Grid item xs={12} lg={12} md={12} sm={12}>
             <p>Enter keywords describing this document (separated by a comma, for example: home, warranty, 2009): <input type='text' onChange={separateKeywords} autoComplete='on' required /></p>
+          </Grid> */}
+
+          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+            <TextField autoComplete="off" className={classes.notes} id="standard-basic" label="Additional notes" onChange={event => setNotes(event.target.value)} />
           </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12}>
-            <p> Any notes or details you’d like to add?</p>
-            <textarea name="notes" cols={50} rows={5} onChange={event => setNotes(event.target.value)} required />
-          </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12}>
-            <p><button type='submit'>Save</button><button onClick={() => router.back()}>Cancel</button></p>
+
+          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+            <Button variant="contained" color="primary" type='submit'>
+              Save
+            </Button>
+            <Button
+              onClick={() => router.back()}
+              variant="contained"
+              style={{marginLeft: '10px'}}>
+                Cancel
+            </Button>
           </Grid>
         </Grid>
       </form>
