@@ -177,7 +177,7 @@ const MainPage = () => {
                   Productivity
               </h2>
                 <h3 style={{fontWeight: 'normal'}}>
-                  Increase your productivity in a simple and organized way
+                  Increase your productivity in a simple and organized way and ask tech questions
               </h3>
               </Paper>
             </Grid>
@@ -187,7 +187,7 @@ const MainPage = () => {
                   Finances
               </h2>
                 <h3 style={{ fontWeight: 'normal' }}>
-                  Stay on top of your finances easily and ask questions
+                  Stay on top of your finances easily
               </h3>
               </Paper>
             </Grid>
