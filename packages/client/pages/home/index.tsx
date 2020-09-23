@@ -10,6 +10,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import AddCircle from '@material-ui/icons/AddCircle';
 import Visibility from '@material-ui/icons/Visibility';
+import { Divider } from '@material-ui/core';
 
 const QUERY = gql`
   query GetMe {
@@ -59,7 +60,8 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: "#840032",
       borderRadius: '10px',
       boxShadow: '15px 15px 0 0px #E59500',
-      marginBottom: '10px',
+      marginBottom: '50px',
+      maxWidth: '700px'
     },
     sectionTitle: {
       color: '#FFF',
@@ -141,39 +143,43 @@ const HomePage = () => {
     if (data && data.me && data.me.documents && data.me.documents.length > 0) {
       let documents = getDocumentPreviews();
       return (
-        <Grid item xs={7} lg={7} md={7} sm={7}>
-          <Paper className={classes.paper}>
+        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
+          <Grid item xs={12} lg={12} md={12} sm={12}>
             <h2 className={classes.sectionTitle}>
               Important Documents
-              </h2>
+            </h2>
+          </Grid>
+          <Grid item xs={4} lg={4} md={4} sm={4}>
             <div>Recent Documents: </div>
-            { documents }
-            <span className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents')}>
+          </Grid>
+          <Grid item xs={4} lg={4} md={4} sm={4}>
+            {documents}
+          </Grid>
+          <Grid item xs={4} lg={4} md={4} sm={4}>
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/add')}>
               <Visibility fontSize={'small'} className={classes.icon} />
               <span className={classes.details}>view all documents</span>
-            </span>
-            <span className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/add')}>
+            </div>
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents')}>
               <AddCircle fontSize={'small'} className={classes.icon} />
               <span className={classes.details}>add a document</span>
-            </span>
-          </Paper>
+            </div>
+          </Grid>
         </Grid>
       );
     } else {
       return (
-        <Grid item xs={7} lg={7} md={7} sm={7}>
-          <Paper className={classes.paper}>
-            <h2 className={classes.sectionTitle}>
-              Important Documents
-              </h2>
-            <h3 className={classes.description}>
-              Upload important documents to stay organized
-              </h3>
-          <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/add')}>
-            <AddCircle fontSize={'small'} className={classes.icon} />
-            <span className={classes.details}>add a document</span>
-          </div>
-          </Paper>
+        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
+          <h2 className={classes.sectionTitle}>
+            Important Documents
+            </h2>
+          <h3 className={classes.description}>
+            Upload important documents to stay organized
+            </h3>
+        <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/add')}>
+          <AddCircle fontSize={'small'} className={classes.icon} />
+          <span className={classes.details}>add a document</span>
+        </div>
         </Grid>
       );
     }
@@ -183,39 +189,43 @@ const HomePage = () => {
     if (data && data.me && data.me.homeworks && data.me.homeworks.length > 0) {
       let homeworks = getHomeWorkPreviews();
       return (
-        <Grid item xs={7} lg={7} md={7} sm={7}>
-          <Paper className={classes.paper}>
+        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
+          <Grid item xs={12} lg={12} md={12} sm={12}>
             <h2 className={classes.sectionTitle}>
               Home Work
               </h2>
+          </Grid>
+          <Grid item xs={4} lg={4} md={4} sm={4}>
             <div>Recent Home Work: </div>
-            { homeworks }
-            <span className={classes.individualFeature} onClick={routePage.bind(this, 'home/work')}>
-              <Visibility fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>view all home work</span>
-            </span>
-            <span className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
-              <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>add home work</span>
-            </span>
-          </Paper>
-        </Grid>
-      );
-    } else {
-      return (
-        <Grid item xs={7} lg={7} md={7} sm={7}>
-          <Paper className={classes.paper}>
-            <h2 className={classes.sectionTitle}>
-              Home Work
-              </h2>
-            <h3 className={classes.description}>
-              Keep track of any work done to your home, such as maintenance, repairs, installations and more
-              </h3>
+          </Grid>
+          <Grid item xs={4} lg={4} md={4} sm={4}>
+            {homeworks}
+          </Grid>
+          <Grid item xs={4} lg={4} md={4} sm={4}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
               <AddCircle fontSize={'small'} className={classes.icon} />
               <span className={classes.details}>add home work</span>
             </div>
-          </Paper>
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work')}>
+              <Visibility fontSize={'small'} className={classes.icon} />
+              <span className={classes.details}>view all home work</span>
+            </div>
+          </Grid>
+        </Grid>
+      );
+    } else {
+      return (
+        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
+          <h2 className={classes.sectionTitle}>
+            Home Work
+            </h2>
+          <h3 className={classes.description}>
+            Keep track of any work done to your home, such as maintenance, repairs, installations and more
+            </h3>
+          <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
+            <AddCircle fontSize={'small'} className={classes.icon} />
+            <span className={classes.details}>add home work</span>
+          </div>
         </Grid>
       );
     }
@@ -223,12 +233,12 @@ const HomePage = () => {
 
   const getHomeServiceProvidersSection = () => {
     return (
-      <Grid item xs={7} lg={7} md={7} sm={7} style={{ marginBottom: '50px' }}>
-        <Paper className={classes.paper} onClick={routePage.bind(this, 'home/providers')}>
+      <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{ marginBottom: '50px' }} onClick={routePage.bind(this, 'home/providers')}>
           <h2 className={classes.sectionTitle}>
             Find Home Service Providers
-              </h2>
-        </Paper>
+          </h2>
+        </Grid>
       </Grid>
     );
   };
