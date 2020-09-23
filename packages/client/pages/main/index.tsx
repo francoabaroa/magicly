@@ -177,7 +177,7 @@ const MainPage = () => {
                   Productivity
               </h2>
                 <h3 style={{fontWeight: 'normal'}}>
-                  Increase your productivity in a simple way and ask tech questions
+                  Increase your productivity in a simple way
               </h3>
               </Paper>
             </Grid>
