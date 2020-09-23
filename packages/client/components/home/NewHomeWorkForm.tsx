@@ -73,11 +73,20 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
     },
     formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
+      // margin: theme.spacing(1),
+      minWidth: 167,
     },
     form: {
       marginBottom: '60px'
+    },
+    notes: {
+      minWidth: '330px',
+      marginBottom: '40px',
+    },
+    datePicker: {
+      [theme.breakpoints.up('lg')]: {
+        width: '167px',
+      },
     }
   }),
 );
@@ -173,6 +182,22 @@ const NewHomeWorkForm = () => {
           </Grid>
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+            <FormControl className={classes.formControl} required>
+              <InputLabel>Work Type</InputLabel>
+              <Select
+                value={type}
+                onChange={setHomeWorkType}
+              >
+                <MenuItem value='MAINTENANCE'>Maintenance</MenuItem>
+                <MenuItem value='REPAIR'>Repair</MenuItem>
+                <MenuItem value='INSTALLATION'>Installation</MenuItem>
+                <MenuItem value='CLEANING'>Cleaning</MenuItem>
+                <MenuItem value='OTHER'>Other</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
             <TextField autoComplete="off" id="standard-basic" label="Who will do it?" onChange={event => setExecutor(event.target.value)} />
           </Grid>
 
@@ -180,30 +205,12 @@ const NewHomeWorkForm = () => {
             <TextField autoComplete="off" type="number" id="standard-basic" label="Cost Estimate (USD):" onChange={event => setCost(event.target.value)} />
           </Grid>
 
-          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <TextField autoComplete="off" id="standard-basic" label="Additional notes" onChange={event => setNotes(event.target.value)} />
-          </Grid>
-
-          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <FormControl className={classes.formControl} required>
-            <InputLabel>Work Type</InputLabel>
-            <Select
-              value={type}
-              onChange={setHomeWorkType}
-            >
-              <MenuItem value='MAINTENANCE'>Maintenance</MenuItem>
-                <MenuItem value='REPAIR'>Repair</MenuItem>
-                <MenuItem value='INSTALLATION'>Installation</MenuItem>
-                <MenuItem value='CLEANING'>Cleaning</MenuItem>
-                <MenuItem value='OTHER'>Other</MenuItem>
-            </Select>
-          </FormControl>
-          </Grid>
-
           {/* TODO: date storage for backend!! 2020-08-27 */}
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
+                style={{width: '167px'}}
+                className={classes.datePicker}
                 margin="normal"
                 id="date-picker-dialog"
                 label="Home Work Date"
@@ -215,6 +222,21 @@ const NewHomeWorkForm = () => {
                 }}
               />
             </MuiPickersUtilsProvider>
+          </Grid>
+
+          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+            <TextField autoComplete="off" className={classes.notes} id="standard-basic" label="Additional notes" onChange={event => setNotes(event.target.value)} />
+          </Grid>
+
+          {/* if YES, show option to attach doc */}
+          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Would you like to attach a document for this?</FormLabel>
+              <RadioGroup aria-label="attach" name="attach1" value={document} onChange={event => setDocument(event.target.value)}>
+                <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="no" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
           </Grid>
 
           {/* if YES, show option to select notificationType */}
@@ -234,17 +256,6 @@ const NewHomeWorkForm = () => {
               setReminderType() :
               null
           } */}
-
-        {/* if YES, show option to attach doc */}
-        <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-          <FormControl component="fieldset">
-            <FormLabel component="legend">Would you like to attach a document for this?</FormLabel>
-            <RadioGroup aria-label="attach" name="attach1" value={document} onChange={event => setDocument(event.target.value)}>
-              <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-              <FormControlLabel value="no" control={<Radio />} label="No" />
-            </RadioGroup>
-          </FormControl>
-        </Grid>
 
         <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
           <Button variant="contained" color="primary" type='submit'>
