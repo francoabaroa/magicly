@@ -74,6 +74,11 @@ const useStyles = makeStyles((theme: Theme) =>
       minWidth: '330px',
       marginBottom: '40px',
     },
+    title: {
+      fontFamily: 'Playfair Display',
+      fontStyle: 'normal',
+      fontWeight: 'bold',
+    }
   }),
 );
 
@@ -189,7 +194,7 @@ const UploadFile = () => {
       <form onSubmit={submitForm}>
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
           <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h1>Add a New Document</h1>
+            <h1 className={classes.title}>Add a New Document</h1>
           </Grid>
 
           <Grid item xs={12} lg={12} md={12} sm={12}>

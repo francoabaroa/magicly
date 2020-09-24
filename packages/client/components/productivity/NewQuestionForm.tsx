@@ -13,6 +13,8 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 // TODO: clean up before prod
 let url = null;
@@ -53,9 +55,19 @@ const useStyles = makeStyles((theme: Theme) =>
       minWidth: 220,
     },
     centerText: {
-      marginBottom: '14px',
       textAlign: 'center',
     },
+    notes: {
+      minWidth: '530px',
+      [theme.breakpoints.down('sm')]: {
+        minWidth: '330px',
+      },
+    },
+    title: {
+      fontFamily: 'Playfair Display',
+      fontStyle: 'normal',
+      fontWeight: 'bold',
+    }
   }),
 );
 
@@ -116,13 +128,18 @@ const NewQuestionForm = () => {
       {/* <h1>Add a new todo list item</h1> */}
       <form onSubmit={submitForm}>
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+
           <Grid item xs={12} lg={12} md={12} sm={12}>
-            <p> First, type your question in the box below</p>
-            <textarea name="body" cols={50} rows={5} onChange={event => setBody(event.target.value)} required />
+            <h1 className={classes.title}>Ask Us Any Tech Question. We’re Here to Help.</h1>
           </Grid>
+
+          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+            <TextField autoComplete="off" className={classes.notes} id="standard-basic" label="Write your question here" onChange={event => setBody(event.target.value)} />
+          </Grid>
+
           <Grid item xs={12} lg={12} md={12} sm={12}>
             <FormControl className={classes.formControl}>
-              <InputLabel id="demo-simple-select-label">Type of item</InputLabel>
+              <InputLabel id="demo-simple-select-label">Select the type of question</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -149,8 +166,16 @@ const NewQuestionForm = () => {
               </RadioGroup>
             </FormControl>
           </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12}>
-            <p><button type='submit'>Submit Question</button><button onClick={() => router.back()}>Cancel</button></p>
+          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+            <Button variant="contained" color="primary" type='submit'>
+              Submit
+            </Button>
+            <Button
+              onClick={() => router.back()}
+              variant="contained"
+              style={{ marginLeft: '10px' }}>
+              Cancel
+            </Button>
           </Grid>
         </Grid>
       </form>

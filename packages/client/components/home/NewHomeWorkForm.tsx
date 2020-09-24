@@ -87,6 +87,11 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up('lg')]: {
         width: '167px',
       },
+    },
+    title: {
+      fontFamily: 'Playfair Display',
+      fontStyle: 'normal',
+      fontWeight: 'bold',
     }
   }),
 );
@@ -174,7 +179,7 @@ const NewHomeWorkForm = () => {
       <form onSubmit={submitForm} className={classes.form}>
         <Grid container spacing={1} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-            <h1>New Home Work</h1>
+            <h1 className={classes.title}>New Home Work</h1>
           </Grid>
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
