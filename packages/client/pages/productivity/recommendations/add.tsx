@@ -6,7 +6,6 @@ import { withApollo } from '../../../apollo/apollo';
 const AddRecommendation = () => {
   return (
     <Layout>
-      <h1>Add A New Recommendation</h1>
       <NewRecommendationForm />
     </Layout>
   );
