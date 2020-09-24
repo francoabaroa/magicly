@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: '10px',
       boxShadow: '15px 15px 0 0px #E59500',
       marginBottom: '50px',
-      maxWidth: '1000px'
+      maxWidth: '800px'
     },
     sectionTitle: {
       color: '#FFF',
