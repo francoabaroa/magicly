@@ -55,7 +55,7 @@ const HomeWorkDropdown = (props) => {
     <div className={classes.root}>
       {/* <h1>Add a new todo list item</h1> */}
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Home Work</InputLabel>
+        <InputLabel id="demo-simple-select-label">Related Home Work</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
