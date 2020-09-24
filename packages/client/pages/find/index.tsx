@@ -109,8 +109,8 @@ const FindPage = () => {
     <Layout>
       <div className={classes.findPage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
-          <Grid item xs={12} lg={12} md={12} sm={12}>
-            <Button className={classes.viewProdsServs} onClick={routePage.bind(this, 'find/saved')}> View Saved Services & Products </Button>
+          <Grid item xs={12} lg={12} md={12} sm={12} onClick={routePage.bind(this, 'find/saved')}>
+            <Button className={classes.viewProdsServs} > View Saved Services & Products </Button>
           </Grid>
         </Grid>
         <div className={classes.root}>

@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: '10px',
       boxShadow: '15px 15px 0 0px #E59500',
       marginBottom: '50px',
-      maxWidth: '700px'
+      maxWidth: '1000px'
     },
     sectionTitle: {
       color: '#FFF',
@@ -117,6 +117,8 @@ const HomePage = () => {
 
   const getDocumentPreviews = () => {
     let documentPreviews = [];
+
+    // only get last 3
     let length = data.me.documents.length >= 3 ? 3 : data.me.documents.length;
     let documents = data.me.documents.slice().reverse();
     for (let i = 0; i < length; i++) {
@@ -132,6 +134,8 @@ const HomePage = () => {
 
   const getHomeWorkPreviews = () => {
     let homeworkPreviews = [];
+
+    // only get last 3
     let length = data.me.homeworks.length >= 3 ? 3 : data.me.homeworks.length;
     let homeworks = data.me.homeworks.slice().reverse();
     for (let i = 0; i < length; i++) {
@@ -149,8 +153,8 @@ const HomePage = () => {
     if (data && data.me && data.me.documents && data.me.documents.length > 0) {
       let documents = getDocumentPreviews();
       return (
-        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
-          <Grid item xs={12} lg={12} md={12} sm={12}>
+        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
             <h2 className={classes.sectionTitle}>
               Important Documents
             </h2>
@@ -175,7 +179,7 @@ const HomePage = () => {
       );
     } else {
       return (
-        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
+        <Grid item xs={7} lg={12} md={7} sm={7} className={classes.paper}>
           <h2 className={classes.sectionTitle}>
             Important Documents
             </h2>
@@ -195,8 +199,8 @@ const HomePage = () => {
     if (data && data.me && data.me.homeworks && data.me.homeworks.length > 0) {
       let homeworks = getHomeWorkPreviews();
       return (
-        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
-          <Grid item xs={12} lg={12} md={12} sm={12}>
+        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
             <h2 className={classes.sectionTitle}>
               Home Work
               </h2>
@@ -239,8 +243,8 @@ const HomePage = () => {
 
   const getHomeServiceProvidersSection = () => {
     return (
-      <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
-        <Grid item xs={12} lg={12} md={12} sm={12} style={{ marginBottom: '50px' }} onClick={routePage.bind(this, 'home/providers')}>
+      <Grid container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
+        <Grid item xs={12} lg={12} md={12} sm={12} xl={12} style={{ marginBottom: '50px' }} onClick={routePage.bind(this, 'home/providers')}>
           <h2 className={classes.sectionTitle}>
             Find Home Service Providers
           </h2>
@@ -251,8 +255,8 @@ const HomePage = () => {
 
   return (
     <Layout>
-      <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
-        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
+      <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+        <Grid item xs={12} lg={12} md={12} sm={12} xl={12} style={{ textAlign: 'center' }}>
           <h2 className={classes.pageHeading}>My Home</h2>
         </Grid>
         { getHomeWorkSection() }
