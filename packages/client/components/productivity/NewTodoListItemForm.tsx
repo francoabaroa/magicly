@@ -10,7 +10,22 @@ import FormControl from '@material-ui/core/FormControl';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Paper from '@material-ui/core/Paper';
+import FormLabel from '@material-ui/core/FormLabel';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Radio from '@material-ui/core/Radio';
 import { withApollo } from '../../apollo/apollo';
+
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 // TODO: clean up before prod
 let url = null;
@@ -50,7 +65,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     formControl: {
       margin: theme.spacing(1),
-      minWidth: 220,
+      minWidth: '330px',
     },
     selectEmpty: {
       marginTop: theme.spacing(2),
@@ -78,7 +93,57 @@ const useStyles = makeStyles((theme: Theme) =>
         color: '#840032',
         backgroundColor: '#E5DADA',
       },
-    }
+    },
+    centerText: {
+      textAlign: 'center',
+    },
+    notes: {
+      minWidth: '330px',
+      marginBottom: '25px',
+    },
+    title: {
+      fontFamily: 'Playfair Display',
+      fontStyle: 'normal',
+      fontWeight: 'bold',
+    },
+    paper: {
+      padding: theme.spacing(1),
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      color: '#02040F',
+      backgroundColor: '#E5DADA',
+      borderRadius: '10px',
+    },
+    paperSelected: {
+      padding: theme.spacing(1),
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      color: '#E5DADA',
+      backgroundColor: '#02040F',
+      borderRadius: '10px',
+    },
+    sectionTitle: {
+      color: '#02040F',
+      fontWeight: 'bold',
+      fontSize: '28px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '26px',
+      },
+    },
+    sectionTitleSelected: {
+      color: '#E5DADA',
+      fontWeight: 'bold',
+      fontSize: '28px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '26px',
+      },
+    },
+    datePicker: {
+      minWidth: '330px',
+      [theme.breakpoints.up('lg')]: {
+        width: '167px',
+      },
+    },
   }),
 );
 
@@ -90,6 +155,8 @@ const NewTodoListItemForm = () => {
   const [list, setList] = useState(LIST_TYPE.TODO);
   const [type, setType] = useState(ITEM_TYPE.TODO);
   const [notes, setNotes] = useState('');
+  const [reminder, setReminder] = useState('no');
+  const [executionDate, setExecutionDate] = useState(new Date());
   const [moreDetails, setMoreDetails] = useState(false);
 
   const submitForm = event => {
@@ -136,85 +203,191 @@ const NewTodoListItemForm = () => {
     setMoreDetails(!moreDetails)
   };
 
+  const handleDateChange = (date) => {
+    setExecutionDate(date);
+  };
+
   return (
     <div className={classes.root}>
-      {/* <h1>Add a new todo list item</h1> */}
       <form onSubmit={submitForm}>
-        <p> First, type your task in the box below</p>
-        <input type='text' onChange={event => setName(event.target.value)} autoComplete='on' required />
+        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+          <Grid item xs={12} lg={12} md={12} sm={12}>
+            <h1 className={classes.title}>New To-Do Item</h1>
+          </Grid>
 
-        <p> Next, select which list to store it in</p>
+          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+            <TextField style={{ minWidth: '330px', paddingBottom: '20px' }} autoComplete="off" id="standard-basic" label="Item name" onChange={event => setName(event.target.value)} required />
+          </Grid>
 
-        <div>
-          <ButtonGroup size="small" aria-label="small outlined button group">
-            <Button
+          <Grid
+            item
+            xs={3}
+            lg={3}
+            md={3}
+            sm={3}
+            className={classes.centerText}
+            onClick={selectList.bind(this, LIST_TYPE.TODO)}>
+            <Paper
               className={
-                list === LIST_TYPE.TODO ? classes.selectListButton : classes.listButtons
-              }
-              onClick={selectList.bind(this, LIST_TYPE.TODO)}>
-              Now List
+                list === LIST_TYPE.TODO ? classes.paperSelected : classes.paper
+              }>
+              <h2 className={
+                list === LIST_TYPE.TODO ? classes.sectionTitleSelected : classes.sectionTitle
+              }>
+                To-Do Now
+              </h2>
+            </Paper>
+          </Grid>
+
+          <Grid
+            item
+            xs={3}
+            lg={3}
+            md={3}
+            sm={3}
+            className={classes.centerText}
+            onClick={selectList.bind(this, LIST_TYPE.WATCH)}>
+            <Paper
+              className={
+                list === LIST_TYPE.WATCH ? classes.paperSelected : classes.paper
+              }>
+              <h2 className={
+                list === LIST_TYPE.WATCH ? classes.sectionTitleSelected : classes.sectionTitle
+              }>
+                To Watch
+              </h2>
+            </Paper>
+          </Grid>
+
+          <Grid
+            item
+            xs={3}
+            lg={3}
+            md={3}
+            sm={3}
+            className={classes.centerText}
+            onClick={selectList.bind(this, LIST_TYPE.LATER)}>
+            <Paper
+              className={
+                list === LIST_TYPE.LATER ? classes.paperSelected : classes.paper
+              }>
+              <h2 className={
+                list === LIST_TYPE.LATER ? classes.sectionTitleSelected : classes.sectionTitle
+              }>
+                To-Do Later
+              </h2>
+            </Paper>
+          </Grid>
+
+          {
+            moreDetails ?
+              <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+                <FormControl className={classes.formControl}>
+                  <InputLabel id="demo-simple-select-label">Type of item</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={type}
+                    onChange={handleTypeSelect}
+                  >
+                    <MenuItem value={ITEM_TYPE.TODO}>{getCapitalizedString(ITEM_TYPE.TODO)}</MenuItem>
+                    <MenuItem value={ITEM_TYPE.MOVIE}>{getCapitalizedString(ITEM_TYPE.MOVIE)}</MenuItem>
+                    <MenuItem value={ITEM_TYPE.TV}>{ITEM_TYPE.TV}</MenuItem>
+                    <MenuItem value={ITEM_TYPE.FOOD}>{getCapitalizedString(ITEM_TYPE.FOOD)}</MenuItem>
+                    <MenuItem value={ITEM_TYPE.RESTAURANT}>{getCapitalizedString(ITEM_TYPE.RESTAURANT)}</MenuItem>
+                    <MenuItem value={ITEM_TYPE.MUSIC}>{getCapitalizedString(ITEM_TYPE.MUSIC)}</MenuItem>
+                    <MenuItem value={ITEM_TYPE.TRAVEL}>{getCapitalizedString(ITEM_TYPE.TRAVEL)}</MenuItem>
+                    <MenuItem value={ITEM_TYPE.ACCOMODATION}>{getCapitalizedString(ITEM_TYPE.ACCOMODATION)}</MenuItem>
+                    <MenuItem value={ITEM_TYPE.HOME}>{getCapitalizedString(ITEM_TYPE.HOME)}</MenuItem>
+                    <MenuItem value={ITEM_TYPE.FINANCE}>{getCapitalizedString(ITEM_TYPE.FINANCE)}</MenuItem>
+                    <MenuItem value={ITEM_TYPE.BOOK}>{getCapitalizedString(ITEM_TYPE.BOOK)}</MenuItem>
+                    <MenuItem value={ITEM_TYPE.PODCAST}>{getCapitalizedString(ITEM_TYPE.PODCAST)}</MenuItem>
+                    <MenuItem value={ITEM_TYPE.PRODUCT}>{getCapitalizedString(ITEM_TYPE.PRODUCT)}</MenuItem>
+                    <MenuItem value={ITEM_TYPE.SERVICE}>{getCapitalizedString(ITEM_TYPE.SERVICE)}</MenuItem>
+                    <MenuItem value={ITEM_TYPE.PERSONAL}>{getCapitalizedString(ITEM_TYPE.PERSONAL)}</MenuItem>
+                    <MenuItem value={ITEM_TYPE.WORK}>{getCapitalizedString(ITEM_TYPE.WORK)}</MenuItem>
+                    <MenuItem value={ITEM_TYPE.FAMILY}>{getCapitalizedString(ITEM_TYPE.FAMILY)}</MenuItem>
+                    <MenuItem value={ITEM_TYPE.HEALTH}>{getCapitalizedString(ITEM_TYPE.HEALTH)}</MenuItem>
+                    <MenuItem value={ITEM_TYPE.SHOPPING}>{getCapitalizedString(ITEM_TYPE.SHOPPING)}</MenuItem>
+                    <MenuItem value={ITEM_TYPE.GIFT}>{getCapitalizedString(ITEM_TYPE.GIFT)}</MenuItem>
+                    <MenuItem value={ITEM_TYPE.OTHER}>{getCapitalizedString(ITEM_TYPE.OTHER)}</MenuItem>
+                  </Select>
+                </FormControl>
+                </Grid> :
+              null
+          }
+
+          {
+            moreDetails ?
+                <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+                <TextField autoComplete="off" className={classes.notes} id="standard-basic" label="Additional notes" onChange={event => setNotes(event.target.value)} /> </Grid> :
+              null
+          }
+
+          {/* if YES, show option to select notificationType */}
+          {/* TODO: need to add NONE to notificationType */}
+          {/* TODO: need to get their phone number for this */}
+
+          {/* {
+            reminder === 'yes' ?
+              setReminderType() :
+              null
+          } */}
+          {
+            moreDetails ?
+              <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Would you like to set an email reminder for this?</FormLabel>
+                  <RadioGroup aria-label="notif" name="notif1" value={reminder} onChange={event => setReminder(event.target.value)}>
+                    <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="no" control={<Radio />} label="No" />
+                  </RadioGroup>
+                </FormControl>
+              </Grid> :
+              null
+          }
+
+          {/* TODO: date storage for backend!! 2020-08-27 */}
+          {
+            reminder === 'yes' ?
+              <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    style={{ width: '167px' }}
+                    className={classes.datePicker}
+                    margin="normal"
+                    id="date-picker-dialog"
+                    label="Reminder date"
+                    format="MM/dd/yyyy"
+                    value={executionDate}
+                    onChange={handleDateChange}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid> :
+              null
+          }
+
+          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+            <Button onClick={toggleMoreDetailsButton}>
+              {moreDetails ? 'Hide Details' : 'Add More Details'}
+            </Button>
+          </Grid>
+
+          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+            <Button variant="contained" color="primary" type='submit'>
+              Save
             </Button>
             <Button
-              className={
-                list === LIST_TYPE.WATCH ? classes.selectListButton : classes.listButtons
-              }
-              onClick={selectList.bind(this, LIST_TYPE.WATCH)}>
-              Upcoming List
+              onClick={() => router.back()}
+              variant="contained"
+              style={{ marginLeft: '10px' }}>
+              Cancel
             </Button>
-            <Button
-              className={
-                list === LIST_TYPE.LATER ? classes.selectListButton : classes.listButtons
-              }
-              onClick={selectList.bind(this, LIST_TYPE.LATER)}>
-              Someday List
-            </Button>
-         </ButtonGroup>
-        </div>
-
-        {
-          moreDetails ?
-            <span>
-            <FormControl className={classes.formControl}>
-              <InputLabel id="demo-simple-select-label">Type of item</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={type}
-                onChange={handleTypeSelect}
-              >
-                <MenuItem value={ITEM_TYPE.TODO}>{getCapitalizedString(ITEM_TYPE.TODO)}</MenuItem>
-                <MenuItem value={ITEM_TYPE.MOVIE}>{getCapitalizedString(ITEM_TYPE.MOVIE)}</MenuItem>
-                <MenuItem value={ITEM_TYPE.TV}>{ITEM_TYPE.TV}</MenuItem>
-                <MenuItem value={ITEM_TYPE.FOOD}>{getCapitalizedString(ITEM_TYPE.FOOD)}</MenuItem>
-                <MenuItem value={ITEM_TYPE.RESTAURANT}>{getCapitalizedString(ITEM_TYPE.RESTAURANT)}</MenuItem>
-                <MenuItem value={ITEM_TYPE.MUSIC}>{getCapitalizedString(ITEM_TYPE.MUSIC)}</MenuItem>
-                <MenuItem value={ITEM_TYPE.TRAVEL}>{getCapitalizedString(ITEM_TYPE.TRAVEL)}</MenuItem>
-                <MenuItem value={ITEM_TYPE.ACCOMODATION}>{getCapitalizedString(ITEM_TYPE.ACCOMODATION)}</MenuItem>
-                <MenuItem value={ITEM_TYPE.HOME}>{getCapitalizedString(ITEM_TYPE.HOME)}</MenuItem>
-                <MenuItem value={ITEM_TYPE.FINANCE}>{getCapitalizedString(ITEM_TYPE.FINANCE)}</MenuItem>
-                <MenuItem value={ITEM_TYPE.BOOK}>{getCapitalizedString(ITEM_TYPE.BOOK)}</MenuItem>
-                <MenuItem value={ITEM_TYPE.PODCAST}>{getCapitalizedString(ITEM_TYPE.PODCAST)}</MenuItem>
-                <MenuItem value={ITEM_TYPE.PRODUCT}>{getCapitalizedString(ITEM_TYPE.PRODUCT)}</MenuItem>
-                <MenuItem value={ITEM_TYPE.SERVICE}>{getCapitalizedString(ITEM_TYPE.SERVICE)}</MenuItem>
-                <MenuItem value={ITEM_TYPE.PERSONAL}>{getCapitalizedString(ITEM_TYPE.PERSONAL)}</MenuItem>
-                <MenuItem value={ITEM_TYPE.WORK}>{getCapitalizedString(ITEM_TYPE.WORK)}</MenuItem>
-                <MenuItem value={ITEM_TYPE.FAMILY}>{getCapitalizedString(ITEM_TYPE.FAMILY)}</MenuItem>
-                <MenuItem value={ITEM_TYPE.HEALTH}>{getCapitalizedString(ITEM_TYPE.HEALTH)}</MenuItem>
-                <MenuItem value={ITEM_TYPE.SHOPPING}>{getCapitalizedString(ITEM_TYPE.SHOPPING)}</MenuItem>
-                <MenuItem value={ITEM_TYPE.GIFT}>{getCapitalizedString(ITEM_TYPE.GIFT)}</MenuItem>
-                <MenuItem value={ITEM_TYPE.OTHER}>{getCapitalizedString(ITEM_TYPE.OTHER)}</MenuItem>
-              </Select>
-            </FormControl>
-
-              <p>Notes: <textarea name="notes" cols={50} rows={5} onChange={event => setNotes(event.target.value)} /></p> </span> :
-            null
-        }
-
-        <Button onClick={toggleMoreDetailsButton}>
-          { moreDetails ? 'Hide Details' : 'Add More Details' }
-        </Button>
-
-        <p><button type='submit'>Save</button><button onClick={() => router.back()}>Cancel</button></p>
+          </Grid>
+        </Grid>
       </form>
     </div>
   )
