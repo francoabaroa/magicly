@@ -9,7 +9,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
@@ -17,7 +16,6 @@ import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
-import { withApollo } from '../../apollo/apollo';
 
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
@@ -144,6 +142,18 @@ const useStyles = makeStyles((theme: Theme) =>
         width: '167px',
       },
     },
+    listSelection: {
+      fontFamily: 'Playfair Display, serif',
+      fontSize: '18px',
+      fontStyle: 'normal',
+      textTransform: 'none'
+    },
+    checked: {},
+    radio: {
+      '&$checked': {
+        color: '#840032'
+      }
+    },
   }),
 );
 
@@ -219,6 +229,9 @@ const NewTodoListItemForm = () => {
             <TextField style={{ minWidth: '330px', paddingBottom: '20px' }} autoComplete="off" id="standard-basic" label="Item name" onChange={event => setName(event.target.value)} required />
           </Grid>
 
+          <Grid item xs={12} lg={12} md={12} sm={12}>
+            <p className={classes.listSelection}>Select which list you want to store it in</p>
+          </Grid>
           <Grid
             item
             xs={3}
@@ -339,8 +352,8 @@ const NewTodoListItemForm = () => {
                 <FormControl component="fieldset">
                   <FormLabel component="legend">Would you like to set an email reminder for this?</FormLabel>
                   <RadioGroup aria-label="notif" name="notif1" value={reminder} onChange={event => setReminder(event.target.value)}>
-                    <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                    <FormControlLabel value="no" control={<Radio />} label="No" />
+                    <FormControlLabel value="yes" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Yes" />
+                    <FormControlLabel value="no" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="No" />
                   </RadioGroup>
                 </FormControl>
               </Grid> :
@@ -357,7 +370,7 @@ const NewTodoListItemForm = () => {
                     className={classes.datePicker}
                     margin="normal"
                     id="date-picker-dialog"
-                    label="Reminder date"
+                    label="When do you want to be reminded?"
                     format="MM/dd/yyyy"
                     value={executionDate}
                     onChange={handleDateChange}
@@ -371,13 +384,13 @@ const NewTodoListItemForm = () => {
           }
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <Button onClick={toggleMoreDetailsButton}>
+            <Button onClick={toggleMoreDetailsButton} style={{ backgroundColor: '#E59500', color: 'white'}}>
               {moreDetails ? 'Hide Details' : 'Add More Details'}
             </Button>
           </Grid>
 
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-            <Button variant="contained" color="primary" type='submit'>
+            <Button variant="contained" style={{ backgroundColor: '#840032', color: 'white' }} type='submit'>
               Save
             </Button>
             <Button

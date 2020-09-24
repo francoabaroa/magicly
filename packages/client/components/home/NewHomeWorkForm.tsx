@@ -73,8 +73,7 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
     },
     formControl: {
-      // margin: theme.spacing(1),
-      minWidth: 167,
+      minWidth: '330px',
     },
     form: {
       marginBottom: '60px'
@@ -92,7 +91,13 @@ const useStyles = makeStyles((theme: Theme) =>
       fontFamily: 'Playfair Display',
       fontStyle: 'normal',
       fontWeight: 'bold',
-    }
+    },
+    checked: {},
+    radio: {
+      '&$checked': {
+        color: '#840032'
+      }
+    },
   }),
 );
 
@@ -183,7 +188,7 @@ const NewHomeWorkForm = () => {
           </Grid>
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <TextField autoComplete="off" id="standard-basic" label="Title" onChange={event => setTitle(event.target.value)} required />
+            <TextField autoComplete="off" id="standard-basic" label="Title" onChange={event => setTitle(event.target.value)} required style={{ minWidth: '330px' }} />
           </Grid>
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
@@ -203,18 +208,18 @@ const NewHomeWorkForm = () => {
           </Grid>
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <TextField autoComplete="off" id="standard-basic" label="Who will do it?" onChange={event => setExecutor(event.target.value)} />
+            <TextField autoComplete="off" id="standard-basic" label="Who will do it?" onChange={event => setExecutor(event.target.value)} style={{ minWidth: '330px' }} />
           </Grid>
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <TextField autoComplete="off" type="number" id="standard-basic" label="Cost estimate (USD)" onChange={event => setCost(event.target.value)} />
+            <TextField autoComplete="off" type="number" id="standard-basic" label="Cost estimate (USD)" onChange={event => setCost(event.target.value)} style={{ minWidth: '330px' }} />
           </Grid>
 
           {/* TODO: date storage for backend!! 2020-08-27 */}
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
-                style={{width: '167px'}}
+                style={{width: '330px'}}
                 className={classes.datePicker}
                 margin="normal"
                 id="date-picker-dialog"
@@ -234,12 +239,12 @@ const NewHomeWorkForm = () => {
           </Grid>
 
           {/* if YES, show option to attach doc */}
-          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
             <FormControl component="fieldset">
               <FormLabel component="legend">Would you like to attach a document for this?</FormLabel>
               <RadioGroup aria-label="attach" name="attach1" value={document} onChange={event => setDocument(event.target.value)}>
-                <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                <FormControlLabel value="no" control={<Radio />} label="No" />
+                <FormControlLabel value="yes" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Yes" />
+                <FormControlLabel value="no" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="No" />
               </RadioGroup>
             </FormControl>
           </Grid>
@@ -247,12 +252,12 @@ const NewHomeWorkForm = () => {
           {/* if YES, show option to select notificationType */}
           {/* TODO: need to add NONE to notificationType */}
           {/* TODO: need to get their phone number for this */}
-          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
             <FormControl component="fieldset">
               <FormLabel component="legend">Would you like to set an email reminder for this?</FormLabel>
               <RadioGroup aria-label="notif" name="notif1" value={reminder} onChange={event => setReminder(event.target.value)}>
-                <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                <FormControlLabel value="no" control={<Radio />} label="No" />
+                <FormControlLabel value="yes" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Yes" />
+                <FormControlLabel value="no" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="No" />
               </RadioGroup>
             </FormControl>
           </Grid>
@@ -263,7 +268,7 @@ const NewHomeWorkForm = () => {
           } */}
 
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-            <Button variant="contained" color="primary" type='submit'>
+            <Button variant="contained" style={{ backgroundColor: '#840032', color: 'white' }} type='submit'>
               Save
             </Button>
             <Button

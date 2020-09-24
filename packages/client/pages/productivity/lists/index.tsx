@@ -264,17 +264,17 @@ const ListsPage = () => {
           </Grid>
 
           <Grid item xs={8}>
-            <h1 className={classes.firstTitle}>Now List</h1>
+            <h1 className={classes.firstTitle}>To-Do Now</h1>
           </Grid>
           {todoListItemsUI}
 
           <Grid item xs={8}>
-            <h1 className={classes.title}>Upcoming List</h1>
+            <h1 className={classes.title}>To Watch</h1>
           </Grid>
           {watchListItemsUI}
 
           <Grid item xs={8}>
-            <h1 className={classes.title}>Someday List</h1>
+            <h1 className={classes.title}>To-Do Later</h1>
           </Grid>
           {laterListItemsUI}
 

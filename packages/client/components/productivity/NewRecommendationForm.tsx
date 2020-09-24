@@ -8,7 +8,6 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { withApollo } from '../../apollo/apollo';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -165,7 +164,7 @@ const NewRecommendationForm = () => {
           </Grid>
 
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-            <Button variant="contained" color="primary" type='submit'>
+            <Button variant="contained" style={{ backgroundColor: '#840032', color: 'white' }} type='submit'>
               Save
             </Button>
             <Button

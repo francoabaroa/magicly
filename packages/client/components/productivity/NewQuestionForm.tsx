@@ -67,7 +67,13 @@ const useStyles = makeStyles((theme: Theme) =>
       fontFamily: 'Playfair Display',
       fontStyle: 'normal',
       fontWeight: 'bold',
-    }
+    },
+    checked: {},
+    radio: {
+      '&$checked': {
+        color: '#840032'
+      }
+    },
   }),
 );
 
@@ -134,7 +140,7 @@ const NewQuestionForm = () => {
           </Grid>
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <TextField autoComplete="off" className={classes.notes} id="standard-basic" label="Write your question here" onChange={event => setBody(event.target.value)} />
+            <TextField autoComplete="off" className={classes.notes} id="standard-basic" label="Write your question here" onChange={event => setBody(event.target.value)}  />
           </Grid>
 
           <Grid item xs={12} lg={12} md={12} sm={12}>
@@ -161,13 +167,13 @@ const NewQuestionForm = () => {
             <FormControl component="fieldset">
               <FormLabel component="legend">Is this question urgent?</FormLabel>
               <RadioGroup aria-label="urgent" name="urgent1" value={urgent} onChange={handleChange}>
-                <FormControlLabel value={true} control={<Radio />} label="Yes" />
-                <FormControlLabel value={false} control={<Radio />} label="No" />
+                <FormControlLabel value={true} control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Yes" />
+                <FormControlLabel value={false} control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="No" />
               </RadioGroup>
             </FormControl>
           </Grid>
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-            <Button variant="contained" color="primary" type='submit'>
+            <Button variant="contained" style={{ backgroundColor: '#840032', color: 'white' }} type='submit'>
               Submit
             </Button>
             <Button

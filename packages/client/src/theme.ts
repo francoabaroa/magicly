@@ -3,9 +3,15 @@ import { red } from '@material-ui/core/colors';
 
 // Create a theme instance.
 const theme = createMuiTheme({
+  typography: {
+    button: {
+      textTransform: 'none',
+      fontFamily: 'Playfair Display, serif',
+    }
+  },
   palette: {
     primary: {
-      main: '#556cd6',
+      main: '#840032',
     },
     secondary: {
       main: '#19857b',

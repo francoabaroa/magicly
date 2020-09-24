@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     formControl: {
-      minWidth: 167,
+      minWidth: '330px',
     },
     centerText: {
       textAlign: 'center',
@@ -201,6 +201,7 @@ const UploadFile = () => {
             <Button
               variant="contained"
               component="label"
+              style={{ backgroundColor: '#E59500', color: 'white' }}
             >
               Choose Document
               <input id="fileinput" type="file" required onChange={onChange} style={{ display: "none" }} />
@@ -212,7 +213,7 @@ const UploadFile = () => {
           </Grid>
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <TextField autoComplete="off" id="standard-basic" label="Document name" onChange={event => setName(event.target.value)} required />
+            <TextField autoComplete="off" id="standard-basic" label="Document name" onChange={event => setName(event.target.value)} required style={{ minWidth: '330px' }}/>
           </Grid>
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
@@ -261,7 +262,7 @@ const UploadFile = () => {
           </Grid>
 
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-            <Button variant="contained" color="primary" type='submit'>
+            <Button variant="contained" style={{ backgroundColor: '#840032', color: 'white' }} type='submit'>
               Save
             </Button>
             <Button
