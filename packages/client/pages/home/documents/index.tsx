@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: '40px',
       color: '#002642',
       marginTop: '25px',
-      marginBottom: '15px',
+      marginBottom: '10px',
       margin: 'auto',
       textAlign: 'center',
       [theme.breakpoints.down('sm')]: {
@@ -206,6 +206,9 @@ const DocumentsPage = () => {
     } else {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+          <Grid item xs={12} lg={12} md={12} sm={12}>
+            <h1 className={classes.title}>Important Documents</h1>
+          </Grid>
           <Grid item xs={8} lg={7} md={7} sm={7}>
             <h1 className={classes.mediumTitle}>store documents you accrue over time so you never forget them</h1>
           </Grid>
@@ -214,9 +217,6 @@ const DocumentsPage = () => {
               <AddCircle fontSize={'small'} className={classes.icon} />
               <span className={classes.details}>add document</span>
             </div>
-          </Grid>
-          <Grid item xs={8} lg={7} md={7} sm={7}>
-            <h1 className={classes.smallTitle}>tap the camera icon to add documents</h1>
           </Grid>
         </Grid>
       );

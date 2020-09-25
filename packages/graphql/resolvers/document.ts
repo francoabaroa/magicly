@@ -123,5 +123,8 @@ export default {
     user: async (document, args, { loaders, models }) => {
       return await loaders.user.load(document.userId);
     },
+    homework: async (document, args, { loaders, models }) => {
+      return await models.Homework.findOne({ where: { id: document.homeworkId } });
+    },
   },
 };

@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Add from '@material-ui/icons/Add';
 import Notes from '@material-ui/icons/Notes';
+import Build from '@material-ui/icons/Build';
 
 const QUERY = gql`
   query GetDocumentUrl ($id: ID!) {
@@ -16,6 +17,11 @@ const QUERY = gql`
       document {
         id
         name
+        notes
+        homework {
+          id
+          title
+        }
       }
     }
   }
@@ -37,6 +43,21 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       [theme.breakpoints.down('sm')]: {
         fontSize: '26px',
+        marginTop: '15px',
+        marginBottom: '0px',
+      },
+    },
+    docDetails: {
+      fontFamily: 'Playfair Display, serif',
+      fontWeight: 'bold',
+      fontSize: '24px',
+      color: '#002642',
+      marginTop: '25px',
+      marginBottom: '5px',
+      margin: 'auto',
+      textAlign: 'center',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '18px',
         marginTop: '15px',
         marginBottom: '0px',
       },
@@ -66,13 +87,17 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '200px',
     },
     thumb: {
-      display: 'inline-block',
-      width: '500px',
       height: '200px',
-      margin: '5px',
-      border: '3px solid #c99',
+      margin: 'auto',
+      width: '50%',
+      border: '3px solid #840032',
       backgroundPosition: 'top top',
       backgroundSize: 'cover',
+      borderRadius: '30px',
+      [theme.breakpoints.down('xs')]: {
+        width: '350px',
+        height: '140px',
+      },
     }
   }),
 );
@@ -101,7 +126,11 @@ const ViewDocumentPage = () => {
     if (data && data.getDocumentAndUrl && data.getDocumentAndUrl.url) {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
-          <Grid item xs={8}>
+          <Grid item xs={12} lg={12} md={12} sm={12}>
+            <h1 className={classes.title}>{data.getDocumentAndUrl.document.name}</h1>
+          </Grid>
+
+          <Grid item xs={12} lg={12} md={12} sm={12}>
             <div
               key={id.toString()}
               onClick={openInNewWindow.bind(this, data.getDocumentAndUrl.url)}
@@ -109,8 +138,31 @@ const ViewDocumentPage = () => {
               style={{ backgroundImage: `url('${data.getDocumentAndUrl.url}')` }}>
             </div>
           </Grid>
+
+          {
+            data.getDocumentAndUrl.document.homework.id ?
+              <Grid item xs={12} lg={12} md={12} sm={12}>
+                <div className={classes.individualFeature}>
+                  <Build fontSize={'small'} className={classes.icon} />
+                  <span className={classes.details}>{data.getDocumentAndUrl.document.homework.title}</span>
+                </div>
+              </Grid> :
+              null
+          }
+
+          {
+            data.getDocumentAndUrl.document.notes.length > 0 ?
+              <Grid item xs={12} lg={12} md={12} sm={12}>
+                <div className={classes.individualFeature}>
+                  <Notes fontSize={'small'} className={classes.icon} />
+                  <span className={classes.details}>{data.getDocumentAndUrl.document.notes}</span>
+                </div>
+              </Grid> :
+              null
+          }
+
           <Grid item xs={8}>
-            <p>To protect you and your data, the image at <a target="_blank" href={data.getDocumentAndUrl.url}>this link</a> will only be available for 15 minutes. Please refresh the page for a new link.</p>
+            <p style={{fontSize: '12px', textAlign: 'center'}}>To protect you and your data, the image at <a target="_blank" href={data.getDocumentAndUrl.url}>this link</a> will only be available for 15 minutes. Please refresh the page for a new link.</p>
           </Grid>
           {/* <Grid item xs={8}>
             <h1 className={classes.title}> {data.listItem.name}</h1>

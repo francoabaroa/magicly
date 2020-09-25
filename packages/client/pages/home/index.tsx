@@ -249,7 +249,7 @@ const HomePage = () => {
             Find Home Service Providers
           </h2>
           <h3 className={classes.description}>
-            Answer questions, concerns or doubts you might have about technology
+            Find trusted providers for all types of services for your home
               </h3>
         </Grid>
       </Grid>

@@ -60,6 +60,21 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: '10px',
       },
     },
+    sectionTitle: {
+      fontFamily: 'Playfair Display, serif',
+      fontWeight: 'bold',
+      fontSize: '26px',
+      color: '#002642',
+      marginTop: '25px',
+      marginBottom: '30px',
+      margin: 'auto',
+      textAlign: 'center',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '22px',
+        marginTop: '15px',
+        marginBottom: '10px',
+      },
+    },
     findButton: {
       fontFamily: 'Fredoka One, cursive',
       fontSize: '14px',
@@ -178,11 +193,11 @@ const HomeWorkPage = () => {
       return (
         <div>
           <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h1 className={classes.title}>Upcoming Home Work</h1>
+            <h1 className={classes.sectionTitle}>Upcoming Home Work</h1>
           </Grid>
           { upcomingWork }
           <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h1 className={classes.title}>Past Home Work</h1>
+            <h1 className={classes.sectionTitle}>Past Home Work</h1>
           </Grid>
           { pastWork }
         </div>
@@ -191,10 +206,10 @@ const HomeWorkPage = () => {
       return (
         <div>
           <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h1 className={classes.title}>Upcoming Home Work</h1>
+            <h1 className={classes.sectionTitle}>Upcoming Home Work</h1>
           </Grid>
           <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h1 className={classes.title}>Past Home Work</h1>
+            <h1 className={classes.sectionTitle}>Past Home Work</h1>
           </Grid>
         </div>
       );
@@ -206,25 +221,23 @@ const HomeWorkPage = () => {
     <Layout>
       <div className={classes.homeWorkPage}>
       <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
-          <Grid item xs={12} lg={12} md={12} sm={12} onClick={routePage.bind(this, 'find')}>
+          <Grid item xs={12} lg={12} md={12} sm={12}>
+            <h1 className={classes.title}>Home Work</h1>
+          </Grid>
+
+          {/* <Grid item xs={12} lg={12} md={12} sm={12} onClick={routePage.bind(this, 'find')}>
           <Button className={classes.findButton}> Find Products & Services </Button>
-        </Grid>
-        <Grid item xs={12} lg={4} md={4} sm={4}>
+        </Grid> */}
+        <Grid item xs={12} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
               <AddCircle fontSize={'small'} className={classes.icon} />
               <span className={classes.details}>add home work event</span>
             </div>
           </Grid>
-        <Grid item xs={12} lg={4} md={4} sm={4}>
+        <Grid item xs={12} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature}>
               <Search fontSize={'small'} className={classes.icon} />
               <span className={classes.details}>search home work</span>
-            </div>
-          </Grid>
-        <Grid item xs={12} lg={4} md={4} sm={4}>
-            <div className={classes.individualFeature}>
-              <Edit fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>edit</span>
             </div>
           </Grid>
           {getMainUI(hasHomeWork, pastWork, upcomingWork)}
