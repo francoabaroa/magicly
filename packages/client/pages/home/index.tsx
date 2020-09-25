@@ -155,7 +155,7 @@ const HomePage = () => {
       return (
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
           <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
-            <h2 className={classes.sectionTitle}>
+            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'home/documents')}>
               Important Documents
             </h2>
           </Grid>
@@ -180,7 +180,7 @@ const HomePage = () => {
     } else {
       return (
         <Grid item xs={7} lg={12} md={7} sm={7} className={classes.paper}>
-          <h2 className={classes.sectionTitle}>
+          <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'home/documents')}>
             Important Documents
             </h2>
           <h3 className={classes.description}>
@@ -201,7 +201,7 @@ const HomePage = () => {
       return (
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
           <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
-            <h2 className={classes.sectionTitle}>
+            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'home/work')}>
               Home Work
               </h2>
           </Grid>
@@ -226,7 +226,7 @@ const HomePage = () => {
     } else {
       return (
         <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
-          <h2 className={classes.sectionTitle}>
+          <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'home/work')}>
             Home Work
             </h2>
           <h3 className={classes.description}>
@@ -244,10 +244,13 @@ const HomePage = () => {
   const getHomeServiceProvidersSection = () => {
     return (
       <Grid container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
-        <Grid item xs={12} lg={12} md={12} sm={12} xl={12} style={{ marginBottom: '50px' }} onClick={routePage.bind(this, 'home/providers')}>
+        <Grid item xs={12} lg={12} md={12} sm={12} xl={12} style={{ marginBottom: '20px' }} onClick={routePage.bind(this, 'home/providers')}>
           <h2 className={classes.sectionTitle}>
             Find Home Service Providers
           </h2>
+          <h3 className={classes.description}>
+            Answer questions, concerns or doubts you might have about technology
+              </h3>
         </Grid>
       </Grid>
     );

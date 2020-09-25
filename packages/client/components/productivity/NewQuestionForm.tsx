@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
     notes: {
       minWidth: '530px',
       [theme.breakpoints.down('sm')]: {
-        minWidth: '330px',
+        minWidth: '350px',
       },
     },
     title: {

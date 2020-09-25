@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     formControl: {
-      minWidth: '330px',
+      minWidth: '350px',
     },
   }),
 );

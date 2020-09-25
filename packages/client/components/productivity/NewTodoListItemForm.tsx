@@ -62,8 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     formControl: {
-      margin: theme.spacing(1),
-      minWidth: '330px',
+      minWidth: '350px',
     },
     selectEmpty: {
       marginTop: theme.spacing(2),
@@ -96,7 +95,7 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
     },
     notes: {
-      minWidth: '330px',
+      minWidth: '350px',
       marginBottom: '25px',
     },
     title: {
@@ -137,7 +136,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     datePicker: {
-      minWidth: '330px',
+      minWidth: '350px',
       [theme.breakpoints.up('lg')]: {
         width: '167px',
       },
@@ -162,7 +161,7 @@ const NewTodoListItemForm = () => {
   const [createListItem, { data, loading, error }] = useMutation(CREATE_LIST_ITEM);
   const router = useRouter();
   const [name, setName] = useState('');
-  const [list, setList] = useState(LIST_TYPE.TODO);
+  const [list, setList] = useState('');
   const [type, setType] = useState(ITEM_TYPE.TODO);
   const [notes, setNotes] = useState('');
   const [reminder, setReminder] = useState('no');
@@ -226,7 +225,7 @@ const NewTodoListItemForm = () => {
           </Grid>
 
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-            <TextField style={{ minWidth: '330px', paddingBottom: '20px' }} autoComplete="off" id="standard-basic" label="Item name" onChange={event => setName(event.target.value)} required />
+            <TextField style={{ paddingBottom: '20px' }} autoComplete="off" id="standard-basic" label="Item name" onChange={event => setName(event.target.value)} required className={classes.formControl} />
           </Grid>
 
           <Grid item xs={12} lg={12} md={12} sm={12}>
@@ -366,7 +365,6 @@ const NewTodoListItemForm = () => {
               <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
-                    style={{ width: '167px' }}
                     className={classes.datePicker}
                     margin="normal"
                     id="date-picker-dialog"

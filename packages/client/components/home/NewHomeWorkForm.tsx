@@ -73,18 +73,19 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
     },
     formControl: {
-      minWidth: '330px',
+      minWidth: '350px',
     },
     form: {
       marginBottom: '60px'
     },
     notes: {
-      minWidth: '330px',
+      minWidth: '350px',
       marginBottom: '40px',
     },
     datePicker: {
+      minWidth: '350px',
       [theme.breakpoints.up('lg')]: {
-        width: '167px',
+        width: '350px',
       },
     },
     title: {
@@ -188,7 +189,7 @@ const NewHomeWorkForm = () => {
           </Grid>
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <TextField autoComplete="off" id="standard-basic" label="Title" onChange={event => setTitle(event.target.value)} required style={{ minWidth: '330px' }} />
+            <TextField autoComplete="off" id="standard-basic" label="Title" onChange={event => setTitle(event.target.value)} required className={classes.formControl} />
           </Grid>
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
@@ -208,18 +209,17 @@ const NewHomeWorkForm = () => {
           </Grid>
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <TextField autoComplete="off" id="standard-basic" label="Who will do it?" onChange={event => setExecutor(event.target.value)} style={{ minWidth: '330px' }} />
+            <TextField autoComplete="off" id="standard-basic" label="Who will do it?" onChange={event => setExecutor(event.target.value)} className={classes.formControl} />
           </Grid>
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <TextField autoComplete="off" type="number" id="standard-basic" label="Cost estimate (USD)" onChange={event => setCost(event.target.value)} style={{ minWidth: '330px' }} />
+            <TextField autoComplete="off" type="number" id="standard-basic" label="Cost estimate (USD)" onChange={event => setCost(event.target.value)} className={classes.formControl} />
           </Grid>
 
           {/* TODO: date storage for backend!! 2020-08-27 */}
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
-                style={{width: '330px'}}
                 className={classes.datePicker}
                 margin="normal"
                 id="date-picker-dialog"

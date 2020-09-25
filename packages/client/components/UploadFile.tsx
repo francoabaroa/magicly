@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     formControl: {
-      minWidth: '330px',
+      minWidth: '350px',
     },
     centerText: {
       textAlign: 'center',
@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 'bold'
     },
     notes: {
-      minWidth: '330px',
+      minWidth: '350px',
       marginBottom: '40px',
     },
     title: {
@@ -213,7 +213,7 @@ const UploadFile = () => {
           </Grid>
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <TextField autoComplete="off" id="standard-basic" label="Document name" onChange={event => setName(event.target.value)} required style={{ minWidth: '330px' }}/>
+            <TextField autoComplete="off" id="standard-basic" label="Document name" onChange={event => setName(event.target.value)} required className={classes.formControl} />
           </Grid>
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>

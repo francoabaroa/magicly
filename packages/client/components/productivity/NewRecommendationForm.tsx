@@ -42,10 +42,10 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     formControl: {
       margin: theme.spacing(1),
-      minWidth: '330px',
+      minWidth: '350px',
     },
     name: {
-      minWidth: '330px',
+      minWidth: '350px',
     },
     selectEmpty: {
       marginTop: theme.spacing(2),
@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
     },
     notes: {
-      minWidth: '330px',
+      minWidth: '350px',
       marginBottom: '40px',
     },
   }),

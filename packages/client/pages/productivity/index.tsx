@@ -195,7 +195,7 @@ const ProductivityPage = () => {
       return (
         <Grid item xs={7} lg={7} md={7} sm={7}>
           <Paper className={classes.paper}>
-            <h2 className={classes.sectionTitle}>
+            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/recommendations')}>
               Recommendations
               </h2>
             <div>Recent Recommendations: </div>
@@ -215,7 +215,7 @@ const ProductivityPage = () => {
       return (
         <Grid item xs={7} lg={7} md={7} sm={7}>
           <Paper className={classes.paper}>
-            <h2 className={classes.sectionTitle}>
+            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/recommendations')}>
               Recommendations
               </h2>
             <h3 className={classes.description}>
@@ -237,7 +237,7 @@ const ProductivityPage = () => {
       return (
         <Grid item xs={7} lg={7} md={7} sm={7}>
           <Paper className={classes.paper}>
-            <h2 className={classes.sectionTitle}>
+            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/lists')}>
               To-Do Lists
               </h2>
               <div>Recent To-Do Items: </div>
@@ -257,7 +257,7 @@ const ProductivityPage = () => {
       return (
         <Grid item xs={7} lg={7} md={7} sm={7}>
           <Paper className={classes.paper}>
-            <h2 className={classes.sectionTitle}>
+            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/lists')}>
               To-Do Lists
               </h2>
             <h3 className={classes.description}>
@@ -277,7 +277,7 @@ const ProductivityPage = () => {
     return (
       <Grid item xs={7} lg={7} md={7} sm={7} style={{marginBottom: '50px'}}>
         <Paper className={classes.paper}>
-          <h2 className={classes.sectionTitle}>
+          <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/help')}>
             Ask a Tech Question
               </h2>
           <h3 className={classes.description}>
