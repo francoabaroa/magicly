@@ -140,7 +140,7 @@ const ViewDocumentPage = () => {
           </Grid>
 
           {
-            data.getDocumentAndUrl.document.homework.id ?
+            data.getDocumentAndUrl.document.homework && data.getDocumentAndUrl.document.homework.id ?
               <Grid item xs={12} lg={12} md={12} sm={12}>
                 <div className={classes.individualFeature}>
                   <Build fontSize={'small'} className={classes.icon} />
