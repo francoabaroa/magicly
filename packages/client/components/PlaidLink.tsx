@@ -61,7 +61,7 @@ const PlaidLink = (props) => {
           // and reinitialize Plaid Link with a new link_token.
         }
       } else {
-        router.push('/finance/dashboard', undefined, { shallow: true });
+        router.push('/finance', undefined, { shallow: true });
       }
       // metadata contains information about the institution
       // that the user selected and the most recent API request IDs.
