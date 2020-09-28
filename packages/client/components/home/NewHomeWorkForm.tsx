@@ -73,19 +73,25 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
     },
     formControl: {
-      minWidth: '350px',
+      minWidth: '550px',
+      [theme.breakpoints.down('xs')]: {
+        minWidth: '350px',
+      },
     },
     form: {
       marginBottom: '60px'
     },
     notes: {
-      minWidth: '350px',
+      minWidth: '550px',
       marginBottom: '40px',
+      [theme.breakpoints.down('xs')]: {
+        minWidth: '350px',
+      },
     },
     datePicker: {
-      minWidth: '350px',
-      [theme.breakpoints.up('lg')]: {
-        width: '350px',
+      minWidth: '550px',
+      [theme.breakpoints.down('xs')]: {
+        minWidth: '350px',
       },
     },
     title: {

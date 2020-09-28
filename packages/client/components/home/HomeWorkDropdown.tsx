@@ -32,7 +32,10 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     formControl: {
-      minWidth: '350px',
+      minWidth: '550px',
+      [theme.breakpoints.down('xs')]: {
+        minWidth: '350px',
+      },
     },
   }),
 );

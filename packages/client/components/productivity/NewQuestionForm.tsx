@@ -52,14 +52,17 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     formControl: {
       margin: theme.spacing(1),
-      minWidth: 220,
+      minWidth: '550px',
+      [theme.breakpoints.down('xs')]: {
+        minWidth: '350px',
+      },
     },
     centerText: {
       textAlign: 'center',
     },
     notes: {
-      minWidth: '530px',
-      [theme.breakpoints.down('sm')]: {
+      minWidth: '550px',
+      [theme.breakpoints.down('xs')]: {
         minWidth: '350px',
       },
     },

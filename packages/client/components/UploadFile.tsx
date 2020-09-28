@@ -61,7 +61,10 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     formControl: {
-      minWidth: '350px',
+      minWidth: '550px',
+      [theme.breakpoints.down('xs')]: {
+        minWidth: '350px',
+      },
     },
     centerText: {
       textAlign: 'center',
@@ -71,8 +74,11 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 'bold'
     },
     notes: {
-      minWidth: '350px',
       marginBottom: '40px',
+      minWidth: '550px',
+      [theme.breakpoints.down('xs')]: {
+        minWidth: '350px',
+      },
     },
     title: {
       fontFamily: 'Playfair Display',
