@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import Layout from '../../../../../components/Layout';
 import { withApollo } from '../../../../../apollo/apollo';
@@ -78,6 +79,19 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: '18px',
       },
     },
+    detailsUnderlined: {
+      color: '#0A7EF2',
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      fontWeight: 'normal',
+      fontSize: '24px',
+      margin: 'auto',
+      textDecoration: 'underline',
+      marginLeft: '10px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '18px',
+      },
+    },
     icon: {
       color: '#0A7EF2',
       fontSize: '14px',
@@ -110,6 +124,10 @@ const ViewDocumentPage = () => {
     variables: { id },
   });
 
+  const routePage = (pageName: string) => {
+    router.push('/' + pageName, undefined, { shallow: true });
+  }
+
   const openInNewWindow = (url: string) => {
     window.open(url);
   }
@@ -124,6 +142,10 @@ const ViewDocumentPage = () => {
     // TODO: adapt function if only required fields are passed, to show right things on the UI
     // TODO: add edit and delete functionality
     if (data && data.getDocumentAndUrl && data.getDocumentAndUrl.url) {
+      let homework = null;
+      if (data.getDocumentAndUrl.document.homework && data.getDocumentAndUrl.document.homework.id) {
+        homework = data.getDocumentAndUrl.document.homework;
+      }
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={12} lg={12} md={12} sm={12}>
@@ -140,11 +162,11 @@ const ViewDocumentPage = () => {
           </Grid>
 
           {
-            data.getDocumentAndUrl.document.homework && data.getDocumentAndUrl.document.homework.id ?
+            homework !== null ?
               <Grid item xs={12} lg={12} md={12} sm={12}>
                 <div className={classes.individualFeature}>
                   <Build fontSize={'small'} className={classes.icon} />
-                  <span className={classes.details}>{data.getDocumentAndUrl.document.homework.title}</span>
+                  <span className={classes.detailsUnderlined} onClick={routePage.bind(this, `home/work/view/${homework.id}`)}>{homework.title}</span>
                 </div>
               </Grid> :
               null
