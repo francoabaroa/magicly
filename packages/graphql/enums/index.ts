@@ -77,6 +77,7 @@ const enums = gql`
     OTHER
     EXPENSE
     INVESTMENT
+    HEALTH
   }
 
   enum DocTag {

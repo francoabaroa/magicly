@@ -234,6 +234,7 @@ const UploadFile = () => {
                 <MenuItem value={DOC_TYPE.FAMILY}>{getCapitalizedString(DOC_TYPE.FAMILY)}</MenuItem>
                 <MenuItem value={DOC_TYPE.EXPENSE}>{getCapitalizedString(DOC_TYPE.EXPENSE)}</MenuItem>
                 <MenuItem value={DOC_TYPE.INVESTMENT}>{getCapitalizedString(DOC_TYPE.INVESTMENT)}</MenuItem>
+                <MenuItem value={DOC_TYPE.HEALTH}>{getCapitalizedString(DOC_TYPE.HEALTH)}</MenuItem>
                 <MenuItem value={DOC_TYPE.OTHER}>{getCapitalizedString(DOC_TYPE.OTHER)}</MenuItem>
               </Select>
             </FormControl>

@@ -6,7 +6,7 @@ import { SequelizeAttributes } from '../typings/SequelizeAttributes';
 export interface DocumentAttributes {
   id?: number;
   name: string;
-  type: 'IMAGE' | 'RECEIPT' | 'MANUAL' | 'WARRANTY' | 'TAX' | 'PROPERTY' | 'INSURANCE' | 'CERTIFICATE' | 'FAMILY' | 'EXPENSE' | 'INVESTMENT' | 'OTHER';
+  type: 'IMAGE' | 'RECEIPT' | 'MANUAL' | 'WARRANTY' | 'TAX' | 'PROPERTY' | 'INSURANCE' | 'CERTIFICATE' | 'FAMILY' | 'EXPENSE' | 'INVESTMENT' | 'HEALTH' | 'OTHER';
   tag?: 'HOME' | 'TRANSPORTATION' | 'FOOD' | 'UTILITY' | 'MEDICAL' | 'TRAVEL' | 'GIFT' | 'SERVICE' | 'PRODUCT' | 'RECREATION' | null;
   keywords?: string[] | null;
   bucketDocId: string;
@@ -51,6 +51,7 @@ export const DocumentFactory = (sequelize: Sequelize.Sequelize, DataTypes: Seque
         'FAMILY',
         'EXPENSE',
         'INVESTMENT',
+        'HEALTH',
         'OTHER',
       ),
       unique: false,
