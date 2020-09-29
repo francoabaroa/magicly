@@ -20,6 +20,10 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: '50px',
       width: '250px',
       height: '50px',
+      '&:hover': {
+        color: '#E59500',
+        backgroundColor: 'white'
+      },
       [theme.breakpoints.down('sm')]: {
         fontSize: '14px',
         width: '150px',
