@@ -79,13 +79,12 @@ export default {
       isAuthenticated,
       async (
         parent,
-        { file, name, type, keywords, notes, homeworkId },
+        { file, name, type, keywords, notes, homeworkId, docValue },
         { singleUpload, me, models, bucketName }
       ) => {
         try {
           const uploadedFile = await singleUpload(file, me);
           let document = {};
-
           if (uploadedFile && uploadedFile.filename) {
             document = await models.Document.create({
               name,
@@ -95,6 +94,7 @@ export default {
               bucketPath: bucketName + '/' + me.id + '/',
               keywords,
               notes,
+              docValue,
               userId: me.id,
               homeworkId: homeworkId ? homeworkId : null,
             });

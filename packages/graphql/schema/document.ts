@@ -20,6 +20,7 @@ export default gql`
       keywords: [String]
       notes: String
       homeworkId: String
+      docValue: Float
       ): UploadedFileResponse!
     deleteDocument(id: ID!): Boolean!
   }
@@ -32,7 +33,7 @@ export default gql`
     bucketDocId: String!
     bucketName: String!
     bucketPath: String
-    docValue: Int
+    docValue: Float
     notes: String
     createdAt: Date!
     updatedAt: Date!

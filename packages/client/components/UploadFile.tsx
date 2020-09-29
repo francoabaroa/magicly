@@ -33,6 +33,7 @@ const ADD_DOCUMENT = gql`
     $keywords: [String]
     $notes: String,
     $homeworkId: String,
+    $docValue: Float,
   ) {
     addDocument(
       file: $file,
@@ -41,6 +42,7 @@ const ADD_DOCUMENT = gql`
       keywords: $keywords,
       notes: $notes,
       homeworkId: $homeworkId,
+      docValue: $docValue
       ) {
       filename
       mimetype
@@ -91,13 +93,16 @@ const useStyles = makeStyles((theme: Theme) =>
 const UploadFile = () => {
   const classes = useStyles();
   const router = useRouter();
+  const { receipt } = router.query;
   const [lastUploaded, setLastUploaded] = useState({});
   const [uploadedDoc, setUploadedDoc] = useState({});
   const [filename, setFilename] = useState('');
   const [uploadSingleDoc, { loading, error, data }] = useMutation(ADD_DOCUMENT);
   const [name, setName] = useState('');
   const [notes, setNotes] = useState('');
-  const [type, setType] = useState('');
+  const [docValue, setDocValue] = useState('');
+  const startingType = receipt === 'true' ? DOC_TYPE.RECEIPT : ''
+  const [type, setType] = useState(startingType);
   const [keywords, setKeywords] = useState([]);
   const [folder, setFolder] = useState('Existing');
   const [homeworkId, setHomeworkId] = React.useState('');
@@ -134,7 +139,8 @@ const UploadFile = () => {
         type,
         keywords,
         notes,
-        homeworkId
+        homeworkId,
+        docValue: isNaN(parseFloat(docValue)) ? 0 : parseFloat(docValue)
       }
     };
     uploadSingleDoc(variables);
@@ -142,10 +148,16 @@ const UploadFile = () => {
 
   if (data && data.addDocument && data.addDocument.filename) {
     // TODO: show dialog message when document is created!
-    if (process.browser || (window && window.location)) {
-      window.location.href = url + 'home/documents';
+    let path = '';
+    if (receipt === 'true') {
+      path = 'finance/receipts';
     } else {
-      router.push('/home/documents', undefined);
+      path = 'home/documents';
+    }
+    if (process.browser || (window && window.location)) {
+      window.location.href = url + path;
+    } else {
+      router.push('/' + path, undefined);
     }
   }
 
@@ -195,12 +207,13 @@ const UploadFile = () => {
     clearFileInput(document.getElementById('fileinput'));
   };
 
+  let title = receipt === 'true' ? 'Receipt' : 'Document';
   return (
     <div className={classes.root}>
       <form onSubmit={submitForm}>
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
           <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h1 className={classes.title}>Add a New Document</h1>
+            <h1 className={classes.title}>Add a New {title}</h1>
           </Grid>
 
           <Grid item xs={12} lg={12} md={12} sm={12}>
@@ -209,7 +222,7 @@ const UploadFile = () => {
               component="label"
               style={{ backgroundColor: '#E59500', color: 'white' }}
             >
-              Choose Document
+              Choose {title}
               <input id="fileinput" type="file" required onChange={onChange} style={{ display: "none" }} />
             </Button>
             {filename.length > 0 ?
@@ -219,10 +232,10 @@ const UploadFile = () => {
           </Grid>
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <TextField autoComplete="off" id="standard-basic" label="Document name" onChange={event => setName(event.target.value)} required className={classes.formControl} />
+            <TextField autoComplete="off" id="standard-basic" label={title + ' name'} onChange={event => setName(event.target.value)} required className={classes.formControl} />
           </Grid>
 
-          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+          {receipt === 'true' ? null : <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
             <FormControl className={classes.formControl} required>
               <InputLabel>Document type</InputLabel>
               <Select
@@ -244,11 +257,15 @@ const UploadFile = () => {
                 <MenuItem value={DOC_TYPE.OTHER}>{getCapitalizedString(DOC_TYPE.OTHER)}</MenuItem>
               </Select>
             </FormControl>
-          </Grid>
+          </Grid>}
 
-          <Grid item xs={12} lg={12}>
+          {receipt === 'true' ? null : <Grid item xs={12} lg={12}>
             <HomeWorkDropdown setHomeworkId={setHWID} homeworkId={homeworkId} />
-          </Grid>
+          </Grid>}
+
+          {receipt === 'true' ? <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+            <TextField autoComplete="off" id="standard-basic" label="Receipt value (USD)" onChange={event => setDocValue(event.target.value)} className={classes.formControl} />
+          </Grid> : null}
 
           {/* <Grid item xs={12} lg={12} md={12} sm={12}>
             <FormControl component="fieldset">

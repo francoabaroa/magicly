@@ -5,9 +5,10 @@ import { withApollo } from '../../../apollo/apollo';
 import Cookies from 'js-cookie';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 import {
-  BarChart, Bar, Cell, PieChart, Pie, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+  AreaChart, Area, BarChart, Bar, Cell, PieChart, Pie, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
 
 const data = [
@@ -40,7 +41,7 @@ const otherBarData = {
 
 //(node:46223) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 /finance/dashboard listeners added to [EventEmitter]. Use emitter.setMaxListeners() to increase limit
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#F72C25', '#34113F'];
+const COLORS = ['#002642', '#E59500', '#0A7EF2', '#840032', '#E5DADA', '#02040F'];
 const PLAID_ACCOUNT_TYPES = {
   INVESTMENT: 'INVESTMENT',
   DEPOSITORY: 'DEPOSITORY',
@@ -57,10 +58,10 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       fontFamily: 'Playfair Display, serif',
       fontWeight: 'bold',
-      fontSize: '30px',
+      fontSize: '34px',
       color: '#002642',
       marginTop: '0px',
-      marginBottom: '15px',
+      marginBottom: '5px',
       margin: 'auto',
       textAlign: 'center',
       [theme.breakpoints.down('sm')]: {
@@ -69,10 +70,59 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: '5px',
       },
     },
+    chartTitle: {
+      fontFamily: 'Playfair Display, serif',
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      fontSize: '20px',
+      lineHeight: '32px',
+      /* identical to box height */
+      textAlign: 'center',
+      color: '#000000',
+    },
     financePage: {
       marginRight: '30px',
       marginLeft: '30px',
-      marginTop: '55px',
+      marginTop: '30px',
+    },
+    centerGraph: {
+      margin: '0 auto'
+    },
+    receiptsButton: {
+      fontFamily: 'Fredoka One, cursive',
+      fontSize: '14px',
+      margin: '0 auto',
+      display: 'block',
+      marginTop: '2px',
+      color: '#FFF',
+      backgroundColor: '#E59500',
+      borderRadius: '50px',
+      border: '3px #FFF solid',
+      width: '165px',
+      height: '40px',
+      [theme.breakpoints.down('md')]: {
+        fontSize: '12px',
+        width: '130px',
+        height: '35px'
+      },
+    },
+    viewReceiptsButton: {
+      fontFamily: 'Fredoka One, cursive',
+      fontSize: '14px',
+      margin: '0 auto',
+      display: 'block',
+      marginTop: '2px',
+      color: '#E59500',
+      backgroundColor: '#FFF',
+      borderRadius: '50px',
+      border: '3px #E59500 solid',
+      width: '165px',
+      height: '40px',
+      [theme.breakpoints.down('md')]: {
+        fontSize: '12px',
+        width: '130px',
+        height: '35px'
+      },
     },
   }),
 );
@@ -111,7 +161,14 @@ const FinanceDashboardPage = () => {
   }
 
   const routePage = (pageName: string) => {
-    router.push('/' + pageName, undefined, { shallow: true });
+    router.push('/' + pageName, undefined, { shallow: true })
+  };
+
+  const routePageWithQuery = (pageName: string, queryObj: any) => {
+    router.push({
+      pathname: '/' + pageName,
+      query: queryObj,
+    }, undefined, { shallow: true });
   };
 
   const getCapitalizedString = (name: string) => {
@@ -269,15 +326,16 @@ const FinanceDashboardPage = () => {
           keys[transaction.category[0]] = transaction.category[0];
         }
       });
+      let data = [investmentBarData, depositoryBarData, creditBarData, loanBarData, otherBarData];
+      let barChartData = [];
+      for (let i = 0; i < data.length; i++) {
+        if (Object.keys(data[i]).length > 1) {
+          barChartData.push(data[i]);
+        }
+      }
 
       setBarChartDataKeys(keys);
-      setBarChartData([
-        investmentBarData,
-        depositoryBarData,
-        creditBarData,
-        loanBarData,
-        otherBarData
-      ]);
+      setBarChartData(barChartData);
       setSpending(organizedSpending);
       setInvestments(investmentAccounts);
       setDepositories(depositoryAccounts);
@@ -298,22 +356,14 @@ const FinanceDashboardPage = () => {
   };
 
   const getBarChartUI = () => {
-    const colorArray = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
-      '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
-      '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
-      '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
-      '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC',
-      '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
-      '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680',
-      '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
-      '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
-      '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
+    const colorArray = ['#002642', '#E59500', '#0A7EF2', '#840032', '#E5DADA', '#02040F'];
     const data = [];
+    let counter = 0;
     for (const property in barChartDataKeys) {
-      let randomKey = Math.floor(Math.random() * Math.floor(49));
       data.push(
-        <Bar key={randomKey} dataKey={property} stackId="a" fill={colorArray[randomKey]} />
-      )
+        <Bar key={counter} dataKey={property} stackId="a" fill={colorArray[counter]} />
+      );
+      counter++;
     }
     return data;
   }
@@ -345,68 +395,66 @@ const FinanceDashboardPage = () => {
     <Layout>
       <div className={classes.financePage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
-          <Grid item xs={8}>
+          <Grid item xs={12}>
             <h2
               className={classes.title}>
-              <span style={{ color: '#002642' }}>Dashboard</span>
+              Your Finance Dashboard
             </h2>
+          </Grid>
+          <Grid item xs={12} sm={12} lg={12} md={12}>
+            <Button
+              onClick={routePageWithQuery.bind(this, `finance/receipts/add`, {receipt: true})}
+              className={classes.receiptsButton}
+            >
+              Upload Receipts
+            </Button>
+            <Button
+              onClick={routePage.bind(this, `finance/receipts`)}
+              className={classes.viewReceiptsButton}
+            >
+              View Receipts
+            </Button>
           </Grid>
         </Grid>
         <div className={classes.root}>
           <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
-            <Grid item xs={6}>
-              <PieChart width={500} height={500}>
-                <Pie
-                  data={spendingDatum}
-                  cx={200}
-                  cy={200}
-                  outerRadius={150}
-                  fill="#8884d8"
-                  labelLine={false}
-                  label={renderCustomizedLabel}
-                  dataKey="value"
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <h1 className={classes.chartTitle}>Breakdown By Account</h1>
+              <ResponsiveContainer width="95%" height={300}>
+                <BarChart
+                  className={classes.centerGraph}
+                  data={barChartData}
                 >
-                  {
-                    spendingDatum.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
-                  }
-                </Pie>
-                <Tooltip />
-              </PieChart>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  {getBarChartUI()}
+                </BarChart>
+              </ResponsiveContainer>
             </Grid>
-            <Grid item xs={6}>
-              <BarChart
-                width={500}
-                height={300}
-                data={barChartData}
-                margin={{
-                  top: 20, right: 30, left: 20, bottom: 5,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                { getBarChartUI() }
-              </BarChart>
-            </Grid>
-            <Grid item xs={6}>
-              <LineChart
-                width={500}
-                height={300}
-                data={data}
-                margin={{
-                  top: 5, right: 30, left: 20, bottom: 5,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-                <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-              </LineChart>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <h1 className={classes.chartTitle}>Breakdown By Spending Category</h1>
+              <ResponsiveContainer width="95%" height={300}>
+                <PieChart className={classes.centerGraph}>
+                  <Pie
+                    data={spendingDatum}
+                    innerRadius={100}
+                    outerRadius={120}
+                    fill="#8884d8"
+                    paddingAngle={5}
+                    dataKey="value"
+                    nameKey="name"
+                  >
+                    {
+                      spendingDatum.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
+                    }
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
             </Grid>
           </Grid>
         </div>
