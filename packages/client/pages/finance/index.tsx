@@ -9,6 +9,8 @@ import Cookies from 'js-cookie';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import PlaidLink from '../../components/PlaidLink';
 
@@ -112,6 +114,10 @@ const useStyles = makeStyles((theme: Theme) =>
         marginLeft: '0px',
       },
     },
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: '#fff',
+    },
   }),
 );
 
@@ -131,7 +137,16 @@ const FinancePage = () => {
   const router = useRouter();
   const classes = useStyles();
   const [token, setToken] = useState('');
+  const [open, setOpen] = React.useState(false);
   const { data, loading, error, refetch } = useQuery(QUERY);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleToggle = () => {
+    setOpen(!open);
+  };
 
   useEffect(() => {
     async function linkToken() {
@@ -139,10 +154,12 @@ const FinancePage = () => {
       setToken(token);
     }
     async function hasPlaidAccounts() {
+      handleToggle();
       const hasPlaidAccountsVerdict = await fetchHasPlaidAccounts();
       if (hasPlaidAccountsVerdict) {
         router.push('/finance/dashboard', undefined, { shallow: true });
       } else {
+        handleClose();
         linkToken();
       }
     }
@@ -191,6 +208,9 @@ const FinancePage = () => {
             <Grid item xs={12} lg={12} md={12} sm={12}>
               {token ? <PlaidLink token={token} /> : null}
             </Grid>
+            <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
+              <CircularProgress color="inherit" />
+            </Backdrop>
           </Grid>
         </div>
       </div>

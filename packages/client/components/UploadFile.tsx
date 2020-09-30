@@ -16,6 +16,8 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import HomeWorkDropdown from './home/HomeWorkDropdown';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 // TODO: clean up before prod
 let url = null;
@@ -86,7 +88,11 @@ const useStyles = makeStyles((theme: Theme) =>
       fontFamily: 'Playfair Display',
       fontStyle: 'normal',
       fontWeight: 'bold',
-    }
+    },
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: '#fff',
+    },
   }),
 );
 
@@ -107,6 +113,16 @@ const UploadFile = () => {
   const [folder, setFolder] = useState('Existing');
   const [homeworkId, setHomeworkId] = React.useState('');
   const [newFolderName, setNewFolderName] = useState('');
+  const [moreDetails, setMoreDetails] = useState(false);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleToggle = () => {
+    console.log('OPEN!: ', open);
+    setOpen(!open);
+  };
 
   const onChange = ({
     target: {
@@ -122,10 +138,10 @@ const UploadFile = () => {
     if (data) setLastUploaded(data.addDocument);
   }, [data]);
 
-  if (loading) return <div>Loading...</div>;
   if (error) return <div>{JSON.stringify(error, null, 2)}</div>;
 
   const submitForm = event => {
+    handleToggle();
     event.preventDefault();
     if (type === '') {
       alert('You need to select a document type');
@@ -174,6 +190,10 @@ const UploadFile = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let folderType: string = event.target.value === 'Existing' ? 'Existing' : 'New';
     setFolder(folderType);
+  };
+
+  const toggleMoreDetailsButton = () => {
+    setMoreDetails(!moreDetails)
   };
 
   const separateKeywords = (event) => {
@@ -259,12 +279,18 @@ const UploadFile = () => {
             </FormControl>
           </Grid>}
 
-          {receipt === 'true' ? null : <Grid item xs={12} lg={12}>
-            <HomeWorkDropdown setHomeworkId={setHWID} homeworkId={homeworkId} />
-          </Grid>}
-
           {receipt === 'true' ? <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
             <TextField autoComplete="off" id="standard-basic" label="Receipt value (USD)" onChange={event => setDocValue(event.target.value)} className={classes.formControl} />
+          </Grid> : null}
+
+          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+            <Button onClick={toggleMoreDetailsButton} style={{ backgroundColor: '#E59500', color: 'white', marginTop: '10px' }}>
+              {moreDetails ? 'Hide Details' : 'Add More Details'}
+            </Button>
+          </Grid>
+
+          {moreDetails ? <Grid item xs={12} lg={12}>
+            <HomeWorkDropdown setHomeworkId={setHWID} homeworkId={homeworkId} />
           </Grid> : null}
 
           {/* <Grid item xs={12} lg={12} md={12} sm={12}>
@@ -281,9 +307,13 @@ const UploadFile = () => {
             <p>Enter keywords describing this document (separated by a comma, for example: home, warranty, 2009): <input type='text' onChange={separateKeywords} autoComplete='on' required /></p>
           </Grid> */}
 
-          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+          {moreDetails ? <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
             <TextField autoComplete="off" className={classes.notes} id="standard-basic" label="Additional notes" onChange={event => setNotes(event.target.value)} />
-          </Grid>
+          </Grid> : null}
+
+          <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
+            <CircularProgress color="inherit" />
+          </Backdrop>
 
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
             <Button variant="contained" style={{ backgroundColor: '#840032', color: 'white' }} type='submit'>
