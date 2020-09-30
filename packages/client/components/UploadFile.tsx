@@ -119,8 +119,8 @@ const UploadFile = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleToggle = () => {
-    console.log('OPEN!: ', open);
     setOpen(!open);
   };
 
