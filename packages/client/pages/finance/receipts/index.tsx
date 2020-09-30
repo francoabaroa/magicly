@@ -137,8 +137,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const ReceiptsPage = () => {
   const router = useRouter();
   const classes = useStyles();
-  let documents: Array<any> = [];
-  let hasSavedDocuments: boolean = false;
+  let receipts: Array<any> = [];
+  let hasSavedReceipts: boolean = false;
   const { data, loading, error } = useQuery(
     QUERY,
     {
@@ -165,17 +165,17 @@ const ReceiptsPage = () => {
     }, undefined, { shallow: true });
   };
 
-  const getIndividualDocument = (key: any, document: any) => {
+  const getIndividualReceipt = (key: any, receipt: any) => {
     return (
       <Grid key={key} container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
         <Grid item xs={4} lg={3} md={4} sm={4}>
-          <Link href="documents/view/[id]" as={`documents/view/${document.id}`}>
-            <span className={classes.link}>{document.name}</span>
+          <Link href="receipts/view/[id]" as={`receipts/view/${receipt.id}`}>
+            <span className={classes.link}>{receipt.name}</span>
           </Link>
         </Grid>
         <Grid item xs={4} lg={3} md={4} sm={4}>
-          <Link href="documents/view/[id]" as={`documents/view/${document.id}`}>
-            <span className={classes.type}>{document.type}</span>
+          <Link href="receipts/view/[id]" as={`receipts/view/${receipt.id}`}>
+            <span className={classes.type}>{receipt.type}</span>
           </Link>
         </Grid>
       </Grid>
@@ -183,10 +183,10 @@ const ReceiptsPage = () => {
   };
 
   if (data && data.documents && data.documents.edges && data.documents.edges.length > 0) {
-    hasSavedDocuments = true;
+    hasSavedReceipts = true;
     data.documents.edges.forEach((document, key) => {
-      documents.push(
-        getIndividualDocument(
+      receipts.push(
+        getIndividualReceipt(
           key,
           document
         )
@@ -195,7 +195,7 @@ const ReceiptsPage = () => {
   }
 
   const getMainUI = () => {
-    if (hasSavedDocuments) {
+    if (hasSavedReceipts) {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
@@ -207,7 +207,7 @@ const ReceiptsPage = () => {
               <span className={classes.details}>add receipt</span>
             </div>
           </Grid>
-          {documents}
+          {receipts}
         </Grid>
       );
     } else {
@@ -217,7 +217,7 @@ const ReceiptsPage = () => {
             <h1 className={classes.title}>Saved receipts</h1>
           </Grid>
           <Grid item xs={8} lg={7} md={7} sm={7}>
-            <h1 className={classes.mediumTitle}>store receipts you accrue over time so you never forget them</h1>
+            <h1 className={classes.mediumTitle}>store receipts you accrue over time so you never lose them</h1>
           </Grid>
           <Grid item xs={12} lg={6} md={6} sm={6}>
             <div className={classes.individualFeature} onClick={routePageWithQuery.bind(this, `finance/receipts/add`, {receipt: true})}>

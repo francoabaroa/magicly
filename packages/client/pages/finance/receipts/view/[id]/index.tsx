@@ -9,8 +9,8 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Add from '@material-ui/icons/Add';
 import Notes from '@material-ui/icons/Notes';
-import Build from '@material-ui/icons/Build';
 import AttachMoney from '@material-ui/icons/AttachMoney';
+import Build from '@material-ui/icons/Build';
 
 const QUERY = gql`
   query GetDocumentUrl ($id: ID!) {
@@ -118,7 +118,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const ViewDocumentPage = () => {
+const ViewReceiptPage = () => {
   const router = useRouter();
   const classes = useStyles();
   const { id } = router.query;
@@ -197,7 +197,7 @@ const ViewDocumentPage = () => {
           }
 
           <Grid item xs={8}>
-            <p style={{fontSize: '12px', textAlign: 'center'}}>To protect you and your data, the image at <a target="_blank" href={data.getDocumentAndUrl.url}>this link</a> will only be available for 15 minutes. Please refresh the page for a new link.</p>
+            <p style={{ fontSize: '12px', textAlign: 'center' }}>To protect you and your data, the image at <a target="_blank" href={data.getDocumentAndUrl.url}>this link</a> will only be available for 15 minutes. Please refresh the page for a new link.</p>
           </Grid>
           {/* <Grid item xs={8}>
             <h1 className={classes.title}> {data.listItem.name}</h1>
@@ -232,4 +232,4 @@ const ViewDocumentPage = () => {
   );
 };
 
-export default withApollo({ ssr: false })(ViewDocumentPage);
+export default withApollo({ ssr: false })(ViewReceiptPage);
