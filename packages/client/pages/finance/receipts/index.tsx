@@ -92,21 +92,6 @@ const useStyles = makeStyles((theme: Theme) =>
       fontFamily: 'Playfair Display',
       color: '#002642',
     },
-    type: {
-      marginLeft: '15px',
-      fontSize: '20px',
-      textDecoration: 'none',
-      fontFamily: 'Fredoka One, cursive',
-      color: '#FFF',
-      backgroundColor: '#840032',
-      padding: '8px',
-      borderRadius: '10px',
-      [theme.breakpoints.down('sm')]: {
-        fontSize: '16px',
-        marginTop: '15px',
-        marginBottom: '0px',
-      },
-    },
     centerText: {
       marginBottom: '14px',
       textAlign: 'center',
@@ -171,11 +156,6 @@ const ReceiptsPage = () => {
         <Grid item xs={4} lg={3} md={4} sm={4}>
           <Link href="receipts/view/[id]" as={`receipts/view/${receipt.id}`}>
             <span className={classes.link}>{receipt.name}</span>
-          </Link>
-        </Grid>
-        <Grid item xs={4} lg={3} md={4} sm={4}>
-          <Link href="receipts/view/[id]" as={`receipts/view/${receipt.id}`}>
-            <span className={classes.type}>{receipt.type}</span>
           </Link>
         </Grid>
       </Grid>

@@ -67,8 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: '20px',
       textDecoration: 'none',
       fontFamily: 'Fredoka One, cursive',
-      color: '#FFF',
-      backgroundColor: '#840032',
+      color: '#840032',
       padding: '8px',
       borderRadius: '10px',
       [theme.breakpoints.down('sm')]: {
