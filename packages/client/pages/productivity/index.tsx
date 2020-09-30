@@ -17,7 +17,8 @@ const QUERY = gql`
     $listType: ListType!,
     $listTypes: [ListType]
     $cursor: String,
-    $limit: Int
+    $limit: Int,
+    $questionTypes: [QuestionType]
   ) {
     listItems(
       listType: $listType,
@@ -49,6 +50,22 @@ const QUERY = gql`
           type
           notes
         }
+      }
+      pageInfo {
+        endCursor
+      }
+    }
+    questions(
+      questionTypes: $questionTypes,
+      cursor: $cursor,
+      limit: $limit
+    ) {
+      edges {
+        id
+        body
+        type
+        urgent
+        status
       }
       pageInfo {
         endCursor
@@ -157,6 +174,18 @@ const ProductivityPage = () => {
       );
     });
     return recommendationItems;
+  };
+
+  const getQuestionsPreview = () => {
+    let questions = [];
+    data.questions.edges.forEach((question, key) => {
+      questions.push(
+        <Link key={key} href="productivity/help/view/[id]" as={`productivity/help/view/${question.id}`}>
+          <div>- {question.body}</div>
+        </Link>
+      );
+    });
+    return questions;
   };
 
   const containsTodoListItems = () => {
@@ -274,22 +303,46 @@ const ProductivityPage = () => {
   };
 
   const getTechHelpSection = () => {
-    return (
-      <Grid item xs={7} lg={7} md={7} sm={7} style={{marginBottom: '50px'}}>
-        <Paper className={classes.paper}>
-          <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/help')}>
-            Ask a Tech Question
+    let questions = getQuestionsPreview();
+
+    if (data && data.questions && data.questions.edges && data.questions.edges.length > 0) {
+      return (
+        <Grid item xs={7} lg={7} md={7} sm={7} style={{ marginBottom: '50px' }}>
+          <Paper className={classes.paper}>
+            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/help')}>
+              Ask a Tech Question
               </h2>
-          <h3 className={classes.description}>
-            Answer questions, concerns or doubts you might have about technology
+            <div>Recent Questions: </div>
+            {questions}
+            <span className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/help')}>
+              <Visibility fontSize={'small'} className={classes.icon} />
+              <span className={classes.details}>view all questions</span>
+            </span>
+            <span className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/help/add')}>
+              <AddCircle fontSize={'small'} className={classes.icon} />
+              <span className={classes.details}>ask a tech question</span>
+            </span>
+          </Paper>
+        </Grid>
+      );
+    } else {
+      return (
+        <Grid item xs={7} lg={7} md={7} sm={7} style={{ marginBottom: '50px' }}>
+          <Paper className={classes.paper}>
+            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/help')}>
+              Ask a Tech Question
+              </h2>
+            <h3 className={classes.description}>
+              Answer questions, concerns or doubts you might have about technology
               </h3>
-          <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/help/add')}>
-            <AddCircle fontSize={'small'} className={classes.icon} />
-            <span className={classes.details}>ask a tech question</span>
-          </div>
-        </Paper>
-      </Grid>
-    );
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/help/add')}>
+              <AddCircle fontSize={'small'} className={classes.icon} />
+              <span className={classes.details}>ask a tech question</span>
+            </div>
+          </Paper>
+        </Grid>
+      );
+    }
   };
 
   return (
