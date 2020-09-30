@@ -124,6 +124,24 @@ const useStyles = makeStyles((theme: Theme) =>
         height: '35px'
       },
     },
+    viewOrSearchButton: {
+      fontFamily: 'Fredoka One, cursive',
+      fontSize: '14px',
+      margin: '0 auto',
+      display: 'block',
+      marginTop: '2px',
+      color: '#FFF',
+      backgroundColor: '#0A7EF2',
+      borderRadius: '50px',
+      border: '3px #FFF solid',
+      width: '265px',
+      height: '40px',
+      [theme.breakpoints.down('md')]: {
+        fontSize: '12px',
+        width: '130px',
+        height: '35px'
+      },
+    },
   }),
 );
 
@@ -401,18 +419,28 @@ const FinanceDashboardPage = () => {
               Your Finance Dashboard
             </h2>
           </Grid>
-          <Grid item xs={12} sm={12} lg={12} md={12}>
+          <Grid item xs={12} sm={12} lg={2} md={2}>
             <Button
               onClick={routePageWithQuery.bind(this, `finance/receipts/add`, {receipt: true})}
               className={classes.receiptsButton}
             >
               Upload Receipts
             </Button>
+          </Grid>
+          <Grid item xs={12} sm={12} lg={2} md={2}>
             <Button
               onClick={routePage.bind(this, `finance/receipts`)}
               className={classes.viewReceiptsButton}
             >
               View Receipts
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={12} lg={12} md={12}>
+            <Button
+              onClick={routePage.bind(this, `finance/search`)}
+              className={classes.viewOrSearchButton}
+            >
+              View or Search Transactions
             </Button>
           </Grid>
         </Grid>
