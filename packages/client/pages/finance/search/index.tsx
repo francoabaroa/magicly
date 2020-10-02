@@ -240,12 +240,35 @@ const FinanceSearchPage = () => {
     }
   };
 
+  const handleSearch = () => {
+    let searchString = document.getElementById('outlined-basic')['value'].toLowerCase();
+    let newUnalteredTransactions = [];
+
+    for (let i = 0; i < unalteredTransactions.length; i++) {
+      if (
+        (unalteredTransactions[i].merchant_name && unalteredTransactions[i].merchant_name.toLowerCase().includes(searchString)) ||
+        (unalteredTransactions[i].name && unalteredTransactions[i].name.toLowerCase().includes(searchString)) ||
+        (unalteredTransactions[i].category.length > 0 && unalteredTransactions[i].category.join('').toLowerCase().includes(searchString))
+        ) {
+        newUnalteredTransactions.push(unalteredTransactions[i]);
+      }
+    }
+    setFilteredTransactions(newUnalteredTransactions);
+  };
+
+  const clearSearch = () => {
+    document.getElementById('outlined-basic')['value'] = '';
+    setFilteredTransactions(unalteredTransactions);
+  };
+
   const handleDateSelect = (event: React.ChangeEvent<{ value: number }>) => {
+    document.getElementById('outlined-basic')['value'] = '';
     setLastXDays(event.target.value);
     refreshTransactions(event.target.value);
   };
 
   const handleTypeSelect = (event: React.ChangeEvent<{ value: unknown }>) => {
+    document.getElementById('outlined-basic')['value'] = '';
     let newUnalteredTransactions = [];
     if (event.target.value === PLAID_ACCOUNT_TYPES.ALL) {
       newUnalteredTransactions = unalteredTransactions;
@@ -300,7 +323,13 @@ const FinanceSearchPage = () => {
         <div className={classes.root}>
           <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
             <Grid item xs={12} lg={12} style={{textAlign: 'center'}}>
-              <TextField id="outlined-basic" label="Search" variant="outlined" className={classes.search} />
+              <TextField id="outlined-basic" label="Search" variant="outlined" className={classes.search} autoComplete="off" />
+              <Button variant="contained" style={{ backgroundColor: '#840032', color: 'white', marginLeft: '10px', height: '55px' }} onClick={handleSearch}>
+                Search
+              </Button>
+              <Button variant="contained" style={{ border: '2px solid #840032', backgroundColor: 'white', color: '#840032', marginLeft: '10px', height: '55px' }} onClick={clearSearch}>
+                Clear
+              </Button>
             </Grid>
             <Grid item xs={6} lg={2} md={2} sm={2} style={{ textAlign: 'center' }}>
               <FormControl className={classes.formControl}>
