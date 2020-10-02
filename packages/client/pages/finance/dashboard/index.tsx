@@ -8,6 +8,10 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
 
 import {
   AreaChart, Area, BarChart, Bar, Cell, PieChart, Pie, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
@@ -148,11 +152,14 @@ const useStyles = makeStyles((theme: Theme) =>
       zIndex: theme.zIndex.drawer + 1,
       color: '#fff',
     },
+    formControl: {
+      minWidth: '65px',
+    },
   }),
 );
 
-const fetchTransactions = async () => {
-  const response = await fetch('/finance/transactionsList');
+const fetchTransactions = async (lastXDays: any) => {
+  const response = await fetch('/finance/transactionsList?' + `lastXDays=${lastXDays}`);
   if (response.redirected) {
     return [];
   }
@@ -170,6 +177,7 @@ const FinanceDashboardPage = () => {
   const [barChartData, setBarChartData] = useState([]);
   const [barChartDataKeys, setBarChartDataKeys] = useState({});
   const [open, setOpen] = React.useState(false);
+  const [lastXDays, setLastXDays] = useState(90);
 
   const handleClose = () => {
     setOpen(false);
@@ -178,10 +186,24 @@ const FinanceDashboardPage = () => {
     setOpen(!open);
   };
 
+  const refreshTransactions = async (xDays: any) => {
+    handleToggle();
+    const transactions = await fetchTransactions(xDays);
+    if (transactions && transactions.transactions && transactions.transactions.transactions.length > 0) {
+      setTransactions(organizeTransactions(transactions));
+      handleClose();
+    }
+  };
+
+  const handleDateSelect = (event: React.ChangeEvent<{ value: number }>) => {
+    setLastXDays(event.target.value);
+    refreshTransactions(event.target.value);
+  };
+
   useEffect(() => {
     async function getTxns() {
       handleToggle();
-      const transactions = await fetchTransactions();
+      const transactions = await fetchTransactions(lastXDays);
       if (transactions && transactions.transactions && transactions.transactions.transactions.length > 0) {
         setTransactions(organizeTransactions(transactions));
         handleClose();
@@ -458,6 +480,23 @@ const FinanceDashboardPage = () => {
             >
               View or Search Transactions
             </Button>
+          </Grid>
+          <Grid item xs={12} lg={3} md={12} sm={12} style={{textAlign: 'center'}}>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="demo-simple-select-label">Date</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={lastXDays}
+                onChange={handleDateSelect}
+              >
+                <MenuItem value={30}>{'Last 30 Days'}</MenuItem>
+                <MenuItem value={60}>{'Last 60 Days'}</MenuItem>
+                <MenuItem value={90}>{'Last 90 Days'}</MenuItem>
+                <MenuItem value={180}>{'Last 6 Months'}</MenuItem>
+                <MenuItem value={365}>{'Last Year'}</MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
         </Grid>
         <div className={classes.root}>

@@ -16,61 +16,25 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
-import {
-  AreaChart, Area, BarChart, Bar, Cell, PieChart, Pie, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
-} from 'recharts';
-
-const data = [
-  {
-    name: 'Page A', uv: 4000, pv: 2400, amt: 2400,
-  },
-  {
-    name: 'Page B', uv: 3000, pv: 1398, amt: 2210,
-  },
-  {
-    name: 'Page C', uv: 1000, pv: 4398, amt: 2210,
-  },
-];
-
-const depositoryBarData = {
-  name: 'Depository',
-};
-const creditBarData = {
-  name: 'Credit',
-};
-const investmentBarData = {
-  name: 'Investment',
-};
-const loanBarData = {
-  name: 'Loan',
-};
-const otherBarData = {
-  name: 'Other',
-};
-
-//(node:46223) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 /finance/dashboard listeners added to [EventEmitter]. Use emitter.setMaxListeners() to increase limit
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 const COLORS = ['#002642', '#E59500', '#0A7EF2', '#840032', '#E5DADA', '#02040F'];
-const PLAID_ACCOUNT_TYPES = {
-  INVESTMENT: 'INVESTMENT',
-  DEPOSITORY: 'DEPOSITORY',
-  CREDIT: 'CREDIT',
-  LOAN: 'LOAN',
-  OTHER: 'OTHER'
+enum PLAID_ACCOUNT_TYPES {
+  ALL = 'ALL',
+  INVESTMENT = 'INVESTMENT',
+  DEPOSITORY = 'DEPOSITORY',
+  CREDIT = 'CREDIT',
+  LOAN = 'LOAN',
+  OTHER = 'OTHER'
 };
-
-function createData(name, type, category, date) {
-  return { name, type, category, date };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24),
-  createData('Ice cream sandwich', 237, 9.0, 37),
-  createData('Eclair', 262, 16.0, 24),
-  createData('Cupcake', 305, 3.7, 67),
-  createData('Gingerbread', 356, 16.0, 49),
-];
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -171,11 +135,23 @@ const useStyles = makeStyles((theme: Theme) =>
       zIndex: theme.zIndex.drawer + 1,
       color: '#fff',
     },
+    checked: {},
+    radio: {
+      '&$checked': {
+        color: '#840032'
+      }
+    },
+    search : {
+      minWidth: '500px',
+    },
+    formControl: {
+      minWidth: '65px',
+    },
   }),
 );
 
-const fetchTransactions = async () => {
-  const response = await fetch('/finance/transactionsList');
+const fetchTransactions = async (xDays: any) => {
+  const response = await fetch('/finance/transactionsList?' + `lastXDays=${xDays}`);
   if (response.redirected) {
     return [];
   }
@@ -186,39 +162,54 @@ const fetchTransactions = async () => {
 const FinanceSearchPage = () => {
   const router = useRouter();
   const classes = useStyles();
-  const [transactions, setTransactions] = useState({});
-  const [spending, setSpending] = useState({});
-  const [investments, setInvestments] = useState({});
-  const [depositories, setDepositories] = useState({});
-  const [barChartData, setBarChartData] = useState([]);
-  const [barChartDataKeys, setBarChartDataKeys] = useState({});
+  const [unalteredTransactions, setUnalteredTransactions] = useState([]);
+  const [filteredTransactions, setFilteredTransactions] = useState([]);
+  const [type, setType] = useState('ALL');
+  const [lastXDays, setLastXDays] = useState(90);
   const [open, setOpen] = React.useState(false);
+  const [urgent, setUrgent] = useState(false);
+  const [accountNamesMap, setAccountNamesMap] = React.useState({});
 
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleToggle = () => {
     setOpen(!open);
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let isUrgent: boolean = event.target.value === 'true' ? true : false;
+    setUrgent(isUrgent);
   };
 
   useEffect(() => {
     async function getTxns() {
       handleToggle();
-      const transactions = await fetchTransactions();
+      const transactions = await fetchTransactions(lastXDays);
       if (transactions && transactions.transactions && transactions.transactions.transactions.length > 0) {
-        setTransactions(organizeTransactions(transactions));
+        setAccountNamesMap(buildAccountNamesMap(transactions))
+        setUnalteredTransactions(transactions.transactions.transactions);
+        setFilteredTransactions(transactions.transactions.transactions);
         handleClose();
       }
     }
     getTxns();
   }, []);
 
-  if (!Cookies.get('signedin')) {
-    // navigate('/')
-  }
-
   const routePage = (pageName: string) => {
     router.push('/' + pageName, undefined, { shallow: true })
+  };
+
+  const refreshTransactions = async (xDays: any) => {
+    handleToggle();
+    const transactions = await fetchTransactions(xDays);
+    if (transactions && transactions.transactions && transactions.transactions.transactions.length > 0) {
+      setAccountNamesMap(buildAccountNamesMap(transactions))
+      setUnalteredTransactions(transactions.transactions.transactions);
+      setFilteredTransactions(transactions.transactions.transactions);
+      handleClose();
+    }
   };
 
   const routePageWithQuery = (pageName: string, queryObj: any) => {
@@ -234,198 +225,69 @@ const FinanceSearchPage = () => {
     return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
   };
 
-  const organizeTransactions = (transactions: any) => {
-    let organizedSpending = {};
-    let investmentAccounts = {};
-    let depositoryAccounts = {};
-    let creditAccounts = {};
-    let loanAccounts = {};
-    let otherAccounts = {};
-    let actualTypes = {};
-
+  const buildAccountNamesMap = (transactions: any) => {
     if (transactions && transactions.transactions) {
       let accounts = transactions.transactions.accounts;
-      let organizedTransactions = {};
-
+      let accountNamesMap = {};
       accounts.forEach(account => {
-        switch (account.type) {
-
-          case PLAID_ACCOUNT_TYPES.INVESTMENT.toLowerCase():
-            investmentAccounts['type'] = PLAID_ACCOUNT_TYPES.INVESTMENT;
-            investmentAccounts[account.account_id] = {
-              transactions: [],
-              type: PLAID_ACCOUNT_TYPES.INVESTMENT,
-              subtype: account.subtype,
-            };
-            actualTypes[account.account_id] = PLAID_ACCOUNT_TYPES.INVESTMENT;
-            break;
-
-          case PLAID_ACCOUNT_TYPES.DEPOSITORY.toLowerCase():
-            depositoryAccounts['type'] = PLAID_ACCOUNT_TYPES.DEPOSITORY;
-            depositoryAccounts[account.account_id] = {
-              transactions: [],
-              type: PLAID_ACCOUNT_TYPES.DEPOSITORY,
-              subtype: account.subtype,
-            };
-            actualTypes[account.account_id] = PLAID_ACCOUNT_TYPES.DEPOSITORY;
-            break;
-
-          case PLAID_ACCOUNT_TYPES.CREDIT.toLowerCase():
-            creditAccounts['type'] = PLAID_ACCOUNT_TYPES.CREDIT;
-            creditAccounts[account.account_id] = {
-              transactions: [],
-              type: PLAID_ACCOUNT_TYPES.CREDIT,
-              subtype: account.subtype,
-            };
-            actualTypes[account.account_id] = PLAID_ACCOUNT_TYPES.CREDIT;
-            break;
-
-          case PLAID_ACCOUNT_TYPES.LOAN.toLowerCase():
-            loanAccounts['type'] = PLAID_ACCOUNT_TYPES.LOAN;
-            loanAccounts[account.account_id] = {
-              transactions: [],
-              type: PLAID_ACCOUNT_TYPES.LOAN,
-              subtype: account.subtype,
-            };
-            actualTypes[account.account_id] = PLAID_ACCOUNT_TYPES.LOAN;
-            break;
-
-          case PLAID_ACCOUNT_TYPES.OTHER.toLowerCase():
-            otherAccounts['type'] = PLAID_ACCOUNT_TYPES.LOAN;
-            otherAccounts[account.account_id] = {
-              transactions: [],
-              type: PLAID_ACCOUNT_TYPES.OTHER,
-              subtype: account.subtype,
-            };
-            actualTypes[account.account_id] = PLAID_ACCOUNT_TYPES.OTHER;
-            break;
-
-          default:
-            otherAccounts[account.account_id] = {
-              transactions: [],
-            };
-            break;
-        }
-
-        organizedTransactions[account.account_id] = {
-          ...account,
-          transactions: [],
-        };
-      });
-
-
-      const keys = {};
-      transactions.transactions.transactions.forEach(transaction => {
-        let type = actualTypes[transaction.account_id];
-        switch (type) {
-
-          case PLAID_ACCOUNT_TYPES.INVESTMENT:
-            if (investmentBarData[transaction.category[0]]) {
-              // TODO: Frank, the ABS value is temporary and parseInt is temporary
-              investmentBarData[transaction.category[0]] = investmentBarData[transaction.category[0]] + parseInt(Math.abs(transaction.amount).toFixed(2));
-            } else {
-              investmentBarData[transaction.category[0]] = parseInt(Math.abs(transaction.amount).toFixed(2));
-            }
-            investmentAccounts[transaction.account_id].transactions.push(transaction);
-            break;
-
-          case PLAID_ACCOUNT_TYPES.DEPOSITORY:
-            if (depositoryBarData[transaction.category[0]]) {
-              depositoryBarData[transaction.category[0]] = depositoryBarData[transaction.category[0]] + parseInt(Math.abs(transaction.amount).toFixed(2));
-            } else {
-              depositoryBarData[transaction.category[0]] = parseInt(Math.abs(transaction.amount).toFixed(2));
-            }
-            depositoryAccounts[transaction.account_id].transactions.push(transaction);
-            break;
-
-          case PLAID_ACCOUNT_TYPES.CREDIT:
-            if (creditBarData[transaction.category[0]]) {
-              creditBarData[transaction.category[0]] = creditBarData[transaction.category[0]] + parseInt(Math.abs(transaction.amount).toFixed(2));
-            } else {
-              creditBarData[transaction.category[0]] = parseInt(Math.abs(transaction.amount).toFixed(2));
-            }
-            creditAccounts[transaction.account_id].transactions.push(transaction);
-            break;
-
-          case PLAID_ACCOUNT_TYPES.LOAN:
-            if (loanBarData[transaction.category[0]]) {
-              loanBarData[transaction.category[0]] = loanBarData[transaction.category[0]] + parseInt(Math.abs(transaction.amount).toFixed(2));
-            } else {
-              loanBarData[transaction.category[0]] = parseInt(Math.abs(transaction.amount).toFixed(2));
-            }
-            loanAccounts[transaction.account_id].transactions.push(transaction);
-            break;
-
-          case PLAID_ACCOUNT_TYPES.OTHER:
-            if (otherBarData[transaction.category[0]]) {
-              otherBarData[transaction.category[0]] = otherBarData[transaction.category[0]] + parseInt(Math.abs(transaction.amount).toFixed(2));
-            } else {
-              otherBarData[transaction.category[0]] = parseInt(Math.abs(transaction.amount).toFixed(2));
-            }
-            otherAccounts[transaction.account_id].transactions.push(transaction);
-            break;
-        }
-
-
-        if (organizedSpending[transaction.category[0]]) {
-          organizedSpending[transaction.category[0]].transactions.push(transaction);
-          organizedSpending[transaction.category[0]].totalAmount =
-            organizedSpending[transaction.category[0]].totalAmount + transaction.amount
-        } else {
-          organizedSpending[transaction.category[0]] = {
-            category: transaction.category,
-            transactions: [transaction],
-            totalAmount: transaction.amount
-          }
-        }
-        organizedTransactions[transaction.account_id].transactions.push(transaction);
-        if (!keys[transaction.category[0]]) {
-          keys[transaction.category[0]] = transaction.category[0];
+        accountNamesMap[account.account_id] = {
+          name: account.name,
+          officialName: account.official_name,
+          type: account.type,
+          subtype: account.subtype,
+          balances: account.balances,
         }
       });
-      let data = [investmentBarData, depositoryBarData, creditBarData, loanBarData, otherBarData];
-      let barChartData = [];
-      for (let i = 0; i < data.length; i++) {
-        if (Object.keys(data[i]).length > 1) {
-          barChartData.push(data[i]);
-        }
-      }
-
-      setBarChartDataKeys(keys);
-      setBarChartData(barChartData);
-      setSpending(organizedSpending);
-      setInvestments(investmentAccounts);
-      setDepositories(depositoryAccounts);
-      return organizedTransactions;
-    } else {
-      return {};
+      return accountNamesMap;
     }
   };
 
-  const buildSpendingData = () => {
-    let spendingData = [];
-    Object.entries(spending).forEach(([key, value]) => {
-      if (value && value !== undefined && value.hasOwnProperty('totalAmount')) {
-        spendingData.push({ name: key, value: parseFloat(value['totalAmount'].toFixed(2)) })
-      }
-    });
-    return spendingData;
+  const handleDateSelect = (event: React.ChangeEvent<{ value: number }>) => {
+    setLastXDays(event.target.value);
+    refreshTransactions(event.target.value);
   };
 
-  const getBarChartUI = () => {
-    const colorArray = ['#002642', '#E59500', '#0A7EF2', '#840032', '#E5DADA', '#02040F'];
-    const data = [];
-    let counter = 0;
-    for (const property in barChartDataKeys) {
-      data.push(
-        <Bar key={counter} dataKey={property} stackId="a" fill={colorArray[counter]} />
-      );
-      counter++;
+  const handleTypeSelect = (event: React.ChangeEvent<{ value: unknown }>) => {
+    let newUnalteredTransactions = [];
+    if (event.target.value === PLAID_ACCOUNT_TYPES.ALL) {
+      newUnalteredTransactions = unalteredTransactions;
     }
-    return data;
-  }
-  let spendingDatum = buildSpendingData();
+    for (let i = 0; i < unalteredTransactions.length; i++) {
+      if (accountNamesMap[unalteredTransactions[i].account_id].type.toUpperCase() === event.target.value) {
+        newUnalteredTransactions.push(unalteredTransactions[i]);
+      }
+    }
+    setType(event.target.value as PLAID_ACCOUNT_TYPES);
+    setFilteredTransactions(newUnalteredTransactions);
+  };
 
+  const createRowData = (name, amount, date, accountName, accountOfficialName, currency, categories, keyId) => {
+    return { name, amount, date, accountName, accountOfficialName, currency, categories, keyId };
+  };
+
+  const buildTableRows = () => {
+    let rows = [];
+    if (filteredTransactions && filteredTransactions.length > 0) {
+      for (let i = 0; i < filteredTransactions.length; i++) {
+        let accountName = accountNamesMap[filteredTransactions[i].account_id].name;
+        let accountOfficialName = accountNamesMap[filteredTransactions[i].account_id].officialName;
+        let keyId = i;
+        rows.push(createRowData(
+          filteredTransactions[i].name,
+          filteredTransactions[i].amount,
+          filteredTransactions[i].date,
+          accountName,
+          accountOfficialName,
+          filteredTransactions[i].iso_currency_code,
+          filteredTransactions[i].category.join(', '),
+          keyId
+        ));
+      }
+      return rows;
+    }
+  };
+
+  let rows = buildTableRows();
   return (
     <Layout>
       <div className={classes.financePage}>
@@ -433,35 +295,93 @@ const FinanceSearchPage = () => {
           <Grid item xs={12}>
             <h2
               className={classes.title}>
-              Transactions Search
+              Transactions
             </h2>
           </Grid>
         </Grid>
         <div className={classes.root}>
+          <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+            <Grid item xs={12} lg={10} style={{textAlign: 'center'}}>
+              <TextField id="outlined-basic" label="Search" variant="outlined" className={classes.search} />
+            </Grid>
+            <Grid item xs={12} lg={3} md={12} sm={12}>
+              <FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-label">Type</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={type}
+                  onChange={handleTypeSelect}
+                >
+                  <MenuItem value={PLAID_ACCOUNT_TYPES.ALL}>{getCapitalizedString(PLAID_ACCOUNT_TYPES.ALL)}</MenuItem>
+                  <MenuItem value={PLAID_ACCOUNT_TYPES.CREDIT}>{getCapitalizedString(PLAID_ACCOUNT_TYPES.CREDIT)}</MenuItem>
+                  <MenuItem value={PLAID_ACCOUNT_TYPES.DEPOSITORY}>{getCapitalizedString(PLAID_ACCOUNT_TYPES.DEPOSITORY)}</MenuItem>
+                  <MenuItem value={PLAID_ACCOUNT_TYPES.INVESTMENT}>{getCapitalizedString(PLAID_ACCOUNT_TYPES.INVESTMENT)}</MenuItem>
+                  <MenuItem value={PLAID_ACCOUNT_TYPES.LOAN}>{getCapitalizedString(PLAID_ACCOUNT_TYPES.LOAN)}</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} lg={3} md={12} sm={12}>
+              <FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-label">Date</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={lastXDays}
+                  onChange={handleDateSelect}
+                >
+                  <MenuItem value={30}>{'Last 30 Days'}</MenuItem>
+                  <MenuItem value={60}>{'Last 60 Days'}</MenuItem>
+                  <MenuItem value={90}>{'Last 90 Days'}</MenuItem>
+                  <MenuItem value={180}>{'Last 6 Months'}</MenuItem>
+                  <MenuItem value={365}>{'Last Year'}</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            {/* <Grid item xs={12} lg={4} md={12} sm={12}>
+              <FormControl component="fieldset">
+                <FormLabel component="legend">Currency</FormLabel>
+                <RadioGroup aria-label="currency" name="currency1" value={urgent} onChange={handleChange}>
+                  <FormControlLabel value={true} control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Yes" />
+                  <FormControlLabel value={false} control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="No" />
+                </RadioGroup>
+              </FormControl>
+            </Grid> */}
+          </Grid>
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Name)</TableCell>
-                  <TableCell align="right">Type</TableCell>
-                  <TableCell align="right">Category</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell align="right">Amount</TableCell>
+                  <TableCell align="right">Currency</TableCell>
                   <TableCell align="right">Date</TableCell>
+                  <TableCell align="right">Account Name</TableCell>
+                  {/* <TableCell align="right">Account Official Name</TableCell> */}
+                  <TableCell align="right">Categories</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.name}>
-                    <TableCell component="th" scope="row">
-                      {row.name}
-                    </TableCell>
-                    <TableCell align="right">{row.type}</TableCell>
-                    <TableCell align="right">{row.category}</TableCell>
-                    <TableCell align="right">{row.date}</TableCell>
-                  </TableRow>
-                ))}
+                {
+                  rows ?
+                      rows.map((row) => (
+                        <TableRow key={row.keyId}>
+                          <TableCell component="th" scope="row">
+                            {row.name}
+                          </TableCell>
+                          <TableCell align="right">{row.amount}</TableCell>
+                          <TableCell align="right">{row.currency}</TableCell>
+                          <TableCell align="right">{row.date}</TableCell>
+                          <TableCell align="right">{row.accountName}</TableCell>
+                          {/* <TableCell align="right">{row.accountOfficialName}</TableCell> */}
+                          <TableCell align="right">{row.categories}</TableCell>
+                        </TableRow>
+                      )) : null
+                }
               </TableBody>
             </Table>
           </TableContainer>
+
         </div>
       </div>
       <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>

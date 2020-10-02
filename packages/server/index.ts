@@ -116,6 +116,7 @@ async function main() {
 
     app.get("/finance/transactionsList", async function (request, response, next) {
       const me: any = await context(request);
+      const lastXDays = request.query.lastXDays ? request.query.lastXDays : 90;
       let clientUserId;
       if (me && me.id) {
         clientUserId = me.id;
@@ -129,10 +130,8 @@ async function main() {
         response.redirect(301, '/finance');
       }
 
-      // TODO: startDate &  endDate is temp until we have front end for it
-      // Pull transactions for the last 90 days
       let startDate = moment()
-        .subtract(90, "days")
+        .subtract(lastXDays.toString(), "days")
         .format("YYYY-MM-DD");
       let endDate = moment().format("YYYY-MM-DD");
 
