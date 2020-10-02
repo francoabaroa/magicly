@@ -12,6 +12,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
+import AttachMoney from '@material-ui/icons/AttachMoney';
 
 import {
   AreaChart, Area, BarChart, Bar, Cell, PieChart, Pie, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
@@ -66,25 +67,25 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 'bold',
       fontSize: '34px',
       color: '#002642',
-      marginTop: '0px',
-      marginBottom: '5px',
+      marginTop: '30px',
+      marginBottom: '75px',
       margin: 'auto',
       textAlign: 'center',
       [theme.breakpoints.down('sm')]: {
         fontSize: '24px',
         marginTop: '0px',
-        marginBottom: '5px',
+        marginBottom: '25px',
       },
     },
     chartTitle: {
       fontFamily: 'Playfair Display, serif',
       fontStyle: 'normal',
-      fontWeight: 'normal',
-      fontSize: '20px',
+      fontWeight: 'bold',
+      fontSize: '24px',
       lineHeight: '32px',
-      /* identical to box height */
       textAlign: 'center',
       color: '#000000',
+      marginRight: '20px'
     },
     financePage: {
       marginRight: '30px',
@@ -140,7 +141,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: '#0A7EF2',
       borderRadius: '50px',
       border: '3px #FFF solid',
-      width: '265px',
+      width: '370px',
       height: '40px',
       [theme.breakpoints.down('md')]: {
         fontSize: '12px',
@@ -155,6 +156,50 @@ const useStyles = makeStyles((theme: Theme) =>
     formControl: {
       minWidth: '65px',
     },
+    accountName: {
+      fontFamily: 'Playfair Display, serif',
+      fontStyle: 'normal',
+      fontWeight: 'bold',
+      fontSize: '22px',
+      textAlign: 'center',
+      color: '#0A7EF2',
+    },
+    balance: {
+      fontFamily: 'Playfair Display, serif',
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      fontSize: '32px',
+      textAlign: 'center',
+      color: '#000',
+    },
+    individualFeature: {
+      textAlign: 'center',
+    },
+    icon: {
+      color: '#0A7EF2',
+      fontSize: '22px',
+    },
+    accountBalanceTitle: {
+      fontFamily: 'Playfair Display, serif',
+      fontStyle: 'normal',
+      fontWeight: 'bold',
+      fontSize: '24px',
+      textAlign: 'center',
+      color: '#000',
+    },
+    spacing: {
+      marginTop: '75px',
+      [theme.breakpoints.down('md')]: {
+        marginTop: '0px',
+      },
+    },
+    dropdown: {
+      [theme.breakpoints.down('md')]: {
+        paddingTop: '10px',
+        paddingBottom: '10px',
+        display: 'block',
+      },
+    }
   }),
 );
 
@@ -447,62 +492,81 @@ const FinanceDashboardPage = () => {
     );
   };
 
+  const getAccountBalancesUI = () => {
+    type GRID_SIZES = 'auto' | true | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+    let accountBalances = {};
+    let accountBalancesUI = [];
+    for (const property in transactions) {
+      let accountType = transactions[property].type;
+      let availableBalance = transactions[property].balances.available;
+      let currentBalance = transactions[property].balances.current;
+
+      if (accountBalances[accountType] === undefined) {
+        if (availableBalance === null) {
+          accountBalances[accountType] = currentBalance;
+        } else if (availableBalance !== null) {
+          accountBalances[accountType] = availableBalance;
+        }
+      } else {
+        if (availableBalance === null) {
+          accountBalances[accountType] = accountBalances[accountType] + currentBalance;
+        } else if (availableBalance !== null) {
+          accountBalances[accountType] = accountBalances[accountType] + availableBalance;
+        }
+      }
+    }
+
+    let columnSpan: GRID_SIZES = 12 / Object.keys(accountBalances).length as GRID_SIZES;
+    let ID = 0;
+    for (const key in accountBalances) {
+      let title = getCapitalizedString(key);
+      let balance = accountBalances[key].toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+      accountBalancesUI.push(
+        <Grid key={ID} item xs={12} lg={columnSpan} md={columnSpan} sm={12} style={{ textAlign: 'center' }}>
+          <div className={classes.individualFeature}>
+            <AttachMoney fontSize={'large'} className={classes.icon} />
+            <span className={classes.balance}>{balance}</span>
+          </div>
+          <p className={classes.accountName}>{title} Account</p>
+        </Grid>
+      );
+      ID++;
+    }
+    return accountBalancesUI;
+  };
+
+  let accountBalancesUI = getAccountBalancesUI();
   return (
     <Layout>
       <div className={classes.financePage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
-          <Grid item xs={12}>
+          <Grid item xs={6} lg={12} md={12} sm={12} style={{ textAlign:'center' }}>
             <h2
               className={classes.title}>
               Your Finance Dashboard
             </h2>
           </Grid>
-          <Grid item xs={12} sm={12} lg={2} md={2}>
-            <Button
-              onClick={routePageWithQuery.bind(this, `finance/receipts/add`, {receipt: true})}
-              className={classes.receiptsButton}
-            >
-              Upload Receipts
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={12} lg={2} md={2}>
-            <Button
-              onClick={routePage.bind(this, `finance/receipts`)}
-              className={classes.viewReceiptsButton}
-            >
-              View Receipts
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={12} lg={12} md={12}>
-            <Button
-              onClick={routePage.bind(this, `finance/search`)}
-              className={classes.viewOrSearchButton}
-            >
-              View or Search Transactions
-            </Button>
-          </Grid>
-          <Grid item xs={12} lg={3} md={12} sm={12} style={{textAlign: 'center'}}>
-            <FormControl className={classes.formControl}>
-              <InputLabel id="demo-simple-select-label">Date</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={lastXDays}
-                onChange={handleDateSelect}
-              >
-                <MenuItem value={30}>{'Last 30 Days'}</MenuItem>
-                <MenuItem value={60}>{'Last 60 Days'}</MenuItem>
-                <MenuItem value={90}>{'Last 90 Days'}</MenuItem>
-                <MenuItem value={180}>{'Last 6 Months'}</MenuItem>
-                <MenuItem value={365}>{'Last Year'}</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
         </Grid>
         <div className={classes.root}>
           <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <h1 className={classes.chartTitle}>Breakdown By Account</h1>
+            { accountBalancesUI }
+            <Grid item xs={12} sm={12} md={6} lg={6} style={{marginTop: '75px', textAlign: 'center'}}>
+              <span className={classes.chartTitle}>Breakdown By Account</span>
+              <span className={classes.dropdown}><FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-label">Date</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={lastXDays}
+                  onChange={handleDateSelect}
+                >
+                  <MenuItem value={30}>{'Last 30 Days'}</MenuItem>
+                  <MenuItem value={60}>{'Last 60 Days'}</MenuItem>
+                  <MenuItem value={90}>{'Last 90 Days'}</MenuItem>
+                  <MenuItem value={180}>{'Last 6 Months'}</MenuItem>
+                  <MenuItem value={365}>{'Last Year'}</MenuItem>
+                </Select>
+              </FormControl></span>
               <ResponsiveContainer width="95%" height={300}>
                 <BarChart
                   className={classes.centerGraph}
@@ -517,8 +581,23 @@ const FinanceDashboardPage = () => {
                 </BarChart>
               </ResponsiveContainer>
             </Grid>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <h1 className={classes.chartTitle}>Breakdown By Spending Category</h1>
+            <Grid item xs={12} sm={12} md={6} lg={6} style={{ marginTop: '75px', textAlign: 'center' }}>
+              <span className={classes.chartTitle}>Breakdown By Spending Category</span>
+              <span className={classes.dropdown}><FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-label">Date</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={lastXDays}
+                  onChange={handleDateSelect}
+                >
+                  <MenuItem value={30}>{'Last 30 Days'}</MenuItem>
+                  <MenuItem value={60}>{'Last 60 Days'}</MenuItem>
+                  <MenuItem value={90}>{'Last 90 Days'}</MenuItem>
+                  <MenuItem value={180}>{'Last 6 Months'}</MenuItem>
+                  <MenuItem value={365}>{'Last Year'}</MenuItem>
+                </Select>
+              </FormControl></span>
               <ResponsiveContainer width="95%" height={300}>
                 <PieChart className={classes.centerGraph}>
                   <Pie
@@ -538,6 +617,30 @@ const FinanceDashboardPage = () => {
                   <Legend />
                 </PieChart>
               </ResponsiveContainer>
+            </Grid>
+            <Grid item xs={12} sm={12} lg={2} md={2} style={{marginTop: '75px'}}>
+              <Button
+                onClick={routePageWithQuery.bind(this, `finance/receipts/add`, { receipt: true })}
+                className={classes.receiptsButton}
+              >
+                Upload Receipts
+            </Button>
+            </Grid>
+            <Grid item xs={12} sm={12} lg={2} md={2} className={classes.spacing}>
+              <Button
+                onClick={routePage.bind(this, `finance/receipts`)}
+                className={classes.viewReceiptsButton}
+              >
+                View Receipts
+            </Button>
+            </Grid>
+            <Grid item xs={12} sm={12} lg={12} md={12}>
+              <Button
+                onClick={routePage.bind(this, `finance/search`)}
+                className={classes.viewOrSearchButton}
+              >
+                View or Search Transactions
+            </Button>
             </Grid>
           </Grid>
         </div>

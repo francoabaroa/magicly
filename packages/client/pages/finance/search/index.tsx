@@ -20,10 +20,6 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 
 const COLORS = ['#002642', '#E59500', '#0A7EF2', '#840032', '#E5DADA', '#02040F'];
@@ -65,7 +61,6 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 'normal',
       fontSize: '20px',
       lineHeight: '32px',
-      /* identical to box height */
       textAlign: 'center',
       color: '#000000',
     },
@@ -143,6 +138,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     search : {
       minWidth: '500px',
+      [theme.breakpoints.down('xs')]: {
+        minWidth: '320px',
+      }
     },
     formControl: {
       minWidth: '65px',
@@ -301,10 +299,10 @@ const FinanceSearchPage = () => {
         </Grid>
         <div className={classes.root}>
           <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
-            <Grid item xs={12} lg={10} style={{textAlign: 'center'}}>
+            <Grid item xs={12} lg={12} style={{textAlign: 'center'}}>
               <TextField id="outlined-basic" label="Search" variant="outlined" className={classes.search} />
             </Grid>
-            <Grid item xs={12} lg={3} md={12} sm={12}>
+            <Grid item xs={6} lg={2} md={2} sm={2} style={{ textAlign: 'center' }}>
               <FormControl className={classes.formControl}>
                 <InputLabel id="demo-simple-select-label">Type</InputLabel>
                 <Select
@@ -321,7 +319,7 @@ const FinanceSearchPage = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} lg={3} md={12} sm={12}>
+            <Grid item xs={6} lg={2} md={2} sm={2} style={{ textAlign: 'center' }}>
               <FormControl className={classes.formControl}>
                 <InputLabel id="demo-simple-select-label">Date</InputLabel>
                 <Select
@@ -348,7 +346,7 @@ const FinanceSearchPage = () => {
               </FormControl>
             </Grid> */}
           </Grid>
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} style={{marginTop: '50px'}}>
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
@@ -381,7 +379,6 @@ const FinanceSearchPage = () => {
               </TableBody>
             </Table>
           </TableContainer>
-
         </div>
       </div>
       <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
