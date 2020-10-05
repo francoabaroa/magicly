@@ -364,66 +364,78 @@ const FinanceDashboardPage = () => {
         switch (type) {
 
           case PLAID_ACCOUNT_TYPES.INVESTMENT:
-            if (investmentBarData[transaction.category[0]]) {
-              // TODO: Frank, the ABS value is temporary and parseInt is temporary
-              investmentBarData[transaction.category[0]] = investmentBarData[transaction.category[0]] + parseInt(Math.abs(transaction.amount).toFixed(2));
-            } else {
-              investmentBarData[transaction.category[0]] = parseInt(Math.abs(transaction.amount).toFixed(2));
+            if (transaction.category) {
+              if (investmentBarData[transaction.category[0]]) {
+                // TODO: Frank, the ABS value is temporary and parseInt is temporary
+                investmentBarData[transaction.category[0]] = investmentBarData[transaction.category[0]] + parseInt(Math.abs(transaction.amount).toFixed(2));
+              } else {
+                investmentBarData[transaction.category[0]] = parseInt(Math.abs(transaction.amount).toFixed(2));
+              }
             }
             investmentAccounts[transaction.account_id].transactions.push(transaction);
             break;
 
           case PLAID_ACCOUNT_TYPES.DEPOSITORY:
-            if (depositoryBarData[transaction.category[0]]) {
-              depositoryBarData[transaction.category[0]] = depositoryBarData[transaction.category[0]] + parseInt(Math.abs(transaction.amount).toFixed(2));
-            } else {
-              depositoryBarData[transaction.category[0]] = parseInt(Math.abs(transaction.amount).toFixed(2));
+            if (transaction.category) {
+              if (depositoryBarData[transaction.category[0]]) {
+                // TODO: Frank, the ABS value is temporary and parseInt is temporary
+                depositoryBarData[transaction.category[0]] = depositoryBarData[transaction.category[0]] + parseInt(Math.abs(transaction.amount).toFixed(2));
+              } else {
+                depositoryBarData[transaction.category[0]] = parseInt(Math.abs(transaction.amount).toFixed(2));
+              }
             }
             depositoryAccounts[transaction.account_id].transactions.push(transaction);
             break;
 
           case PLAID_ACCOUNT_TYPES.CREDIT:
-            if (creditBarData[transaction.category[0]]) {
-              creditBarData[transaction.category[0]] = creditBarData[transaction.category[0]] + parseInt(Math.abs(transaction.amount).toFixed(2));
-            } else {
-              creditBarData[transaction.category[0]] = parseInt(Math.abs(transaction.amount).toFixed(2));
+            if (transaction.category) {
+              if (creditBarData[transaction.category[0]]) {
+                creditBarData[transaction.category[0]] = creditBarData[transaction.category[0]] + parseInt(Math.abs(transaction.amount).toFixed(2));
+              } else {
+                creditBarData[transaction.category[0]] = parseInt(Math.abs(transaction.amount).toFixed(2));
+              }
             }
             creditAccounts[transaction.account_id].transactions.push(transaction);
             break;
 
           case PLAID_ACCOUNT_TYPES.LOAN:
-            if (loanBarData[transaction.category[0]]) {
-              loanBarData[transaction.category[0]] = loanBarData[transaction.category[0]] + parseInt(Math.abs(transaction.amount).toFixed(2));
-            } else {
-              loanBarData[transaction.category[0]] = parseInt(Math.abs(transaction.amount).toFixed(2));
+            if (transaction.category) {
+              if (loanBarData[transaction.category[0]]) {
+                loanBarData[transaction.category[0]] = loanBarData[transaction.category[0]] + parseInt(Math.abs(transaction.amount).toFixed(2));
+              } else {
+                loanBarData[transaction.category[0]] = parseInt(Math.abs(transaction.amount).toFixed(2));
+              }
             }
             loanAccounts[transaction.account_id].transactions.push(transaction);
             break;
 
           case PLAID_ACCOUNT_TYPES.OTHER:
-            if (otherBarData[transaction.category[0]]) {
-              otherBarData[transaction.category[0]] = otherBarData[transaction.category[0]] + parseInt(Math.abs(transaction.amount).toFixed(2));
-            } else {
-              otherBarData[transaction.category[0]] = parseInt(Math.abs(transaction.amount).toFixed(2));
+            if (transaction.category) {
+              if (otherBarData[transaction.category[0]]) {
+                otherBarData[transaction.category[0]] = otherBarData[transaction.category[0]] + parseInt(Math.abs(transaction.amount).toFixed(2));
+              } else {
+                otherBarData[transaction.category[0]] = parseInt(Math.abs(transaction.amount).toFixed(2));
+              }
             }
             otherAccounts[transaction.account_id].transactions.push(transaction);
             break;
         }
 
-
-        if (organizedSpending[transaction.category[0]]) {
-          organizedSpending[transaction.category[0]].transactions.push(transaction);
-          organizedSpending[transaction.category[0]].totalAmount =
-            organizedSpending[transaction.category[0]].totalAmount + transaction.amount
-        } else {
-          organizedSpending[transaction.category[0]] = {
-            category: transaction.category,
-            transactions: [transaction],
-            totalAmount: transaction.amount
+        if (transaction.category) {
+          if (organizedSpending[transaction.category[0]]) {
+            organizedSpending[transaction.category[0]].transactions.push(transaction);
+            organizedSpending[transaction.category[0]].totalAmount =
+              organizedSpending[transaction.category[0]].totalAmount + transaction.amount
+          } else {
+            organizedSpending[transaction.category[0]] = {
+              category: transaction.category,
+              transactions: [transaction],
+              totalAmount: transaction.amount
+            }
           }
         }
         organizedTransactions[transaction.account_id].transactions.push(transaction);
-        if (!keys[transaction.category[0]]) {
+        if (transaction.category && !keys[transaction.category[0]]) {
           keys[transaction.category[0]] = transaction.category[0];
         }
       });
