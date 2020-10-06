@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../components/Layout';
 import { useRouter } from 'next/router';
@@ -13,7 +13,14 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
+import Build from '@material-ui/icons/Build';
 import FormControl from '@material-ui/core/FormControl';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { PRODUCT_OR_SERVICE } from '../../constants/appStrings';
 
 const QUERY = gql`
@@ -75,27 +82,80 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     centerText: {
       textAlign: 'center',
-    }
+    },
+    link: {
+      marginLeft: '15px',
+      fontSize: '20px',
+      textDecoration: 'none',
+      fontFamily: 'Playfair Display',
+      color: '#002642',
+    },
+    toolIcon: {
+      color: '#002642',
+      fontSize: '14px',
+    },
+    search: {
+      minWidth: '500px',
+      [theme.breakpoints.down('xs')]: {
+        minWidth: '320px',
+      }
+    },
   }),
 );
+
+const fetchServices = async () => {
+  const response = await fetch('/home/servicesList');
+  if (response.redirected) {
+    return [];
+  }
+  const responseJSON = await response.json();
+  return responseJSON;
+};
 
 const FindPage = () => {
   const router = useRouter();
   const classes = useStyles();
   const { data, loading, error, refetch } = useQuery(QUERY);
   const [productOrService, setProductOrService] = useState('');
+  const [products, setProducts] = useState({});
+  const [services, setServices] = useState({});
+  const [popularServices, setPopularServices] = useState([]);
+  const [hidePopularServices, setHidePopularServices] = useState(false);
+  const [showSearch, setShowSearch] = useState(true);
+  const [filteredSearchResults, setFilteredSearchResults] = useState([]);
+  const [open, setModalOpen] = React.useState(false);
+
+  useEffect(() => {
+    async function getServices() {
+      // handleToggle();
+      const services = await fetchServices();
+      if (services && services.services && services.services.Popular) {
+        setServices(services.services);
+        setPopularServices(services.services.Popular);
+        // handleClose();
+      }
+    }
+    getServices();
+  }, []);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-  if (!Cookies.get('signedin')) {
-    // navigate('/')
-  }
+
+  const handleClickOpen = (results) => {
+    setFilteredSearchResults(results);
+    setModalOpen(true);
+  };
+
+  const handleClose = () => {
+    setModalOpen(false);
+  };
 
   const routePage = (pageName: string) => {
     router.push('/' + pageName, undefined, { shallow: true });
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setShowSearch(true);
     setProductOrService(event.target.value);
   };
 
@@ -105,32 +165,140 @@ const FindPage = () => {
     return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
   };
 
+  const buildPopularResults = () => {
+    let searchResults =[];
+    let counter = 0;
+    if (popularServices.length > 0) {
+      popularServices.forEach((service) => {
+        searchResults.push(
+          <Grid key={counter++} item xs={12} lg={12} md={12} sm={12} style={{textAlign: 'center'}}>
+            <Build className={classes.toolIcon} />
+            <a href={service.url} target="_blank" className={classes.link}>{service.title}</a>
+          </Grid>
+        );
+      });
+    }
+    return searchResults;
+  };
+
+  const handleRealtimeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let searchKeys = {};
+    let word = event.target.value as string;
+    if (word.length > 0) {
+      setHidePopularServices(true);
+    } else if (word.length === 0) {
+      setHidePopularServices(false);
+    }
+    let results = [];
+    let counter = 0;
+
+    results.push(
+      <Grid item xs={12} lg={12} md={12} sm={12}>
+        <h4 className={classes.subtitle}>Search Results</h4>
+      </Grid>
+    );
+
+    for (const property in services) {
+      services[property].forEach((service, index) => {
+        let serviceName = service.title;
+        let serviceDescription = service.description;
+        if (serviceName.toLowerCase().indexOf(word.toLowerCase()) != -1) {
+          if (!searchKeys[serviceName]) {
+            searchKeys[serviceName] = true;
+            results.push(
+              <Grid key={counter++} item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
+                <Build className={classes.toolIcon} />
+                <a href={service.url} target="_blank" className={classes.link}>{serviceName}</a>
+              </Grid>
+            );
+          }
+        } else if (serviceDescription && serviceDescription.length > 0 && serviceDescription.toLowerCase().indexOf(word.toLowerCase()) != -1) {
+          if (!searchKeys[serviceName]) {
+            searchKeys[serviceName] = true;
+            results.push(
+              <Grid key={counter++} item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
+                <Build className={classes.toolIcon} />
+                <a href={service.url} target="_blank" className={classes.link}>{serviceName}</a>
+              </Grid>
+            );
+          }
+        }
+      });
+    }
+    if (results.length === 1) {
+      handleClickOpen(results);
+    } else {
+      setFilteredSearchResults(results);
+    }
+  };
+
+  const clearSearch = () => {
+    document.getElementById('outlined-basic')['value'] = '';
+    setHidePopularServices(false);
+  };
+
+  // TODO: if no saved services, dont display button
   return (
     <Layout>
       <div className={classes.findPage}>
-        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+        {/* <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={12} lg={12} md={12} sm={12} onClick={routePage.bind(this, 'find/saved')}>
             <Button className={classes.viewProdsServs} > View Saved Services & Products </Button>
           </Grid>
-        </Grid>
+        </Grid> */}
         <div className={classes.root}>
           <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
-            <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+            {/* <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
               <h4 className={classes.subtitle}>What are you looking for today?</h4>
               <FormControl component="fieldset">
                 <RadioGroup aria-label="productOrService" name="productOrService1" value={productOrService} onChange={handleChange}>
-                  <FormControlLabel value={PRODUCT_OR_SERVICE.PRODUCT} control={<Radio />} label={getCapitalizedString(PRODUCT_OR_SERVICE.PRODUCT)} />
+                  <FormControlLabel value={PRODUCT_OR_SERVICE.PRODUCT} disabled control={<Radio />} label={getCapitalizedString(PRODUCT_OR_SERVICE.PRODUCT)} />
                   <FormControlLabel value={PRODUCT_OR_SERVICE.SERVICE} control={<Radio />} label={getCapitalizedString(PRODUCT_OR_SERVICE.SERVICE)} />
                 </RadioGroup>
               </FormControl>
-            </Grid>
-            <Grid item xs={8} className={classes.centerText}>
-              <input type='text' onChange={() => {}} required />
-              <Button>Search</Button>
-            </Grid>
-            <Grid item xs={12} lg={12} md={12} sm={12}>
-            </Grid>
+            </Grid> */}
+            {
+              showSearch ?
+                <Grid item xs={12} lg={12} style={{ textAlign: 'center' }}>
+                  <TextField id="outlined-basic" label="Search" variant="outlined" className={classes.search} autoComplete="off" onInput={handleRealtimeSearch} />
+                  {document.getElementById('outlined-basic') && document.getElementById('outlined-basic')['value'].length > 0 ? <Button variant="contained" style={{ border: '2px solid #840032', backgroundColor: 'white', color: '#840032', marginLeft: '10px', height: '55px' }} onClick={clearSearch}>
+                    Clear
+              </Button> : null }
+                </Grid> : null
+            }
+            {
+              showSearch && !hidePopularServices ?
+                <Grid item xs={12} lg={12} md={12} sm={12}>
+                  <h4 className={classes.subtitle}>Popular Home Services</h4>
+                </Grid> : null
+            }
+            {
+              showSearch && !hidePopularServices ?
+                buildPopularResults() : null
+            }
+            {filteredSearchResults}
           </Grid>
+          {/* <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">{"We're sorry!"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                We don't have a service for the search term you entered. Would you like to notify us of this so we can find you a trusted service?
+          </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                Yes
+          </Button>
+              <Button onClick={handleClose} color="primary" autoFocus>
+                No
+          </Button>
+            </DialogActions>
+          </Dialog> */}
         </div>
       </div>
     </Layout>

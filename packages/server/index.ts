@@ -16,6 +16,8 @@ import loaders from './loaders';
 import { APP_CONFIG, PROTECTED_ROUTES } from './constants/strings';
 import moment from 'moment';
 
+import { HANDY_SERVICES } from './data/handyServices';
+
 import { AWSS3Uploader } from './lib/uploaders/s3';
 import plaid from 'plaid';
 
@@ -99,6 +101,10 @@ async function main() {
     if (isTest || isProduction) {
       createUsersWithHomeworks(db);
     }
+
+    app.get("/home/servicesList", async function (request, response, next) {
+      response.json({ services: HANDY_SERVICES });
+    });
 
     app.get("/finance/hasPlaidAccounts", async function (request, response, next) {
       const me: any = await context(request);
