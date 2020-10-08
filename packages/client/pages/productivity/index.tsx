@@ -349,7 +349,7 @@ const ProductivityPage = () => {
     <Layout>
       <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
         <Grid item xs={12} lg={12} md={12} sm={12} style={{textAlign: 'center'}}>
-          <h2 className={classes.pageHeading}>Productivity</h2>
+          <h2 className={classes.pageHeading}>My Productivity</h2>
         </Grid>
         { getTodoListSection() }
         { getRecommendationsSection() }

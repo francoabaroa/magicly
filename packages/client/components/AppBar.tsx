@@ -360,10 +360,10 @@ export default function PrimarySearchAppBar(props) {
                   My Home
                 </Typography>
                 <Typography className={classes.mainPages} onClick={routePage.bind(this, 'productivity')} variant="h6" noWrap>
-                  Productivity
+                  My Productivity
                 </Typography>
                 <Typography className={classes.mainPages} onClick={routePage.bind(this, 'finance')} variant="h6" noWrap>
-                  Finances
+                  My Finances
                 </Typography>
                 <Typography className={classes.pages} onClick={routePage.bind(this, 'support')} variant="h6" noWrap>
                   Contact Us

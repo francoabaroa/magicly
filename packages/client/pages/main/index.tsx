@@ -175,7 +175,7 @@ const MainPage = () => {
             <Grid item xs={12} lg={4} md={4} sm={4}>
               <Paper className={classes.productivityPaper} onClick={routePage.bind(this, 'productivity')}>
                 <h2 className={classes.productivityAppSection}>
-                  Productivity
+                  My Productivity
               </h2>
                 <h3 style={{fontWeight: 'normal'}}>
                   Increase your productivity in a simple way
@@ -185,7 +185,7 @@ const MainPage = () => {
             <Grid item xs={12} lg={4} md={4} sm={4}>
               <Paper className={classes.financesPaper} onClick={routePage.bind(this, 'finance')}>
                 <h2 className={classes.appSection}>
-                  Finances
+                  My Finances
               </h2>
                 <h3 style={{ fontWeight: 'normal' }}>
                   Stay on top of your finances easily

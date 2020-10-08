@@ -179,7 +179,7 @@ const FinancePage = () => {
   return (
     <Layout>
       <div style={{ textAlign: 'center' }}>
-        <h2 className={classes.pageHeading}>Finances</h2>
+        <h2 className={classes.pageHeading}>My Finances</h2>
       </div>
       <div className={classes.financePage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
