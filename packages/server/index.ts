@@ -94,6 +94,41 @@ async function main() {
     isProduction
   );
 
+  const updateServices = async (clientUserId, services) => {
+    let updatedServices = {};
+    for (let property in services) {
+      for (let i = 0; i < services[property].length; i++) {
+        const updatedService = await db.Service.findOne({
+          where: {
+            name: services[property][i].title,
+            type: 'HOME',
+            url: services[property][i].url,
+            userId: clientUserId,
+          }
+        });
+
+        if (!updatedServices[property]) {
+          updatedServices[property] = [];
+        }
+
+        let individualService = {
+          title: services[property][i].title,
+          url: services[property][i].url,
+          category: services[property][i].category,
+          description: services[property][i].description,
+          favorited: services[property][i].favorited,
+        };
+
+        if (updatedService && services[property][i].title === updatedService.name) {
+          individualService.favorited = updatedService.favorite;
+        }
+
+        updatedServices[property].push(individualService)
+      }
+    }
+    return updatedServices;
+  };
+
   await bootstrapApolloServer(app, db);
 
   // TODO: remove flag and update credentials for production BEFORE LAUNCH
@@ -103,7 +138,15 @@ async function main() {
     }
 
     app.get("/home/servicesList", async function (request, response, next) {
-      response.json({ services: HANDY_SERVICES });
+      const me: any = await context(request);
+      let clientUserId;
+      if (me && me.id) {
+        clientUserId = me.id;
+      } else {
+        response.redirect(301, '/');
+      }
+      let services = await updateServices(clientUserId, HANDY_SERVICES);
+      response.json({ services });
     });
 
     app.get("/finance/hasPlaidAccounts", async function (request, response, next) {

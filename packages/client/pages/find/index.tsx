@@ -1,21 +1,25 @@
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import Layout from '../../components/Layout';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
-import Cookies from 'js-cookie';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Build from '@material-ui/icons/Build';
+import Favorite from '@material-ui/icons/Favorite';
+import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
+import Save from '@material-ui/icons/Save';
+import TextField from '@material-ui/core/TextField';
+
+import Cookies from 'js-cookie';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
-import Build from '@material-ui/icons/Build';
 import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -23,17 +27,22 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { PRODUCT_OR_SERVICE } from '../../constants/appStrings';
 
-const QUERY = gql`
-  query GetMe {
-    me {
+const SAVE_SERVICE = gql`
+  mutation SaveService(
+    $name: String!,
+    $type: ServiceType!,
+    $favorite: Boolean,
+    $url: String,
+  ) {
+    saveService(
+      name: $name,
+      type: $type,
+      favorite: $favorite,
+      url: $url
+    ) {
       id
-      firstName
-      lastName
-      email
-      homeworks {
-        title
-        status
-      }
+      name
+      favorite
     }
   }
 `;
@@ -85,6 +94,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     link: {
       marginLeft: '15px',
+      marginRight: '15px',
       fontSize: '20px',
       textDecoration: 'none',
       fontFamily: 'Playfair Display',
@@ -92,7 +102,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     toolIcon: {
       color: '#002642',
-      fontSize: '14px',
+      fontSize: '18px',
+    },
+    favoriteIcon: {
+      color: '#002642',
+      fontSize: '18px',
     },
     search: {
       minWidth: '500px',
@@ -115,7 +129,14 @@ const fetchServices = async () => {
 const FindPage = () => {
   const router = useRouter();
   const classes = useStyles();
-  const { data, loading, error, refetch } = useQuery(QUERY);
+  const [saveService, { data, loading, error }] = useMutation(
+    SAVE_SERVICE,
+    {
+      onCompleted({ saveService }) {
+        updateServices(saveService);
+      }
+    }
+  );
   const [productOrService, setProductOrService] = useState('');
   const [products, setProducts] = useState({});
   const [services, setServices] = useState({});
@@ -138,8 +159,50 @@ const FindPage = () => {
     getServices();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
+
+  const updateServices = (updatedService) => {
+    if (updatedService) {
+      let updatedServices = {};
+      let updatedFilteredSearchResults = [];
+      for (const property in services) {
+        services[property].forEach((service) => {
+          if (!updatedServices[property]) {
+            updatedServices[property] = [];
+          }
+
+          let individualService = {
+            title: service.title,
+            url: service.url,
+            category: service.category,
+            description: service.description,
+            favorited: service.favorited,
+          };
+          if (service.title === updatedService.name) {
+            individualService.favorited = updatedService.favorite;
+          }
+
+          updatedServices[property].push(individualService);
+        });
+
+      }
+
+      filteredSearchResults.forEach((result, index) => {
+        if (updatedService.name === result.title) {
+          let individualService = { ...result};
+          individualService.favorited = updatedService.favorite;
+          updatedFilteredSearchResults.push(individualService);
+        } else {
+          updatedFilteredSearchResults.push(result);
+        }
+      });
+
+      setPopularServices(updatedServices['Popular']);
+      setServices(updatedServices);
+      setFilteredSearchResults(updatedFilteredSearchResults);
+    }
+
+  };
 
   const handleClickOpen = (results) => {
     setFilteredSearchResults(results);
@@ -165,6 +228,25 @@ const FindPage = () => {
     return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
   };
 
+  const saveServiceToDB = (serviceInfo, isFavorited) => {
+    // TODO: type: HOME is temp until we introduce personal services
+    const variables = {
+      variables: {
+        name: serviceInfo.title,
+        type: 'HOME',
+        favorite: isFavorited,
+        url: serviceInfo.url
+      }
+    };
+    saveService(variables);
+  };
+
+  const getFavoriteIcon = (isFavorited: boolean, service: any) => {
+    return isFavorited ?
+      <Favorite className={classes.favoriteIcon} onClick={saveServiceToDB.bind(this, service, false)} /> :
+      <FavoriteBorderOutlined className={classes.favoriteIcon} onClick={saveServiceToDB.bind(this, service, true)} />;
+  }
+
   const buildPopularResults = () => {
     let searchResults =[];
     let counter = 0;
@@ -174,6 +256,7 @@ const FindPage = () => {
           <Grid key={counter++} item xs={12} lg={12} md={12} sm={12} style={{textAlign: 'center'}}>
             <Build className={classes.toolIcon} />
             <a href={service.url} target="_blank" className={classes.link}>{service.title}</a>
+            {getFavoriteIcon(service.favorited, service) }
           </Grid>
         );
       });
@@ -190,13 +273,6 @@ const FindPage = () => {
       setHidePopularServices(false);
     }
     let results = [];
-    let counter = 0;
-
-    results.push(
-      <Grid item xs={12} lg={12} md={12} sm={12}>
-        <h4 className={classes.subtitle}>Search Results</h4>
-      </Grid>
-    );
 
     for (const property in services) {
       services[property].forEach((service, index) => {
@@ -205,27 +281,18 @@ const FindPage = () => {
         if (serviceName.toLowerCase().indexOf(word.toLowerCase()) != -1) {
           if (!searchKeys[serviceName]) {
             searchKeys[serviceName] = true;
-            results.push(
-              <Grid key={counter++} item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
-                <Build className={classes.toolIcon} />
-                <a href={service.url} target="_blank" className={classes.link}>{serviceName}</a>
-              </Grid>
-            );
+            results.push(service);
           }
         } else if (serviceDescription && serviceDescription.length > 0 && serviceDescription.toLowerCase().indexOf(word.toLowerCase()) != -1) {
           if (!searchKeys[serviceName]) {
             searchKeys[serviceName] = true;
-            results.push(
-              <Grid key={counter++} item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
-                <Build className={classes.toolIcon} />
-                <a href={service.url} target="_blank" className={classes.link}>{serviceName}</a>
-              </Grid>
-            );
+            results.push(service);
           }
         }
       });
     }
-    if (results.length === 1) {
+
+    if (results.length === 0) {
       handleClickOpen(results);
     } else {
       setFilteredSearchResults(results);
@@ -233,8 +300,32 @@ const FindPage = () => {
   };
 
   const clearSearch = () => {
-    document.getElementById('outlined-basic')['value'] = '';
+    if (process.browser) {
+      document.getElementById('outlined-basic')['value'] = '';
+    }
     setHidePopularServices(false);
+  };
+
+  const buildFilteredSearchResults = () => {
+    let results = [];
+    let counter = 0;
+
+    results.push(
+      <Grid key={900} item xs={12} lg={12} md={12} sm={12}>
+        <h4 className={classes.subtitle}>Search Results</h4>
+      </Grid>
+    );
+
+    for (let i = 0; i < filteredSearchResults.length; i++) {
+      results.push(
+        <Grid key={counter++} item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
+          <Build className={classes.toolIcon} />
+          <a href={filteredSearchResults[i].url} target="_blank" className={classes.link}>{filteredSearchResults[i].title}</a>
+          {getFavoriteIcon(filteredSearchResults[i].favorited, filteredSearchResults[i])}
+        </Grid>
+      );
+    }
+    return results;
   };
 
   // TODO: if no saved services, dont display button
@@ -261,7 +352,7 @@ const FindPage = () => {
               showSearch ?
                 <Grid item xs={12} lg={12} style={{ textAlign: 'center' }}>
                   <TextField id="outlined-basic" label="Search" variant="outlined" className={classes.search} autoComplete="off" onInput={handleRealtimeSearch} />
-                  {document.getElementById('outlined-basic') && document.getElementById('outlined-basic')['value'].length > 0 ? <Button variant="contained" style={{ border: '2px solid #840032', backgroundColor: 'white', color: '#840032', marginLeft: '10px', height: '55px' }} onClick={clearSearch}>
+                  {process.browser && document.getElementById('outlined-basic') && document.getElementById('outlined-basic')['value'].length > 0 ? <Button variant="contained" style={{ border: '2px solid #840032', backgroundColor: 'white', color: '#840032', marginLeft: '10px', height: '55px' }} onClick={clearSearch}>
                     Clear
               </Button> : null }
                 </Grid> : null
@@ -276,7 +367,9 @@ const FindPage = () => {
               showSearch && !hidePopularServices ?
                 buildPopularResults() : null
             }
-            {filteredSearchResults}
+
+            {hidePopularServices ? buildFilteredSearchResults() : null }
+
           </Grid>
           {/* <Dialog
             open={open}

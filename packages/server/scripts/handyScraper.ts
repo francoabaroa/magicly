@@ -112,7 +112,8 @@ const findDescription = async function (url) {
       title,
       url: handyBaseURL + href,
       category,
-      description: description ? description : ''
+      description: description ? description : '',
+      favorited: false,
     };
 
     jsonData[category].push(individualService);

@@ -38,6 +38,7 @@
 33. MEMORY LEAKS ISSUE
 34. https://khalilstemmler.com/blogs/tooling/prettier/
 35. AWS BUCKET DELETE MOCK DATA!!!
+36. any GRAPHQL apollo ERROR is currently renderning a not-user-friendly error UI. for ex. if a user needs to re-authenticate, it will display error
 
 *client*
 1. disable or enable SSR?
@@ -80,6 +81,7 @@
 6. address this "That's why it is possible to execute the function as method on each user instance, so you have the user itself available within the method as this. You can also take the user instance with its password as an argument, which I prefer, though using JavaScript's prototypal inheritance a good tool for any web developer."
 7. CREATEDAT timestamps is set up SPAIN TIME!!
 8. go over robinwieruch.de exercises to make sure im not missing anything crucial!!
+9. SPEED up query and front end code for FIND SERVICES PAGE
 
 *link resources*
 1. https://gregberge.com/blog/javascript-stack-2020\
