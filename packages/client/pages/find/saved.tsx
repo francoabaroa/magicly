@@ -9,6 +9,12 @@ import Cookies from 'js-cookie';
 import Grid from '@material-ui/core/Grid';
 import AddCircle from '@material-ui/icons/AddCircle';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
 
 const QUERY = gql`
   query GetServices(
@@ -24,6 +30,7 @@ const QUERY = gql`
         name
         url
         favorite
+        description
       }
       pageInfo {
         endCursor
@@ -103,6 +110,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const SavedProductsServicesPage = () => {
   const router = useRouter();
   const classes = useStyles();
+  const [individualServiceOpen, setIndividualServiceOpen] = React.useState(false);
+  const [individualService, setIndividualService] = React.useState({});
   let services: Array<any> = [];
   let hasSavedServices: boolean = false;
 
@@ -119,6 +128,10 @@ const SavedProductsServicesPage = () => {
     // navigate('/')
   }
 
+  const routeToUrl = (url: string) => {
+    window.open(url, '_blank');
+  };
+
   const routePage = (pageName: string) => {
     router.push('/' + pageName, undefined, { shallow: true });
   };
@@ -127,14 +140,59 @@ const SavedProductsServicesPage = () => {
     return (
       <Grid key={key} container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
         <Grid item xs={12} lg={12} md={12} sm={12}>
-          <Link href={service.url}>
-            <a target="_blank" className={classes.link}>
+            <a target="_blank" className={classes.link} onClick={handleIndividualServiceOpen.bind(this, service)}>
               {service.name}
             </a>
-          </Link>
         </Grid>
       </Grid>
     );
+  };
+
+  const handleIndividualServiceOpen = (service) => {
+    setIndividualService(service);
+    setIndividualServiceOpen(true);
+  };
+
+  const handleIndividualServiceClose = () => {
+    setIndividualService({});
+    setIndividualServiceOpen(false);
+  };
+
+  const getIndividualServiceModal = () => {
+    if (individualService) {
+      return (
+        <Dialog
+          open={individualServiceOpen}
+          onClose={handleIndividualServiceClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle style={{ textAlign: 'center' }} id="alert-dialog-title">{individualService['title']}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              This service is brought to you by Handy, a services company backed by their <a href="https://www.handy.com/handy-guarantee" target="_blank">
+                Handy Happiness Guarantee.
+                </a>
+            </DialogContentText>
+            <DialogContentText id="alert-dialog-description">
+              <a href="https://www.handy.com/trust-and-safety" target="_blank">
+                All of their workers are vetted and background-checked professionals.
+                </a>
+            </DialogContentText>
+            <DialogContentText id="alert-dialog-description">
+              {individualService['description']}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={routeToUrl.bind(this, individualService['url'])} color="primary">
+              View Handy Estimate
+          </Button>
+          </DialogActions>
+        </Dialog>
+      );
+    } else {
+      return null;
+    }
   };
 
   if (data && data.services && data.services.edges && data.services.edges.length > 0) {
@@ -174,6 +232,11 @@ const SavedProductsServicesPage = () => {
   return (
     <Layout>
       {getMainUI()}
+      {
+        individualServiceOpen ?
+          getIndividualServiceModal() :
+          null
+      }
     </Layout>
   );
 };

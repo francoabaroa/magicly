@@ -11,6 +11,7 @@ export default gql`
       type: ServiceType!
       favorite: Boolean
       url: String
+      description: String
     ): Service!
     favoriteService(
       id: ID!
@@ -27,6 +28,7 @@ export default gql`
     ratingScore: Int
     email: String
     phone: String
+    description: String
     cost: Int
     costCurrency: CostCurrency
     url: String

@@ -12,6 +12,7 @@ export interface ServiceAttributes {
   ratingScore?: number | null;
   email?: string | null;
   phone?: string | null;
+  description?: string | null;
   cost?: number | null;
   costCurrency?: 'USD' | 'MXN' | null;
   url?: string | null;
@@ -77,6 +78,10 @@ export const ServiceFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequel
     phone: {
       type: DataTypes.TEXT,
       unique: false,
+      allowNull: true,
+    },
+    description: {
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     cost: {

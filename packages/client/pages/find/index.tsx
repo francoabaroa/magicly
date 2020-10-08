@@ -33,12 +33,14 @@ const SAVE_SERVICE = gql`
     $type: ServiceType!,
     $favorite: Boolean,
     $url: String,
+    $description: String,
   ) {
     saveService(
       name: $name,
       type: $type,
       favorite: $favorite,
-      url: $url
+      url: $url,
+      description: $description
     ) {
       id
       name
@@ -77,7 +79,8 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: '18px',
       margin: '0 auto',
       display: 'block',
-      marginTop: '40px',
+      marginTop: '20px',
+      marginBottom: '20px',
       color: '#FFF',
       backgroundColor: '#0A7EF2',
       borderRadius: '50px',
@@ -114,6 +117,21 @@ const useStyles = makeStyles((theme: Theme) =>
         minWidth: '320px',
       }
     },
+    title: {
+      fontFamily: 'Playfair Display, serif',
+      fontWeight: 'bold',
+      fontSize: '34px',
+      color: '#002642',
+      marginTop: '30px',
+      marginBottom: '35px',
+      margin: 'auto',
+      textAlign: 'center',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '24px',
+        marginTop: '0px',
+        marginBottom: '25px',
+      },
+    },
   }),
 );
 
@@ -145,7 +163,9 @@ const FindPage = () => {
   const [showSearch, setShowSearch] = useState(true);
   const [filteredSearchResults, setFilteredSearchResults] = useState([]);
   const [hasSavedServices, setHasSavedServices] = useState(false);
-  const [open, setModalOpen] = React.useState(false);
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [individualServiceOpen, setIndividualServiceOpen] = React.useState(false);
+  const [individualService, setIndividualService] = React.useState({});
 
   useEffect(() => {
     async function getServices() {
@@ -211,12 +231,31 @@ const FindPage = () => {
     setModalOpen(true);
   };
 
+  const handleIndividualServiceOpen = (service) => {
+    setIndividualService(service);
+    setIndividualServiceOpen(true);
+  };
+
+  const handleIndividualServiceClose = () => {
+    setIndividualService({});
+    setIndividualServiceOpen(false);
+  };
+
   const handleClose = () => {
     setModalOpen(false);
   };
 
+  const notifyOfEmptySearch = () => {
+    // send an email to us or something
+    // TODO: implement
+  };
+
   const routePage = (pageName: string) => {
     router.push('/' + pageName, undefined, { shallow: true });
+  };
+
+  const routeToUrl = (url: string) => {
+    window.open(url, '_blank');
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -237,10 +276,15 @@ const FindPage = () => {
         name: serviceInfo.title,
         type: 'HOME',
         favorite: isFavorited,
-        url: serviceInfo.url
+        url: serviceInfo.url,
+        description: serviceInfo.description
       }
     };
+    if (!hasSavedServices && isFavorited) {
+      setHasSavedServices(isFavorited);
+    }
     saveService(variables);
+    handleIndividualServiceClose();
   };
 
   const getFavoriteIcon = (isFavorited: boolean, service: any) => {
@@ -255,9 +299,10 @@ const FindPage = () => {
     if (popularServices.length > 0) {
       popularServices.forEach((service) => {
         searchResults.push(
-          <Grid key={counter++} item xs={12} lg={12} md={12} sm={12} style={{textAlign: 'center'}}>
+          <Grid key={counter++} item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
             <Build className={classes.toolIcon} />
-            <a href={service.url} target="_blank" className={classes.link}>{service.title}</a>
+            {/* href={service.url} */}
+            <a target="_blank" className={classes.link} onClick={handleIndividualServiceOpen.bind(this, service)}>{service.title}</a>
             {getFavoriteIcon(service.favorited, service) }
           </Grid>
         );
@@ -322,28 +367,82 @@ const FindPage = () => {
       results.push(
         <Grid key={counter++} item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
           <Build className={classes.toolIcon} />
-          <a href={filteredSearchResults[i].url} target="_blank" className={classes.link}>{filteredSearchResults[i].title}</a>
+          {/* href={filteredSearchResults[i].url} */}
+          <a target="_blank" className={classes.link} onClick={handleIndividualServiceOpen.bind(this, filteredSearchResults[i])}>{filteredSearchResults[i].title}</a>
           {getFavoriteIcon(filteredSearchResults[i].favorited, filteredSearchResults[i])}
+        </Grid>
+      );
+    }
+
+    if (results.length === 1) {
+      results.push(
+        <Grid key={901} item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
+          <h4 style={{textAlign: 'center'}}>Didn't find what you're looking for?</h4>
+          <Button onClick={notifyOfEmptySearch} color="primary">
+            Let us know
+          </Button>
         </Grid>
       );
     }
     return results;
   };
 
+  const getIndividualServiceModal = () => {
+    if (individualService) {
+      return (
+        <Dialog
+          open={individualServiceOpen}
+          onClose={handleIndividualServiceClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle style={{textAlign: 'center'}} id="alert-dialog-title">{individualService['title']}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              This service is brought to you by Handy, a services company backed by their <a href="https://www.handy.com/handy-guarantee" target="_blank">
+                 Handy Happiness Guarantee.
+                </a>
+            </DialogContentText>
+            <DialogContentText id="alert-dialog-description">
+                <a href="https://www.handy.com/trust-and-safety" target="_blank">
+                  All of their workers are vetted and background-checked professionals.
+                </a>
+            </DialogContentText>
+            <DialogContentText id="alert-dialog-description">
+              {individualService['description']}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={routeToUrl.bind(this, individualService['url'])} color="primary">
+              View Handy Estimate
+          </Button>
+          {
+            individualService['favorited'] ?
+            null :
+                <Button onClick={saveServiceToDB.bind(this, individualService, true)} color="primary" autoFocus>
+                  Save For Later
+          </Button>
+          }
+          </DialogActions>
+        </Dialog>
+      );
+    } else {
+      return null;
+    }
+  };
+
   // TODO: if no saved services, dont display button
   return (
     <Layout>
       <div className={classes.findPage}>
-        { hasSavedServices ?
-          <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
-            <Grid item xs={12} lg={12} md={12} sm={12} onClick={routePage.bind(this, 'find/saved')}>
-              <Button className={classes.viewProdsServs} > View Saved Services</Button>
-              {/* <Button className={classes.viewProdsServs} > View Saved Services & Products </Button> */}
-            </Grid>
-          </Grid> :
-          null
-        }
-
+        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+          <Grid item xs={6} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
+            <h2
+              className={classes.title}>
+              Services Search
+            </h2>
+          </Grid>
+        </Grid>
         <div className={classes.root}>
           <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
             {/* <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
@@ -364,6 +463,17 @@ const FindPage = () => {
               </Button> : null }
                 </Grid> : null
             }
+
+            {hasSavedServices ?
+              <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+                <Grid item xs={12} lg={12} md={12} sm={12} onClick={routePage.bind(this, 'find/saved')}>
+                  <Button className={classes.viewProdsServs} > View Saved Services</Button>
+                  {/* <Button className={classes.viewProdsServs} > View Saved Services & Products </Button> */}
+                </Grid>
+              </Grid> :
+              null
+            }
+
             {
               showSearch && !hidePopularServices ?
                 <Grid item xs={12} lg={12} md={12} sm={12}>
@@ -375,30 +485,15 @@ const FindPage = () => {
                 buildPopularResults() : null
             }
 
+            {
+              individualServiceOpen ?
+                getIndividualServiceModal() :
+                null
+            }
+
             {hidePopularServices ? buildFilteredSearchResults() : null }
 
           </Grid>
-          {/* <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">{"We're sorry!"}</DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                We don't have a service for the search term you entered. Would you like to notify us of this so we can find you a trusted service?
-          </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose} color="primary">
-                Yes
-          </Button>
-              <Button onClick={handleClose} color="primary" autoFocus>
-                No
-          </Button>
-            </DialogActions>
-          </Dialog> */}
         </div>
       </div>
     </Layout>

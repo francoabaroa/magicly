@@ -62,7 +62,8 @@ export default {
           name,
           type,
           favorite,
-          url
+          url,
+          description
         },
         { me, models }
       ) => {
@@ -85,6 +86,7 @@ export default {
               type,
               favorite,
               url,
+              description,
               userId: me.id,
             });
             return newService;
