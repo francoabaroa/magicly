@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import Layout from '../../components/Layout';
 import { useRouter } from 'next/router';
+import { APP_CONFIG } from '../../constants/appStrings';
 import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -26,6 +27,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { PRODUCT_OR_SERVICE } from '../../constants/appStrings';
+
+// TODO: clean up before prod
+let url = null;
+if (process.env.NODE_ENV === 'development') {
+  url = APP_CONFIG.devUrl;
+} else {
+  url = APP_CONFIG.prodUrl;
+}
 
 const SAVE_SERVICE = gql`
   mutation SaveService(
@@ -251,7 +260,13 @@ const FindPage = () => {
   };
 
   const routePage = (pageName: string) => {
-    router.push('/' + pageName);
+    // TODO: this type of routing is temp and should be replaced with NEXT JS router logic
+    // in order to speed up
+    if (process.browser || (window && window.location)) {
+      window.location.href = url + pageName;
+    } else {
+      router.push('/' + pageName, undefined);
+    }
   };
 
   const routeToUrl = (url: string) => {
