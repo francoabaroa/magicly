@@ -251,7 +251,7 @@ const FindPage = () => {
   };
 
   const routePage = (pageName: string) => {
-    router.push('/' + pageName, undefined, { shallow: true });
+    router.push('/' + pageName);
   };
 
   const routeToUrl = (url: string) => {

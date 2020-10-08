@@ -133,7 +133,7 @@ const SavedProductsServicesPage = () => {
   };
 
   const routePage = (pageName: string) => {
-    router.push('/' + pageName, undefined, { shallow: true });
+    router.push('/' + pageName);
   };
 
   const getIndividualService = (key: any, service: any) => {
@@ -224,7 +224,7 @@ const SavedProductsServicesPage = () => {
         </Grid>
       );
     } else {
-      router.push('/find', undefined, { shallow: true });
+      router.push('/find');
     }
   };
 
