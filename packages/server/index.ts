@@ -146,7 +146,11 @@ async function main() {
         response.redirect(301, '/');
       }
       let services = await updateServices(clientUserId, HANDY_SERVICES);
-      response.json({ services });
+      let hasSavedServices = false;
+      let service = await db.Service.findOne({ where: { userId: me.id }});
+
+      if (service) hasSavedServices = true;
+      response.json({ services, hasSavedServices });
     });
 
     app.get("/finance/hasPlaidAccounts", async function (request, response, next) {

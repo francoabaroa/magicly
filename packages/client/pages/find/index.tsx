@@ -81,11 +81,11 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#FFF',
       backgroundColor: '#0A7EF2',
       borderRadius: '50px',
-      width: '400px',
+      width: '250px',
       height: '50px',
       [theme.breakpoints.down('sm')]: {
         fontSize: '14px',
-        width: '150px',
+        width: '180px',
         height: '30px'
       },
     },
@@ -144,6 +144,7 @@ const FindPage = () => {
   const [hidePopularServices, setHidePopularServices] = useState(false);
   const [showSearch, setShowSearch] = useState(true);
   const [filteredSearchResults, setFilteredSearchResults] = useState([]);
+  const [hasSavedServices, setHasSavedServices] = useState(false);
   const [open, setModalOpen] = React.useState(false);
 
   useEffect(() => {
@@ -153,6 +154,7 @@ const FindPage = () => {
       if (services && services.services && services.services.Popular) {
         setServices(services.services);
         setPopularServices(services.services.Popular);
+        setHasSavedServices(services.hasSavedServices);
         // handleClose();
       }
     }
@@ -332,11 +334,16 @@ const FindPage = () => {
   return (
     <Layout>
       <div className={classes.findPage}>
-        {/* <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
-          <Grid item xs={12} lg={12} md={12} sm={12} onClick={routePage.bind(this, 'find/saved')}>
-            <Button className={classes.viewProdsServs} > View Saved Services & Products </Button>
-          </Grid>
-        </Grid> */}
+        { hasSavedServices ?
+          <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+            <Grid item xs={12} lg={12} md={12} sm={12} onClick={routePage.bind(this, 'find/saved')}>
+              <Button className={classes.viewProdsServs} > View Saved Services</Button>
+              {/* <Button className={classes.viewProdsServs} > View Saved Services & Products </Button> */}
+            </Grid>
+          </Grid> :
+          null
+        }
+
         <div className={classes.root}>
           <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
             {/* <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
