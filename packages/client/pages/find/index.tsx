@@ -111,6 +111,9 @@ const useStyles = makeStyles((theme: Theme) =>
       textDecoration: 'none',
       fontFamily: 'Playfair Display',
       color: '#002642',
+      [theme.breakpoints.down('md')]: {
+        fontSize: '14px'
+      },
     },
     toolIcon: {
       color: '#002642',
@@ -141,6 +144,17 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: '25px',
       },
     },
+    row: {
+      maxWidth: '640px',
+      borderBottom: '1px solid #002642',
+      marginBottom: '15px'
+    },
+    iconAndService: {
+      textAlign: 'left',
+      [theme.breakpoints.down('xs')]: {
+        textAlign: 'center',
+      },
+    }
   }),
 );
 
@@ -314,11 +328,14 @@ const FindPage = () => {
     if (popularServices.length > 0) {
       popularServices.forEach((service) => {
         searchResults.push(
-          <Grid key={counter++} item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
-            <Build className={classes.toolIcon} />
-            {/* href={service.url} */}
-            <a target="_blank" className={classes.link} onClick={handleIndividualServiceOpen.bind(this, service)}>{service.title}</a>
-            {getFavoriteIcon(service.favorited, service) }
+          <Grid key={counter++}  container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.row}>
+            <Grid item xs={9} lg={8} md={8} sm={8} style={{ textAlign: 'left' }} className={classes.iconAndService}>
+              <Build className={classes.toolIcon} />
+              <a target="_blank" className={classes.link} onClick={handleIndividualServiceOpen.bind(this, service)}>{service.title}</a>
+            </Grid>
+            <Grid item xs={2} lg={2} md={2} sm={2} style={{ textAlign: 'right' }}>
+              {getFavoriteIcon(service.favorited, service)}
+            </Grid>
           </Grid>
         );
       });
@@ -380,12 +397,16 @@ const FindPage = () => {
 
     for (let i = 0; i < filteredSearchResults.length; i++) {
       results.push(
-        <Grid key={counter++} item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
-          <Build className={classes.toolIcon} />
-          {/* href={filteredSearchResults[i].url} */}
-          <a target="_blank" className={classes.link} onClick={handleIndividualServiceOpen.bind(this, filteredSearchResults[i])}>{filteredSearchResults[i].title}</a>
-          {getFavoriteIcon(filteredSearchResults[i].favorited, filteredSearchResults[i])}
-        </Grid>
+        <Grid key={counter++}  container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.row}>
+            <Grid item xs={9} lg={8} md={8} sm={8} style={{ textAlign: 'left' }} className={classes.iconAndService}>
+              <Build className={classes.toolIcon} />
+              {/* href={filteredSearchResults[i].url} */}
+              <a target="_blank" className={classes.link} onClick={handleIndividualServiceOpen.bind(this, filteredSearchResults[i])}>{filteredSearchResults[i].title}</a>
+            </Grid>
+            <Grid item xs={2} lg={2} md={2} sm={2} style={{ textAlign: 'right' }}>
+              {getFavoriteIcon(filteredSearchResults[i].favorited, filteredSearchResults[i])}
+            </Grid>
+          </Grid>
       );
     }
 
