@@ -17,7 +17,7 @@ export default {
       async (parent, { id }, { me, models, getS3Url }) => {
         try {
           const document = await models.Document.findByPk(id);
-          const url = await getS3Url(me.id, document.bucketDocId);
+          const url = await getS3Url(me.id, me.email, document.bucketDocId);
           return { url: url, document: document }
         } catch (error) {
           throw new Error(error);

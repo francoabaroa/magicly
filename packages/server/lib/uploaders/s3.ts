@@ -24,13 +24,14 @@ export class AWSS3Uploader implements ApolloServerFileUploads.IUploader {
     this.config = config;
   }
 
-  private createUploadStream(key: string, userId: any, mimetype: string): S3UploadStream {
+  private createUploadStream(key: string, userId: any, userEmail: any, mimetype: string): S3UploadStream {
     const pass = new stream.PassThrough();
+    let hashedEmail = this.hashEmail(userEmail);
     return {
       writeStream: pass,
       promise: this.s3
         .upload({
-          Bucket: this.config.destinationBucketName + '/' + userId,
+          Bucket: this.config.destinationBucketName + '/' + userId + hashedEmail,
           Key: key,
           ContentType: mimetype,
           Body: pass
@@ -47,9 +48,23 @@ export class AWSS3Uploader implements ApolloServerFileUploads.IUploader {
     return fileName;
   }
 
-  async getPresignedUrl(userId: any, bucketDocId: any): Promise<any> {
+  private hashEmail(email: any) {
+    let hash = 0;
+    if (email.length == 0) {
+      return hash;
+    }
+    for (let i = 0; i < email.length; i++) {
+      let char = email.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+  }
+
+  async getPresignedUrl(userId: any, userEmail:any, bucketDocId: any): Promise<any> {
+    let hashedEmail = this.hashEmail(userEmail);
     const params = {
-      Bucket: this.config.destinationBucketName + '/' + userId,
+      Bucket: this.config.destinationBucketName + '/' + userId + hashedEmail,
       Key: bucketDocId,
       Expires: 900
     };
@@ -82,7 +97,7 @@ export class AWSS3Uploader implements ApolloServerFileUploads.IUploader {
       mimetype,
       encoding
     );
-    const uploadStream = this.createUploadStream(filePath, me.id, mimetype);
+    const uploadStream = this.createUploadStream(filePath, me.id, me.email, mimetype);
     stream.pipe(uploadStream.writeStream);
     const result = await uploadStream.promise;
     return { filename: finalFileName, mimetype, encoding, url: result.Location };
