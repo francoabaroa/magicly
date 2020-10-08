@@ -192,9 +192,9 @@ const MainPage = () => {
               </h3>
               </Paper>
             </Grid>
-            <Grid item xs={12} lg={12} md={12} sm={12} onClick={routePage.bind(this, 'find')}>
+            {/* <Grid item xs={12} lg={12} md={12} sm={12} onClick={routePage.bind(this, 'find')}>
               <Button className={classes.findButton}> Find Products & Services </Button>
-            </Grid>
+            </Grid> */}
           </Grid>
         </div>
       </div>

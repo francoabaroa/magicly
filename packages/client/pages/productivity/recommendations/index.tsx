@@ -192,7 +192,7 @@ const RecommendationsPage = () => {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h1 className={classes.title}>Saved recommendations</h1>
+            <h1 className={classes.title}>Saved Recommendations</h1>
           </Grid>
           <Grid item xs={12} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/recommendations/add')}>

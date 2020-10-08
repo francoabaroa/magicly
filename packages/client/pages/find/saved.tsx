@@ -198,12 +198,14 @@ const SavedProductsServicesPage = () => {
   if (data && data.services && data.services.edges && data.services.edges.length > 0) {
     hasSavedServices = true;
     data.services.edges.forEach((service, key) => {
-      services.push(
-        getIndividualService(
-          key,
-          service
-        )
-      );
+      if (service.favorite) {
+        services.push(
+          getIndividualService(
+            key,
+            service
+          )
+        );
+      }
     });
   }
 
@@ -212,7 +214,7 @@ const SavedProductsServicesPage = () => {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h1 className={classes.title}>My saved services</h1>
+            <h1 className={classes.title}>My Saved Services</h1>
           </Grid>
           <Grid item xs={12} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'find')}>
