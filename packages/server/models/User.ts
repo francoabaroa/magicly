@@ -225,7 +225,7 @@ export const UserFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize
   // source: https://github.com/ahmerb/typescript-sequelize-example/issues/2
   User.findByEmail = async (email: string) => {
     const user = await User.findOne({
-      where: { email }
+      where: { email: email.toLowerCase() }
     });
     return user;
   };
