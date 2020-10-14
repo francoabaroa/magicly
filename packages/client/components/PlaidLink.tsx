@@ -44,6 +44,7 @@ const PlaidLink = (props) => {
     },
     onSuccess: async function (token, metadata) {
       const body = JSON.stringify({ public_token: token, metadata });
+      // TODO: what if fetch fails??
       await fetch('/get_access_token', {
         method: 'POST',
         credentials: 'same-origin',
@@ -52,7 +53,15 @@ const PlaidLink = (props) => {
         },
         body: body,
       });
-      router.push('/finance/dashboard', undefined, { shallow: true });
+      if (router.pathname === '/finance/dashboard') {
+        if (process.browser) {
+          location.reload();
+        } else {
+          router.push('/finance/dashboard');
+        }
+      } else {
+        router.push('/finance/dashboard', undefined, { shallow: true });
+      }
       // send token to server
     },
     onExit: async function (err, metadata) {
@@ -93,7 +102,11 @@ const PlaidLink = (props) => {
       disabled={!ready}
       className={classes.getStartedBtn}
     >
-      Get Started
+      {
+        props.title ?
+        props.title:
+        'Get Started'
+      }
     </Button>
   );
 };

@@ -177,9 +177,8 @@ async function main() {
         return;
       }
 
-      // TODO: eventually we need a findAll
-      const plaidAccount = await db.PlaidAccount.findOne({ where: { userId: clientUserId } });
-      if (plaidAccount === null) {
+      const plaidAccounts = await db.PlaidAccount.findAll({ where: { userId: clientUserId } });
+      if (plaidAccounts === null && !plaidAccounts[0]) {
         response.redirect(301, '/finance');
       }
 
@@ -187,20 +186,18 @@ async function main() {
         .subtract(lastXDays.toString(), "days")
         .format("YYYY-MM-DD");
       let endDate = moment().format("YYYY-MM-DD");
+      let transactions = [];
 
-      // TODO: need to get access_token from user record
-      client.getTransactions(
-        plaidAccount.accessToken,
-        startDate,
-        endDate,
-        {
-          count: 250,
-          offset: 0
-        },
-        function (error, transactionsResponse) {
-          response.json({ transactions: transactionsResponse });
-        }
-      );
+      for (let i = 0; i < plaidAccounts.length; i++) {
+        let transaction = await client.getTransactions(
+          plaidAccounts[i]['dataValues']['accessToken'],
+          startDate,
+          endDate,
+          {}
+        );
+        transactions.push(transaction);
+      }
+      response.json({ transactions: transactions });
     });
 
     // TODO: where should I place this?

@@ -206,7 +206,7 @@ const FinancePage = () => {
               </Link></h4>
             </Grid>
             <Grid item xs={12} lg={12} md={12} sm={12}>
-              {token ? <PlaidLink token={token} /> : null}
+              {token ? <PlaidLink token={token} title={'Get Started'} /> : null}
             </Grid>
             <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
               <CircularProgress color="inherit" />

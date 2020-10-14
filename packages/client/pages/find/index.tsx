@@ -494,9 +494,9 @@ const FindPage = () => {
               showSearch ?
                 <Grid item xs={12} lg={12} style={{ textAlign: 'center' }}>
                   <TextField id="outlined-basic" label="Search" variant="outlined" className={classes.search} autoComplete="off" onInput={handleRealtimeSearch} />
-                  {process.browser && document.getElementById('outlined-basic') && document.getElementById('outlined-basic')['value'].length > 0 ? <Button variant="contained" style={{ border: '2px solid #840032', backgroundColor: 'white', color: '#840032', marginLeft: '10px', height: '55px' }} onClick={clearSearch}>
+                  {<Button variant="contained" style={{ border: '2px solid #840032', backgroundColor: 'white', color: '#840032', marginLeft: '10px', height: '55px' }} onClick={clearSearch}>
                     Clear
-              </Button> : null }
+              </Button>}
                 </Grid> : null
             }
 
