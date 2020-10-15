@@ -246,7 +246,7 @@ const HomePage = () => {
       <Grid container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
         <Grid item xs={12} lg={12} md={12} sm={12} xl={12} style={{ marginBottom: '20px' }} onClick={routePage.bind(this, 'find')}>
           <h2 className={classes.sectionTitle}>
-            Find Home Service Providers
+            Find Home Services
           </h2>
           <h3 className={classes.description}>
             Find trusted providers for all types of services for your home
