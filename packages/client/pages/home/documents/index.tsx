@@ -206,7 +206,7 @@ const DocumentsPage = () => {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h1 className={classes.title}>Important Documents</h1>
+            <h1 className={classes.title}>My Important Documents</h1>
           </Grid>
           <Grid item xs={8} lg={7} md={7} sm={7}>
             <h1 className={classes.mediumTitle}>store documents you accrue over time so you never forget them</h1>

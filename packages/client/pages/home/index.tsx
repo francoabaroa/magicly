@@ -156,7 +156,7 @@ const HomePage = () => {
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
           <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
             <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'home/documents')}>
-              Important Documents
+              My Important Documents
             </h2>
           </Grid>
           <Grid item xs={4} lg={4} md={4} sm={4} className={classes.recent}>
@@ -181,7 +181,7 @@ const HomePage = () => {
       return (
         <Grid item xs={7} lg={12} md={7} sm={7} className={classes.paper}>
           <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'home/documents')}>
-            Important Documents
+            My Important Documents
             </h2>
           <h3 className={classes.description}>
             Upload important documents to stay organized
@@ -202,7 +202,7 @@ const HomePage = () => {
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
           <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
             <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'home/work')}>
-              Home Work
+              My Home Work
               </h2>
           </Grid>
           <Grid item xs={4} lg={4} md={4} sm={4} className={classes.recent}>
@@ -227,7 +227,7 @@ const HomePage = () => {
       return (
         <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
           <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'home/work')}>
-            Home Work
+            My Home Work
             </h2>
           <h3 className={classes.description}>
             Keep track of any work done to your home, such as maintenance, repairs, installations and more

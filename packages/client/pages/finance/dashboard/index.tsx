@@ -516,7 +516,7 @@ const FinanceDashboardPage = () => {
           <Grid item xs={6} lg={12} md={12} sm={12} style={{ textAlign:'center' }}>
             <h2
               className={classes.title}>
-              Your Finance Dashboard
+              My Finance Dashboard
             </h2>
           </Grid>
           {/* ACCOUNTS DROPDOWN */}

@@ -225,7 +225,7 @@ const ProductivityPage = () => {
         <Grid item xs={7} lg={7} md={7} sm={7}>
           <Paper className={classes.paper}>
             <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/recommendations')}>
-              Recommendations
+              My Recommendations
               </h2>
             <div>Recent Recommendations: </div>
             { recommendationItems }
@@ -245,7 +245,7 @@ const ProductivityPage = () => {
         <Grid item xs={7} lg={7} md={7} sm={7}>
           <Paper className={classes.paper}>
             <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/recommendations')}>
-              Recommendations
+              My Recommendations
               </h2>
             <h3 className={classes.description}>
               Save TV series, movies, books, travels, food or any recommendation you get
@@ -267,7 +267,7 @@ const ProductivityPage = () => {
         <Grid item xs={7} lg={7} md={7} sm={7}>
           <Paper className={classes.paper}>
             <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/lists')}>
-              To-Do Lists
+              My To-Do Lists
               </h2>
               <div>Recent To-Do Items: </div>
             {todoListItems}
@@ -287,7 +287,7 @@ const ProductivityPage = () => {
         <Grid item xs={7} lg={7} md={7} sm={7}>
           <Paper className={classes.paper}>
             <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/lists')}>
-              To-Do Lists
+              My To-Do Lists
               </h2>
             <h3 className={classes.description}>
               Stay productive and organized with your tasks

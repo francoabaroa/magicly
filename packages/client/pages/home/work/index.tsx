@@ -222,7 +222,7 @@ const HomeWorkPage = () => {
       <div className={classes.homeWorkPage}>
       <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h1 className={classes.title}>Home Work</h1>
+            <h1 className={classes.title}>My Home Work</h1>
           </Grid>
 
           {/* <Grid item xs={12} lg={12} md={12} sm={12} onClick={routePage.bind(this, 'find')}>
