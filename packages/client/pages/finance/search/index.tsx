@@ -185,10 +185,15 @@ const FinanceSearchPage = () => {
     async function getTxns() {
       handleToggle();
       const transactions = await fetchTransactions(lastXDays);
-      if (transactions && transactions.transactions && transactions.transactions.transactions.length > 0) {
+      if (transactions && transactions.transactions && transactions.transactions[0].transactions.length > 0) {
+        let mergedTransactions = [];
+        for (let i = 0; i < transactions.transactions.length; i++) {
+          if (transactions.transactions[i].transactions)
+            mergedTransactions = mergedTransactions.concat(transactions.transactions[i].transactions);
+        }
         setAccountNamesMap(buildAccountNamesMap(transactions))
-        setUnalteredTransactions(transactions.transactions.transactions);
-        setFilteredTransactions(transactions.transactions.transactions);
+        setUnalteredTransactions(mergedTransactions);
+        setFilteredTransactions(mergedTransactions);
         handleClose();
       }
     }
@@ -202,10 +207,15 @@ const FinanceSearchPage = () => {
   const refreshTransactions = async (xDays: any) => {
     handleToggle();
     const transactions = await fetchTransactions(xDays);
-    if (transactions && transactions.transactions && transactions.transactions.transactions.length > 0) {
+    if (transactions && transactions.transactions && transactions.transactions[0].transactions.length > 0) {
+      let mergedTransactions = [];
+      for (let i = 0; i < transactions.transactions.length; i++) {
+        if (transactions.transactions[i].transactions)
+          mergedTransactions = mergedTransactions.concat(transactions.transactions[i].transactions);
+      }
       setAccountNamesMap(buildAccountNamesMap(transactions))
-      setUnalteredTransactions(transactions.transactions.transactions);
-      setFilteredTransactions(transactions.transactions.transactions);
+      setUnalteredTransactions(mergedTransactions);
+      setFilteredTransactions(mergedTransactions);
       handleClose();
     }
   };
@@ -225,9 +235,14 @@ const FinanceSearchPage = () => {
 
   const buildAccountNamesMap = (transactions: any) => {
     if (transactions && transactions.transactions) {
-      let accounts = transactions.transactions.accounts;
+      let mergedAccounts = [];
+      for (let i = 0; i < transactions.transactions.length; i++) {
+        if (transactions.transactions[i].accounts) {
+          mergedAccounts = mergedAccounts.concat(transactions.transactions[i].accounts);
+        }
+      }
       let accountNamesMap = {};
-      accounts.forEach(account => {
+      mergedAccounts.forEach(account => {
         accountNamesMap[account.account_id] = {
           name: account.name,
           officialName: account.official_name,
