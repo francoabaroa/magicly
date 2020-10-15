@@ -399,7 +399,7 @@ async function bootstrapClientApp(expressApp) {
       console.error(e);
     }
   });
-  expressApp.get(['/', '/signin'], async (req, res) => {
+  expressApp.get(['/', '/signin', '/signup'], async (req, res) => {
     const handle = nextApp.getRequestHandler();
     try {
       const me = await context(req);
