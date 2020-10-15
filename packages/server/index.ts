@@ -62,8 +62,8 @@ if (process.env.DATABASE_URL) {
 }
 
 const createToken = async (user, secret, expiresIn) => {
-  const { id, email, currentCity } = user;
-  const token = await jwt.sign({ id, email, currentCity }, secret, {
+  const { id, email, firstName, currentCity } = user;
+  const token = await jwt.sign({ id, email, firstName, currentCity }, secret, {
     expiresIn,
   });
   return token;
@@ -261,10 +261,11 @@ async function main() {
     });
 
     app.post('/signup', async (req, res) => {
-      const { email, password, currentCity, hasSocialAuthLogin } = req.body
+      const { email, password, firstName, currentCity, hasSocialAuthLogin } = req.body
       const user = await db.User.create(
           {
           email,
+          firstName,
           currentCity,
           password,
           hasSocialAuthLogin,
@@ -448,6 +449,7 @@ const createUsersWithHomeworks = async (db: DbInterface) => {
   await db.User.create(
     {
       currentCity: 'Miami',
+      firstName: 'Franco',
       hasSocialAuthLogin: false,
       email: 'franco1@franco.com',
       password: 'testa12',
@@ -474,6 +476,7 @@ const createUsersWithHomeworks = async (db: DbInterface) => {
   await db.User.create(
     {
       currentCity: 'Miami',
+      firstName: 'Franco',
       hasSocialAuthLogin: false,
       email: 'franco@franco.com',
       password: 'testa123',

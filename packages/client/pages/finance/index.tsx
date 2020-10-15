@@ -12,7 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import PlaidLink from '../../components/PlaidLink';
+import PlaidLink from '../../components/finance/PlaidLink';
 
 const QUERY = gql`
   query GetMe {

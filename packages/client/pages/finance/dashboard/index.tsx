@@ -14,7 +14,7 @@ import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import AttachMoney from '@material-ui/icons/AttachMoney';
 
-import PlaidLink from '../../../components/PlaidLink';
+import PlaidLink from '../../../components/finance/PlaidLink';
 
 import {
   AreaChart, Area, BarChart, Bar, Cell, PieChart, Pie, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer

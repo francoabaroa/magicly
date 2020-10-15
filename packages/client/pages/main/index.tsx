@@ -144,9 +144,12 @@ const MainPage = () => {
     return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
   };
 
-  const getInitialPartOfEmail = (email: string) => {
-    if (email && email.length > 0) {
-      return ', ' + getCapitalizedString(email.split('@')[0]);
+  const getGreeting = (me: any) => {
+    if (me && me.firstName && me.firstName.length > 0) {
+      return ', ' + getCapitalizedString(me.firstName);
+    }
+    if (me && me.email && me.email.length > 0) {
+      return ', ' + getCapitalizedString(me.email.split('@')[0]);
     }
     return '!';
   };
@@ -157,7 +160,7 @@ const MainPage = () => {
       <div className={classes.mainPage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h5 className={classes.title}>{'Welcome back' + getInitialPartOfEmail(data.me.email)}</h5>
+            <h5 className={classes.title}>{'Welcome' + getGreeting(data.me)}</h5>
           </Grid>
         </Grid>
         <div className={classes.root}>
