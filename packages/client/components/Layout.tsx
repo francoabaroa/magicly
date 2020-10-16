@@ -19,9 +19,19 @@ const QUERY = gql`
 const Layout = (props) => {
   const router = useRouter();
   const { data, loading, error, refetch } = useQuery(QUERY);
+  let signedInUser = null;
+
+  if (data && data.me) {
+    signedInUser = data.me;
+  } else if (router && router.query && router.query.me && typeof router.query.me === 'string') {
+    signedInUser = JSON.parse(router.query.me);
+  } else {
+    signedInUser = null;
+  }
+
   return (
   <div>
-    <AppBar signedInUser={data && data.me ? data.me : null} />
+      <AppBar signedInUser={signedInUser} />
     {props.children}
   </div>
   )};

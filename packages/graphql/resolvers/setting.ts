@@ -11,86 +11,95 @@ const fromCursorHash = string =>
 
 export default {
   Query: {
-    // list: async (parent, { id }, { models }) => {
-    //   if (!id) {
-    //     return null;
-    //   }
-    //   return await models.List.findByPk(id);
-    // },
-    // lists: async (parent, { cursor, limit = 100 }, { models, me }) => {
-    //   const cursorOptions = cursor
-    //     ? {
-    //       where: {
-    //         createdAt: {
-    //           [Sequelize.Op.lt]: fromCursorHash(cursor),
-    //         },
-    //         userId: me.id
-    //       },
-    //     }
-    //     : {
-    //       where: {
-    //         userId: me.id
-    //       }
-    //     };
+    setting: async (parent, { id }, { models }) => {
+      if (!id) {
+        return null;
+      }
+      return await models.Setting.findByPk(id);
+    },
+    settings: async (parent, { cursor, limit = 100 }, { models, me }) => {
+      const cursorOptions = cursor
+        ? {
+          where: {
+            createdAt: {
+              [Sequelize.Op.lt]: fromCursorHash(cursor),
+            },
+            userId: me.id
+          },
+        }
+        : {
+          where: {
+            userId: me.id
+          }
+        };
 
-    //   const lists = await models.List.findAll({
-    //     order: [['createdAt', 'DESC']],
-    //     limit: limit + 1,
-    //     ...cursorOptions,
-    //   });
-    //   const hasNextPage = lists.length > limit;
-    //   const edges = hasNextPage ? lists.slice(0, -1) : lists;
-    //   return {
-    //     edges,
-    //     pageInfo: {
-    //       hasNextPage,
-    //       endCursor: toCursorHash(
-    //         // TODO: this is coming back undefined when cursor is being used
-    //         edges[edges.length - 1].createdAt.toString(),
-    //       ),
-    //     },
-    //   };
-    // }
+      const lists = await models.Setting.findAll({
+        order: [['createdAt', 'DESC']],
+        limit: limit + 1,
+        ...cursorOptions,
+      });
+      const hasNextPage = lists.length > limit;
+      const edges = hasNextPage ? lists.slice(0, -1) : lists;
+      return {
+        edges,
+        pageInfo: {
+          hasNextPage,
+          endCursor: toCursorHash(
+            // TODO: this is coming back undefined when cursor is being used
+            edges[edges.length - 1].createdAt.toString(),
+          ),
+        },
+      };
+    }
   },
   Mutation: {
-    // createList: combineResolvers(
-    //   isAuthenticated,
-    //   async (
-    //     parent,
-    //     {
-    //       name,
-    //       type,
-    //     },
-    //     { me, models }
-    //   ) => {
-    //     try {
-    //       const list = await models.List.create({
-    //         name,
-    //         type,
-    //         userId: me.id,
-    //       });
-    //       return list;
-    //     } catch (error) {
-    //       throw new ApolloError(error);
-    //     }
-    //   },
-    // ),
-    // deleteList: combineResolvers(
-    //   isAuthenticated,
-    //   isListOwner,
-    //   async (parent, { id }, { models }) => {
-    //     try {
-    //       return await models.List.destroy({ where: { id } });
-    //     } catch (error) {
-    //       throw new Error(error);
-    //     }
-    //   },
-    // ),
+    updateSetting: combineResolvers(
+      isAuthenticated,
+      async (
+        parent,
+        {
+          firstName,
+          currentCity,
+          email,
+          languageIso2,
+          defaultNotificationType
+        },
+        { me, models }
+      ) => {
+        try {
+          const setting = await models.Setting.findOne({
+            where: {
+              userId: me.id,
+            }
+          });
+          const user = await models.User.findByPk(me.id);
+
+          if (setting) {
+            setting.languageIso2 = languageIso2;
+            setting.defaultNotificationType = defaultNotificationType;
+            await setting.save();
+          }
+
+          if (user) {
+            user.firstName = firstName;
+            user.email = email;
+            user.currentCity = currentCity;
+            await user.save();
+          }
+
+          return {
+            user: user,
+            setting: setting
+          }
+        } catch (error) {
+          throw new ApolloError(error);
+        }
+      },
+    ),
   },
   Setting: {
-    // user: async (list, args, { loaders, models }) => {
-    //   return await models.User.findByPk(list.userId);
-    //   // return await loaders.user.load(list.userId);
-    // },
+    user: async (homework, args, { loaders }) => {
+      return await loaders.user.load(homework.userId);
+    },
   },
 };

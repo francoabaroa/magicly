@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import jwt from 'jsonwebtoken';
 import DataLoader from 'dataloader';
+import { parse } from 'url';
 
 import { ApolloServer, AuthenticationError } from 'apollo-server-express';
 import apolloServerConfig from '@magicly/graphql';
@@ -201,7 +202,7 @@ async function main() {
     });
 
     // TODO: where should I place this?
-    await bootstrapClientApp(app);
+    await bootstrapClientApp(app, db);
 
     // Create a link_token to initialize Link
     app.post('/create_link_token', async function (request, response, next) {
@@ -269,6 +270,12 @@ async function main() {
           currentCity,
           password,
           hasSocialAuthLogin,
+          setting: [
+            {
+              languageIso2: 'EN',
+              defaultNotificationType: 'EMAIL',
+            }
+          ],
           lists: [
             {
               name: 'todo',
@@ -293,7 +300,7 @@ async function main() {
           ],
         },
         {
-          include: [{ model: db.List, as: 'lists' }],
+          include: [{ model: db.Setting, as: 'setting' }, { model: db.List, as: 'lists' }],
         }
       );
 
@@ -378,7 +385,7 @@ const context = async (req: Request) => {
   }
 }
 
-async function bootstrapClientApp(expressApp) {
+async function bootstrapClientApp(expressApp, db) {
   await nextApp.prepare();
   // protected routes
   // TODO: add other protected routes
@@ -386,8 +393,26 @@ async function bootstrapClientApp(expressApp) {
     const handle = nextApp.getRequestHandler();
     try {
       const me = await context(req);
+      const parsedUrl = parse(req.url)
+      const { pathname } = parsedUrl;
       if (me) {
-        handle(req, res);
+        if (pathname === '/settings/edit') {
+          const setting = await db.Setting.findOne({
+            where: {
+              userId: me['id'],
+            },
+          });
+          nextApp.render(req, res, '/settings/edit', {
+            firstName: me['firstName'],
+            currentCity: me['currentCity'],
+            email: me['email'],
+            language: setting['languageIso2'],
+            notificationType: setting['defaultNotificationType'],
+            me: JSON.stringify(me),
+          });
+        } else {
+          handle(req, res);
+        }
       } else {
         res.clearCookie('jwt');
         res.clearCookie('signedin');
@@ -453,6 +478,12 @@ const createUsersWithHomeworks = async (db: DbInterface) => {
       hasSocialAuthLogin: false,
       email: 'franco1@franco.com',
       password: 'testa12',
+      setting: [
+        {
+          languageIso2: 'EN',
+          defaultNotificationType: 'EMAIL',
+        }
+      ],
       lists: [
         {
           name: 'Recommendation',
@@ -469,7 +500,7 @@ const createUsersWithHomeworks = async (db: DbInterface) => {
       ],
     },
     {
-      include: [{ model: db.Homework, as: 'homeworks' }, { model: db.List, as: 'lists' }],
+      include: [{ model: db.Homework, as: 'homeworks' }, { model: db.List, as: 'lists' }, { model: db.Setting, as: 'setting' }],
     },
   );
 
@@ -480,6 +511,12 @@ const createUsersWithHomeworks = async (db: DbInterface) => {
       hasSocialAuthLogin: false,
       email: 'franco@franco.com',
       password: 'testa123',
+      setting: [
+        {
+          languageIso2: 'EN',
+          defaultNotificationType: 'EMAIL',
+        }
+      ],
       homeworks: [
         {
           title: 'Hurricane debris cleanup',
@@ -528,7 +565,7 @@ const createUsersWithHomeworks = async (db: DbInterface) => {
       ],
     },
     {
-      include: [{ model: db.Homework, as: 'homeworks' }, { model: db.List, as: 'lists' }],
+      include: [{ model: db.Homework, as: 'homeworks' }, { model: db.List, as: 'lists' }, { model: db.Setting, as: 'setting' }],
     },
   );
 };

@@ -54,5 +54,6 @@ export default gql`
     products: [Product]
     services: [Service]
     questions: [Question]
+    setting: Setting
   }
 `;

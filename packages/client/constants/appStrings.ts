@@ -82,3 +82,16 @@ export enum DOC_TYPE {
   HEALTH = "HEALTH"
 }
 
+export enum LANGUAGE_ISO_2 {
+  EN = "EN",
+  ES = "ES",
+}
+
+export enum DEFAULT_NOTIFICATION_TYPE {
+  EMAIL = "EMAIL",
+  SMS = "SMS",
+  WHATSAPP = "WHATSAPP",
+  CALL = "CALL",
+  NONE = "NONE"
+}
+

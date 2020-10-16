@@ -109,6 +109,16 @@ export default {
         },
       });
     },
+    setting: async (user, args, { models }) => {
+      if (!user) {
+        return null;
+      }
+      return await models.Setting.findOne({
+        where: {
+          userId: user.id,
+        },
+      });
+    },
     documents: async (user, args, { models }) => {
       if (!user) {
         return null;

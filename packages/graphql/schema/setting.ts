@@ -5,6 +5,19 @@ export default gql`
     settings: [Setting]
     setting (id: ID!): Setting
   }
+  extend type Mutation {
+    updateSetting(
+      firstName: String!,
+      currentCity: String!
+      email: String!
+      languageIso2: LanguageIso2!
+      defaultNotificationType: DefaultNotificationType!
+    ): UserSetting!
+  }
+  type UserSetting {
+    user: User!
+    setting: Setting!
+  }
   type Setting {
     id: ID!
     languageIso2: LanguageIso2!

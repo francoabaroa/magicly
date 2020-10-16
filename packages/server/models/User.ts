@@ -6,6 +6,7 @@ import { ListAttributes, ListInstance } from './List';
 import { PlaidAccountAttributes, PlaidAccountInstance } from './PlaidAccount';
 import { ProductAttributes, ProductInstance } from './Product';
 import { ServiceAttributes, ServiceInstance } from './Service';
+import { SettingAttributes, SettingInstance } from './Setting';
 import { QuestionAttributes, QuestionInstance } from './Question';
 import { SequelizeAttributes } from '../typings/SequelizeAttributes';
 
@@ -29,6 +30,7 @@ export interface UserAttributes {
   documents?: DocumentAttributes[] | DocumentAttributes['id'][];
   homeworks?: HomeworkAttributes[] | HomeworkAttributes['id'][];
   lists?: ListAttributes[] | ListAttributes['id'][];
+  setting?: SettingAttributes[] | SettingAttributes['id'][];
   products?: ProductAttributes[] | ProductAttributes['id'][];
   services?: ServiceAttributes[] | ServiceAttributes['id'][];
   questions?: QuestionAttributes[] | QuestionAttributes['id'][];
@@ -71,6 +73,15 @@ export interface UserInstance extends Sequelize.Instance<UserAttributes>, UserAt
   hasList: Sequelize.HasManyHasAssociationMixin<ListInstance, ListInstance['id']>;
   hasLists: Sequelize.HasManyHasAssociationsMixin<ListInstance, ListInstance['id']>;
   countLists: Sequelize.HasManyCountAssociationsMixin;
+
+  /* Setting */
+  getSetting: Sequelize.HasManyGetAssociationsMixin<SettingInstance>;
+  setSetting: Sequelize.HasManySetAssociationsMixin<SettingInstance, SettingInstance['id']>;
+  addSetting: Sequelize.HasManyAddAssociationsMixin<SettingInstance, SettingInstance['id']>;
+  createSetting: Sequelize.HasManyCreateAssociationMixin<SettingAttributes, SettingInstance>;
+  removeSetting: Sequelize.HasManyRemoveAssociationMixin<SettingInstance, SettingInstance['id']>;
+  hasSetting: Sequelize.HasManyHasAssociationMixin<SettingInstance, SettingInstance['id']>;
+  countSetting: Sequelize.HasManyCountAssociationsMixin;
 
   /* PlaidAccount */
   getPlaidAccounts: Sequelize.HasManyGetAssociationsMixin<PlaidAccountInstance>;

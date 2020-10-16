@@ -61,6 +61,19 @@ export enum QUESTION_TYPE {
   OTHER = "OTHER",
 }
 
+export enum LANGUAGE_ISO_2 {
+  EN = "EN",
+  ES = "ES",
+}
+
+export enum DEFAULT_NOTIFICATION_TYPE {
+  EMAIL = "EMAIL",
+  SMS = "SMS",
+  WHATSAPP = "WHATSAPP",
+  CALL = "CALL",
+  NONE = "NONE"
+}
+
 export const PROTECTED_ROUTES = [
   '/main',
   '/productivity',
@@ -70,6 +83,7 @@ export const PROTECTED_ROUTES = [
   '/home',
   '/home/*',
   '/settings',
+  '/settings/*',
   '/find',
   '/find/*',
 ];
