@@ -1,6 +1,5 @@
 import React from 'react';
 import AppBar from '../components/AppBar';
-import AppContainer from '../components/AppContainer';
 import Layout from '../components/Layout';
 import Button from '@material-ui/core/Button';
 import { withApollo } from '../apollo/apollo';
