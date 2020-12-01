@@ -1,0 +1,8 @@
+'use strict';
+
+const path = require('path');
+
+module.exports = {
+  'config': path.resolve(__dirname, 'config/config.js'),
+  'migrations-source-path': path.resolve(__dirname, 'migrations'),
+};

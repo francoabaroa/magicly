@@ -1,3 +1,5 @@
+import Umzug from 'umzug';
+import path from 'path';
 import Sequelize from 'sequelize';
 import { DbInterface } from '../typings/DbInterface';
 import { AnswerFactory } from './Answer';
@@ -20,6 +22,37 @@ export const createModels = (sequelizeConfig: any, isProduction: boolean): DbInt
   if (isProduction) {
     sequelize = new Sequelize(database, params);
   }
+
+  const umzug = new Umzug({
+    storage: 'sequelize',
+    storageOptions: { sequelize },
+    migrations: {
+      params: [
+        sequelize,
+        sequelize.getQueryInterface(),
+        sequelize.constructor, // DataTypes
+        () => {
+          throw new Error(
+            'Migration tried to use old style "done" callback. Please upgrade to "umzug" and return a promise instead.',
+          );
+        },
+      ],
+      path: path.join(__dirname, '../migrations'),
+      pattern: /\.ts$/,
+    },
+
+    logging() {
+      // tslint:disable-next-line: no-console
+      console.log.apply(null, arguments);
+    },
+  });
+
+  (async () => {
+    // Checks migrations and run them if they are not already applied. To keep
+    // track of the executed migrations, a table (and sequelize model) called SequelizeMeta
+    // will be automatically created (if it doesn't exist already) and parsed.
+    await umzug.up();
+  })();
 
   const db: DbInterface = {
     sequelize,

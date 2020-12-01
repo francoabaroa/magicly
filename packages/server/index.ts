@@ -81,7 +81,7 @@ async function main() {
   const app = express();
   const corsOptions = {
     // TODO: I believe it is the same origin!!
-    origin: 'http://localhost:3000', //change with your own client URL
+    origin: 'http://localhost:3000', /* TODO: CHANGE TO PRODUCTION URL */
     credentials: true
   }
   app.use(cors(corsOptions));
@@ -133,10 +133,17 @@ async function main() {
   await bootstrapApolloServer(app, db);
 
   // TODO: remove flag and update credentials for production BEFORE LAUNCH
-  db.sequelize.sync({ force: isTest || isProduction }).then(async () => {
-    if (isTest || isProduction) {
-      createUsersWithHomeworks(db);
-    }
+  // TODO: need to use migrations in production
+  // https://stackoverflow.com/questions/21105748/sequelize-js-how-to-use-migrations-and-sync
+  db.sequelize.authenticate().then(async () => {
+
+    /*
+      { force: isTest || isProduction }
+
+      if (isTest || isProduction) {
+        createUsersWithHomeworks(db);
+      }
+    */
 
     app.get("/home/servicesList", async function (request, response, next) {
       const me: any = await context(request);
@@ -469,107 +476,5 @@ async function bootstrapApolloServer(expressApp, db: DbInterface) {
   const apolloServer = new ApolloServer(apolloServerConfig);
   apolloServer.applyMiddleware({ app: expressApp, cors: false });
 }
-
-const createUsersWithHomeworks = async (db: DbInterface) => {
-  await db.User.create(
-    {
-      currentCity: 'Miami',
-      firstName: 'Franco',
-      hasSocialAuthLogin: false,
-      email: 'franco1@franco.com',
-      password: 'testa12',
-      setting: [
-        {
-          languageIso2: 'EN',
-          defaultNotificationType: 'EMAIL',
-        }
-      ],
-      lists: [
-        {
-          name: 'Recommendation',
-          type: 'RECOMMENDATION',
-        },
-      ],
-      homeworks: [
-        {
-          title: 'Fridge maintenance',
-          status: 'PAST',
-          type: 'MAINTENANCE',
-          notificationType: 'SMS'
-        }
-      ],
-    },
-    {
-      include: [{ model: db.Homework, as: 'homeworks' }, { model: db.List, as: 'lists' }, { model: db.Setting, as: 'setting' }],
-    },
-  );
-
-  await db.User.create(
-    {
-      currentCity: 'Miami',
-      firstName: 'Franco',
-      hasSocialAuthLogin: false,
-      email: 'franco@franco.com',
-      password: 'testa123',
-      setting: [
-        {
-          languageIso2: 'EN',
-          defaultNotificationType: 'EMAIL',
-        }
-      ],
-      homeworks: [
-        {
-          title: 'Hurricane debris cleanup',
-          status: 'UPCOMING',
-          type: 'CLEANING',
-          notificationType: 'SMS',
-          executionDate: new Date(),
-          executor: 'Francisco',
-          cost: 150,
-          costCurrency: 'USD',
-          notes: 'Hurricane irma left a huge mess.'
-        },
-        {
-          title: 'Fridge coolant replacement',
-          status: 'PAST',
-          type: 'MAINTENANCE',
-          notificationType: 'SMS',
-          executionDate: new Date(),
-          executor: 'Edward',
-          cost: 75,
-          costCurrency: 'USD',
-          notes: 'Last time we did this was 5 years ago in 2015.'
-        }
-      ],
-      lists: [
-        {
-          name: 'todo',
-          type: 'TODO',
-        },
-        {
-          name: 'later',
-          type: 'LATER',
-        },
-        {
-          name: 'watch',
-          type: 'WATCH',
-        },
-        {
-          name: 'anti',
-          type: 'ANTI',
-        },
-        {
-          name: 'recommendation',
-          type: 'RECOMMENDATION',
-        },
-      ],
-    },
-    {
-      include: [{ model: db.Homework, as: 'homeworks' }, { model: db.List, as: 'lists' }, { model: db.Setting, as: 'setting' }],
-    },
-  );
-};
-
-
 
 main();
