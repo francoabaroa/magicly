@@ -11,4 +11,4 @@ const AddDocument = () => {
   );
 };
 
-export default withApollo({ ssr: false })(AddDocument);
+export default withApollo({ ssr: true })(AddDocument);

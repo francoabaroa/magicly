@@ -96,25 +96,26 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const UploadFile = () => {
+const UploadFile = (props) => {
   const classes = useStyles();
   const router = useRouter();
-  const { receipt } = router.query;
+  const { receipt, hwid } = router.query;
+
+  const [uploadSingleDoc, { loading, error, data }] = useMutation(ADD_DOCUMENT);
+
   const [lastUploaded, setLastUploaded] = useState({});
   const [uploadedDoc, setUploadedDoc] = useState({});
   const [filename, setFilename] = useState('');
-  const [uploadSingleDoc, { loading, error, data }] = useMutation(ADD_DOCUMENT);
   const [name, setName] = useState('');
   const [notes, setNotes] = useState('');
   const [docValue, setDocValue] = useState('');
-  const startingType = receipt === 'true' ? DOC_TYPE.RECEIPT : ''
-  const [type, setType] = useState(startingType);
   const [keywords, setKeywords] = useState([]);
   const [folder, setFolder] = useState('Existing');
-  const [homeworkId, setHomeworkId] = React.useState('');
+  const [homeworkId, setHomeworkId] = React.useState(hwid ? hwid : '');
   const [newFolderName, setNewFolderName] = useState('');
-  const [moreDetails, setMoreDetails] = useState(false);
+  const [moreDetails, setMoreDetails] = useState(hwid ? true : false);
   const [open, setOpen] = React.useState(false);
+  const [type, setType] = useState(receipt === 'true' ? DOC_TYPE.RECEIPT : '');
 
   const handleClose = () => {
     setOpen(false);

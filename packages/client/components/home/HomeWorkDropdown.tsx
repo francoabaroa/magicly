@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const HomeWorkDropdown = (props) => {
   const classes = useStyles();
   const router = useRouter();
-  const { data, loading, error } = useQuery(QUERY);
+  const { data, loading, error } = useQuery(QUERY, { pollInterval: 500 });
   const homeWorkDropdownItems = [];
 
   if (loading) return <p>Loading...</p>;
