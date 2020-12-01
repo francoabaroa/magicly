@@ -170,7 +170,14 @@ const NewHomeWorkForm = () => {
   if (data && data.createHomework && data.createHomework.id) {
     // TODO: show dialog message when homework is created!
     if (process.browser || (window && window.location)) {
-      window.location.href = url + 'home/work';
+      if (document === 'yes')  {
+        router.push({
+          pathname: '/home/documents/add',
+          query: { hwid: data.createHomework.id },
+        });
+      } else {
+        window.location.href = url + 'home/work';
+      }
     } else {
       router.push('/home/work', undefined);
     }
