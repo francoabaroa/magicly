@@ -10,12 +10,24 @@ const fromCursorHash = string =>
 
 export default {
   Query: {
-    homework: async (parent, { id }, { models }) => {
-      if (!id) {
-        return null;
-      }
-      return await models.Homework.findByPk(id);
-    },
+    homework: combineResolvers(
+      isAuthenticated,
+      isHomeworkOwner,
+      async (
+        parent,
+        {
+          id
+        },
+        {
+          models
+        }
+      ) => {
+        if (!id) {
+          return null;
+        }
+        return await models.Homework.findByPk(id);
+      },
+    ),
     homeworks: async (parent, { cursor, limit = 100 }, { models, me }) => {
       const cursorOptions = cursor
         ? {
@@ -105,6 +117,20 @@ export default {
   Homework: {
     user: async (homework, args, { loaders }) => {
       return await loaders.user.load(homework.userId);
+    },
+    executionDate: async (homework, args, { loaders }) => {
+      return new Date(homework.executionDate);
+    },
+    documents: async (homework, args, { models }) => {
+      if (!homework) {
+        return null;
+      }
+      return await models.Document.findAll({
+        where: {
+          userId: homework.userId,
+          homeworkId: homework.id
+        },
+      });
     },
   },
 };

@@ -4,6 +4,7 @@ import { withApollo } from '../../../../../apollo/apollo';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Add from '@material-ui/icons/Add';
@@ -26,6 +27,7 @@ const QUERY = gql`
       keywords
       notes
       executor
+      executionDate
     }
   }
 `;
@@ -111,7 +113,7 @@ const ViewHomeWorkPage = () => {
           <Grid item xs={7} lg={7} md={7} sm={7}>
             <div className={classes.individualFeature}>
               <Event fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>{'DATE'}</span>
+              <span className={classes.details}>{moment(data.homework.executionDate).format('MMMM Do, YYYY')}</span>
             </div>
           </Grid>
           <Grid item xs={7} lg={7} md={7} sm={7}>
