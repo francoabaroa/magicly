@@ -193,6 +193,16 @@ const NewHomeWorkForm = () => {
     setExecutionDate(date);
   };
 
+  const onSetReminder = (event) => {
+    setReminder(event.target.value);
+    if (event.target.value === 'yes') {
+      // TODO: this is temporary until we support other notification types
+      setNotificationType('EMAIL');
+    } else if (event.target.value === 'no') {
+      setNotificationType('NONE');
+    }
+  };
+
   return (
     <div>
       <form onSubmit={submitForm} className={classes.form}>
@@ -268,7 +278,7 @@ const NewHomeWorkForm = () => {
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
             <FormControl component="fieldset">
               <FormLabel component="legend">Would you like to set an email reminder for this?</FormLabel>
-              <RadioGroup aria-label="notif" name="notif1" value={reminder} onChange={event => setReminder(event.target.value)}>
+              <RadioGroup aria-label="notif" name="notif1" value={reminder} onChange={onSetReminder}>
                 <FormControlLabel value="yes" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Yes" />
                 <FormControlLabel value="no" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="No" />
               </RadioGroup>
