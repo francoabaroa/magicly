@@ -137,7 +137,7 @@ const NewHomeWorkForm = () => {
         title,
         status,
         type,
-        notificationType,
+        notificationType: status === 'PAST' ? 'NONE' : notificationType,
         keywords,
         cost: parseFloat(cost),
         costCurrency,
@@ -201,6 +201,13 @@ const NewHomeWorkForm = () => {
     } else if (event.target.value === 'no') {
       setNotificationType('NONE');
     }
+  };
+
+  const showNotificationPrompt = () => {
+    const today = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
+    const workDate = new Date(executionDate).toLocaleString('en-US', { timeZone: 'America/New_York' });
+    const shouldShowNotificationPrompt = workDate < today || workDate === today ? false : true;
+    return shouldShowNotificationPrompt;
   };
 
   return (
@@ -275,15 +282,20 @@ const NewHomeWorkForm = () => {
           {/* if YES, show option to select notificationType */}
           {/* TODO: need to add NONE to notificationType */}
           {/* TODO: need to get their phone number for this */}
-          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-            <FormControl component="fieldset">
-              <FormLabel component="legend">Would you like to set an email reminder for this?</FormLabel>
-              <RadioGroup aria-label="notif" name="notif1" value={reminder} onChange={onSetReminder}>
-                <FormControlLabel value="yes" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Yes" />
-                <FormControlLabel value="no" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="No" />
-              </RadioGroup>
-            </FormControl>
-          </Grid>
+          {
+            showNotificationPrompt() ?
+              <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Would you like to set an email reminder for this?</FormLabel>
+                  <RadioGroup aria-label="notif" name="notif1" value={reminder} onChange={onSetReminder}>
+                    <FormControlLabel value="yes" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Yes" />
+                    <FormControlLabel value="no" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="No" />
+                  </RadioGroup>
+                </FormControl>
+              </Grid> :
+              null
+          }
+
           {/* {
             reminder === 'yes' ?
               setReminderType() :
