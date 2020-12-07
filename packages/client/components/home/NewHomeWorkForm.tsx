@@ -122,6 +122,7 @@ const NewHomeWorkForm = () => {
   const [keywords, setKeywords] = useState([]);
   const [notes, setNotes] = useState('');
   const [notificationType, setNotificationType] = useState('NONE');
+  const [workStatus, setWorkStatus] = useState('');
   const [reminder, setReminder] = useState('no');
   const [title, setTitle] = useState('');
   const [type, setType] = useState('');
@@ -129,15 +130,12 @@ const NewHomeWorkForm = () => {
   const submitForm = event => {
     event.preventDefault();
     const executionDateObj = new Date(executionDate);
-    const today = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
-    const workDate = new Date(executionDate).toLocaleString('en-US', { timeZone: 'America/New_York' });
-    const status = workDate < today ? 'PAST' : 'UPCOMING';
     const variables = {
       variables: {
         title,
-        status,
+        status: workStatus,
         type,
-        notificationType: status === 'PAST' ? 'NONE' : notificationType,
+        notificationType: workStatus === 'PAST' ? 'NONE' : notificationType,
         keywords,
         cost: parseFloat(cost),
         costCurrency,
@@ -203,11 +201,15 @@ const NewHomeWorkForm = () => {
     }
   };
 
+  const onSetWorkStatus = (event) => {
+    setWorkStatus(event.target.value);
+    if (event.target.value === 'PAST') {
+      setNotificationType('NONE');
+    }
+  };
+
   const showNotificationPrompt = () => {
-    const today = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
-    const workDate = new Date(executionDate).toLocaleString('en-US', { timeZone: 'America/New_York' });
-    const shouldShowNotificationPrompt = workDate < today || workDate === today ? false : true;
-    return shouldShowNotificationPrompt;
+    return workStatus === 'UPCOMING';
   };
 
   return (
@@ -268,10 +270,20 @@ const NewHomeWorkForm = () => {
             <TextField autoComplete="off" className={classes.notes} id="standard-basic" label="Additional notes" onChange={event => setNotes(event.target.value)} />
           </Grid>
 
+          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Is this work upcoming or in the past?</FormLabel>
+              <RadioGroup aria-label="workStatus" name="workStatus1" value={workStatus} onChange={onSetWorkStatus}>
+                <FormControlLabel value="UPCOMING" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Upcoming" />
+                <FormControlLabel value="PAST" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Past" />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+
           {/* if YES, show option to attach doc */}
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
             <FormControl component="fieldset">
-              <FormLabel component="legend">Would you like to attach a document for this?</FormLabel>
+              <FormLabel component="legend">Do you want to add a document to this?</FormLabel>
               <RadioGroup aria-label="attach" name="attach1" value={document} onChange={event => setDocument(event.target.value)}>
                 <FormControlLabel value="yes" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Yes" />
                 <FormControlLabel value="no" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="No" />
@@ -286,7 +298,7 @@ const NewHomeWorkForm = () => {
             showNotificationPrompt() ?
               <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
                 <FormControl component="fieldset">
-                  <FormLabel component="legend">Would you like to set an email reminder for this?</FormLabel>
+                  <FormLabel component="legend">Do you want to set an email reminder?</FormLabel>
                   <RadioGroup aria-label="notif" name="notif1" value={reminder} onChange={onSetReminder}>
                     <FormControlLabel value="yes" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Yes" />
                     <FormControlLabel value="no" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="No" />
