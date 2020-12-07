@@ -160,12 +160,12 @@ const TechHelpPage = () => {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h1 className={classes.title}>Previous questions</h1>
+            <h1 className={classes.title}>My Tech Questions</h1>
           </Grid>
           <Grid item xs={12} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/help/add')}>
               <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>ask question</span>
+              <span className={classes.details}>ask a tech question</span>
             </div>
           </Grid>
           {questions}
