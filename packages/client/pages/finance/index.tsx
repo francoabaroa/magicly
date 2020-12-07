@@ -118,6 +118,13 @@ const useStyles = makeStyles((theme: Theme) =>
       zIndex: theme.zIndex.drawer + 1,
       color: '#fff',
     },
+    policyLink: {
+      color: '#0A7EF2',
+      "&:visited": {
+        textDecoration: 'none',
+        color: '#0A7EF2'
+      }
+    }
   }),
 );
 
@@ -202,7 +209,7 @@ const FinancePage = () => {
             </Grid>
             <Grid item xs={8}>
               <h4 className={classes.policy}>Read more about our privacy policy regarding the finance section <Link href="/privacy">
-                <a>here.</a>
+                <a className={classes.policyLink}>here.</a>
               </Link></h4>
             </Grid>
             <Grid item xs={12} lg={12} md={12} sm={12}>
