@@ -110,6 +110,10 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundPosition: 'top top',
       backgroundSize: 'cover',
       borderRadius: '30px',
+      '&:hover': {
+        height: '300px',
+      },
+      marginBottom: '0px',
       [theme.breakpoints.down('xs')]: {
         width: '350px',
         height: '140px',
@@ -195,6 +199,10 @@ const ViewReceiptPage = () => {
               </Grid> :
               null
           }
+
+          <Grid item xs={8} style={{ paddingTop: '0px' }}>
+            <p style={{ fontSize: '14px', textAlign: 'center', marginTop: '0px' }}>Click the preview above to see the full image.</p>
+          </Grid>
 
           <Grid item xs={8}>
             <p style={{ fontSize: '12px', textAlign: 'center' }}>To protect you and your data, the image at <a target="_blank" href={data.getDocumentAndUrl.url}>this link</a> will only be available for 15 minutes. Please refresh the page for a new link.</p>
