@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme: Theme) =>
     centerGraph: {
       margin: '0 auto'
     },
-    receiptsButton: {
+    uploadReceiptsBtn: {
       fontFamily: 'Fredoka One, cursive',
       fontSize: '14px',
       margin: '0 auto',
@@ -95,7 +95,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: '#E59500',
       borderRadius: '50px',
       border: '3px #FFF solid',
-      width: '165px',
+      width: '175px',
       height: '40px',
       [theme.breakpoints.down('md')]: {
         fontSize: '12px',
@@ -103,7 +103,7 @@ const useStyles = makeStyles((theme: Theme) =>
         height: '35px'
       },
     },
-    viewReceiptsButton: {
+    manageReceiptsBtn: {
       fontFamily: 'Fredoka One, cursive',
       fontSize: '14px',
       margin: '0 auto',
@@ -113,7 +113,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: '#FFF',
       borderRadius: '50px',
       border: '3px #E59500 solid',
-      width: '165px',
+      width: '175px',
       height: '40px',
       [theme.breakpoints.down('md')]: {
         fontSize: '12px',
@@ -121,7 +121,7 @@ const useStyles = makeStyles((theme: Theme) =>
         height: '35px'
       },
     },
-    viewOrSearchButton: {
+    manageTransactionsBtn: {
       fontFamily: 'Fredoka One, cursive',
       fontSize: '14px',
       margin: '0 auto',
@@ -131,7 +131,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: '#0A7EF2',
       borderRadius: '50px',
       border: '3px #FFF solid',
-      width: '370px',
+      width: '185px',
       height: '40px',
       [theme.breakpoints.down('md')]: {
         fontSize: '12px',
@@ -541,6 +541,9 @@ const FinanceDashboardPage = () => {
         <div className={classes.root}>
           <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
             { accountBalancesUI }
+            <Grid item xs={12} lg={12} md={12} sm={12}>
+              {token ? <PlaidLink token={token} title={'Add More Accounts'} /> : null}
+            </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6} style={{marginTop: '75px', textAlign: 'center'}}>
               <span className={classes.chartTitle}>Spending Breakdown By Account</span>
               <span className={classes.dropdown}><FormControl className={classes.formControl}>
@@ -609,32 +612,29 @@ const FinanceDashboardPage = () => {
                 </PieChart>
               </ResponsiveContainer>
             </Grid>
-            <Grid item xs={12} sm={12} lg={2} md={2} style={{marginTop: '75px'}}>
+            {/* <Grid item xs={12} sm={12} lg={2} md={2} >
               <Button
                 onClick={routePageWithQuery.bind(this, `finance/receipts/add`, { receipt: true })}
-                className={classes.receiptsButton}
+                className={classes.uploadReceiptsBtn}
               >
                 Upload Receipts
             </Button>
-            </Grid>
-            <Grid item xs={12} sm={12} lg={2} md={2} className={classes.spacing}>
+            </Grid> */}
+            <Grid item xs={12} sm={12} lg={12} md={12} className={classes.spacing} style={{ marginTop: '45px' }}>
               <Button
                 onClick={routePage.bind(this, `finance/receipts`)}
-                className={classes.viewReceiptsButton}
+                className={classes.manageReceiptsBtn}
               >
-                View Receipts
+                Manage Receipts
             </Button>
             </Grid>
             <Grid item xs={12} sm={12} lg={12} md={12}>
               <Button
                 onClick={routePage.bind(this, `finance/search`)}
-                className={classes.viewOrSearchButton}
+                className={classes.manageTransactionsBtn}
               >
-                View or Search Transactions
+                Manage Transactions
             </Button>
-            </Grid>
-            <Grid item xs={12} lg={12} md={12} sm={12}>
-              {token ? <PlaidLink token={token} title={'Add More Accounts'} /> : null}
             </Grid>
           </Grid>
         </div>
