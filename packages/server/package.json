@@ -28,6 +28,7 @@
     "cors": "^2.8.5",
     "dataloader": "2.0.0",
     "dotenv": "^8.2.0",
+    "email-verifier": "^0.4.1",
     "express": "^4.17.1",
     "fs": "^0.0.1-security",
     "got": "^11.7.0",

@@ -22,6 +22,8 @@ import { HANDY_SERVICES } from './data/handyServices';
 import { AWSS3Uploader } from './lib/uploaders/s3';
 import plaid from 'plaid';
 
+import Verifier from 'email-verifier';
+
 require('dotenv').config({ path: '../../.env' });
 
 const PORT = process.env.PORT || '3000';
@@ -269,66 +271,88 @@ async function main() {
     });
 
     app.post('/signup', async (req, res) => {
-      const { email, password, firstName, currentCity, hasSocialAuthLogin } = req.body
-      const user = await db.User.create(
-          {
-          email,
-          firstName,
-          currentCity,
-          password,
-          hasSocialAuthLogin,
-          setting: [
-            {
-              languageIso2: 'EN',
-              defaultNotificationType: 'EMAIL',
-            }
-          ],
-          lists: [
-            {
-              name: 'todo',
-              type: 'TODO',
-            },
-            {
-              name: 'later',
-              type: 'LATER',
-            },
-            {
-              name: 'watch',
-              type: 'WATCH',
-            },
-            {
-              name: 'anti',
-              type: 'ANTI',
-            },
-            {
-              name: 'recommendation',
-              type: 'RECOMMENDATION',
-            },
-          ],
-        },
-        {
-          include: [{ model: db.Setting, as: 'setting' }, { model: db.List, as: 'lists' }],
+      const { email, password, firstName, currentCity, hasSocialAuthLogin } = req.body;
+
+      let verifier = new Verifier(process.env.EMAIL_VERIFICATION_KEY);
+      verifier.verify(email, async (err, data) => {
+        if (err) {
+          throw err;
         }
-      );
+        if (
+            data
+            && (data.formatCheck === 'true' || data.formatCheck === true)
+            && (data.dnsCheck === 'true' || data.dnsCheck === true)
+            && (data.smtpCheck === 'true' || data.smtpCheck === true)
+          ) {
 
-      if (!user) {
-        res.status(404).send({
-          success: false,
-          message: `Could not create account: ${email}`,
-        });
-        return;
-      }
+          const user = await db.User.create(
+            {
+              email,
+              firstName,
+              currentCity,
+              password,
+              hasSocialAuthLogin,
+              setting: [
+                {
+                  languageIso2: 'EN',
+                  defaultNotificationType: 'EMAIL',
+                }
+              ],
+              lists: [
+                {
+                  name: 'todo',
+                  type: 'TODO',
+                },
+                {
+                  name: 'later',
+                  type: 'LATER',
+                },
+                {
+                  name: 'watch',
+                  type: 'WATCH',
+                },
+                {
+                  name: 'anti',
+                  type: 'ANTI',
+                },
+                {
+                  name: 'recommendation',
+                  type: 'RECOMMENDATION',
+                },
+              ],
+            },
+            {
+              include: [{ model: db.Setting, as: 'setting' }, { model: db.List, as: 'lists' }],
+            }
+          );
 
-      const token = await createToken(user, process.env.JWT_KEY, '1d');
-      res.cookie('jwt', token, {
-        httpOnly: true,
-        // TODO: turn these options on for PROD
-        //secure: true, //on HTTPS
-        //domain: 'example.com', //set your domain
-      });
+          if (!user) {
+            res.status(404).send({
+              success: false,
+              message: `Could not create account: ${email}`,
+            });
+            return;
+          }
 
-      res.send({
-        success: true
+          const token = await createToken(user, process.env.JWT_KEY, '1d');
+          res.cookie('jwt', token, {
+            httpOnly: true,
+            // TODO: turn these options on for PROD
+            //secure: true, //on HTTPS
+            //domain: 'example.com', //set your domain
+          });
+
+          res.send({
+            success: true
+          });
+
+        } else {
+          res.status(404).send({
+            success: false,
+            message: `Could not create account: ${email}`,
+          });
+          return;
+        }
       });
     });
 

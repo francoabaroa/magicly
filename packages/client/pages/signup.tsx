@@ -134,6 +134,7 @@ const SignUpPage = () => {
   const router = useRouter();
   const classes = useStyles();
   const [email, setEmail] = useState('');
+  const [emailConfirmation, setEmailConfirmation] = useState('');
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
   const [currentCity, setCurrentCity] = useState('');
@@ -157,6 +158,13 @@ const SignUpPage = () => {
       alert('Passwords are not the same. Please fix.');
       setPassword1('');
       setPassword2('');
+      return;
+    }
+
+    if (email !== emailConfirmation) {
+      alert('Emails are not the same. Please fix.');
+      setEmail('');
+      setEmailConfirmation('');
       return;
     }
 
@@ -224,8 +232,15 @@ const SignUpPage = () => {
                   <TextField
                     className={classes.label}
                     label="Email"
-                    autoComplete="email"
                     onChange={event => setEmail(event.target.value)}
+                    required
+                  />
+                </div>
+                <div className={classes.inputs}>
+                  <TextField
+                    className={classes.label}
+                    label="Re-enter Email"
+                    onChange={event => setEmailConfirmation(event.target.value)}
                     required
                   />
                 </div>
