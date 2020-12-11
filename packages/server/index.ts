@@ -270,6 +270,43 @@ async function main() {
       });
     });
 
+    app.post('/verify_email', async (req, res) => {
+      const { email } = req.body;
+
+      let verifier = new Verifier(process.env.EMAIL_VERIFICATION_KEY);
+      verifier.verify(email, async (err, data) => {
+        if (err) {
+          throw err;
+        }
+        if (
+          data
+          && (data.formatCheck === 'true' || data.formatCheck === true)
+          && (data.dnsCheck === 'true' || data.dnsCheck === true)
+          && (data.smtpCheck === 'true' || data.smtpCheck === true)
+        ) {
+
+          const user = await db.User.findByEmail(email);
+          if (user) {
+            res.status(404).send({
+              success: false,
+              message: `Could not verify email because this email already exists: ${email}`,
+            });
+            return;
+          }
+
+          res.send({
+            success: true
+          });
+        } else {
+          res.status(404).send({
+            success: false,
+            message: `Could not verify email: ${email}`,
+          });
+          return;
+        }
+      });
+    });
+
     app.post('/signup', async (req, res) => {
       const { email, password, firstName, currentCity, hasSocialAuthLogin } = req.body;
 

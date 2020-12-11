@@ -83,6 +83,24 @@ const useStyles = makeStyles((theme: Theme) =>
         height: '35px'
       },
     },
+    resetPasswordBtn: {
+      fontFamily: 'Fredoka One, cursive',
+      fontSize: '16px',
+      margin: '0 auto',
+      display: 'block',
+      marginTop: '0px',
+      marginBottom: '30px',
+      color: '#FFF',
+      backgroundColor: '#0A7EF2',
+      borderRadius: '50px',
+      width: '150px',
+      height: '40px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '12px',
+        width: '110px',
+        height: '35px'
+      },
+    },
     signUpPage: {
       marginRight: '30px',
       marginLeft: '30px',
@@ -162,16 +180,36 @@ const EditSettingsPage = (props) => {
 
   const submitForm = event => {
     event.preventDefault();
-    const variables = {
-      variables: {
-        firstName,
-        currentCity,
-        email,
-        languageIso2: language,
-        defaultNotificationType: notificationType
+    async function emailVerification() {
+      const options: RequestInit = {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        body: `email=${email}`
+      };
+
+      const response = await fetch('/verify_email', options);
+      const responseJSON = await response.json();
+
+      if (responseJSON.success === true) {
+        const variables = {
+          variables: {
+            firstName,
+            currentCity,
+            email,
+            languageIso2: language,
+            defaultNotificationType: notificationType
+          }
+        };
+        updateSetting(variables);
+      } else {
+        // alert user of email failure
+        alert(responseJSON.message + '. Please try a different email');
+        return;
       }
-    };
-    updateSetting(variables);
+    }
+    emailVerification();
   };
 
   const handleLanguageSelect = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -216,7 +254,6 @@ const EditSettingsPage = (props) => {
                   <TextField
                     className={classes.label}
                     label="Email"
-                    autoComplete="email"
                     defaultValue={email}
                     onChange={event => setEmail(event.target.value)}
                     required
@@ -248,7 +285,8 @@ const EditSettingsPage = (props) => {
                     </Select>
                   </FormControl>
                 </div>
-                <Button className={classes.updateSettingsButton} type="submit"> Update </Button>
+                <Button className={classes.updateSettingsButton} type="submit"> Save </Button>
+                <Button className={classes.resetPasswordBtn} onClick={()=>{}}> Reset Password </Button>
               </form>
             </Grid>
           </Grid>
