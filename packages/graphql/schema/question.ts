@@ -10,6 +10,7 @@ export default gql`
       body: String!,
       type: QuestionType!
       urgent: Boolean,
+      notificationType: NotificationType!
     ): Question!
     deleteQuestion(id: ID!): Boolean!
   }

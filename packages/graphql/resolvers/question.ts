@@ -61,7 +61,8 @@ export default {
         {
           body,
           type,
-          urgent
+          urgent,
+          notificationType
         },
         { me, models }
       ) => {
@@ -70,6 +71,7 @@ export default {
             body,
             type,
             urgent,
+            notificationType,
             userId: me.id,
           });
           return question;

@@ -29,11 +29,13 @@ const CREATE_QUESTION = gql`
     $body: String!,
     $type: QuestionType!,
     $urgent: Boolean,
+    $notificationType: NotificationType!
   ) {
     createQuestion(
       body: $body,
       type: $type,
       urgent: $urgent,
+      notificationType: $notificationType,
     ) {
       id
     }
@@ -87,6 +89,8 @@ const NewQuestionForm = () => {
   const [body, setBody] = useState('');
   const [type, setType] = useState('');
   const [urgent, setUrgent] = useState(false);
+  const [notificationType, setNotificationType] = useState('NONE');
+  const [reminder, setReminder] = useState('no');
 
   const submitForm = event => {
     event.preventDefault();
@@ -100,6 +104,7 @@ const NewQuestionForm = () => {
         body,
         type,
         urgent,
+        notificationType
       }
     };
     createQuestion(variables);
@@ -130,6 +135,16 @@ const NewQuestionForm = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let isUrgent: boolean = event.target.value === 'true' ? true : false;
     setUrgent(isUrgent);
+  };
+
+  const onSetReminder = (event) => {
+    setReminder(event.target.value);
+    if (event.target.value === 'yes') {
+      // TODO: this is temporary until we support other notification types
+      setNotificationType('EMAIL');
+    } else if (event.target.value === 'no') {
+      setNotificationType('NONE');
+    }
   };
 
   return (
@@ -166,9 +181,18 @@ const NewQuestionForm = () => {
               </Select>
             </FormControl>
           </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Do you want to be notified through email?</FormLabel>
+              <RadioGroup aria-label="notif" name="notif1" value={reminder} onChange={onSetReminder}>
+                <FormControlLabel value="yes" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Yes" />
+                <FormControlLabel value="no" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="No" />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
           <Grid item xs={12} lg={12} md={12} sm={12}>
             <FormControl component="fieldset">
-              <FormLabel component="legend">Is this question urgent?</FormLabel>
+              <FormLabel component="legend">Do you consider this matter to be urgent?</FormLabel>
               <RadioGroup aria-label="urgent" name="urgent1" value={urgent} onChange={handleChange}>
                 <FormControlLabel value={true} control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Yes" />
                 <FormControlLabel value={false} control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="No" />
