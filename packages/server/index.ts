@@ -1,6 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import cookieSession from 'cookie-session';
 import morgan from 'morgan';
 import jwt from 'jsonwebtoken';
 import DataLoader from 'dataloader';
@@ -24,12 +25,23 @@ import plaid from 'plaid';
 
 import Verifier from 'email-verifier';
 
+import passport from 'passport';
+
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
 require('dotenv').config({ path: '../../.env' });
 
 const PORT = process.env.PORT || '3000';
 const isTest = !!process.env.DATABASE_TEST;
 const isProduction = !!process.env.DATABASE_URL;
+let url = '';
 let sequelizeConfig = {};
+
+if (isProduction) {
+  url = 'https://magiclyapp.herokuapp.com/';
+} else if (isTest) {
+  url = 'http://localhost:3000/';
+}
 
 const s3Uploader = new AWSS3Uploader({
   region: process.env.AWS_DEFAULT_REGION || 'us-east-1',
@@ -86,11 +98,19 @@ async function main() {
     origin: 'http://localhost:3000', /* TODO: CHANGE TO PRODUCTION URL */
     credentials: true
   }
+  app.use(cookieSession({
+    // milliseconds of a day
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: [process.env.COOKIE_KEY_GEN]
+  }));
+  app.use(passport.initialize());
+  app.use(passport.session());
   app.use(cors(corsOptions));
   app.use(cookieParser());
   app.use(morgan('dev'));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+
 
   const db = createModels(
     sequelizeConfig,
@@ -132,6 +152,46 @@ async function main() {
     return updatedServices;
   };
 
+  passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: url + "auth/google/callback"
+  },
+    async function (accessToken, refreshToken, profile, done) {
+      try {
+        let employee = await db.Employee.findOne({
+          where: {
+            googleId: profile.id,
+            firstName: profile.name.givenName,
+            lastName: profile.name.familyName,
+            displayName: profile.displayName
+          }
+        });
+
+        if (!employee) {
+          employee = await db.Employee.create({
+            googleId: profile.id,
+            firstName: profile.name.givenName,
+            lastName: profile.name.familyName,
+            displayName: profile.displayName
+          });
+        }
+        return done(null, employee);
+      } catch (e) {
+        return done(e);
+      }
+    }
+  ));
+
+  passport.serializeUser(function (employee: any, done) {
+    done(null, employee.id);
+  });
+
+  passport.deserializeUser(async function (employeeId: number, done) {
+    const employee = await db.Employee.findByPk(employeeId);
+    done(null, employee);
+  });
+
   await bootstrapApolloServer(app, db);
 
   // TODO: remove flag and update credentials for production BEFORE LAUNCH
@@ -146,6 +206,20 @@ async function main() {
         createUsersWithHomeworks(db);
       }
     */
+
+    app.get('/auth/google/signout', async (req, res) => {
+      req.logout();
+      res.redirect(301, '/blog');
+    });
+
+    app.get('/auth/google',
+      passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+
+    app.get('/auth/google/callback',
+      passport.authenticate('google', { failureRedirect: '/signin' }),
+      function (req, res) {
+        res.redirect('/qportal');
+      });
 
     app.get("/home/servicesList", async function (request, response, next) {
       const me: any = await context(request);
@@ -476,6 +550,16 @@ async function bootstrapClientApp(expressApp, db) {
             email: me['email'],
             language: setting['languageIso2'],
             notificationType: setting['defaultNotificationType'],
+            me: JSON.stringify(me),
+          });
+        } else if (pathname === '/qportal') {
+          let questions = [];
+          if (req.user) {
+            questions = await db.Question.findAll({where: { status: 'PENDING' }});
+          }
+          nextApp.render(req, res, '/qportal', {
+            employee: JSON.stringify(req.user),
+            questions: JSON.stringify(questions),
             me: JSON.stringify(me),
           });
         } else {

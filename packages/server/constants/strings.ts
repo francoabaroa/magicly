@@ -76,6 +76,8 @@ export enum DEFAULT_NOTIFICATION_TYPE {
 
 export const PROTECTED_ROUTES = [
   '/main',
+  '/qportal',
+  '/qportal/*',
   '/productivity',
   '/productivity/*',
   '/finance',
