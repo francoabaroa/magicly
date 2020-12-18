@@ -1,19 +1,16 @@
-module.exports = {
-  up: function(queryInterface, Sequelize) {
-    // logic for transforming into the new state
-    return queryInterface.addColumn(
-      'employees',
-      'googleId',
-     Sequelize.STRING
-    );
+'use strict';
 
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    return await Sequelize.sequelize.query(`
+      ALTER TABLE "employees"
+      ADD googleId varchar(55);
+    `);
   },
 
-  down: function(queryInterface, Sequelize) {
-    // logic for reverting the changes
-    return queryInterface.removeColumn(
-      'employees',
-      'googleId'
-    );
+  down: async (queryInterface, Sequelize) => {
+    return await Sequelize.sequelize.query(`
+      DROP TABLE "employees";
+    `);
   }
-}
+};
