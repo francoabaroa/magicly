@@ -7,7 +7,7 @@ export interface EmployeeAttributes {
   firstName?: string | null;
   lastName?: string | null;
   displayName?: string | null;
-  googleId?: string | null;
+  googleid?: string | null;
   createdAt?: Date;
   updatedAt?: Date;
   answers?: AnswerAttributes[] | AnswerAttributes['id'][];
@@ -43,7 +43,7 @@ export const EmployeeFactory = (sequelize: Sequelize.Sequelize, DataTypes: Seque
       unique: false,
       allowNull: true,
     },
-    googleId: {
+    googleid: {
       type: DataTypes.STRING,
       unique: false,
       allowNull: true,

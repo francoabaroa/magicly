@@ -4,7 +4,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     return await Sequelize.sequelize.query(`
       ALTER TABLE "employees"
-      ADD googleId varchar(55);
+      ADD googleid varchar(55);
     `);
   },
 

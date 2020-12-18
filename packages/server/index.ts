@@ -161,7 +161,7 @@ async function main() {
       try {
         let employee = await db.Employee.findOne({
           where: {
-            googleId: profile.id,
+            googleid: profile.id,
             firstName: profile.name.givenName,
             lastName: profile.name.familyName,
             displayName: profile.displayName
@@ -170,7 +170,7 @@ async function main() {
 
         if (!employee) {
           employee = await db.Employee.create({
-            googleId: profile.id,
+            googleid: profile.id,
             firstName: profile.name.givenName,
             lastName: profile.name.familyName,
             displayName: profile.displayName
