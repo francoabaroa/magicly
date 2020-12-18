@@ -122,7 +122,23 @@ error.message.includes('No user found with these login credentials')
 ---------------------------------------------------------------------------
 ---------------------------------------------------------------------------
 
-8)
+8) TypeError: Cannot destructure property `components` of 'undefined' or 'null'.
+    at DevServer.renderToHTMLWithComponents (/Users/francoabaroa/Desktop/Hack_Reactor/Repos/career/magicly/magicly/node_modules/next/next-server/server/next-server.ts:971:5)
+    at DevServer.renderErrorToHTML (/Users/francoabaroa/Desktop/Hack_Reactor/Repos/career/magicly/magicly/node_modules/next/next-server/server/next-server.ts:1354:27)
+    at DevServer.renderErrorToHTML (/Users/francoabaroa/Desktop/Hack_Reactor/Repos/career/magicly/magicly/node_modules/next/server/next-dev-server.ts:594:19)
+    at DevServer.renderToHTML (/Users/francoabaroa/Desktop/Hack_Reactor/Repos/career/magicly/magicly/node_modules/next/next-server/server/next-server.ts:1290:12)
+    at DevServer.renderToHTML (/Users/francoabaroa/Desktop/Hack_Reactor/Repos/career/magicly/magicly/node_modules/next/server/next-dev-server.ts:562:18)
+    at DevServer.render (/Users/francoabaroa/Desktop/Hack_Reactor/Repos/career/magicly/magicly/node_modules/next/next-server/server/next-server.ts:900:18)
+
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+9)
+
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+10)
 
 ---------------------------------------------------------------------------
 ---------------------------------------------------------------------------
