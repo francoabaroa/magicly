@@ -5,6 +5,16 @@ export default gql`
     answers: [Answer]
     answer (id: ID!): Answer
   }
+  extend type Mutation {
+    createAnswer(
+      answerBody: String!,
+      questionStatus: QuestionStatus!
+      questionId: ID!,
+      userId: ID!,
+      employeeId: ID!,
+    ): Answer!
+    deleteAnswer(id: ID!): Boolean!
+  }
   type Answer {
     id: ID!
     body: String!

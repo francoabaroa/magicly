@@ -25,16 +25,22 @@ if (process.env.NODE_ENV === 'development') {
   url = APP_CONFIG.prodUrl;
 }
 
-const EMPLOYEE_SIGN_IN = gql`
-  mutation EmployeeSignIn(
-    $email: String!,
-    $password: String!,
+const CREATE_ANSWER = gql`
+  mutation CreateAnswer(
+    $answerBody: String!,
+    $questionStatus: QuestionStatus!,
+    $questionId: ID!,
+    $userId: ID!,
+    $employeeId: ID!,
   ) {
-    employeeSignIn(
-      email: $email,
-      password: $password,
+    createAnswer(
+      answerBody: $answerBody,
+      questionStatus: $questionStatus,
+      questionId: $questionId,
+      userId: $userId,
+      employeeId: $employeeId,
     ) {
-      token
+      id
     }
   }
 `;
@@ -59,7 +65,7 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: '35px',
       },
     },
-    signInButton: {
+    buttons: {
       fontFamily: 'Fredoka One, cursive',
       fontSize: '16px',
       margin: '0 auto',
@@ -77,59 +83,42 @@ const useStyles = makeStyles((theme: Theme) =>
         height: '35px'
       },
     },
-    signInPage: {
+    qPortalPage: {
       marginRight: '30px',
       marginLeft: '30px',
-    },
-    options: {
-      fontFamily: 'Playfair Display, serif',
-      fontSize: '18px',
-      color: '#002642',
-      margin: 'auto',
-      textAlign: 'center',
-      marginTop: '10px'
-    },
-    link: {
-      fontFamily: 'Playfair Display, serif',
-      color: '#E59500',
-      textDecoration: 'none',
-    },
-    inputs: {
-      margin: 'auto',
-      textAlign: 'center',
-    },
-    password: {
-      margin: 'auto',
-      textAlign: 'center',
-      marginBottom: '45px',
-    },
-    label: {
-      fontFamily: 'Playfair Display, serif',
-      width: '350px',
-      [theme.breakpoints.down('sm')]: {
-        width: '200px',
-      },
     },
   })
 );
 
 const QportalSignInPage = () => {
   const router = useRouter();
+  const employee = router.query.employee ? router.query.employee : null;
+  const question = router.query.question ? router.query.question : null;
+  const questions = router.query.questions ? router.query.questions : [];
+
   const classes = useStyles();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [open, setOpen] = useState(false);
+  const [answerBody, setAnswerBody] = useState('');
   const [openQuestionId, setOpenQuestionId] = useState(null);
-  const [employeeSignIn, { data, loading, error }] = useMutation(EMPLOYEE_SIGN_IN);
+  const [createAnswer, { data, loading, error }] = useMutation(
+    CREATE_ANSWER,
+    {
+      onCompleted({ createAnswer }) {
+        if (createAnswer) {
+          window.location.href = url + 'qportal';
+        }
+      }
+    }
+  );
 
   if (loading) return <p>Loading...</p>;
 
-  // TODO: show meaningful message if account doesnt exist or credentials are wrong
-  if (error && error.message.includes('No user found with these login credentials')) {
-    return <p>Error: {error.message}</p>;
-  } else if (error) {
+  if (error) {
     return <p>Error: {error.message}</p>;
   }
+
+  const saveBody = (event) => {
+    setAnswerBody(event.target.value)
+  };
 
   const getQuestionDialog = (question) => {
     return (
@@ -161,20 +150,21 @@ const QportalSignInPage = () => {
               label="Response"
               fullWidth
               multiline
+              onChange={saveBody}
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} variant="outlined" color="secondary">
+            <Button onClick={requestMoreInfo.bind(this, question.userId)} variant="outlined" color="secondary">
               Request More Info
           </Button>
-            <Button onClick={handleClose} variant="outlined" color="secondary">
+            <Button onClick={markSolved.bind(this, question.userId)} variant="outlined" color="secondary">
               Mark Solved
           </Button>
-            <Button onClick={handleClose} variant="outlined" color="primary">
+            <Button onClick={markCancelled.bind(this, question.userId)} variant="outlined" color="primary">
               Cancel
           </Button>
-            <Button onClick={handleClose} variant="outlined" color="primary">
-              Mark Unresolved
+            <Button onClick={markUnsolved.bind(this, question.userId)} variant="outlined" color="primary">
+              Mark Unsolved Permanently
           </Button>
           </DialogActions>
         </Dialog>
@@ -209,47 +199,73 @@ const QportalSignInPage = () => {
   };
 
   const handleClickOpen = (questionId) => {
-    setOpen(true);
     setOpenQuestionId(questionId);
   };
 
   const handleClose = () => {
-    setOpen(false);
     setOpenQuestionId(null);
   };
 
+  const submitAnswer = (questionStatus, userId) => {
+    createAnswer({
+      variables: {
+        answerBody,
+        questionStatus,
+        questionId: openQuestionId,
+        userId,
+        employeeId: JSON.parse(employee as any).id,
+      }
+    });
+  };
+
+  const requestMoreInfo = (userId) => {
+    submitAnswer('PENDING', userId);
+  };
+
+  const markSolved = (userId) => {
+    submitAnswer('SOLVED', userId);
+  };
+
+  const markCancelled = (userId) => {
+    submitAnswer('CANCELLED', userId);
+  };
+
+  const markUnsolved = (userId) => {
+    submitAnswer('UNSOLVED', userId);
+  };
+
   let parsedEmployee =
-    router.query.employee && typeof router.query.employee === 'string'
-    ? JSON.parse(router.query.employee)
+    employee && typeof employee === 'string'
+    ? JSON.parse(employee)
     : {
         firstName: ''
       };
 
   return (
     <Layout>
-      <div className={classes.signInPage}>
+      <div className={classes.qPortalPage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h1 className={classes.title}>{router.query.employee ? `Welcome ${parsedEmployee.firstName}` : "Employees Only: Access Denied"} </h1>
+            <h1 className={classes.title}>{employee ? `Welcome ${parsedEmployee.firstName}` : "Employees Only: Access Denied"} </h1>
           </Grid>
         </Grid>
         <div className={classes.root}>
           <Grid container spacing={1} justify="center" alignContent="center" alignItems="center">
             <Grid item xs={12} lg={4} md={4} sm={4}>
               <form action={url + 'auth/google'}>
-                <Button disabled={router.query.employee ? true : false} className={classes.signInButton} type={"submit"}> { router.query.employee ? "Authenticated" : "Authenticate" } </Button>
+                <Button disabled={employee ? true : false} className={classes.buttons} type={"submit"}> { employee ? "Authenticated" : "Authenticate" } </Button>
               </form>
             </Grid>
 
             {
-              router.query.employee ?
+              employee ?
                 <Grid item xs={12} lg={4} md={4} sm={4}>
-                  <Button className={classes.signInButton} onClick={signOut}> Sign Out </Button>
+                  <Button className={classes.buttons} onClick={signOut}> Sign Out </Button>
                 </Grid> :
                 null
             }
 
-            { getRowOfQuestions(router.query.questions) }
+            {getRowOfQuestions(questions) }
           </Grid>
         </div>
       </div>
