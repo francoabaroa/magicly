@@ -20,6 +20,8 @@ import moment from 'moment';
 
 import { HANDY_SERVICES } from './data/handyServices';
 
+import { createUsersWithHomeworks } from './data/createUsersWithHomeworks';
+
 import { AWSS3Uploader } from './lib/uploaders/s3';
 import plaid from 'plaid';
 
@@ -197,7 +199,8 @@ async function main() {
   // TODO: remove flag and update credentials for production BEFORE LAUNCH
   // TODO: need to use migrations in production
   // https://stackoverflow.com/questions/21105748/sequelize-js-how-to-use-migrations-and-sync
-  db.sequelize.authenticate().then(async () => {
+  db.sequelize.sync({ force: isTest || isProduction }).then(async () => {
+  // db.sequelize.authenticate().then(async () => {
 
     /*
       { force: isTest || isProduction }
@@ -206,6 +209,10 @@ async function main() {
         createUsersWithHomeworks(db);
       }
     */
+
+    if (isTest || isProduction) {
+      createUsersWithHomeworks(db);
+    }
 
     app.get('/auth/google/signout', async (req, res) => {
       req.logout();
