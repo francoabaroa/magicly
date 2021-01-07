@@ -93,7 +93,6 @@ const useStyles = makeStyles((theme: Theme) =>
 const QportalSignInPage = () => {
   const router = useRouter();
   const employee = router.query.employee ? router.query.employee : null;
-  const question = router.query.question ? router.query.question : null;
   const questions = router.query.questions ? router.query.questions : [];
 
   const classes = useStyles();
@@ -172,10 +171,10 @@ const QportalSignInPage = () => {
     );
   };
 
-  const getRowOfQuestions = (questions) => {
+  const getRowOfQuestions = () => {
     let questionGrids = [];
-    if (JSON.parse(questions).length > 0) {
-      JSON.parse(questions).forEach((question, key) => {
+    if (questions.length > 0 && Array.isArray(questions)) {
+      questions.forEach((question: any, key) => {
         questionGrids.push(
           <Grid key={key} item xs={12} lg={12} md={12} sm={12}>
             {getQuestionDialog(question)}
@@ -265,7 +264,7 @@ const QportalSignInPage = () => {
                 null
             }
 
-            {getRowOfQuestions(questions) }
+            {getRowOfQuestions() }
           </Grid>
         </div>
       </div>
