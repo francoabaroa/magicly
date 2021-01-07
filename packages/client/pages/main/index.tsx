@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: '35px',
       },
     },
-    homePaper: {
+    paper: {
       padding: theme.spacing(1),
       fontFamily: 'Playfair Display, serif',
       textAlign: 'center',
@@ -166,7 +166,7 @@ const MainPage = () => {
         <div className={classes.root}>
           <Grid container spacing={3}>
             <Grid item xs={12} lg={4} md={4} sm={4}>
-              <Paper className={classes.homePaper} onClick={routePage.bind(this, 'home')}>
+              <Paper className={classes.paper} onClick={routePage.bind(this, 'home')}>
                 <h2 className={classes.appSection}>
                   My Home
               </h2>
@@ -176,8 +176,8 @@ const MainPage = () => {
               </Paper>
             </Grid>
             <Grid item xs={12} lg={4} md={4} sm={4}>
-              <Paper className={classes.productivityPaper} onClick={routePage.bind(this, 'productivity')}>
-                <h2 className={classes.productivityAppSection}>
+              <Paper className={classes.paper} onClick={routePage.bind(this, 'productivity')}>
+                <h2 className={classes.appSection}>
                   My Productivity
               </h2>
                 <h3 style={{fontWeight: 'normal'}}>
@@ -186,7 +186,7 @@ const MainPage = () => {
               </Paper>
             </Grid>
             <Grid item xs={12} lg={4} md={4} sm={4}>
-              <Paper className={classes.financesPaper} onClick={routePage.bind(this, 'finance')}>
+              <Paper className={classes.paper} onClick={routePage.bind(this, 'finance')}>
                 <h2 className={classes.appSection}>
                   My Finances
               </h2>
