@@ -15,6 +15,7 @@ export default gql`
     notes: String
     createdAt: Date!
     updatedAt: Date!
-    answer: Answer!
+    answer: Answer
+    question: Question
   }
 `;

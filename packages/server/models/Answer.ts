@@ -8,6 +8,7 @@ export interface AnswerAttributes {
   id?: number;
   body: string;
   keywords?: string[] | null;
+  isUserAnswer?: boolean | null;
   createdAt?: Date;
   updatedAt?: Date;
   employee?: EmployeeAttributes | EmployeeAttributes['id'];
@@ -50,6 +51,11 @@ export const AnswerFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequeli
       unique: false,
       allowNull: true,
     },
+    isUserAnswer: {
+      type: DataTypes.BOOLEAN,
+      unique: false,
+      allowNull: true,
+    }
   };
 
   const Answer = sequelize.define<AnswerInstance, AnswerAttributes>('answer', attributes);
@@ -57,7 +63,7 @@ export const AnswerFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequeli
   Answer.associate = models => {
     Answer.belongsTo(models.Employee);
     Answer.belongsTo(models.Question);
-    Answer.hasMany(models.Attachment);
+    Answer.hasMany(models.Attachment, { as: 'attachments', onDelete: 'CASCADE' });
   };
 
   return Answer;

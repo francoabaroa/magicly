@@ -1,5 +1,6 @@
 import * as Sequelize from 'sequelize';
 import { AnswerAttributes, AnswerInstance } from './Answer';
+import { QuestionAttributes, QuestionInstance } from './Question';
 import { SequelizeAttributes } from '../typings/SequelizeAttributes';
 
 export interface AttachmentAttributes {
@@ -13,12 +14,17 @@ export interface AttachmentAttributes {
   createdAt?: Date;
   updatedAt?: Date;
   answer?: AnswerAttributes | AnswerAttributes['id'];
+  question?: QuestionAttributes | QuestionAttributes['id'];
 };
 
 export interface AttachmentInstance extends Sequelize.Instance<AttachmentAttributes>, AttachmentAttributes {
   getAnswer: Sequelize.BelongsToGetAssociationMixin<AnswerInstance>;
   setAnswer: Sequelize.BelongsToSetAssociationMixin<AnswerInstance, AnswerInstance['id']>;
   createAnswer: Sequelize.BelongsToCreateAssociationMixin<AnswerAttributes, AnswerInstance>;
+
+  getQuestion: Sequelize.BelongsToGetAssociationMixin<QuestionInstance>;
+  setQuestion: Sequelize.BelongsToSetAssociationMixin<QuestionInstance, QuestionInstance['id']>;
+  createQuestion: Sequelize.BelongsToCreateAssociationMixin<QuestionAttributes, QuestionInstance>;
 };
 
 export const AttachmentFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes): Sequelize.Model<AttachmentInstance, AttachmentAttributes> => {
@@ -63,6 +69,7 @@ export const AttachmentFactory = (sequelize: Sequelize.Sequelize, DataTypes: Seq
 
   Attachment.associate = models => {
     Attachment.belongsTo(models.Answer);
+    Attachment.belongsTo(models.Question);
   };
 
   return Attachment;

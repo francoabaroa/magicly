@@ -1,4 +1,6 @@
 import * as Sequelize from 'sequelize';
+import { AnswerAttributes, AnswerInstance } from './Answer';
+import { AttachmentAttributes, AttachmentInstance } from './Attachment';
 import { UserAttributes, UserInstance } from './User';
 import { SequelizeAttributes } from '../typings/SequelizeAttributes';
 
@@ -13,14 +15,37 @@ export interface QuestionAttributes {
   createdAt?: Date;
   updatedAt?: Date;
   user?: UserAttributes | UserAttributes['id'];
-  // TODO: need space for answer here
+  answers?: AnswerAttributes[] | AnswerAttributes['id'][];
+  attachments?: AttachmentAttributes[] | AttachmentAttributes['id'][] | null;
 };
 
 export interface QuestionInstance extends Sequelize.Instance<QuestionAttributes>, QuestionAttributes {
   getUser: Sequelize.BelongsToGetAssociationMixin<UserInstance>;
   setUser: Sequelize.BelongsToSetAssociationMixin<UserInstance, UserInstance['id']>;
   createUser: Sequelize.BelongsToCreateAssociationMixin<UserAttributes, UserInstance>;
-  // need methods for getting answer
+
+  /* Answer */
+  getAnswers: Sequelize.HasManyGetAssociationsMixin<AnswerInstance>;
+  setAnswers: Sequelize.HasManySetAssociationsMixin<AnswerInstance, AnswerInstance['id']>;
+  addAnswers: Sequelize.HasManyAddAssociationsMixin<AnswerInstance, AnswerInstance['id']>;
+  addAnswer: Sequelize.HasManyAddAssociationMixin<AnswerInstance, AnswerInstance['id']>;
+  createAnswer: Sequelize.HasManyCreateAssociationMixin<AnswerAttributes, AnswerInstance>;
+  removeAnswer: Sequelize.HasManyRemoveAssociationMixin<AnswerInstance, AnswerInstance['id']>;
+  removeAnswers: Sequelize.HasManyRemoveAssociationsMixin<AnswerInstance, AnswerInstance['id']>;
+  hasAnswer: Sequelize.HasManyHasAssociationMixin<AnswerInstance, AnswerInstance['id']>;
+  hasAnswers: Sequelize.HasManyHasAssociationsMixin<AnswerInstance, AnswerInstance['id']>;
+  countAnswers: Sequelize.HasManyCountAssociationsMixin;
+
+  getAttachments: Sequelize.HasManyGetAssociationsMixin<AttachmentInstance>;
+  setAttachments: Sequelize.HasManySetAssociationsMixin<AttachmentInstance, AttachmentInstance['id']>;
+  addAttachments: Sequelize.HasManyAddAssociationsMixin<AttachmentInstance, AttachmentInstance['id']>;
+  addAttachment: Sequelize.HasManyAddAssociationMixin<AttachmentInstance, AttachmentInstance['id']>;
+  createAttachment: Sequelize.HasManyCreateAssociationMixin<AttachmentAttributes, AttachmentInstance>;
+  removeAttachment: Sequelize.HasManyRemoveAssociationMixin<AttachmentInstance, AttachmentInstance['id']>;
+  removeAttachments: Sequelize.HasManyRemoveAssociationsMixin<AttachmentInstance, AttachmentInstance['id']>;
+  hasAttachment: Sequelize.HasManyHasAssociationMixin<AttachmentInstance, AttachmentInstance['id']>;
+  hasAttachments: Sequelize.HasManyHasAssociationsMixin<AttachmentInstance, AttachmentInstance['id']>;
+  countAttachments: Sequelize.HasManyCountAssociationsMixin;
 };
 
 export const QuestionFactory = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes): Sequelize.Model<QuestionInstance, QuestionAttributes> => {
@@ -94,7 +119,8 @@ export const QuestionFactory = (sequelize: Sequelize.Sequelize, DataTypes: Seque
 
   Question.associate = models => {
     Question.belongsTo(models.User);
-    Question.hasOne(models.Answer);
+    Question.hasMany(models.Answer, { as: 'answers', onDelete: 'CASCADE' });
+    Question.hasMany(models.Attachment, { as: 'attachments', onDelete: 'CASCADE' });
   };
 
   return Question;

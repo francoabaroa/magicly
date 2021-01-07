@@ -559,7 +559,7 @@ async function bootstrapClientApp(expressApp, db) {
           }
           nextApp.render(req, res, '/qportal', {
             employee: JSON.stringify(req.user),
-            questions: JSON.stringify(questions),
+            questions,
             me: JSON.stringify(me),
           });
         } else {

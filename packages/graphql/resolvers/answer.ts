@@ -35,7 +35,7 @@ export default {
             question.status = questionStatus;
             await question.save();
           }
-
+          // TODO: isUserAnswer
           const answer = await models.Answer.create({
             body: answerBody,
             employeeId,

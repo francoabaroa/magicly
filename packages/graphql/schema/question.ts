@@ -21,6 +21,8 @@ export default gql`
     keywords: [String]
     status: QuestionStatus!
     notificationType: NotificationType!
+    answers: [Answer]
+    attachments: [Attachment]
     urgent: Boolean
     createdAt: Date!
     updatedAt: Date!

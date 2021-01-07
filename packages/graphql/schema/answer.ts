@@ -19,10 +19,11 @@ export default gql`
     id: ID!
     body: String!
     keywords: [String]
+    isUserAnswer: Boolean
     createdAt: Date!
     updatedAt: Date!
     employee: Employee!
     question: Question!
-    attachment: [Attachment]
+    attachments: [Attachment]
   }
 `;
