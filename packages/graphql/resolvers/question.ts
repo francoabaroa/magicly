@@ -96,5 +96,25 @@ export default {
     user: async (question, args, { loaders, models }) => {
       return await loaders.user.load(question.userId);
     },
+    answers: async (question, args, { models }) => {
+      if (!question) {
+        return null;
+      }
+      return await models.Answer.findAll({
+        where: {
+          questionId: question.id,
+        },
+      });
+    },
+    attachments: async (question, args, { models }) => {
+      if (!question) {
+        return null;
+      }
+      return await models.Attachment.findAll({
+        where: {
+          questionId: question.id,
+        },
+      });
+    },
   },
 };

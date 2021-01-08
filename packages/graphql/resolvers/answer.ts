@@ -20,6 +20,7 @@ export default {
           answerBody,
           questionStatus,
           questionId,
+          isUserAnswer,
           userId,
           employeeId
         },
@@ -35,9 +36,9 @@ export default {
             question.status = questionStatus;
             await question.save();
           }
-          // TODO: isUserAnswer
           const answer = await models.Answer.create({
             body: answerBody,
+            isUserAnswer,
             employeeId,
             questionId,
           });
@@ -61,6 +62,36 @@ export default {
     ),
   },
   Answer: {
+    attachments: async (answer, args, { models }) => {
+      if (!answer) {
+        return null;
+      }
+      return await models.Attachment.findAll({
+        where: {
+          answerId: answer.id,
+        },
+      });
+    },
+    employee: async (answer, args, { models }) => {
+      if (!answer) {
+        return null;
+      }
+      return await models.Employee.findOne({
+        where: {
+          id: answer.employeeId,
+        },
+      });
+    },
+    question: async (answer, args, { models }) => {
+      if (!answer) {
+        return null;
+      }
+      return await models.Question.findOne({
+        where: {
+          id: answer.questionId,
+        },
+      });
+    },
     // user: async (list, args, { loaders, models }) => {
     //   return await models.User.findByPk(list.userId);
     //   // return await loaders.user.load(list.userId);

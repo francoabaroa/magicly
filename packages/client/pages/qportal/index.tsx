@@ -30,6 +30,7 @@ const CREATE_ANSWER = gql`
     $answerBody: String!,
     $questionStatus: QuestionStatus!,
     $questionId: ID!,
+    $isUserAnswer: Boolean,
     $userId: ID!,
     $employeeId: ID!,
   ) {
@@ -37,6 +38,7 @@ const CREATE_ANSWER = gql`
       answerBody: $answerBody,
       questionStatus: $questionStatus,
       questionId: $questionId,
+      isUserAnswer: $isUserAnswer,
       userId: $userId,
       employeeId: $employeeId,
     ) {
@@ -212,6 +214,7 @@ const QportalSignInPage = () => {
         questionStatus,
         questionId: openQuestionId,
         userId,
+        isUserAnswer: false,
         employeeId: JSON.parse(employee as any).id,
       }
     });

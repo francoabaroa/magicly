@@ -10,6 +10,7 @@ export default gql`
       answerBody: String!,
       questionStatus: QuestionStatus!
       questionId: ID!,
+      isUserAnswer: Boolean,
       userId: ID!,
       employeeId: ID!,
     ): Answer!

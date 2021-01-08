@@ -18,6 +18,22 @@ const QUERY = gql`
       type
       urgent
       status
+      createdAt
+      attachments {
+        id
+      }
+      answers {
+        id
+        body
+        employee {
+          id
+          firstName
+        }
+        attachments {
+          id
+        }
+        createdAt
+      }
     }
   }
 `;
@@ -121,4 +137,4 @@ const ViewQuestionPage = () => {
   );
 };
 
-export default withApollo({ ssr: false })(ViewQuestionPage);
+export default withApollo({ ssr: true })(ViewQuestionPage);
