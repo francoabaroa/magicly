@@ -92,9 +92,5 @@ export default {
         },
       });
     },
-    // user: async (list, args, { loaders, models }) => {
-    //   return await models.User.findByPk(list.userId);
-    //   // return await loaders.user.load(list.userId);
-    // },
   },
 };
