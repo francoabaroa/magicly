@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Layout from '../../../../../components/Layout';
+import DeleteQuestionModal from '../../../../../components/productivity/DeleteQuestionModal';
 import ViewAnswerModal from '../../../../../components/productivity/ViewAnswerModal';
 import { withApollo } from '../../../../../apollo/apollo';
 import { useRouter } from 'next/router';
@@ -108,7 +109,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const ViewQuestionPage = () => {
   const router = useRouter();
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const [viewAnswer, setViewAnswer] = useState(false);
+  const [deleteQuestion, setDeleteQuestion] = useState(false);
   const { id } = router.query;
   const { data, loading, error, refetch } = useQuery(QUERY, {
     variables: { id },
@@ -120,12 +122,20 @@ const ViewQuestionPage = () => {
     return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleViewAnswerOpen = () => {
+    setViewAnswer(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleViewAnswerClose = () => {
+    setViewAnswer(false);
+  };
+
+  const handleDeleteQuestionOpen = () => {
+    setDeleteQuestion(true);
+  };
+
+  const handleDeleteQuestionClose = () => {
+    setDeleteQuestion(false);
   };
 
   const getUI = (data: any) => {
@@ -161,7 +171,7 @@ const ViewQuestionPage = () => {
             {
               data && data.question && data.question.answers.length > 0 ?
                 <Button
-                  onClick={handleClickOpen}
+                  onClick={handleViewAnswerOpen}
                   className={classes.viewAnswerBtn}
                 >
                   View Answer
@@ -171,13 +181,18 @@ const ViewQuestionPage = () => {
 
             <ViewAnswerModal
               question={data.question}
-              openModal={open}
-              handleClose={handleClose.bind(this)}
+              openModal={viewAnswer}
+              handleClose={handleViewAnswerClose.bind(this)}
+            />
+            <DeleteQuestionModal
+              question={data.question}
+              openModal={deleteQuestion}
+              handleClose={handleDeleteQuestionClose.bind(this)}
             />
           </Grid>
           <Grid item xs={12} sm={12} lg={12} md={12}>
             <Button
-              onClick={() => { }}
+              onClick={handleDeleteQuestionOpen}
               className={classes.viewAnswerBtn}
             >
               Delete Question
