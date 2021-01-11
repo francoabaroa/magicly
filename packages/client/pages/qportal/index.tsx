@@ -32,7 +32,7 @@ const CREATE_ANSWER = gql`
     $questionId: ID!,
     $isUserAnswer: Boolean,
     $userId: ID!,
-    $employeeId: ID!,
+    $employeeId: ID,
   ) {
     createAnswer(
       answerBody: $answerBody,

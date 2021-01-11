@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Layout from '../../../../../components/Layout';
+import ViewAnswerModal from '../../../../../components/productivity/ViewAnswerModal';
 import { withApollo } from '../../../../../apollo/apollo';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/react-hooks';
@@ -10,12 +11,6 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import NotificationImportant from '@material-ui/icons/NotificationImportant';
 import AccessTime from '@material-ui/icons/AccessTime';
 import Adjust from '@material-ui/icons/Adjust';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 
 const QUERY = gql`
   query GetQuestion ($id: ID!) {
@@ -23,6 +18,9 @@ const QUERY = gql`
       id
       body
       type
+      user {
+        id
+      }
       urgent
       status
       createdAt
@@ -130,34 +128,11 @@ const ViewQuestionPage = () => {
     setOpen(false);
   };
 
-  const getDialogTexts = () => {
-    let dialogTexts = [];
-    if (data && data.question && data.question.answers.length > 0) {
-      for (let i = 0; i < data.question.answers.length; i++) {
-        let label = '';
-        if (data.question.answers[i].isUserAnswer) {
-          label = 'Me: ';
-        } else if (data.question.answers[i].employee) {
-          label = data.question.answers[i].employee.firstName + ' (Magicly): ';
-        } else {
-          label = 'Magicly Support: ';
-        }
-        dialogTexts.push(
-          <DialogContentText key={i}>
-            {label + data.question.answers[i].body}
-          </DialogContentText>
-        );
-      }
-    }
-    return dialogTexts;
-  };
-
   const getUI = (data: any) => {
     // TODO: adapt function if only required fields are passed, to show right things on the UI
     // TODO: add edit and delete functionality
     if (data && data.question) {
       let urgentString = data.question.urgent ? 'Urgent' : 'Not Urgent';
-      let dialogTexts = getDialogTexts();
 
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
@@ -194,29 +169,11 @@ const ViewQuestionPage = () => {
                 : null
             }
 
-            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-              <DialogTitle id="form-dialog-title">{data.question.body}</DialogTitle>
-              <DialogContent>
-                { dialogTexts }
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="Reply"
-                  type="text"
-                  fullWidth
-                />
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                  Send Reply
-          </Button>
-                <Button onClick={handleClose} color="primary">
-                  Cancel Question
-                </Button>
-
-              </DialogActions>
-            </Dialog>
+            <ViewAnswerModal
+              question={data.question}
+              openModal={open}
+              handleClose={handleClose.bind(this)}
+            />
           </Grid>
           <Grid item xs={12} sm={12} lg={12} md={12}>
             <Button

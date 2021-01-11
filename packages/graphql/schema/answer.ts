@@ -12,7 +12,7 @@ export default gql`
       questionId: ID!,
       isUserAnswer: Boolean,
       userId: ID!,
-      employeeId: ID!,
+      employeeId: ID,
     ): Answer!
     deleteAnswer(id: ID!): Boolean!
   }
@@ -23,7 +23,7 @@ export default gql`
     isUserAnswer: Boolean
     createdAt: Date!
     updatedAt: Date!
-    employee: Employee!
+    employee: Employee
     question: Question!
     attachments: [Attachment]
   }
