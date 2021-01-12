@@ -131,7 +131,7 @@ const QportalSignInPage = () => {
 
   const getRowOfQuestions = () => {
     let questionGrids = [];
-    if (data.questions && data.questions.edges && data.questions.edges.length > 0) {
+    if (data && data.questions && data.questions.edges && data.questions.edges.length > 0) {
       data.questions.edges.forEach((question: any, key) => {
         questionGrids.push(
           <Grid key={key} item xs={12} lg={12} md={12} sm={12}>
