@@ -69,6 +69,9 @@ const useStyles = makeStyles((theme: Theme) =>
         minWidth: '350px',
       },
     },
+    timestamp: {
+      marginLeft: '30px',
+    },
     title: {
       fontFamily: 'Playfair Display',
       fontStyle: 'normal',
@@ -142,7 +145,15 @@ const ViewAnswerModal = (props) => {
         }
         dialogTexts.push(
           <DialogContentText key={i}>
-            { label + props.question.answers[i].body }
+            <b>
+              {label}
+            </b>
+            <span>
+              {props.question.answers[i].body}
+            </span>
+            <span className={classes.timestamp}>
+              {props.question.answers[i].createdAt}
+            </span>
           </DialogContentText>
         );
       }

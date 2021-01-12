@@ -11,7 +11,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Tooltip, { TooltipProps } from '@material-ui/core/Tooltip';
+import Tooltip from '@material-ui/core/Tooltip';
 
 // TODO: clean up before prod
 let url = null;
@@ -84,6 +84,9 @@ const useStyles = makeStyles((theme: Theme) =>
       fontStyle: 'normal',
       fontWeight: 'bold',
       textAlign: 'center',
+    },
+    timestamp: {
+      marginLeft: '30px',
     },
     metaDataTitle: {
       fontFamily: 'Playfair Display',
@@ -216,7 +219,15 @@ const QportalChatModal = (props) => {
         }
         dialogTexts.push(
           <DialogContentText key={i}>
-            {label + props.question.answers[i].body}
+            <b>
+              {label}
+            </b>
+            <span>
+              {props.question.answers[i].body}
+            </span>
+            <span className={classes.timestamp}>
+              {props.question.answers[i].createdAt}
+            </span>
           </DialogContentText>
         );
       }
