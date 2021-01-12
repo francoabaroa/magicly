@@ -93,7 +93,6 @@ const DeleteQuestionModal = (props) => {
   }
 
   const yesDeletePlease = () => {
-    console.log('in yesDeletePlease: ', props.question, props.question.id);
     deleteQuestion({
       variables: {
         id: props.question.id

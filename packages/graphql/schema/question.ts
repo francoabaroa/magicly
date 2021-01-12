@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    questions(questionTypes: [QuestionType], cursor: String, limit: Int): QuestionConnection!
+    questions(questionStatus: [QuestionStatus], cursor: String, limit: Int): QuestionConnection!
     question (id: ID!): Question
   }
   extend type Mutation {

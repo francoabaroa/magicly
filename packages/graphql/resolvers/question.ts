@@ -17,19 +17,25 @@ export default {
       }
       return await models.Question.findByPk(id);
     },
-    questions: async (parent, { cursor, limit = 100 }, { models, me }) => {
+    questions: async (parent, { questionStatus, cursor, limit = 100 }, { models, me }) => {
       const cursorOptions = cursor
         ? {
           where: {
             createdAt: {
               [Sequelize.Op.lt]: fromCursorHash(cursor),
             },
-            userId: me.id
+            userId: me.id,
+            status: {
+              [Sequelize.Op.in]: questionStatus
+            }
           },
         }
         : {
           where: {
-            userId: me.id
+            userId: me.id,
+            status: {
+              [Sequelize.Op.in]: questionStatus
+            }
           }
         };
 

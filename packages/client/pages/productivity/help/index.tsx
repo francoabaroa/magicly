@@ -9,15 +9,16 @@ import Cookies from 'js-cookie';
 import Grid from '@material-ui/core/Grid';
 import AddCircle from '@material-ui/icons/AddCircle';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { QUESTION_STATUS } from '../../../constants/appStrings';
 
 const QUERY = gql`
   query GetQuestions(
-    $questionTypes: [QuestionType],
+    $questionStatus: [QuestionStatus],
     $cursor: String,
     $limit: Int
   ) {
     questions(
-      questionTypes: $questionTypes,
+      questionStatus: $questionStatus,
       cursor: $cursor,
       limit: $limit
     ) {
@@ -112,7 +113,14 @@ const TechHelpPage = () => {
   const { data, loading, error } = useQuery(
     QUERY,
     {
-      variables: {}
+      variables: {
+        questionStatus: [
+          QUESTION_STATUS.PENDING,
+          QUESTION_STATUS.SOLVED,
+          QUESTION_STATUS.UNSOLVED,
+          QUESTION_STATUS.CANCELLED,
+        ],
+      }
     }
   );
 

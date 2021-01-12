@@ -553,13 +553,8 @@ async function bootstrapClientApp(expressApp, db) {
             me: JSON.stringify(me),
           });
         } else if (pathname === '/qportal') {
-          let questions = [];
-          if (req.user) {
-            questions = await db.Question.findAll({where: { status: 'PENDING' }});
-          }
           nextApp.render(req, res, '/qportal', {
             employee: JSON.stringify(req.user),
-            questions,
             me: JSON.stringify(me),
           });
         } else {

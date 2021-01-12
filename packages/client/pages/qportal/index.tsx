@@ -1,21 +1,14 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
+import QportalChatModal from '../../components/qportal/QportalChatModal';
 import Layout from '../../components/Layout';
 import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
 import Button from '@material-ui/core/Button';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import { APP_CONFIG } from '../../constants/appStrings';
-
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import { APP_CONFIG, QUESTION_STATUS } from '../../constants/appStrings';
 
 // TODO: clean up before prod
 let url = null;
@@ -25,24 +18,49 @@ if (process.env.NODE_ENV === 'development') {
   url = APP_CONFIG.prodUrl;
 }
 
-const CREATE_ANSWER = gql`
-  mutation CreateAnswer(
-    $answerBody: String!,
-    $questionStatus: QuestionStatus!,
-    $questionId: ID!,
-    $isUserAnswer: Boolean,
-    $userId: ID!,
-    $employeeId: ID,
+const QUERY = gql`
+  query GetQuestions (
+    $questionStatus: [QuestionStatus],
+    $cursor: String,
+    $limit: Int
   ) {
-    createAnswer(
-      answerBody: $answerBody,
+    questions(
       questionStatus: $questionStatus,
-      questionId: $questionId,
-      isUserAnswer: $isUserAnswer,
-      userId: $userId,
-      employeeId: $employeeId,
+      cursor: $cursor,
+      limit: $limit
     ) {
-      id
+      edges {
+        id
+        body
+        type
+        user {
+          id
+          firstName
+        }
+        urgent
+        status
+        notificationType
+        createdAt
+        attachments {
+          id
+        }
+        answers {
+          id
+          body
+          isUserAnswer
+          employee {
+            id
+            firstName
+          }
+          attachments {
+            id
+          }
+          createdAt
+        }
+      }
+      pageInfo {
+        endCursor
+      }
     }
   }
 `;
@@ -95,21 +113,15 @@ const useStyles = makeStyles((theme: Theme) =>
 const QportalSignInPage = () => {
   const router = useRouter();
   const employee = router.query.employee ? router.query.employee : null;
-  const questions = router.query.questions ? router.query.questions : [];
-
   const classes = useStyles();
-  const [answerBody, setAnswerBody] = useState('');
   const [openQuestionId, setOpenQuestionId] = useState(null);
-  const [createAnswer, { data, loading, error }] = useMutation(
-    CREATE_ANSWER,
-    {
-      onCompleted({ createAnswer }) {
-        if (createAnswer) {
-          window.location.href = url + 'qportal';
-        }
-      }
-    }
-  );
+
+  const { data, loading, error, refetch } = useQuery(QUERY, {
+    variables: {
+      questionStatus: QUESTION_STATUS.PENDING
+    },
+    skip: employee === null
+  });
 
   if (loading) return <p>Loading...</p>;
 
@@ -117,69 +129,18 @@ const QportalSignInPage = () => {
     return <p>Error: {error.message}</p>;
   }
 
-  const saveBody = (event) => {
-    setAnswerBody(event.target.value)
-  };
-
-  const getQuestionDialog = (question) => {
-    return (
-      <div>
-        <Dialog open={question.id === openQuestionId} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">{ question.body }</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              { "Question ID: " + question.id }
-          </DialogContentText>
-            <DialogContentText>
-              {"Question Type: " + question.type}
-            </DialogContentText>
-            <DialogContentText>
-              { "Status: " + question.status }
-            </DialogContentText>
-            <DialogContentText>
-              {"Is Urgent: " + question.urgent}
-            </DialogContentText>
-            <DialogContentText>
-              { "Notification Type: " + question.notificationType }
-            </DialogContentText>
-            <DialogContentText>
-              {"User ID: " + question.userId}
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              label="Response"
-              fullWidth
-              multiline
-              onChange={saveBody}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={requestMoreInfo.bind(this, question.userId)} variant="outlined" color="secondary">
-              Request More Info
-          </Button>
-            <Button onClick={markSolved.bind(this, question.userId)} variant="outlined" color="secondary">
-              Mark Solved
-          </Button>
-            <Button onClick={markCancelled.bind(this, question.userId)} variant="outlined" color="primary">
-              Cancel
-          </Button>
-            <Button onClick={markUnsolved.bind(this, question.userId)} variant="outlined" color="primary">
-              Mark Unsolved Permanently
-          </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
-  };
-
   const getRowOfQuestions = () => {
     let questionGrids = [];
-    if (questions.length > 0 && Array.isArray(questions)) {
-      questions.forEach((question: any, key) => {
+    if (data.questions && data.questions.edges && data.questions.edges.length > 0) {
+      data.questions.edges.forEach((question: any, key) => {
         questionGrids.push(
           <Grid key={key} item xs={12} lg={12} md={12} sm={12}>
-            {getQuestionDialog(question)}
+            <QportalChatModal
+              employee={employee}
+              question={question}
+              openQuestionId={openQuestionId}
+              handleClose={handleClose.bind(this)}
+            />
             <div onClick={handleClickOpen.bind(this, question.id)}>-{'URGENT: ' + question.urgent + ' | '+ question.body }</div>
           </Grid>
         );
@@ -205,35 +166,6 @@ const QportalSignInPage = () => {
 
   const handleClose = () => {
     setOpenQuestionId(null);
-  };
-
-  const submitAnswer = (questionStatus, userId) => {
-    createAnswer({
-      variables: {
-        answerBody,
-        questionStatus,
-        questionId: openQuestionId,
-        userId,
-        isUserAnswer: false,
-        employeeId: JSON.parse(employee as any).id,
-      }
-    });
-  };
-
-  const requestMoreInfo = (userId) => {
-    submitAnswer('PENDING', userId);
-  };
-
-  const markSolved = (userId) => {
-    submitAnswer('SOLVED', userId);
-  };
-
-  const markCancelled = (userId) => {
-    submitAnswer('CANCELLED', userId);
-  };
-
-  const markUnsolved = (userId) => {
-    submitAnswer('UNSOLVED', userId);
   };
 
   let parsedEmployee =

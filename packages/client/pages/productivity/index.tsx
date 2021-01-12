@@ -5,7 +5,7 @@ import Layout from '../../components/Layout';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
-import { LIST_TYPE } from '../../constants/appStrings';
+import { LIST_TYPE, QUESTION_STATUS } from '../../constants/appStrings';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -18,7 +18,7 @@ const QUERY = gql`
     $listTypes: [ListType]
     $cursor: String,
     $limit: Int,
-    $questionTypes: [QuestionType]
+    $questionStatus: [QuestionStatus]
   ) {
     listItems(
       listType: $listType,
@@ -56,7 +56,7 @@ const QUERY = gql`
       }
     }
     questions(
-      questionTypes: $questionTypes,
+      questionStatus: $questionStatus,
       cursor: $cursor,
       limit: $limit
     ) {
@@ -151,6 +151,12 @@ const ProductivityPage = () => {
           LIST_TYPE.TODO,
           LIST_TYPE.WATCH,
           LIST_TYPE.LATER,
+        ],
+        questionStatus: [
+          QUESTION_STATUS.PENDING,
+          QUESTION_STATUS.SOLVED,
+          QUESTION_STATUS.UNSOLVED,
+          QUESTION_STATUS.CANCELLED,
         ],
         limit: 3,
       }
