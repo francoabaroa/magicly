@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: '0px',
       marginBottom: '30px',
       color: '#FFF',
-      backgroundColor: '#0A7EF2',
+      backgroundColor: '#002642',
       borderRadius: '50px',
       width: '90px',
       height: '40px',
@@ -108,7 +108,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     link: {
       fontFamily: 'Playfair Display, serif',
-      color: '#E59500',
+      color: '#0A7EF2',
       textDecoration: 'none',
     },
     inputs: {
@@ -205,7 +205,7 @@ const SignUpPage = () => {
       <div className={classes.signUpPage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h1 className={classes.title}>Welcome</h1>
+            <h1 className={classes.title}>Sign up to start your free trial</h1>
           </Grid>
         </Grid>
         <div className={classes.root}>

@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: '0px',
       marginBottom: '30px',
       color: '#FFF',
-      backgroundColor: '#0A7EF2',
+      backgroundColor: '#002642',
       borderRadius: '50px',
       width: '90px',
       height: '40px',
@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     link: {
       fontFamily: 'Playfair Display, serif',
-      color: '#E59500',
+      color: '#0A7EF2',
       textDecoration: 'none',
     },
     inputs: {
