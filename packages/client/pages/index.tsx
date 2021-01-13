@@ -128,7 +128,7 @@ const Index = () => {
             <h3 className={classes.or}>or</h3>
           </Grid>
           <Grid item xs={8}>
-            <h3 className={classes.call}>Call to Learn More 1-800-123-4567</h3>
+            <h3 className={classes.call}>Call to Learn More 1-855-MAGICLY</h3>
           </Grid>
         </Grid>
         {/* <div className={classes.root}>
