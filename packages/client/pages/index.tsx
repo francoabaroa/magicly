@@ -31,15 +31,17 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     getStartedButton: {
       fontFamily: 'Overpass',
+      fontSize: '18px',
       margin: '0 auto',
       display: 'block',
       marginTop: '35px',
       color: '#FFF',
       backgroundColor: '#840032',
       borderRadius: '50px',
-      width: '200px',
+      width: '180px',
       height: '40px',
       [theme.breakpoints.down('sm')]: {
+        fontSize: '12px',
         marginTop: '20px',
       },
     },
