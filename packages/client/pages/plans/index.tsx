@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontFamily: 'Playfair Display, serif',
       fontWeight: 'bold',
       fontSize: '40px',
-      color: '#E5DADA',
+      color: '#002642',
       marginTop: '45px',
       marginBottom: '35px',
       margin: 'auto',
@@ -31,8 +31,9 @@ const useStyles = makeStyles((theme: Theme) =>
     paper: {
       padding: theme.spacing(2),
       textAlign: 'center',
-      color: '#840032',
-      backgroundColor: "#E5DADA",
+      color: '#002642',
+      backgroundColor: "#FFF",
+      border: '1px #002642 solid'
     },
     planName: {
       fontSize: '26px',
@@ -69,7 +70,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'block',
       marginTop: '40px',
       color: '#E5DADA',
-      backgroundColor: '#840032',
+      backgroundColor: '#002642',
       borderRadius: '50px',
       width: '180px',
       height: '50px',
