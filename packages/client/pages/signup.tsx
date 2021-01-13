@@ -195,7 +195,7 @@ const SignUpPage = () => {
       .then(data => {
         if (data.success) {
           document.cookie = 'signedin=true';
-          window.location.replace(url + 'main');
+          window.location.replace(url + 'main?new=true');
         }
       })
   };

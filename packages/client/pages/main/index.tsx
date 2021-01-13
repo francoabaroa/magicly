@@ -144,9 +144,18 @@ const MainPage = () => {
     return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
   };
 
-  const getGreeting = (me: any) => {
+  const getQueryStringValue = (key) => {
+    return decodeURIComponent(
+      window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1")
+    );
+  };
+
+  const getGreeting = (me: any, isNewUser: boolean) => {
     if (me && me.firstName && me.firstName.length > 0) {
-      return ', ' + getCapitalizedString(me.firstName);
+      if (isNewUser) {
+        return 'Welcome, ' + getCapitalizedString(me.firstName);
+      }
+      return 'Welcome Back, ' + getCapitalizedString(me.firstName);
     }
     if (me && me.email && me.email.length > 0) {
       return ', ' + getCapitalizedString(me.email.split('@')[0]);
@@ -154,13 +163,13 @@ const MainPage = () => {
     return '!';
   };
 
-
+  const isNewUser = getQueryStringValue("new") === 'true';
   return (
     <Layout>
       <div className={classes.mainPage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h5 className={classes.title}>{'Welcome' + getGreeting(data.me)}</h5>
+            <h5 className={classes.title}>{getGreeting(data.me, isNewUser)}</h5>
           </Grid>
         </Grid>
         <div className={classes.root}>
@@ -170,9 +179,13 @@ const MainPage = () => {
                 <h2 className={classes.appSection}>
                   My Home
               </h2>
-                <h3 style={{ fontWeight: 'normal' }}>
-                  Important information pertaining to your home
-              </h3>
+              {
+                  isNewUser ?
+                  <h3 style={{ fontWeight: 'normal' }}>
+                    Important information pertaining to your home
+                  </h3> :
+                  null
+              }
               </Paper>
             </Grid>
             <Grid item xs={12} lg={4} md={4} sm={4}>
@@ -180,9 +193,13 @@ const MainPage = () => {
                 <h2 className={classes.appSection}>
                   My Productivity
               </h2>
-                <h3 style={{fontWeight: 'normal'}}>
-                  Increase your productivity in a simple way
-              </h3>
+                {
+                  isNewUser ?
+                    <h3 style={{ fontWeight: 'normal' }}>
+                      Increase your productivity in a simple way
+                  </h3> :
+                    null
+                }
               </Paper>
             </Grid>
             <Grid item xs={12} lg={4} md={4} sm={4}>
@@ -190,9 +207,13 @@ const MainPage = () => {
                 <h2 className={classes.appSection}>
                   My Finances
               </h2>
-                <h3 style={{ fontWeight: 'normal' }}>
-                  Stay on top of your finances easily
-              </h3>
+                {
+                  isNewUser ?
+                    <h3 style={{ fontWeight: 'normal' }}>
+                      Stay on top of your finances easily
+                  </h3> :
+                    null
+                }
               </Paper>
             </Grid>
             {/* <Grid item xs={12} lg={12} md={12} sm={12} onClick={routePage.bind(this, 'find')}>
