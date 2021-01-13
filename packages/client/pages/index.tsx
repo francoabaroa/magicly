@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     bold: {
       fontWeight: 'bold',
+      color: '#840032'
     },
     title: {
       fontFamily: 'Playfair Display, serif',
