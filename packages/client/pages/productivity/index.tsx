@@ -27,9 +27,11 @@ const QUERY = gql`
     ) {
       edges {
         id
-        notes
         name
         type
+        executionDate
+        complete
+        notes
       }
       pageInfo {
         endCursor
@@ -208,6 +210,7 @@ const ProductivityPage = () => {
   }
 
   const getTodoListItemsPreview = () => {
+    // TODO: should only show ones with upcoming due date
     let todoListItemsPreview = [];
 
     for (let i = 0; i < 3; i++) {

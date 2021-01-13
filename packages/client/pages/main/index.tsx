@@ -4,6 +4,7 @@ import Layout from '../../components/Layout';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
+import { LIST_TYPE } from '../../constants/appStrings';
 import Cookies from 'js-cookie';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -11,15 +12,44 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
 const QUERY = gql`
-  query GetMe {
+  query GetMe (
+    $cursor: String,
+    $limit: Int,
+    $excludePast: Boolean,
+    $listType: ListType!,
+  ) {
     me {
       id
       firstName
       lastName
       email
-      homeworks {
+    }
+    homeworks(
+      cursor: $cursor,
+      limit: $limit,
+      excludePast: $excludePast,
+    ) {
+      edges {
         title
         status
+        executionDate
+      }
+    }
+    listItems(
+      listType: $listType,
+      cursor: $cursor,
+      limit: $limit
+    ) {
+      edges {
+        id
+        name
+        type
+        executionDate
+        complete
+        notes
+      }
+      pageInfo {
+        endCursor
       }
     }
   }
@@ -36,13 +66,37 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: '24px',
       color: '#002642',
       marginTop: '15px',
-      marginBottom: '45px',
+      marginBottom: '5px',
       margin: 'auto',
       textAlign: 'center',
       [theme.breakpoints.down('sm')]: {
         fontSize: '18px',
         marginTop: '35px',
-        marginBottom: '35px',
+        marginBottom: '5px',
+      },
+    },
+    previewTitle: {
+      fontFamily: 'Playfair Display, serif',
+      fontWeight: 'normal',
+      fontSize: '16px',
+      color: '#002642',
+      margin: 'auto',
+      textAlign: 'center',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '12px',
+      },
+    },
+    lastPreviewTitle: {
+      fontFamily: 'Playfair Display, serif',
+      fontWeight: 'normal',
+      fontSize: '16px',
+      color: '#002642',
+      marginBottom: '35px',
+      margin: 'auto',
+      textAlign: 'center',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '12px',
+        marginBottom: '15px',
       },
     },
     paper: {
@@ -126,9 +180,15 @@ const useStyles = makeStyles((theme: Theme) =>
 const MainPage = () => {
   const router = useRouter();
   const classes = useStyles();
-  const { data, loading, error, refetch } = useQuery(QUERY);
+  const { data, loading, error, refetch } = useQuery(QUERY, {
+    variables: {
+      listType: LIST_TYPE.TODO,
+      excludePast: true
+    }
+  });
 
   if (loading) return <p>Loading...</p>;
+
   if (error) return <p>Error: {error.message}</p>;
   if (!Cookies.get('signedin')) {
     // navigate('/')
@@ -155,12 +215,36 @@ const MainPage = () => {
       if (isNewUser) {
         return 'Welcome, ' + getCapitalizedString(me.firstName);
       }
-      return 'Welcome Back, ' + getCapitalizedString(me.firstName);
+
+      let yourPriorities = 'here are your priorities: ';
+      return 'Hi ' + getCapitalizedString(me.firstName) + ', ' + yourPriorities
     }
     if (me && me.email && me.email.length > 0) {
       return ', ' + getCapitalizedString(me.email.split('@')[0]);
     }
     return '!';
+  };
+
+  const getPriorities = () => {
+    let priorities = [];
+    if (data && data.homeworks && data.homeworks.edges && data.homeworks.edges.length > 0) {
+      let eventOrEvents = data.homeworks.edges.length <=1 ? 'event' : 'events';
+      priorities.push(
+        <Grid item key={0} xs={8}>
+          <h5 className={classes.previewTitle}>{data.homeworks.edges.length + ` upcoming home work ${eventOrEvents}`}<Button onClick={routePage.bind(this, 'home/work')}>View</Button></h5>
+        </Grid>
+      );
+    }
+
+    if (data && data.listItems && data.listItems.edges && data.listItems.edges.length > 0) {
+      let itemOrItems = data.listItems.edges.length <= 1 ? 'item' : 'items';
+      priorities.push(
+        <Grid item key={1} xs={8}>
+          <h5 className={classes.lastPreviewTitle}>{data.listItems.edges.length + ` upcoming ${itemOrItems} from your to-do list`}<Button onClick={routePage.bind(this, 'productivity/lists')}>View</Button></h5>
+        </Grid>
+      );
+    }
+    return priorities;
   };
 
   const isNewUser = getQueryStringValue("new") === 'true';
@@ -171,6 +255,9 @@ const MainPage = () => {
           <Grid item xs={8}>
             <h5 className={classes.title}>{getGreeting(data.me, isNewUser)}</h5>
           </Grid>
+          {
+            getPriorities()
+          }
         </Grid>
         <div className={classes.root}>
           <Grid container spacing={3}>

@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    homeworks(cursor: String, limit: Int): HomeworkConnection!
+    homeworks(cursor: String, limit: Int, excludePast: Boolean): HomeworkConnection!
     homework (id: ID!): Homework
   }
   extend type Mutation {

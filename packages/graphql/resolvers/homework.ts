@@ -28,11 +28,13 @@ export default {
         return await models.Homework.findByPk(id);
       },
     ),
-    homeworks: async (parent, { cursor, limit = 100 }, { models, me }) => {
+    homeworks: async (parent, { cursor, limit = 100, excludePast = false }, { models, me }) => {
+
       const cursorOptions = cursor
         ? {
           where: {
             createdAt: {
+
               [Sequelize.Op.lt]: fromCursorHash(cursor),
             },
             userId: me.id
@@ -43,6 +45,12 @@ export default {
             userId: me.id
           }
         };
+
+        if (excludePast) {
+          cursorOptions.where['executionDate'] = {
+            [Sequelize.Op.gte]: new Date(),
+          }
+        }
 
       const homeworks = await models.Homework.findAll({
         order: [['createdAt', 'DESC']],

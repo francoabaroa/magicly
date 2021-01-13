@@ -35,6 +35,7 @@ const QUERY = gql`
         costCurrency
         notes
         executor
+        executionDate
       }
     }
   }
@@ -162,15 +163,20 @@ const HomeWorkPage = () => {
   if (data && data.me && data.me.homeworks) {
     hasHomeWork = true;
     data.me.homeworks.forEach((homework, key) => {
-      if (homework.status === HOME_WORK_STATUS.PAST) {
-        pastWork.push(
+      // TODO: need to update homework_status once it becomes stale
+      const today = new Date()
+      const yesterday = new Date(today)
+      yesterday.setDate(yesterday.getDate() - 1);
+
+      if (new Date(homework.executionDate) > yesterday) {
+        upcomingWork.push(
           getIndividualHomeWork(
             key,
             homework
           )
         );
       } else {
-        upcomingWork.push(
+        pastWork.push(
           getIndividualHomeWork(
             key,
             homework

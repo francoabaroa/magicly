@@ -262,19 +262,31 @@ const ListsPage = () => {
             </div>
           </Grid>
 
-          <Grid item xs={8}>
-            <h1 className={classes.firstTitle}>To-Do Now</h1>
-          </Grid>
+          {
+            todoListItemsUI.length > 0 ?
+              <Grid item xs={8}>
+                <h1 className={classes.title}>To-Do Now</h1>
+              </Grid> :
+              null
+          }
           {todoListItemsUI}
 
-          <Grid item xs={8}>
-            <h1 className={classes.title}>To Watch</h1>
-          </Grid>
+          {
+            watchListItemsUI.length > 0 ?
+              <Grid item xs={8}>
+                <h1 className={classes.title}>To Watch</h1>
+              </Grid> :
+              null
+          }
           {watchListItemsUI}
 
-          <Grid item xs={8}>
-            <h1 className={classes.title}>To-Do Later</h1>
-          </Grid>
+          {
+            laterListItemsUI.length > 0 ?
+              <Grid item xs={8}>
+                <h1 className={classes.title}>To-Do Later</h1>
+              </Grid> :
+              null
+          }
           {laterListItemsUI}
 
         </Grid>

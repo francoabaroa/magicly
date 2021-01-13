@@ -109,6 +109,16 @@ export default {
         },
       });
     },
+    lists: async (user, args, { models }) => {
+      if (!user) {
+        return null;
+      }
+      return await models.List.findAll({
+        where: {
+          userId: user.id,
+        },
+      });
+    },
     setting: async (user, args, { models }) => {
       if (!user) {
         return null;
