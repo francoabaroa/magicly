@@ -47,7 +47,6 @@ const useStyles = makeStyles((theme: Theme) =>
     paper: {
       padding: theme.spacing(1),
       fontFamily: 'Playfair Display, serif',
-      textAlign: 'center',
       color: '#02040F',
       boxShadow: 'none',
       backgroundColor: "#E6EAED",
@@ -67,7 +66,6 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: '20px',
       marginBottom: '0px',
       fontSize: '20px',
-      textAlign: 'center',
     },
     whyPage: {
       marginRight: '30px',
@@ -99,37 +97,82 @@ const WhyPage = () => {
       <div className={classes.whyPage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={10}>
-            <h1 className={classes.title}>Optimize your Digital and Physical Life in One Place</h1>
+            <h1 className={classes.title}>Optimize Your Life In One Place</h1>
           </Grid>
         </Grid>
         <div className={classes.root}>
           <Grid container alignItems="flex-start" justify="flex-end" direction="row">
-            <Grid item xs={4} lg={4} md={4} sm={4} className={classes.section}>
+            <Grid item xs={6} lg={12} md={12} sm={6} className={classes.section}>
               <Paper className={classes.paper}>
-                <h2 className={classes.valueProp}>
-                  My Home
-              </h2>
-              </Paper>
-            </Grid>
-            <Grid item xs={4} lg={4} md={4} sm={4} className={classes.section}>
-              <Paper className={classes.paper}>
-                <p className={classes.subheader}>
-                  Offload many household routines to Magicly. You can save any documents such as insurance papers, medical records, employee contracts, receipts, manuals and so much more, to give you the peace of mind (and storage space) you need.
-                </p>
-                <p className={classes.subheader}>
-                  You can also keep up with maintenance and repairs done to your home, so you can know exactly what work has been done to your home, why, by who, and how much it cost.
-                </p>
-                <p className={classes.subheader}>
-                  Additionally, for when you have a maintenance or repair coming up (which Magicly can remind you of) you can search for and find trusted home service-providers on our platform.
-                </p>
+                <div>
+                  <h2 className={classes.valueProp}>
+                    Home
+                  </h2>
+                </div>
+                <div>
+                  <ul>
+                    <li className={classes.subheader}>
+                      Manage and stay on top of all your home upkeep to know exactly the costs and work you put into your home.
+                    </li>
+                    <li className={classes.subheader}>
+                      Save time finding important home documents and never misplace them again.
+                    </li>
+                    <li className={classes.subheader}>
+                      Don’t rely on word of mouth references to find professional, reliable service providers anymore - find and book what you need on Magicly.
+                    </li>
+                  </ul>
+                </div>
               </Paper>
             </Grid>
           </Grid>
           <Grid container alignItems="flex-start" justify="flex-start" direction="row">
-            <Grid item xs={4} lg={4} md={4} sm={4} className={classes.section}>
+            <Grid item xs={6} lg={12} md={12} sm={6} className={classes.section}>
+              <Paper className={classes.paper}>
+                <div>
+                  <h2 className={classes.valueProp}>
+                    Productivity
+                  </h2>
+                </div>
+                <div>
+                  <ul>
+                    <li className={classes.subheader}>
+                      Get better at managing your time, while getting more things done.
+                    </li>
+                    <li className={classes.subheader}>
+                      Take back your time and have more time to do the things you enjoy.
+                    </li>
+                  </ul>
+                </div>
+              </Paper>
+            </Grid>
+          </Grid>
+          <Grid container alignItems="flex-start" justify="flex-end" direction="row">
+            <Grid item xs={6} lg={12} md={12} sm={6} className={classes.section}>
+              <Paper className={classes.paper}>
+                <div>
+                  <h2 className={classes.valueProp}>
+                    Finances
+                  </h2>
+                </div>
+                <div>
+                  <ul>
+                    <li className={classes.subheader}>
+                      Easily view and manage multiple finance accounts in one place to get an overview of your wealth's health.
+                    </li>
+                    <li className={classes.subheader}>
+                      Instead of saving endless paper receipts, store and manage them on Magicly.
+                    </li>
+                  </ul>
+                </div>
+              </Paper>
+            </Grid>
+            {/* <Grid item xs={4} lg={4} md={4} sm={4} className={classes.section}>
               <Paper className={classes.paper}>
                 <p className={classes.subheader}>
-                  Magicly empowers you to stay on top of your finances in a simple and secure way by creating a dashboard with high-level information about your accounts. Don't worry, your finance dashboard will only be reflecting to you and we will never save or use that data.
+                  Easily view and manage multiple finance accounts in one place to get an overview of your wealth's health.
+                </p>
+                <p className={classes.subheader}>
+                  Instead of saving endless paper receipts, store and manage them on Magicly.
                 </p>
               </Paper>
             </Grid>
@@ -139,35 +182,7 @@ const WhyPage = () => {
                   Finances
               </h2>
               </Paper>
-            </Grid>
-          </Grid>
-          <Grid container alignItems="flex-start" justify="flex-end" direction="row">
-            <Grid item xs={4} lg={4} md={4} sm={4} className={classes.section}>
-              <Paper className={classes.paper}>
-                <h2 className={classes.valueProp}>
-                  Productivity
-              </h2>
-              </Paper>
-            </Grid>
-            <Grid item xs={4} lg={4} md={4} sm={4} className={classes.section}>
-              <Paper className={classes.paper}>
-                <p className={classes.subheader}>With Magicly, you'll be able to increase your productivity in a simple and organized way that allows you to track your tasks, set reminders, and ask us any tech question you might have. Oh and a little cherry on top: you'll finally have a place to save all the recommendations you get - from movies to restaurants, you'll never lose them again.</p>
-              </Paper>
-            </Grid>
-          </Grid>
-          <Grid container alignItems="flex-start" justify="flex-start" direction="row">
-            <Grid item xs={4} lg={4} md={4} sm={4} className={classes.section}>
-              <Paper className={classes.paper}>
-                <p className={classes.subheader}>You won't have to rely on word of mouth recommendations anymore when you're looking for a trusted home service-provider or products. On Magicly, you can find the services and products you need to run your home and life efficiently.</p>
-              </Paper>
-            </Grid>
-            <Grid item xs={4} lg={4} md={4} sm={4} className={classes.section}>
-              <Paper className={classes.paper}>
-                <h2 className={classes.valueProp}>
-                  Services & Products
-              </h2>
-              </Paper>
-            </Grid>
+            </Grid> */}
           </Grid>
         </div>
       </div>
