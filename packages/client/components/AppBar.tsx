@@ -25,22 +25,22 @@ const useStyles = makeStyles((theme: Theme) =>
       fontFamily: 'Overpass',
       margin: '9px',
       color: '#FFF',
-      backgroundColor: '#840032',
+      backgroundColor: '#002642',
       borderRadius: '50px',
     },
     signInButton: {
       fontFamily: 'Overpass',
       margin: '9px',
-      color: '#840032',
+      color: '#002642',
       backgroundColor: '#FFF',
       borderRadius: '50px',
-      border: '3px solid #840032'
+      border: '3px solid #002642'
     },
     accountCircle: {
-      color: '#840032',
+      color: '#002642',
     },
     arrowDropDownCircle: {
-      color: '#840032'
+      color: '#002642'
     },
     appbar: {
       backgroundColor: '#FFF'
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: theme.spacing(2),
     },
     title: {
-      color: '#840032',
+      color: '#002642',
       fontFamily: 'Overpass',
       fontSize: '34px',
       display: 'none',
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     titleMobile: {
-      color: '#840032',
+      color: '#002642',
       fontFamily: 'Overpass',
       fontSize: '24px',
       display: 'none',
@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme: Theme) =>
     why: {
       fontFamily: 'Playfair Display, serif',
       fontWeight: 700,
-      color: '#840032',
+      color: '#002642',
       display: 'none',
       padding: '9px',
       [theme.breakpoints.up('sm')]: {
@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme: Theme) =>
     mainPages: {
       fontFamily: 'Playfair Display, serif',
       fontWeight: 'normal',
-      color: '#840032',
+      color: '#002642',
       display: 'none',
       padding: '9px',
       [theme.breakpoints.up('sm')]: {

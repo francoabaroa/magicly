@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'block',
       marginTop: '35px',
       color: '#FFF',
-      backgroundColor: '#840032',
+      backgroundColor: '#002642',
       borderRadius: '50px',
       width: '180px',
       height: '40px',
