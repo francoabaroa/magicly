@@ -98,9 +98,13 @@ const useStyles = makeStyles((theme: Theme) =>
 const SupportPage = () => {
   const classes = useStyles();
   const { data, loading, error, refetch } = useQuery(QUERY);
-  const [email, setEmail] = useState(data.me.email);
+  const [email, setEmail] = useState(
+    data && data.me && data.me.email ? data.me.email : ''
+  );
   const [body, setBody] = useState('');
-  const [firstName, setFirstName] = useState(data.me.firstName);
+  const [firstName, setFirstName] = useState(
+    data && data.me && data.me.firstName ? data.me.firstName : ''
+  );
 
   const submitForm = event => {
     // TODO: NEED TO FIND WHERE TO SUBMIT QUESTION
