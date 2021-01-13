@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     findButton: {
-      fontFamily: 'Fredoka One, cursive',
+      fontFamily: 'Overpass, serif',
       fontSize: '14px',
       margin: '0 auto',
       pointerEvents: 'none',

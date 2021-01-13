@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     updateSettingsButton: {
-      fontFamily: 'Fredoka One, cursive',
+      fontFamily: 'Overpass, serif',
       fontSize: '16px',
       margin: '0 auto',
       display: 'block',
@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     resetPasswordBtn: {
-      fontFamily: 'Fredoka One, cursive',
+      fontFamily: 'Overpass, serif',
       fontSize: '16px',
       margin: '0 auto',
       display: 'block',

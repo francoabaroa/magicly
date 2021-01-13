@@ -102,7 +102,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: '55px',
     },
     findButton: {
-      fontFamily: 'Fredoka One, cursive',
+      fontFamily: 'Overpass, serif',
       fontSize: '22px',
       margin: '0 auto',
       display: 'block',

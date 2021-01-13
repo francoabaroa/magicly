@@ -22,14 +22,14 @@ import { APP_CONFIG } from '../constants/appStrings';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     signUpButton: {
-      fontFamily: 'Fredoka One',
+      fontFamily: 'Overpass',
       margin: '9px',
       color: '#FFF',
       backgroundColor: '#840032',
       borderRadius: '50px',
     },
     signInButton: {
-      fontFamily: 'Fredoka One',
+      fontFamily: 'Overpass',
       margin: '9px',
       color: '#840032',
       backgroundColor: '#FFF',
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       color: '#840032',
-      fontFamily: 'Fredoka One',
+      fontFamily: 'Overpass',
       fontSize: '34px',
       display: 'none',
       [theme.breakpoints.up('sm')]: {
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     titleMobile: {
       color: '#840032',
-      fontFamily: 'Fredoka One',
+      fontFamily: 'Overpass',
       fontSize: '24px',
       display: 'none',
       [theme.breakpoints.down('sm')]: {

@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: '15px',
       fontSize: '20px',
       textDecoration: 'none',
-      fontFamily: 'Fredoka One, cursive',
+      fontFamily: 'Overpass, serif',
       color: '#840032',
       padding: '8px',
       borderRadius: '10px',

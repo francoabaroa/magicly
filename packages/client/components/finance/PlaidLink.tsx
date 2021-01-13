@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     getStartedBtn: {
-      fontFamily: 'Fredoka One, cursive',
+      fontFamily: 'Overpass, serif',
       fontSize: '22px',
       margin: '0 auto',
       display: 'block',

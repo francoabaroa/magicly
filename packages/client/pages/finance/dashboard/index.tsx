@@ -86,7 +86,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: '0 auto'
     },
     uploadReceiptsBtn: {
-      fontFamily: 'Fredoka One, cursive',
+      fontFamily: 'Overpass, serif',
       fontSize: '14px',
       margin: '0 auto',
       display: 'block',
@@ -104,7 +104,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     manageReceiptsBtn: {
-      fontFamily: 'Fredoka One, cursive',
+      fontFamily: 'Overpass, serif',
       fontSize: '14px',
       margin: '0 auto',
       display: 'block',
@@ -122,7 +122,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     manageTransactionsBtn: {
-      fontFamily: 'Fredoka One, cursive',
+      fontFamily: 'Overpass, serif',
       fontSize: '14px',
       margin: '0 auto',
       display: 'block',

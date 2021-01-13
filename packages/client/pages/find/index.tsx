@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: '15px',
     },
     viewProdsServs: {
-      fontFamily: 'Fredoka One, cursive',
+      fontFamily: 'Overpass, serif',
       fontSize: '18px',
       margin: '0 auto',
       display: 'block',

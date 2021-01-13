@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: '0 auto'
     },
     receiptsButton: {
-      fontFamily: 'Fredoka One, cursive',
+      fontFamily: 'Overpass, serif',
       fontSize: '14px',
       margin: '0 auto',
       display: 'block',
@@ -91,7 +91,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     viewReceiptsButton: {
-      fontFamily: 'Fredoka One, cursive',
+      fontFamily: 'Overpass, serif',
       fontSize: '14px',
       margin: '0 auto',
       display: 'block',
@@ -109,7 +109,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     viewOrSearchButton: {
-      fontFamily: 'Fredoka One, cursive',
+      fontFamily: 'Overpass, serif',
       fontSize: '14px',
       margin: '0 auto',
       display: 'block',

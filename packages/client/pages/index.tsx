@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     getStartedButton: {
-      fontFamily: 'Fredoka One',
+      fontFamily: 'Overpass',
       margin: '0 auto',
       display: 'block',
       marginTop: '35px',

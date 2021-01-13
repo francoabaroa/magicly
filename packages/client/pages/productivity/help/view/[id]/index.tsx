@@ -86,7 +86,7 @@ const useStyles = makeStyles((theme: Theme) =>
       // fontSize: '14px',
     },
     viewAnswerBtn: {
-      fontFamily: 'Fredoka One, cursive',
+      fontFamily: 'Overpass, serif',
       fontSize: '14px',
       margin: '0 auto',
       display: 'block',

@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     signInButton: {
-      fontFamily: 'Fredoka One, cursive',
+      fontFamily: 'Overpass, serif',
       fontSize: '16px',
       margin: '0 auto',
       display: 'block',

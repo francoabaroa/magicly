@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: '30px',
     },
     getStarted: {
-      fontFamily: 'Fredoka One, cursive',
+      fontFamily: 'Overpass, serif',
       fontSize: '16px',
       margin: '0 auto',
       display: 'block',
