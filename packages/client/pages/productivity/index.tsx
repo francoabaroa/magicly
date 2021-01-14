@@ -98,14 +98,14 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(1),
       fontFamily: 'Playfair Display, serif',
       textAlign: 'center',
-      color: '#02040F',
-      backgroundColor: "#E5DADA",
+      color: '#FFF',
+      backgroundColor: "#840032",
       borderRadius: '10px',
-      boxShadow: '15px 15px 0 0px #02040F',
+      boxShadow: '15px 15px 0 0px #E59500',
       marginBottom: '10px',
     },
     sectionTitle: {
-      color: '#02040F',
+      color: '#FFF',
       fontWeight: 'bold',
       fontSize: '28px',
       [theme.breakpoints.down('sm')]: {
@@ -123,7 +123,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: '5px',
     },
     details: {
-      color: '#02040F',
+      color: '#FFF',
       fontFamily: 'Playfair Display, serif',
       textAlign: 'center',
       fontWeight: 'normal',
@@ -135,7 +135,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     icon: {
-      color: '#02040F',
+      color: '#FFF',
       fontSize: '12px',
     },
   }),

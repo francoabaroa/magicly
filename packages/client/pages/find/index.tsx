@@ -90,15 +90,16 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'block',
       marginTop: '20px',
       marginBottom: '20px',
-      color: '#FFF',
-      backgroundColor: '#0A7EF2',
+      color: '#002642',
+      backgroundColor: '#FFF',
+      border: '3px solid #002642',
       borderRadius: '50px',
       width: '250px',
       height: '50px',
       [theme.breakpoints.down('sm')]: {
         fontSize: '14px',
         width: '180px',
-        height: '30px'
+        height: '40px'
       },
     },
     centerText: {
@@ -125,6 +126,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     search: {
       minWidth: '500px',
+      color: '#002642',
       [theme.breakpoints.down('xs')]: {
         minWidth: '320px',
       }
@@ -475,7 +477,7 @@ const FindPage = () => {
           <Grid item xs={6} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
             <h2
               className={classes.title}>
-              Services Search
+              What kind of product or service are you looking for today?
             </h2>
           </Grid>
         </Grid>
@@ -494,9 +496,6 @@ const FindPage = () => {
               showSearch ?
                 <Grid item xs={12} lg={12} style={{ textAlign: 'center' }}>
                   <TextField id="outlined-basic" label="Search" variant="outlined" className={classes.search} autoComplete="off" onInput={handleRealtimeSearch} />
-                  {<Button variant="contained" style={{ border: '2px solid #840032', backgroundColor: 'white', color: '#840032', marginLeft: '10px', height: '55px' }} onClick={clearSearch}>
-                    Clear
-              </Button>}
                 </Grid> : null
             }
 
