@@ -445,7 +445,7 @@ async function main() {
             return;
           }
 
-          const token = await createToken(user, process.env.JWT_KEY, '1d');
+          const token = await createToken(user, process.env.JWT_KEY, '5d');
           res.cookie('jwt', token, {
             httpOnly: true,
             // TODO: turn these options on for PROD
@@ -488,7 +488,7 @@ async function main() {
         return;
       }
 
-      const token = await createToken(user, process.env.JWT_KEY, '1d');
+      const token = await createToken(user, process.env.JWT_KEY, '5d');
       res.cookie('jwt', token, {
         httpOnly: true,
         // TODO: turn these options on for PROD
