@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontFamily: 'Playfair Display, serif',
       textAlign: 'center',
       fontWeight: 'normal',
-      fontSize: '18px',
+      fontSize: '24px',
       margin: 'auto',
       marginLeft: '10px',
       [theme.breakpoints.down('sm')]: {
@@ -92,7 +92,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     icon: {
       color: '#FFF',
-      fontSize: '12px',
+      fontSize: '18px',
     },
     recent: {
       fontFamily: 'Playfair Display, serif',
@@ -115,79 +115,85 @@ const HomePage = () => {
     router.push('/' + pageName, undefined, { shallow: true });
   };
 
-  const getDocumentPreviews = () => {
-    let documentPreviews = [];
-
-    // only get last 3
-    let length = data.me.documents.length >= 3 ? 3 : data.me.documents.length;
+  const getRecentDocumentPreview = () => {
+    let documentPreview = [];
+    let length = data.me.documents.length >= 1 ? 1 : data.me.documents.length;
     let documents = data.me.documents.slice().reverse();
     for (let i = 0; i < length; i++) {
       let document = documents[i];
-      documentPreviews.push(
+      documentPreview.push(
         <Link key={i} href="home/documents/view/[id]" as={`home/documents/view/${document.id}`}>
           <div>- {document.name}</div>
         </Link>
       );
     }
-    return documentPreviews;
+    return documentPreview;
   };
 
-  const getHomeWorkPreviews = () => {
-    let homeworkPreviews = [];
-
-    // only get last 3
-    let length = data.me.homeworks.length >= 3 ? 3 : data.me.homeworks.length;
+  const getRecentHomeWorkPreview = () => {
+    let homeWorkPreview = [];
+    let length = data.me.homeworks.length >= 1 ? 1 : data.me.homeworks.length;
     let homeworks = data.me.homeworks.slice().reverse();
     for (let i = 0; i < length; i++) {
       let homework = homeworks[i];
-      homeworkPreviews.push(
+      homeWorkPreview.push(
         <Link key={i} href="home/work/view/[id]" as={`home/work/view/${homework.id}`}>
           <div>- {homework.title}</div>
         </Link>
       );
     }
-    return homeworkPreviews;
+    return homeWorkPreview;
   };
 
   const getDocumentsSection = () => {
     if (data && data.me && data.me.documents && data.me.documents.length > 0) {
-      let documents = getDocumentPreviews();
+      let documentPreview = getRecentDocumentPreview();
       return (
-        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
+        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
           <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
             <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'home/documents')}>
-              My Important Documents
+              Important Documents
             </h2>
+            <hr/>
           </Grid>
-          <Grid item xs={4} lg={4} md={4} sm={4} className={classes.recent}>
-            <div>Recent Documents: </div>
+          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.recent}>
+            <div>Most Recent: </div>
           </Grid>
-          <Grid item xs={4} lg={4} md={4} sm={4}>
-            {documents}
+          <Grid item xs={12} lg={12} md={12} sm={12}>
+            {documentPreview}
           </Grid>
-          <Grid item xs={4} lg={4} md={4} sm={4}>
-            <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/add')}>
-              <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>add a document</span>
-            </div>
-            <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents')}>
-              <Visibility fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>view all documents</span>
-            </div>
+
+          <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+            <Grid item xs={12} lg={6} md={6} sm={12}>
+              <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/add')}>
+                <AddCircle fontSize={'large'} className={classes.icon} />
+                <span className={classes.details}>add a document</span>
+              </div>
+            </Grid>
+            <Grid item xs={12} lg={6} md={6} sm={12}>
+              <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents')}>
+                <Visibility fontSize={'large'} className={classes.icon} />
+                <span className={classes.details}>view all documents</span>
+              </div>
+            </Grid>
           </Grid>
+
+
+
         </Grid>
       );
     } else {
       return (
         <Grid item xs={7} lg={12} md={7} sm={7} className={classes.paper}>
           <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'home/documents')}>
-            My Important Documents
+            Important Documents
             </h2>
+          <hr />
           <h3 className={classes.description}>
             Upload important documents to stay organized
             </h3>
         <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/add')}>
-          <AddCircle fontSize={'small'} className={classes.icon} />
+          <AddCircle fontSize={'large'} className={classes.icon} />
           <span className={classes.details}>add a document</span>
         </div>
         </Grid>
@@ -197,29 +203,35 @@ const HomePage = () => {
 
   const getHomeWorkSection = () => {
     if (data && data.me && data.me.homeworks && data.me.homeworks.length > 0) {
-      let homeworks = getHomeWorkPreviews();
+      let homeWorkPreview = getRecentHomeWorkPreview();
       return (
-        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
+        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
           <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
             <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'home/work')}>
-              My Home Work
+              Home Work
               </h2>
+            <hr />
           </Grid>
-          <Grid item xs={4} lg={4} md={4} sm={4} className={classes.recent}>
-            <div>Recent Home Work: </div>
+          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.recent}>
+            <div>Most Recent: </div>
           </Grid>
-          <Grid item xs={4} lg={4} md={4} sm={4}>
-            {homeworks}
+          <Grid item xs={12} lg={12} md={12} sm={12}>
+            {homeWorkPreview}
           </Grid>
-          <Grid item xs={4} lg={4} md={4} sm={4}>
-            <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
-              <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>add home work</span>
-            </div>
-            <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work')}>
-              <Visibility fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>view all home work</span>
-            </div>
+
+          <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+            <Grid item xs={12} lg={6} md={6} sm={12}>
+              <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
+                <AddCircle fontSize={'large'} className={classes.icon} />
+                <span className={classes.details}>add home work</span>
+              </div>
+            </Grid>
+            <Grid item xs={12} lg={6} md={6} sm={12}>
+              <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work')}>
+                <Visibility fontSize={'large'} className={classes.icon} />
+                <span className={classes.details}>view all home work</span>
+              </div>
+            </Grid>
           </Grid>
         </Grid>
       );
@@ -227,13 +239,14 @@ const HomePage = () => {
       return (
         <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
           <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'home/work')}>
-            My Home Work
+            Home Work
             </h2>
+          <hr />
           <h3 className={classes.description}>
             Keep track of any work done to your home, such as maintenance, repairs, installations and more
             </h3>
           <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
-            <AddCircle fontSize={'small'} className={classes.icon} />
+            <AddCircle fontSize={'large'} className={classes.icon} />
             <span className={classes.details}>add home work</span>
           </div>
         </Grid>
@@ -243,15 +256,14 @@ const HomePage = () => {
 
   const getHomeServiceProvidersSection = () => {
     return (
-      <Grid container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
-        <Grid item xs={12} lg={12} md={12} sm={12} xl={12} style={{ marginBottom: '20px' }} onClick={routePage.bind(this, 'find')}>
-          <h2 className={classes.sectionTitle}>
-            Find Home Services
-          </h2>
-          <h3 className={classes.description}>
-            Find trusted providers for all types of services for your home
-              </h3>
-        </Grid>
+      <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper} style={{ marginBottom: '20px' }} onClick={routePage.bind(this, 'find')}>
+        <h2 className={classes.sectionTitle}>
+          Find Home Services
+        </h2>
+        <hr />
+        <h3 className={classes.description}>
+          Find trusted providers for all types of services for your home
+            </h3>
       </Grid>
     );
   };
