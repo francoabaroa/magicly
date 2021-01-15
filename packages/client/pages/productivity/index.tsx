@@ -255,13 +255,13 @@ const ProductivityPage = () => {
           </Grid>
 
           <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
-            <Grid item xs={12} lg={6} md={6} sm={12}>
+            <Grid item xs={12} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/add')}>
                 <Visibility fontSize={'large'} className={classes.icon} />
                 <span className={classes.details}>view all recommendations</span>
               </div>
             </Grid>
-            <Grid item xs={12} lg={6} md={6} sm={12}>
+            <Grid item xs={12} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents')}>
                 <AddCircle fontSize={'large'} className={classes.icon} />
                 <span className={classes.details}>add a recommendation</span>
@@ -310,13 +310,13 @@ const ProductivityPage = () => {
           </Grid>
 
           <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
-            <Grid item xs={12} lg={6} md={6} sm={12}>
+            <Grid item xs={12} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
                 <Visibility fontSize={'large'} className={classes.icon} />
                 <span className={classes.details}>view all to-do items</span>
               </div>
             </Grid>
-            <Grid item xs={12} lg={6} md={6} sm={12}>
+            <Grid item xs={12} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work')}>
                 <AddCircle fontSize={'large'} className={classes.icon} />
                 <span className={classes.details}>add to-do item</span>
@@ -363,13 +363,13 @@ const ProductivityPage = () => {
           </Grid>
 
           <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
-            <Grid item xs={12} lg={6} md={6} sm={12}>
+            <Grid item xs={12} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents')}>
                 <Visibility fontSize={'large'} className={classes.icon} />
                 <span className={classes.details}>view all questions</span>
               </div>
             </Grid>
-            <Grid item xs={12} lg={6} md={6} sm={12}>
+            <Grid item xs={12} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/add')}>
                 <AddCircle fontSize={'large'} className={classes.icon} />
                 <span className={classes.details}>ask a tech question</span>
