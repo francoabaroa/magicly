@@ -198,13 +198,21 @@ const HomeWorkPage = () => {
     if (hasHomeWork) {
       return (
         <div>
-          <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h1 className={classes.sectionTitle}>Upcoming Home Work</h1>
-          </Grid>
+          {
+            upcomingWork.length > 0 ?
+              <Grid item xs={12} lg={12} md={12} sm={12}>
+                <h1 className={classes.sectionTitle}>Upcoming Home Work</h1>
+              </Grid> :
+              null
+          }
           { upcomingWork }
-          <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h1 className={classes.sectionTitle}>Past Home Work</h1>
-          </Grid>
+          {
+            pastWork.length > 0 ?
+              <Grid item xs={12} lg={12} md={12} sm={12}>
+                <h1 className={classes.sectionTitle}>Past Home Work</h1>
+              </Grid> :
+              null
+          }
           { pastWork }
         </div>
       );

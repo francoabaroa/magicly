@@ -102,7 +102,8 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: "#840032",
       borderRadius: '10px',
       boxShadow: '15px 15px 0 0px #E59500',
-      marginBottom: '10px',
+      marginBottom: '50px',
+      maxWidth: '800px'
     },
     sectionTitle: {
       color: '#FFF',
@@ -127,7 +128,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontFamily: 'Playfair Display, serif',
       textAlign: 'center',
       fontWeight: 'normal',
-      fontSize: '18px',
+      fontSize: '24px',
       margin: 'auto',
       marginLeft: '10px',
       [theme.breakpoints.down('sm')]: {
@@ -136,8 +137,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     icon: {
       color: '#FFF',
-      fontSize: '12px',
+      fontSize: '18px',
     },
+    recent: {
+      fontFamily: 'Playfair Display, serif',
+      fontStyle: 'normal',
+      fontWeight: 'bold',
+      fontSize: '18px',
+    }
   }),
 );
 
@@ -172,28 +179,30 @@ const ProductivityPage = () => {
     router.push('/' + pageName, undefined, { shallow: true });
   };
 
-  const getRecommendationItemsPreview = () => {
-    let recommendationItems = [];
-    data.listItems.edges.forEach((recommendation, key) => {
-      recommendationItems.push(
-        <Link key={key} href="productivity/recommendations/view/[id]" as={`productivity/recommendations/view/${recommendation.id}`}>
-          <div>- {recommendation.name}</div>
+  const getRecentRecommendationItemPreview = () => {
+    let recommendationItem = [];
+    for (let element of data.listItems.edges) {
+      recommendationItem.push(
+        <Link key={5} href="productivity/recommendations/view/[id]" as={`productivity/recommendations/view/${element.id}`}>
+          <div>- {element.name}</div>
         </Link>
       );
-    });
-    return recommendationItems;
+      break;
+    }
+    return recommendationItem;
   };
 
-  const getQuestionsPreview = () => {
-    let questions = [];
-    data.questions.edges.forEach((question, key) => {
-      questions.push(
-        <Link key={key} href="productivity/help/view/[id]" as={`productivity/help/view/${question.id}`}>
-          <div>- {question.body}</div>
+  const getRecentQuestionPreview = () => {
+    let questionsPreview = [];
+    for (let element of data.questions.edges) {
+      questionsPreview.push(
+        <Link key={6} href="productivity/help/view/[id]" as={`productivity/help/view/${element.id}`}>
+          <div>- {element.body}</div>
         </Link>
       );
-    });
-    return questions;
+      break;
+    }
+    return questionsPreview;
   };
 
   const containsTodoListItems = () => {
@@ -209,44 +218,56 @@ const ProductivityPage = () => {
     return false;
   }
 
-  const getTodoListItemsPreview = () => {
+  const getRecentToDoListItemPreview = () => {
     // TODO: should only show ones with upcoming due date
-    let todoListItemsPreview = [];
-
+    let todoListItemPreview = [];
     for (let i = 0; i < 3; i++) {
       if (data.lists.edges[i].listItems.length > 0) {
         let item = data.lists.edges[i].listItems[0];
-        todoListItemsPreview.push(
+        todoListItemPreview.push(
           <Link key={item.id} href="productivity/lists/view/[id]" as={`productivity/lists/view/${item.id}`}>
             <div>- {item.name}</div>
           </Link>
         );
+        break;
       }
     }
 
-    return todoListItemsPreview;
+    return todoListItemPreview;
   };
 
   const getRecommendationsSection = () => {
     if (data && data.listItems && data.listItems.edges && data.listItems.edges.length > 0) {
-      let recommendationItems = getRecommendationItemsPreview();
+      let recommendationItemPreview = getRecentRecommendationItemPreview();
       return (
-        <Grid item xs={7} lg={7} md={7} sm={7}>
-          <Paper className={classes.paper}>
-            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/recommendations')}>
-              My Recommendations
-              </h2>
-            <div>Recent Recommendations: </div>
-            { recommendationItems }
-            <span className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/recommendations')}>
-              <Visibility fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>view all recommendation</span>
-            </span>
-            <span className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/recommendations/add')}>
-              <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>add a recommendation</span>
-            </span>
-          </Paper>
+        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+          <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/recommendations')}>
+            Recommendations
+            </h2>
+          <hr />
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+          <div className={classes.recent}>Most Recent: </div>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+          { recommendationItemPreview }
+          </Grid>
+
+          <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+            <Grid item xs={12} lg={6} md={6} sm={12}>
+              <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/add')}>
+                <Visibility fontSize={'large'} className={classes.icon} />
+                <span className={classes.details}>view all recommendations</span>
+              </div>
+            </Grid>
+            <Grid item xs={12} lg={6} md={6} sm={12}>
+              <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents')}>
+                <AddCircle fontSize={'large'} className={classes.icon} />
+                <span className={classes.details}>add a recommendation</span>
+              </div>
+            </Grid>
+          </Grid>
         </Grid>
       );
     } else {
@@ -254,13 +275,14 @@ const ProductivityPage = () => {
         <Grid item xs={7} lg={7} md={7} sm={7}>
           <Paper className={classes.paper}>
             <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/recommendations')}>
-              My Recommendations
+              Recommendations
               </h2>
+            <hr />
             <h3 className={classes.description}>
               Save TV series, movies, books, travels, food or any recommendation you get
               </h3>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/recommendations/add')}>
-              <AddCircle fontSize={'small'} className={classes.icon} />
+              <AddCircle fontSize={'large'} className={classes.icon} />
               <span className={classes.details}>add a recommendation</span>
             </div>
           </Paper>
@@ -271,84 +293,105 @@ const ProductivityPage = () => {
 
   const getTodoListSection = () => {
     if (containsTodoListItems()) {
-      let todoListItems = getTodoListItemsPreview();
+      let todoListItemPreview = getRecentToDoListItemPreview();
       return (
-        <Grid item xs={7} lg={7} md={7} sm={7}>
-          <Paper className={classes.paper}>
-            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/lists')}>
-              My To-Do Lists
-              </h2>
-              <div>Recent To-Do Items: </div>
-            {todoListItems}
-            <span className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists')}>
-              <Visibility fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>view all to-do items</span>
-            </span>
-            <span className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists/add')}>
-              <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>add to-do item</span>
-            </span>
-          </Paper>
+        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+          <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/lists')}>
+            To-Do Lists
+            </h2>
+          <hr />
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+            <div className={classes.recent}>Most Recent: </div>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+          {todoListItemPreview}
+          </Grid>
+
+          <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+            <Grid item xs={12} lg={6} md={6} sm={12}>
+              <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
+                <Visibility fontSize={'large'} className={classes.icon} />
+                <span className={classes.details}>view all to-do items</span>
+              </div>
+            </Grid>
+            <Grid item xs={12} lg={6} md={6} sm={12}>
+              <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work')}>
+                <AddCircle fontSize={'large'} className={classes.icon} />
+                <span className={classes.details}>add to-do item</span>
+              </div>
+            </Grid>
+          </Grid>
         </Grid>
       );
     } else {
       return (
-        <Grid item xs={7} lg={7} md={7} sm={7}>
-          <Paper className={classes.paper}>
-            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/lists')}>
-              My To-Do Lists
-              </h2>
-            <h3 className={classes.description}>
-              Stay productive and organized with your tasks
-              </h3>
-            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists/add')}>
-              <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>add to-do item</span>
-            </div>
-          </Paper>
+        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
+          <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/lists')}>
+            To-Do Lists
+            </h2>
+          <hr />
+          <h3 className={classes.description}>
+            Stay productive and organized with your tasks
+            </h3>
+          <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists/add')}>
+            <AddCircle fontSize={'large'} className={classes.icon} />
+            <span className={classes.details}>add to-do item</span>
+          </div>
         </Grid>
       );
     }
   };
 
   const getTechHelpSection = () => {
-    let questions = getQuestionsPreview();
-
+    let questionPreview = getRecentQuestionPreview();
     if (data && data.questions && data.questions.edges && data.questions.edges.length > 0) {
       return (
-        <Grid item xs={7} lg={7} md={7} sm={7} style={{ marginBottom: '50px' }}>
-          <Paper className={classes.paper}>
-            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/help')}>
-              Ask a Tech Question
-              </h2>
-            <div>Recent Questions: </div>
-            {questions}
-            <span className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/help')}>
-              <Visibility fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>view all questions</span>
-            </span>
-            <span className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/help/add')}>
-              <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>ask a tech question</span>
-            </span>
-          </Paper>
+        <Grid item xs={7} lg={7} md={7} sm={7} style={{ marginBottom: '50px' }} className={classes.paper}>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+          <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/help')}>
+            Ask a Tech Question
+            </h2>
+          <hr />
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+          <div className={classes.recent}>Most Recent: </div>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+          {questionPreview}
+          </Grid>
+
+          <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+            <Grid item xs={12} lg={6} md={6} sm={12}>
+              <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents')}>
+                <Visibility fontSize={'large'} className={classes.icon} />
+                <span className={classes.details}>view all questions</span>
+              </div>
+            </Grid>
+            <Grid item xs={12} lg={6} md={6} sm={12}>
+              <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/add')}>
+                <AddCircle fontSize={'large'} className={classes.icon} />
+                <span className={classes.details}>ask a tech question</span>
+              </div>
+            </Grid>
+          </Grid>
         </Grid>
       );
     } else {
       return (
-        <Grid item xs={7} lg={7} md={7} sm={7} style={{ marginBottom: '50px' }}>
-          <Paper className={classes.paper}>
-            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/help')}>
-              Ask a Tech Question
-              </h2>
-            <h3 className={classes.description}>
-              Answer questions, concerns or doubts you might have about technology
-              </h3>
-            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/help/add')}>
-              <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>ask a tech question</span>
-            </div>
-          </Paper>
+        <Grid item xs={7} lg={7} md={7} sm={7} style={{ marginBottom: '50px' }} className={classes.paper}>
+          <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/help')}>
+            Ask a Tech Question
+            </h2>
+          <hr />
+          <h3 className={classes.description}>
+            Answer questions, concerns or doubts you might have about technology
+            </h3>
+          <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/help/add')}>
+            <AddCircle fontSize={'large'} className={classes.icon} />
+            <span className={classes.details}>ask a tech question</span>
+          </div>
         </Grid>
       );
     }
@@ -358,7 +401,7 @@ const ProductivityPage = () => {
     <Layout>
       <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
         <Grid item xs={12} lg={12} md={12} sm={12} style={{textAlign: 'center'}}>
-          <h2 className={classes.pageHeading}>My Productivity</h2>
+          <h2 className={classes.pageHeading}></h2>
         </Grid>
         { getTodoListSection() }
         { getRecommendationsSection() }
