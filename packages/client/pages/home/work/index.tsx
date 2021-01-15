@@ -129,7 +129,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     toolIcon: {
       color: '#002642',
-      fontSize: '14px',
+      fontSize: '18px',
     },
   }),
 );
@@ -151,15 +151,13 @@ const HomeWorkPage = () => {
 
   const getIndividualHomeWork = (key: any, homework: any) => {
     return (
-      <span key={key}>
-        <Grid item xs={12} lg={12} md={12} sm={12}>
-          <Home className={classes.toolIcon} />
-          <Link href="work/view/[id]" as={`work/view/${homework.id}`}>
-            <span className={classes.link}>{homework.title}</span>
-          </Link>
-        </Grid>
+      <Grid key={key} item xs={12} lg={12} md={12} sm={12}>
+        <Home fontSize={'large'} className={classes.toolIcon} />
+        <Link href="work/view/[id]" as={`work/view/${homework.id}`}>
+          <span className={classes.link}>{homework.title}</span>
+        </Link>
         <hr className={classes.horizontalLine} />
-      </span>
+      </Grid>
     );
   };
 
@@ -193,22 +191,13 @@ const HomeWorkPage = () => {
     router.push('/' + pageName, undefined, { shallow: true });
   };
 
-  const getMainUI = (
+  const getPastHomeWork = (
     hasHomeWork: boolean,
     pastWork: Array<any>,
-    upcomingWork: Array<any>
   ) => {
     if (hasHomeWork) {
       return (
-        <div>
-          {
-            upcomingWork.length > 0 ?
-              <Grid item xs={12} lg={12} md={12} sm={12}>
-                <h1 className={classes.sectionTitle}>Upcoming Home Work</h1>
-              </Grid> :
-              null
-          }
-          { upcomingWork }
+        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center" style={{maxWidth: '800px'}}>
           {
             pastWork.length > 0 ?
               <Grid item xs={12} lg={12} md={12} sm={12}>
@@ -217,19 +206,32 @@ const HomeWorkPage = () => {
               null
           }
           { pastWork }
-        </div>
+        </Grid>
       );
     } else {
+      return null;
+    }
+  }
+
+  const getUpcomingHomeWork = (
+    hasHomeWork: boolean,
+    upcomingWork: Array<any>
+  ) => {
+    if (hasHomeWork) {
       return (
-        <div>
-          <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h1 className={classes.sectionTitle}>Upcoming Home Work</h1>
-          </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h1 className={classes.sectionTitle}>Past Home Work</h1>
-          </Grid>
-        </div>
+        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center" style={{ maxWidth: '800px' }}>
+          {
+            upcomingWork.length > 0 ?
+              <Grid item xs={12} lg={12} md={12} sm={12}>
+                <h1 className={classes.sectionTitle}>Upcoming Home Work</h1>
+              </Grid> :
+              null
+          }
+          { upcomingWork}
+        </Grid>
       );
+    } else {
+      return null;
     }
   }
 
@@ -257,7 +259,8 @@ const HomeWorkPage = () => {
               <span className={classes.details}>search</span>
             </div>
           </Grid>
-          {getMainUI(hasHomeWork, pastWork, upcomingWork)}
+          {getUpcomingHomeWork(hasHomeWork, upcomingWork)}
+          {getPastHomeWork(hasHomeWork, pastWork)}
       </Grid>
       </div>
     </Layout>
