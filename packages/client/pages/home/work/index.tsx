@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import AddCircle from '@material-ui/icons/AddCircle';
 import Search from '@material-ui/icons/Search';
-import Build from '@material-ui/icons/Build';
+import Home from '@material-ui/icons/Home';
 import Edit from '@material-ui/icons/Edit';
 
 import { HOME_WORK_STATUS } from '../../../constants/appStrings';
@@ -99,16 +99,19 @@ const useStyles = makeStyles((theme: Theme) =>
       fontFamily: 'Playfair Display, serif',
       textAlign: 'center',
       fontWeight: 'normal',
-      fontSize: '18px',
+      fontSize: '24px',
       margin: 'auto',
       marginLeft: '10px',
       [theme.breakpoints.down('sm')]: {
-        fontSize: '16px',
+        fontSize: '22px',
       },
     },
     icon: {
       color: '#0A7EF2',
-      fontSize: '12px',
+      fontSize: '24px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '18px',
+      },
     },
     homeWorkPage: {
       marginRight: '50px',
@@ -150,7 +153,7 @@ const HomeWorkPage = () => {
     return (
       <span key={key}>
         <Grid item xs={12} lg={12} md={12} sm={12}>
-          <Build className={classes.toolIcon} />
+          <Home className={classes.toolIcon} />
           <Link href="work/view/[id]" as={`work/view/${homework.id}`}>
             <span className={classes.link}>{homework.title}</span>
           </Link>
@@ -244,14 +247,14 @@ const HomeWorkPage = () => {
         </Grid> */}
         <Grid item xs={12} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
-              <AddCircle fontSize={'small'} className={classes.icon} />
+              <AddCircle fontSize={'large'} className={classes.icon} />
               <span className={classes.details}>add home work</span>
             </div>
           </Grid>
         <Grid item xs={12} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature}>
-              <Search fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>search home work</span>
+              <Search fontSize={'large'} className={classes.icon} />
+              <span className={classes.details}>search</span>
             </div>
           </Grid>
           {getMainUI(hasHomeWork, pastWork, upcomingWork)}
