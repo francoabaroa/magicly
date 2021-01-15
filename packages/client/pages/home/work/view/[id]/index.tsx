@@ -6,6 +6,7 @@ import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Add from '@material-ui/icons/Add';
 import Event from '@material-ui/icons/Event';
@@ -52,12 +53,47 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: '0px',
       },
     },
+    deleteButton: {
+      fontFamily: 'Overpass, serif',
+      fontSize: '14px',
+      margin: '0 auto',
+      display: 'block',
+      marginTop: '2px',
+      color: '#FFF',
+      backgroundColor: '#002642',
+      borderRadius: '50px',
+      width: '175px',
+      height: '40px',
+      [theme.breakpoints.down('md')]: {
+        fontSize: '14px',
+        width: '150px',
+        height: '45px'
+      },
+    },
+    completeBtn: {
+      fontFamily: 'Overpass, serif',
+      fontSize: '14px',
+      margin: '0 auto',
+      display: 'block',
+      marginTop: '2px',
+      color: '#002642',
+      backgroundColor: '#FFF',
+      borderRadius: '50px',
+      border: '3px #002642 solid',
+      width: '175px',
+      height: '40px',
+      [theme.breakpoints.down('md')]: {
+        fontSize: '14px',
+        width: '150px',
+        height: '45px'
+      },
+    },
     individualFeature: {
       textAlign: 'center',
       marginBottom: '5px',
     },
     details: {
-      color: '#0A7EF2',
+      color: 'rgba(0, 38, 66, 0.5)',
       fontFamily: 'Playfair Display, serif',
       textAlign: 'center',
       fontWeight: 'normal',
@@ -69,8 +105,8 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     icon: {
-      color: '#0A7EF2',
-      fontSize: '14px',
+      color: 'rgba(0, 38, 66, 0.5)',
+      fontSize: '18px',
     }
   }),
 );
@@ -100,40 +136,57 @@ const ViewHomeWorkPage = () => {
           </Grid>
           {/* <Grid item xs={7} lg={7} md={7} sm={7}>
             <div className={classes.individualFeature}>
-              <Title fontSize={'small'} className={classes.icon} />
+              <Title fontSize={'large'} className={classes.icon} />
               <span className={classes.details}>{data.homework.title}</span>
             </div>
           </Grid> */}
           <Grid item xs={7} lg={7} md={7} sm={7}>
             <div className={classes.individualFeature}>
-              <Add fontSize={'small'} style={{ color: '#0A7EF2'}}/>
+              <Add fontSize={'large'} className={classes.icon}/>
               <span className={classes.details}>{ getCapitalizedString(data.homework.type) }</span>
             </div>
           </Grid>
           <Grid item xs={7} lg={7} md={7} sm={7}>
             <div className={classes.individualFeature}>
-              <Event fontSize={'small'} className={classes.icon} />
+              <Event fontSize={'large'} className={classes.icon} />
               <span className={classes.details}>{moment(data.homework.executionDate).format('MMMM Do, YYYY')}</span>
             </div>
           </Grid>
           <Grid item xs={7} lg={7} md={7} sm={7}>
             <div className={classes.individualFeature}>
-              <AttachMoney fontSize={'small'} className={classes.icon} />
+              <AttachMoney fontSize={'large'} className={classes.icon} />
               <span className={classes.details}>{data.homework.cost}</span>
             </div>
           </Grid>
           <Grid item xs={7} lg={7} md={7} sm={7}>
             <div className={classes.individualFeature}>
-              <Person fontSize={'small'} className={classes.icon} />
+              <Person fontSize={'large'} className={classes.icon} />
               <span className={classes.details}>{data.homework.executor}</span>
             </div>
           </Grid>
           <Grid item xs={7} lg={7} md={7} sm={7}>
             <div className={classes.individualFeature}>
-              <Notes fontSize={'small'} className={classes.icon} />
+              <Notes fontSize={'large'} className={classes.icon} />
               <span className={classes.details}>{data.homework.notes}</span>
             </div>
           </Grid>
+          <Grid item xs={7} lg={7} md={7} sm={7}>
+            <Button
+              onClick={()=>{}}
+              className={classes.completeBtn}
+            >
+              Mark As Complete
+            </Button>
+          </Grid>
+          <Grid item xs={7} lg={7} md={7} sm={7}>
+            <Button
+              onClick={() => { }}
+              className={classes.deleteButton}
+            >
+              Delete
+            </Button>
+          </Grid>
+
         </Grid>
       );
     } else {
