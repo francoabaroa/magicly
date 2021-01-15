@@ -167,13 +167,13 @@ const HomePage = () => {
             <Grid item xs={12} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents')}>
                 <Visibility fontSize={'large'} className={classes.icon} />
-                <span className={classes.details}>view all documents</span>
+                <span className={classes.details}>view all</span>
               </div>
             </Grid>
             <Grid item xs={12} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/add')}>
                 <AddCircle fontSize={'large'} className={classes.icon} />
-                <span className={classes.details}>add a document</span>
+                <span className={classes.details}>add</span>
               </div>
             </Grid>
           </Grid>
@@ -194,7 +194,7 @@ const HomePage = () => {
             </h3>
         <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/add')}>
           <AddCircle fontSize={'large'} className={classes.icon} />
-          <span className={classes.details}>add a document</span>
+          <span className={classes.details}>add</span>
         </div>
         </Grid>
       );
@@ -223,13 +223,13 @@ const HomePage = () => {
             <Grid item xs={12} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work')}>
                 <Visibility fontSize={'large'} className={classes.icon} />
-                <span className={classes.details}>view all home work</span>
+                <span className={classes.details}>view all</span>
               </div>
             </Grid>
             <Grid item xs={12} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
                 <AddCircle fontSize={'large'} className={classes.icon} />
-                <span className={classes.details}>add home work</span>
+                <span className={classes.details}>add</span>
               </div>
             </Grid>
           </Grid>
@@ -247,7 +247,7 @@ const HomePage = () => {
             </h3>
           <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
             <AddCircle fontSize={'large'} className={classes.icon} />
-            <span className={classes.details}>add home work</span>
+            <span className={classes.details}>add</span>
           </div>
         </Grid>
       );

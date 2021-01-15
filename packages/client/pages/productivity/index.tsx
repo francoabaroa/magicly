@@ -258,13 +258,13 @@ const ProductivityPage = () => {
             <Grid item xs={12} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/add')}>
                 <Visibility fontSize={'large'} className={classes.icon} />
-                <span className={classes.details}>view all recommendations</span>
+                <span className={classes.details}>view all</span>
               </div>
             </Grid>
             <Grid item xs={12} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents')}>
                 <AddCircle fontSize={'large'} className={classes.icon} />
-                <span className={classes.details}>add a recommendation</span>
+                <span className={classes.details}>add</span>
               </div>
             </Grid>
           </Grid>
@@ -283,7 +283,7 @@ const ProductivityPage = () => {
               </h3>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/recommendations/add')}>
               <AddCircle fontSize={'large'} className={classes.icon} />
-              <span className={classes.details}>add a recommendation</span>
+              <span className={classes.details}>add</span>
             </div>
           </Paper>
         </Grid>
@@ -313,13 +313,13 @@ const ProductivityPage = () => {
             <Grid item xs={12} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
                 <Visibility fontSize={'large'} className={classes.icon} />
-                <span className={classes.details}>view all to-do items</span>
+                <span className={classes.details}>view all</span>
               </div>
             </Grid>
             <Grid item xs={12} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work')}>
                 <AddCircle fontSize={'large'} className={classes.icon} />
-                <span className={classes.details}>add to-do item</span>
+                <span className={classes.details}>add</span>
               </div>
             </Grid>
           </Grid>
@@ -337,7 +337,7 @@ const ProductivityPage = () => {
             </h3>
           <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists/add')}>
             <AddCircle fontSize={'large'} className={classes.icon} />
-            <span className={classes.details}>add to-do item</span>
+            <span className={classes.details}>add</span>
           </div>
         </Grid>
       );
@@ -366,13 +366,13 @@ const ProductivityPage = () => {
             <Grid item xs={12} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents')}>
                 <Visibility fontSize={'large'} className={classes.icon} />
-                <span className={classes.details}>view all questions</span>
+                <span className={classes.details}>view all</span>
               </div>
             </Grid>
             <Grid item xs={12} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/add')}>
                 <AddCircle fontSize={'large'} className={classes.icon} />
-                <span className={classes.details}>ask a tech question</span>
+                <span className={classes.details}>ask</span>
               </div>
             </Grid>
           </Grid>
