@@ -59,14 +59,15 @@ export default {
       });
       const hasNextPage = lists.length > limit;
       const edges = hasNextPage ? lists.slice(0, -1) : lists;
+      const endCursor = edges.length > 0 ? toCursorHash(
+        // TODO: this is coming back undefined when cursor is being used
+        edges[edges.length - 1].createdAt.toString(),
+      ) : null;
       return {
         edges,
         pageInfo: {
           hasNextPage,
-          endCursor: toCursorHash(
-            // TODO: this is coming back undefined when cursor is being used
-            edges[edges.length - 1].createdAt.toString(),
-          ),
+          endCursor: endCursor,
         },
       };
     }

@@ -59,14 +59,15 @@ export default {
       });
       const hasNextPage = homeworks.length > limit;
       const edges = hasNextPage ? homeworks.slice(0, -1) : homeworks;
+      const endCursor = edges.length > 0 ? toCursorHash(
+        // TODO: this is coming back undefined when cursor is being used
+        edges[edges.length - 1].createdAt.toString(),
+      ) : null;
       return {
         edges,
         pageInfo: {
           hasNextPage,
-          endCursor: toCursorHash(
-            // TODO: this is coming back undefined when cursor is being used
-            edges[edges.length - 1].createdAt.toString(),
-          ),
+          endCursor: endCursor,
         },
       };
     }
