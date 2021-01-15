@@ -236,7 +236,7 @@ const HomeWorkPage = () => {
       <div className={classes.homeWorkPage}>
       <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h1 className={classes.title}>Home Work</h1>
+            {/* <h1 className={classes.title}>Home Work</h1> */}
           </Grid>
 
           {/* <Grid item xs={12} lg={12} md={12} sm={12} onClick={routePage.bind(this, 'find')}>
@@ -245,7 +245,7 @@ const HomeWorkPage = () => {
         <Grid item xs={12} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
               <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>add home work event</span>
+              <span className={classes.details}>add home work</span>
             </div>
           </Grid>
         <Grid item xs={12} lg={5} md={5} sm={5}>
