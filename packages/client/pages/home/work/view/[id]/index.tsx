@@ -222,11 +222,15 @@ const ViewHomeWorkPage = () => {
   return (
     <Layout>
       { getUI(data) }
-      <DeleteHomeWorkModal
-        homework={data.homework}
-        openModal={deleteHomeWork}
-        handleClose={handleDeleteHomeWorkClose.bind(this)}
-      />
+      {
+        data && data.homework ?
+          <DeleteHomeWorkModal
+            homework={data.homework}
+            openModal={deleteHomeWork}
+            handleClose={handleDeleteHomeWorkClose.bind(this)}
+          /> :
+          null
+      }
     </Layout>
   );
 };
