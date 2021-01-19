@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Layout from '../../../../../components/Layout';
+import DeleteHomeWorkModal from '../../../../../components/home/DeleteHomeWorkModal';
 import { withApollo } from '../../../../../apollo/apollo';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/react-hooks';
@@ -115,6 +116,7 @@ const ViewHomeWorkPage = () => {
   const router = useRouter();
   const classes = useStyles();
   const { id } = router.query;
+  const [deleteHomeWork, setDeleteHomeWork] = useState(false);
   const { data, loading, error, refetch } = useQuery(QUERY, {
     variables: { id },
   });
@@ -123,6 +125,14 @@ const ViewHomeWorkPage = () => {
     const lowerCaseTitle = title.toLowerCase();
     if (typeof lowerCaseTitle !== 'string') return ''
     return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
+  };
+
+  const handleDeleteHomeWorkOpen = () => {
+    setDeleteHomeWork(true);
+  };
+
+  const handleDeleteHomeWorkClose = () => {
+    setDeleteHomeWork(false);
   };
 
   const getUI = (data: any) => {
@@ -196,7 +206,7 @@ const ViewHomeWorkPage = () => {
           </Grid>
           <Grid item xs={7} lg={7} md={7} sm={7}>
             <Button
-              onClick={() => { }}
+              onClick={handleDeleteHomeWorkOpen}
               className={classes.deleteButton}
             >
               Delete
@@ -212,6 +222,11 @@ const ViewHomeWorkPage = () => {
   return (
     <Layout>
       { getUI(data) }
+      <DeleteHomeWorkModal
+        homework={data.homework}
+        openModal={deleteHomeWork}
+        handleClose={handleDeleteHomeWorkClose.bind(this)}
+      />
     </Layout>
   );
 };
