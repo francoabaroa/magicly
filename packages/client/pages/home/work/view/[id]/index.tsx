@@ -146,30 +146,46 @@ const ViewHomeWorkPage = () => {
               <span className={classes.details}>{ getCapitalizedString(data.homework.type) }</span>
             </div>
           </Grid>
-          <Grid item xs={7} lg={7} md={7} sm={7}>
-            <div className={classes.individualFeature}>
-              <Event fontSize={'large'} className={classes.icon} />
-              <span className={classes.details}>{moment(data.homework.executionDate).format('MMMM Do, YYYY')}</span>
-            </div>
-          </Grid>
-          <Grid item xs={7} lg={7} md={7} sm={7}>
-            <div className={classes.individualFeature}>
-              <AttachMoney fontSize={'large'} className={classes.icon} />
-              <span className={classes.details}>{data.homework.cost}</span>
-            </div>
-          </Grid>
-          <Grid item xs={7} lg={7} md={7} sm={7}>
-            <div className={classes.individualFeature}>
-              <Person fontSize={'large'} className={classes.icon} />
-              <span className={classes.details}>{data.homework.executor}</span>
-            </div>
-          </Grid>
-          <Grid item xs={7} lg={7} md={7} sm={7}>
-            <div className={classes.individualFeature}>
-              <Notes fontSize={'large'} className={classes.icon} />
-              <span className={classes.details}>{data.homework.notes}</span>
-            </div>
-          </Grid>
+          {
+            data.homework.executionDate ?
+              <Grid item xs={7} lg={7} md={7} sm={7}>
+                <div className={classes.individualFeature}>
+                  <Event fontSize={'large'} className={classes.icon} />
+                  <span className={classes.details}>{moment(data.homework.executionDate).format('MMMM Do, YYYY')}</span>
+                </div>
+              </Grid> :
+              null
+          }
+          {
+            data.homework.cost ?
+              <Grid item xs={7} lg={7} md={7} sm={7}>
+                <div className={classes.individualFeature}>
+                  <AttachMoney fontSize={'large'} className={classes.icon} />
+                  <span className={classes.details}>{data.homework.cost}</span>
+                </div>
+              </Grid> :
+              null
+          }
+          {
+            data.homework.executor && data.homework.executor.length > 0 ?
+              <Grid item xs={7} lg={7} md={7} sm={7}>
+                <div className={classes.individualFeature}>
+                  <Person fontSize={'large'} className={classes.icon} />
+                  <span className={classes.details}>{data.homework.executor}</span>
+                </div>
+              </Grid> :
+              null
+          }
+          {
+            data.homework.notes && data.homework.notes.length > 0 ?
+              <Grid item xs={7} lg={7} md={7} sm={7}>
+                <div className={classes.individualFeature}>
+                  <Notes fontSize={'large'} className={classes.icon} />
+                  <span className={classes.details}>{data.homework.notes}</span>
+                </div>
+              </Grid> :
+              null
+          }
           <Grid item xs={7} lg={7} md={7} sm={7}>
             <Button
               onClick={()=>{}}
