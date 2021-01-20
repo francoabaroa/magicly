@@ -13,9 +13,9 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import FormLabel from '@material-ui/core/FormLabel';
-import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
@@ -61,38 +61,58 @@ const useStyles = makeStyles((theme: Theme) =>
         margin: theme.spacing(1),
       },
     },
+    textField: {
+      minWidth: '400px',
+    },
+    checkboxLabel: {
+      fontSize: '28px',
+    },
     formControl: {
       minWidth: '350px',
     },
     selectEmpty: {
       marginTop: theme.spacing(2),
     },
-    listButtons: {
-      fontFamily: 'Playfair Display, serif',
-      fontWeight: 'bold',
-      color: '#FFF',
-      backgroundColor: '#840032',
-      width: '230px',
-      height: '50px',
-      '&:hover': {
-        color: '#FFF',
-        backgroundColor: '#840032',
-      },
-    },
-    selectListButton: {
-      fontFamily: 'Playfair Display, serif',
-      fontWeight: 'bold',
-      color: '#840032',
-      backgroundColor: '#E5DADA',
-      width: '230px',
-      height: '50px',
-      '&:hover': {
-        color: '#840032',
-        backgroundColor: '#E5DADA',
-      },
-    },
     centerText: {
       textAlign: 'center',
+    },
+    radioBtns: {
+      fontSize: '16px'
+    },
+    saveBtn: {
+      fontFamily: 'Overpass, serif',
+      fontSize: '14px',
+      margin: '0 auto',
+      display: 'block',
+      marginTop: '2px',
+      color: '#FFF',
+      backgroundColor: '#002642',
+      borderRadius: '50px',
+      width: '175px',
+      height: '40px',
+      [theme.breakpoints.down('md')]: {
+        fontSize: '14px',
+        width: '150px',
+        height: '45px'
+      },
+    },
+    saveCancelBtns: {
+      fontFamily: 'Overpass, serif',
+      fontSize: '14px',
+      margin: '0 auto',
+      display: 'block',
+      marginTop: '2px',
+      color: '#002642',
+      backgroundColor: '#FFF',
+      borderRadius: '50px',
+      border: '3px #002642 solid',
+      width: '175px',
+      height: '40px',
+      [theme.breakpoints.down('md')]: {
+        fontSize: '14px',
+        width: '150px',
+        height: '45px'
+      },
     },
     notes: {
       minWidth: '350px',
@@ -102,38 +122,6 @@ const useStyles = makeStyles((theme: Theme) =>
       fontFamily: 'Playfair Display',
       fontStyle: 'normal',
       fontWeight: 'bold',
-    },
-    paper: {
-      padding: theme.spacing(1),
-      fontFamily: 'Playfair Display, serif',
-      textAlign: 'center',
-      color: '#02040F',
-      backgroundColor: '#E5DADA',
-      borderRadius: '10px',
-    },
-    paperSelected: {
-      padding: theme.spacing(1),
-      fontFamily: 'Playfair Display, serif',
-      textAlign: 'center',
-      color: '#E5DADA',
-      backgroundColor: '#02040F',
-      borderRadius: '10px',
-    },
-    sectionTitle: {
-      color: '#02040F',
-      fontWeight: 'bold',
-      fontSize: '28px',
-      [theme.breakpoints.down('sm')]: {
-        fontSize: '26px',
-      },
-    },
-    sectionTitleSelected: {
-      color: '#E5DADA',
-      fontWeight: 'bold',
-      fontSize: '28px',
-      [theme.breakpoints.down('sm')]: {
-        fontSize: '26px',
-      },
     },
     datePicker: {
       minWidth: '350px',
@@ -171,6 +159,11 @@ const NewTodoListItemForm = () => {
   const submitForm = event => {
     event.preventDefault();
 
+    if (name.length === 0) {
+      // tell user
+      return;
+    }
+
     const variables = {
       variables: {
         name,
@@ -198,14 +191,14 @@ const NewTodoListItemForm = () => {
     setType(event.target.value as ITEM_TYPE);
   };
 
+  const handleListChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setList(event.target.value as LIST_TYPE);
+  };
+
   const getCapitalizedString = (name: string) => {
     const lowerCaseTitle = name.toLowerCase();
     if (typeof lowerCaseTitle !== 'string') return ''
     return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
-  };
-
-  const selectList = (listName: SetStateAction<LIST_TYPE>) => {
-    setList(listName);
   };
 
   const toggleMoreDetailsButton = () => {
@@ -221,74 +214,34 @@ const NewTodoListItemForm = () => {
       <form onSubmit={submitForm}>
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
           <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h1 className={classes.title}>New To-Do Item</h1>
+            <h2 className={classes.title}>First, type your task in the box below and select which list to store it in:</h2>
           </Grid>
 
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-            <TextField style={{ paddingBottom: '20px' }} autoComplete="off" id="standard-basic" label="Item name" onChange={event => setName(event.target.value)} required className={classes.formControl} />
+            <TextField style={{ paddingBottom: '10px' }} autoComplete="off" id="outlined-basic" variant="outlined" onChange={event => setName(event.target.value)} className={classes.textField} />
           </Grid>
 
           <Grid item xs={12} lg={12} md={12} sm={12}>
-            <p className={classes.listSelection}>Select which list you want to store it in</p>
-          </Grid>
-          <Grid
-            item
-            xs={3}
-            lg={3}
-            md={3}
-            sm={3}
-            className={classes.centerText}
-            onClick={selectList.bind(this, LIST_TYPE.TODO)}>
-            <Paper
-              className={
-                list === LIST_TYPE.TODO ? classes.paperSelected : classes.paper
-              }>
-              <h2 className={
-                list === LIST_TYPE.TODO ? classes.sectionTitleSelected : classes.sectionTitle
-              }>
-                To-Do Now
-              </h2>
-            </Paper>
+            <h2 className={classes.title}>Next, select which list you want to store it in:</h2>
           </Grid>
 
-          <Grid
-            item
-            xs={3}
-            lg={3}
-            md={3}
-            sm={3}
-            className={classes.centerText}
-            onClick={selectList.bind(this, LIST_TYPE.WATCH)}>
-            <Paper
-              className={
-                list === LIST_TYPE.WATCH ? classes.paperSelected : classes.paper
-              }>
-              <h2 className={
-                list === LIST_TYPE.WATCH ? classes.sectionTitleSelected : classes.sectionTitle
-              }>
-                To Watch
-              </h2>
-            </Paper>
-          </Grid>
-
-          <Grid
-            item
-            xs={3}
-            lg={3}
-            md={3}
-            sm={3}
-            className={classes.centerText}
-            onClick={selectList.bind(this, LIST_TYPE.LATER)}>
-            <Paper
-              className={
-                list === LIST_TYPE.LATER ? classes.paperSelected : classes.paper
-              }>
-              <h2 className={
-                list === LIST_TYPE.LATER ? classes.sectionTitleSelected : classes.sectionTitle
-              }>
-                To-Do Later
-              </h2>
-            </Paper>
+          <Grid item xs={12} lg={12} md={12} sm={12}>
+            <FormControl component="fieldset">
+              <RadioGroup aria-label="list" name="list1" value={list} onChange={handleListChange} row>
+                <FormControlLabel
+                  classes={{ label: classes.checkboxLabel }}
+                  value={LIST_TYPE.TODO}
+                  control={
+                  <Radio
+                    disableRipple
+                    classes={{ root: classes.radio, checked: classes.checked }}
+                  />}
+                  label={'To-Do Now'}
+                />
+                <FormControlLabel classes={{ label: classes.checkboxLabel }} value={LIST_TYPE.WATCH} control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label={'To Watch'} />
+                <FormControlLabel classes={{ label: classes.checkboxLabel }} value={LIST_TYPE.LATER} control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label={'To-Do Later'} />
+              </RadioGroup>
+            </FormControl>
           </Grid>
 
           {
@@ -302,27 +255,89 @@ const NewTodoListItemForm = () => {
                     value={type}
                     onChange={handleTypeSelect}
                   >
-                    <MenuItem value={ITEM_TYPE.TODO}>{getCapitalizedString(ITEM_TYPE.TODO)}</MenuItem>
-                    <MenuItem value={ITEM_TYPE.MOVIE}>{getCapitalizedString(ITEM_TYPE.MOVIE)}</MenuItem>
-                    <MenuItem value={ITEM_TYPE.TV}>{ITEM_TYPE.TV}</MenuItem>
-                    <MenuItem value={ITEM_TYPE.FOOD}>{getCapitalizedString(ITEM_TYPE.FOOD)}</MenuItem>
-                    <MenuItem value={ITEM_TYPE.RESTAURANT}>{getCapitalizedString(ITEM_TYPE.RESTAURANT)}</MenuItem>
-                    <MenuItem value={ITEM_TYPE.MUSIC}>{getCapitalizedString(ITEM_TYPE.MUSIC)}</MenuItem>
-                    <MenuItem value={ITEM_TYPE.TRAVEL}>{getCapitalizedString(ITEM_TYPE.TRAVEL)}</MenuItem>
-                    <MenuItem value={ITEM_TYPE.ACCOMODATION}>{getCapitalizedString(ITEM_TYPE.ACCOMODATION)}</MenuItem>
-                    <MenuItem value={ITEM_TYPE.HOME}>{getCapitalizedString(ITEM_TYPE.HOME)}</MenuItem>
-                    <MenuItem value={ITEM_TYPE.FINANCE}>{getCapitalizedString(ITEM_TYPE.FINANCE)}</MenuItem>
-                    <MenuItem value={ITEM_TYPE.BOOK}>{getCapitalizedString(ITEM_TYPE.BOOK)}</MenuItem>
-                    <MenuItem value={ITEM_TYPE.PODCAST}>{getCapitalizedString(ITEM_TYPE.PODCAST)}</MenuItem>
-                    <MenuItem value={ITEM_TYPE.PRODUCT}>{getCapitalizedString(ITEM_TYPE.PRODUCT)}</MenuItem>
-                    <MenuItem value={ITEM_TYPE.SERVICE}>{getCapitalizedString(ITEM_TYPE.SERVICE)}</MenuItem>
-                    <MenuItem value={ITEM_TYPE.PERSONAL}>{getCapitalizedString(ITEM_TYPE.PERSONAL)}</MenuItem>
-                    <MenuItem value={ITEM_TYPE.WORK}>{getCapitalizedString(ITEM_TYPE.WORK)}</MenuItem>
-                    <MenuItem value={ITEM_TYPE.FAMILY}>{getCapitalizedString(ITEM_TYPE.FAMILY)}</MenuItem>
-                    <MenuItem value={ITEM_TYPE.HEALTH}>{getCapitalizedString(ITEM_TYPE.HEALTH)}</MenuItem>
-                    <MenuItem value={ITEM_TYPE.SHOPPING}>{getCapitalizedString(ITEM_TYPE.SHOPPING)}</MenuItem>
-                    <MenuItem value={ITEM_TYPE.GIFT}>{getCapitalizedString(ITEM_TYPE.GIFT)}</MenuItem>
-                    <MenuItem value={ITEM_TYPE.OTHER}>{getCapitalizedString(ITEM_TYPE.OTHER)}</MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.TODO}>
+                      {getCapitalizedString(ITEM_TYPE.TODO)}
+                    </MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.MOVIE}>
+                      {getCapitalizedString(ITEM_TYPE.MOVIE)}
+                    </MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.TV}>{ITEM_TYPE.TV}
+                    </MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.FOOD}>
+                      {getCapitalizedString(ITEM_TYPE.FOOD)}
+                    </MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.RESTAURANT}>
+                      {getCapitalizedString(ITEM_TYPE.RESTAURANT)}
+                    </MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.MUSIC}>
+                      {getCapitalizedString(ITEM_TYPE.MUSIC)}
+                    </MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.TRAVEL}>
+                      {getCapitalizedString(ITEM_TYPE.TRAVEL)}
+                    </MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.ACCOMODATION}>
+                      {getCapitalizedString(ITEM_TYPE.ACCOMODATION)}
+                    </MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.HOME}>
+                      {getCapitalizedString(ITEM_TYPE.HOME)}
+                    </MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.FINANCE}>
+                      {getCapitalizedString(ITEM_TYPE.FINANCE)}
+                    </MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.BOOK}>
+                      {getCapitalizedString(ITEM_TYPE.BOOK)}
+                    </MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.PODCAST}>
+                      {getCapitalizedString(ITEM_TYPE.PODCAST)}
+                    </MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.PRODUCT}>
+                      {getCapitalizedString(ITEM_TYPE.PRODUCT)}
+                    </MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.SERVICE}>
+                      {getCapitalizedString(ITEM_TYPE.SERVICE)}
+                    </MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.PERSONAL}>
+                      {getCapitalizedString(ITEM_TYPE.PERSONAL)}
+                    </MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.WORK}>
+                      {getCapitalizedString(ITEM_TYPE.WORK)}
+                    </MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.FAMILY}>
+                      {getCapitalizedString(ITEM_TYPE.FAMILY)}
+                    </MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.HEALTH}>
+                      {getCapitalizedString(ITEM_TYPE.HEALTH)}
+                    </MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.SHOPPING}>
+                      {getCapitalizedString(ITEM_TYPE.SHOPPING)}
+                    </MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.GIFT}>
+                      {getCapitalizedString(ITEM_TYPE.GIFT)}
+                    </MenuItem>
+                    <MenuItem
+                      value={ITEM_TYPE.OTHER}>
+                      {getCapitalizedString(ITEM_TYPE.OTHER)}
+                    </MenuItem>
                   </Select>
                 </FormControl>
                 </Grid> :
@@ -382,19 +397,21 @@ const NewTodoListItemForm = () => {
           }
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <Button onClick={toggleMoreDetailsButton} style={{ backgroundColor: '#E59500', color: 'white'}}>
+            <Button onClick={toggleMoreDetailsButton} className={classes.saveBtn}>
               {moreDetails ? 'Hide Details' : 'Add More Details'}
             </Button>
           </Grid>
 
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-            <Button variant="contained" style={{ backgroundColor: '#840032', color: 'white' }} type='submit'>
+            <Button variant="contained" className={classes.saveCancelBtns} type='submit'>
               Save
             </Button>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
             <Button
               onClick={() => router.back()}
-              variant="contained"
-              style={{ marginLeft: '10px' }}>
+              className={classes.saveCancelBtns}
+              variant="contained">
               Cancel
             </Button>
           </Grid>
