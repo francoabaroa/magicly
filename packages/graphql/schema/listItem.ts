@@ -4,6 +4,7 @@ export default gql`
   extend type Query {
     listItems (listType: ListType!, cursor: String, limit: Int): ListItemConnection!
     listItem (id: ID!): ListItem
+    shoppingListItems (cursor: String, limit: Int): ListItemConnection!
   }
   extend type Mutation {
     createListItem(
@@ -39,7 +40,7 @@ export default gql`
     list: List!
   }
   type ListItemConnection {
-    edges: [ListItem]!
+    edges: [ListItem]
     pageInfo: PageInfo!
   }
 `;

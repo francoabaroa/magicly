@@ -32,6 +32,32 @@ const QUERY = gql`
         executionDate
         complete
         notes
+        list {
+          id
+          name
+          type
+        }
+      }
+      pageInfo {
+        endCursor
+      }
+    }
+    shoppingListItems(
+      cursor: $cursor,
+      limit: $limit
+    ) {
+      edges {
+        id
+        name
+        type
+        executionDate
+        complete
+        notes
+        list {
+          id
+          name
+          type
+        }
       }
       pageInfo {
         endCursor
@@ -192,6 +218,19 @@ const ProductivityPage = () => {
     return recommendationItem;
   };
 
+  const getRecentShoppingListItemPreview = () => {
+    let shoppingListItem = [];
+    for (let element of data.shoppingListItems.edges) {
+      shoppingListItem.push(
+        <Link key={5} href="productivity/shopping/view/[id]" as={`productivity/shopping/view/${element.id}`}>
+          <div>- {element.name}</div>
+        </Link>
+      );
+      break;
+    }
+    return shoppingListItem;
+  };
+
   const getRecentQuestionPreview = () => {
     let questionsPreview = [];
     for (let element of data.questions.edges) {
@@ -282,6 +321,61 @@ const ProductivityPage = () => {
               Save TV series, movies, books, travels, food or any recommendation you get
               </h3>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/recommendations/add')}>
+              <AddCircle fontSize={'large'} className={classes.icon} />
+              <span className={classes.details}>add</span>
+            </div>
+          </Paper>
+        </Grid>
+      );
+    }
+  };
+
+  const getShoppingSection = () => {
+    if (data && data.shoppingListItems && data.shoppingListItems.edges && data.shoppingListItems.edges.length > 0) {
+      let shoppingListItemsPreview = getRecentShoppingListItemPreview();
+      return (
+        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/shopping')}>
+              Shopping
+            </h2>
+            <hr />
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+            <div className={classes.recent}>Most Recent: </div>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+            {shoppingListItemsPreview}
+          </Grid>
+
+          <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+            <Grid item xs={12} lg={6} md={6} sm={6}>
+              <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping')}>
+                <Visibility fontSize={'large'} className={classes.icon} />
+                <span className={classes.details}>view all</span>
+              </div>
+            </Grid>
+            <Grid item xs={12} lg={6} md={6} sm={6}>
+              <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
+                <AddCircle fontSize={'large'} className={classes.icon} />
+                <span className={classes.details}>add</span>
+              </div>
+            </Grid>
+          </Grid>
+        </Grid>
+      );
+    } else {
+      return (
+        <Grid item xs={7} lg={7} md={7} sm={7}>
+          <Paper className={classes.paper}>
+            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/shopping')}>
+              Shopping
+              </h2>
+            <hr />
+            <h3 className={classes.description}>
+              Create grocery, gift or any shopping list you need
+              </h3>
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
               <AddCircle fontSize={'large'} className={classes.icon} />
               <span className={classes.details}>add</span>
             </div>
@@ -405,6 +499,7 @@ const ProductivityPage = () => {
         </Grid>
         { getTodoListSection() }
         { getRecommendationsSection() }
+        { getShoppingSection() }
         { getTechHelpSection() }
       </Grid>
     </Layout>
