@@ -196,14 +196,14 @@ const ViewHomeWorkPage = () => {
               </Grid> :
               null
           }
-          <Grid item xs={7} lg={7} md={7} sm={7}>
+          {/* <Grid item xs={7} lg={7} md={7} sm={7}>
             <Button
               onClick={()=>{}}
               className={classes.completeBtn}
             >
               Mark As Complete
             </Button>
-          </Grid>
+          </Grid> */}
           <Grid item xs={7} lg={7} md={7} sm={7}>
             <Button
               onClick={handleDeleteHomeWorkOpen}
