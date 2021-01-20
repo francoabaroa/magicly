@@ -112,6 +112,7 @@ const UploadFile = (props) => {
   const [keywords, setKeywords] = useState([]);
   const [folder, setFolder] = useState('Existing');
   const [homeworkId, setHomeworkId] = React.useState(hwid ? hwid : '');
+  const [shouldRedirectToHomeWork, setShouldRedirectToHomeWork] = useState(hwid ? true : false);
   const [newFolderName, setNewFolderName] = useState('');
   const [moreDetails, setMoreDetails] = useState(hwid ? true : false);
   const [open, setOpen] = React.useState(false);
@@ -170,6 +171,9 @@ const UploadFile = (props) => {
       path = 'finance/receipts';
     } else {
       path = 'home/documents';
+    }
+    if (shouldRedirectToHomeWork) {
+      path = 'home/work';
     }
     if (process.browser || (window && window.location)) {
       window.location.href = url + path;
