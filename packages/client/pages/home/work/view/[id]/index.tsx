@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useState } from 'react';
 import Layout from '../../../../../components/Layout';
 import DeleteHomeWorkModal from '../../../../../components/home/DeleteHomeWorkModal';
@@ -14,6 +15,7 @@ import Event from '@material-ui/icons/Event';
 import AttachMoney from '@material-ui/icons/AttachMoney';
 import Person from '@material-ui/icons/Person';
 import Notes from '@material-ui/icons/Notes';
+import Attachment from '@material-ui/icons/Attachment';
 import Title from '@material-ui/icons/Title';
 
 const QUERY = gql`
@@ -30,6 +32,11 @@ const QUERY = gql`
       notes
       executor
       executionDate
+      documents {
+        id
+        name
+        type
+      }
     }
   }
 `;
@@ -135,6 +142,26 @@ const ViewHomeWorkPage = () => {
     setDeleteHomeWork(false);
   };
 
+  const routePage = (pageName: string) => {
+    router.push('/' + pageName, undefined, { shallow: true });
+  };
+
+  const getDocumentsUI = () => {
+    let documents = [];
+    for (let i = 0; i < data.homework.documents.length; i++) {
+      let pageLink = `home/documents/view/${data.homework.documents[i].id}`
+      documents.push(
+        <Grid item xs={7} lg={7} md={7} sm={7} key={i}>
+          <div className={classes.individualFeature} onClick={routePage.bind(this, pageLink)}>
+            <Attachment fontSize={'large'} className={classes.icon} />
+            <span className={classes.details}>{data.homework.documents[i].name}</span>
+          </div>
+        </Grid>
+      );
+    }
+    return documents;
+  };
+
   const getUI = (data: any) => {
     // TODO: adapt function if only required fields are passed, to show right things on the UI
     // TODO: add edit and delete functionality
@@ -193,6 +220,13 @@ const ViewHomeWorkPage = () => {
                   <Notes fontSize={'large'} className={classes.icon} />
                   <span className={classes.details}>{data.homework.notes}</span>
                 </div>
+              </Grid> :
+              null
+          }
+          {
+            data.homework.documents && data.homework.documents.length > 0 ?
+              <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+                {getDocumentsUI()}
               </Grid> :
               null
           }
