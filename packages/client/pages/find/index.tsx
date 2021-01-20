@@ -149,7 +149,9 @@ const useStyles = makeStyles((theme: Theme) =>
     row: {
       maxWidth: '640px',
       borderBottom: '1px solid #002642',
-      marginBottom: '15px'
+      marginBottom: '15px',
+      margin: 'auto',
+      textAlign: 'center',
     },
     iconAndService: {
       textAlign: 'left',
@@ -330,7 +332,7 @@ const FindPage = () => {
     if (popularServices.length > 0) {
       popularServices.forEach((service) => {
         searchResults.push(
-          <Grid key={counter++}  container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.row}>
+          <Grid key={counter++} container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.row}>
             <Grid item xs={9} lg={8} md={8} sm={8} style={{ textAlign: 'left' }} className={classes.iconAndService}>
               <Build className={classes.toolIcon} />
               <a target="_blank" className={classes.link} onClick={handleIndividualServiceOpen.bind(this, service)}>{service.title}</a>
@@ -517,7 +519,9 @@ const FindPage = () => {
             }
             {
               showSearch && !hidePopularServices ?
-                buildPopularResults() : null
+                <Grid item xs={12} lg={12} md={12} sm={12} style={{textAlign: 'center'}}>
+                  { buildPopularResults() }
+                </Grid> : null
             }
 
             {
