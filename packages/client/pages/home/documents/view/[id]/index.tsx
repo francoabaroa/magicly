@@ -14,6 +14,7 @@ import AttachMoney from '@material-ui/icons/AttachMoney';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import DeleteDocumentModal from '../../../../../components/home/DeleteDocumentModal';
 
 const QUERY = gql`
   query GetDocumentUrl ($id: ID!) {
@@ -37,6 +38,22 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+    },
+    deleteButton: {
+      fontFamily: 'Overpass, serif',
+      fontSize: '14px',
+      margin: '0 auto',
+      display: 'block',
+      color: '#FFF',
+      backgroundColor: '#002642',
+      borderRadius: '50px',
+      width: '175px',
+      height: '40px',
+      [theme.breakpoints.down('md')]: {
+        fontSize: '14px',
+        width: '150px',
+        height: '45px'
+      },
     },
     closeBtn: {
       fontFamily: 'Overpass, serif',
@@ -144,7 +161,8 @@ const ViewDocumentPage = () => {
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const classes = useStyles();
   const { id } = router.query;
-  const [deleteQuestion, setDeleteQuestion] = useState(false);
+  const [deleteDocument, setDeleteDocument] = useState(false);
+  const [closeDocumentModal, setCloseDocumentModal] = useState(false);
   const { data, loading, error, refetch } = useQuery(QUERY, {
     variables: { id },
   });
@@ -174,7 +192,7 @@ const ViewDocumentPage = () => {
           <Grid item xs={12} lg={12} md={12} sm={12}>
             <div
               key={id.toString()}
-              onClick={handleOpen}
+              onClick={handleDocumentModalOpen}
               style={{ backgroundImage: `url('${data.getDocumentAndUrl.url}')` }}
               className={classes.thumb}>
             </div>
@@ -217,6 +235,20 @@ const ViewDocumentPage = () => {
             <p style={{ fontSize: '14px', textAlign: 'center', marginTop: '0px' }}>Click the preview above to see the full image.</p>
           </Grid>
 
+          <Grid item xs={7} lg={7} md={7} sm={7}>
+            <Button
+              onClick={handleDeleteDocumentOpen}
+              className={classes.deleteButton}
+            >
+              Delete
+            </Button>
+            <DeleteDocumentModal
+              document={data.getDocumentAndUrl.document}
+              openModal={deleteDocument}
+              handleClose={handleDeleteDocumentClose.bind(this)}
+            />
+          </Grid>
+
           <Grid item xs={8}>
             <p style={{fontSize: '12px', textAlign: 'center'}}>To protect you and your data, the image at <a target="_blank" href={data.getDocumentAndUrl.url}>this link</a> will only be available for 15 minutes. Please refresh the page for a new link.</p>
           </Grid>
@@ -246,19 +278,27 @@ const ViewDocumentPage = () => {
     }
   };
 
-  const handleOpen = () => {
-    setDeleteQuestion(true);
+  const handleDocumentModalOpen = () => {
+    setCloseDocumentModal(true);
   };
 
-  const handleClose = () => {
-    setDeleteQuestion(false);
+  const handleDocumentModalClose = () => {
+    setCloseDocumentModal(false);
+  };
+
+  const handleDeleteDocumentOpen = () => {
+    setDeleteDocument(true);
+  };
+
+  const handleDeleteDocumentClose = () => {
+    setDeleteDocument(false);
   };
 
   const getDocumentModal = () => {
     if (data && data.getDocumentAndUrl && data.getDocumentAndUrl.url) {
       return (
         <Dialog
-          open={deleteQuestion} onClose={handleClose}
+          open={closeDocumentModal} onClose={handleDocumentModalClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
           fullScreen={fullScreen}
@@ -285,7 +325,7 @@ const ViewDocumentPage = () => {
               </Grid>
               <Grid item xs={12} lg={12} md={12} sm={12}>
                 <Button
-                  onClick={handleClose}
+                  onClick={handleDocumentModalClose}
                   color="primary"
                   className={classes.closeBtn}
                 >
@@ -300,7 +340,7 @@ const ViewDocumentPage = () => {
     } else {
       return (
         <Dialog
-          open={deleteQuestion} onClose={handleClose}
+          open={closeDocumentModal} onClose={handleDocumentModalClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
           fullScreen={fullScreen}
