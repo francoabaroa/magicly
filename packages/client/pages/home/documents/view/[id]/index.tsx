@@ -1,16 +1,20 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import Layout from '../../../../../components/Layout';
 import { withApollo } from '../../../../../apollo/apollo';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import Add from '@material-ui/icons/Add';
+import { makeStyles, createStyles, Theme, useTheme } from '@material-ui/core/styles';
 import Notes from '@material-ui/icons/Notes';
 import Build from '@material-ui/icons/Build';
+import Button from '@material-ui/core/Button';
 import AttachMoney from '@material-ui/icons/AttachMoney';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 
 const QUERY = gql`
   query GetDocumentUrl ($id: ID!) {
@@ -35,6 +39,41 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
     },
+    closeBtn: {
+      fontFamily: 'Overpass, serif',
+      fontSize: '14px',
+      margin: '0 auto',
+      display: 'block',
+      marginTop: '2px',
+      color: '#FFF',
+      backgroundColor: '#002642',
+      borderRadius: '50px',
+      width: '175px',
+      height: '40px',
+      [theme.breakpoints.down('md')]: {
+        fontSize: '14px',
+        width: '150px',
+        height: '45px'
+      },
+    },
+    viewFullBtn: {
+      fontFamily: 'Overpass, serif',
+      fontSize: '14px',
+      margin: '0 auto',
+      display: 'block',
+      marginTop: '2px',
+      color: '#002642',
+      backgroundColor: '#FFF',
+      borderRadius: '50px',
+      border: '3px #002642 solid',
+      width: '175px',
+      height: '40px',
+      [theme.breakpoints.down('md')]: {
+        fontSize: '14px',
+        width: '150px',
+        height: '45px'
+      },
+    },
     title: {
       fontFamily: 'Playfair Display, serif',
       fontWeight: 'bold',
@@ -46,21 +85,6 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       [theme.breakpoints.down('sm')]: {
         fontSize: '26px',
-        marginTop: '15px',
-        marginBottom: '0px',
-      },
-    },
-    docDetails: {
-      fontFamily: 'Playfair Display, serif',
-      fontWeight: 'bold',
-      fontSize: '24px',
-      color: '#002642',
-      marginTop: '25px',
-      marginBottom: '5px',
-      margin: 'auto',
-      textAlign: 'center',
-      [theme.breakpoints.down('sm')]: {
-        fontSize: '18px',
         marginTop: '15px',
         marginBottom: '0px',
       },
@@ -98,25 +122,18 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#0A7EF2',
       fontSize: '14px',
     },
-    imagePreview: {
-      width: '500px',
-      height: '200px',
-    },
     thumb: {
-      height: '200px',
+      height: '300px',
       margin: 'auto',
       width: '50%',
       border: '3px solid #840032',
       backgroundPosition: 'top top',
       backgroundSize: 'cover',
       borderRadius: '30px',
-      '&:hover': {
-        height: '300px',
-      },
       marginBottom: '0px',
       [theme.breakpoints.down('xs')]: {
         width: '350px',
-        height: '140px',
+        height: '270px',
       },
     }
   }),
@@ -124,8 +141,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ViewDocumentPage = () => {
   const router = useRouter();
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const classes = useStyles();
   const { id } = router.query;
+  const [deleteQuestion, setDeleteQuestion] = useState(false);
   const { data, loading, error, refetch } = useQuery(QUERY, {
     variables: { id },
   });
@@ -138,13 +158,7 @@ const ViewDocumentPage = () => {
     window.open(url);
   }
 
-  const getCapitalizedString = (title: string) => {
-    const lowerCaseTitle = title.toLowerCase();
-    if (typeof lowerCaseTitle !== 'string') return ''
-    return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
-  };
-
-  const getUI = (data: any) => {
+  const getUI = () => {
     // TODO: adapt function if only required fields are passed, to show right things on the UI
     // TODO: add edit and delete functionality
     if (data && data.getDocumentAndUrl && data.getDocumentAndUrl.url) {
@@ -161,7 +175,7 @@ const ViewDocumentPage = () => {
           <Grid item xs={12} lg={12} md={12} sm={12}>
             <div
               key={id.toString()}
-              onClick={openInNewWindow.bind(this, data.getDocumentAndUrl.url)}
+              onClick={handleOpen}
               style={{ backgroundImage: `url('${data.getDocumentAndUrl.url}')` }}
               className={classes.thumb}>
             </div>
@@ -233,9 +247,74 @@ const ViewDocumentPage = () => {
     }
   };
 
+  const handleOpen = () => {
+    setDeleteQuestion(true);
+  };
+
+  const handleClose = () => {
+    setDeleteQuestion(false);
+  };
+
+  const getDocumentModal = () => {
+    if (data && data.getDocumentAndUrl && data.getDocumentAndUrl.url) {
+      return (
+        <Dialog
+          open={deleteQuestion} onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          fullScreen={fullScreen}
+        >
+          <img
+            src={data.getDocumentAndUrl.url}
+            style={{
+              maxWidth: '100%',
+              maxHeight: '100%'
+            }}
+          />
+          <DialogActions>
+            <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+              <Grid item xs={12} lg={12} md={12} sm={12}>
+                <Button
+                  onClick={
+                    openInNewWindow.bind(this, data.getDocumentAndUrl.url)
+                  }
+                  color="primary"
+                  className={classes.viewFullBtn}
+                >
+                  View Fullsize
+                </Button>
+              </Grid>
+              <Grid item xs={12} lg={12} md={12} sm={12}>
+                <Button
+                  onClick={handleClose}
+                  color="primary"
+                  className={classes.closeBtn}
+                >
+                  Close
+                </Button>
+              </Grid>
+
+            </Grid>
+          </DialogActions>
+        </Dialog>
+      );
+    } else {
+      return (
+        <Dialog
+          open={deleteQuestion} onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          fullScreen={fullScreen}
+        ></Dialog>
+      );
+    }
+
+  };
+
   return (
     <Layout>
-      {getUI(data)}
+      {getUI()}
+      {getDocumentModal()}
     </Layout>
   );
 };
