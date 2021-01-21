@@ -240,7 +240,7 @@ const MainPage = () => {
       let itemOrItems = data.listItems.edges.length <= 1 ? 'item' : 'items';
       priorities.push(
         <Grid item key={1} xs={8}>
-          <h5 className={classes.lastPreviewTitle}>{data.listItems.edges.length + ` upcoming ${itemOrItems} from your to-do list`}<Button onClick={routePage.bind(this, 'productivity/lists')}>View</Button></h5>
+          <h5 className={classes.lastPreviewTitle}>{data.listItems.edges.length + ` upcoming to-do list ${itemOrItems}`}<Button onClick={routePage.bind(this, 'productivity/lists')}>View</Button></h5>
         </Grid>
       );
     }
