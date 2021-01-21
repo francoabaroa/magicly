@@ -30,6 +30,7 @@ const QUERY = gql`
       excludePast: $excludePast,
     ) {
       edges {
+        id
         title
         status
         executionDate
@@ -245,18 +246,26 @@ const MainPage = () => {
     let priorities = [];
     if (data && data.homeworks && data.homeworks.edges && data.homeworks.edges.length > 0) {
       let eventOrEvents = data.homeworks.edges.length <=1 ? 'event' : 'events';
+      let homeWorkpageLink = `home/work`;
+      if (eventOrEvents === 'event') {
+        homeWorkpageLink = `home/work/view/${data.homeworks.edges[0].id}`;
+      }
       priorities.push(
         <Grid item key={0} xs={8}>
-          <h5 className={classes.previewTitle}>{'* ' + data.homeworks.edges.length + ` upcoming home work ${eventOrEvents}`}<Button onClick={routePage.bind(this, 'home/work')}>View</Button></h5>
+          <h5 className={classes.previewTitle}>{'* ' + data.homeworks.edges.length + ` upcoming home work ${eventOrEvents}`}<Button className={classes.viewBtn} onClick={routePage.bind(this, homeWorkpageLink)}>View</Button></h5>
         </Grid>
       );
     }
 
     if (data && data.listItems && data.listItems.edges && data.listItems.edges.length > 0) {
       let itemOrItems = data.listItems.edges.length <= 1 ? 'item' : 'items';
+      let listsLink = `productivity/lists`;
+      if (itemOrItems === 'item') {
+        listsLink = `productivity/lists/view/${data.listItems.edges[0].id}`;
+      }
       priorities.push(
         <Grid item key={1} xs={8}>
-          <h5 className={classes.lastPreviewTitle}>{'* ' + data.listItems.edges.length + ` upcoming to-do list ${itemOrItems}`}<Button className={classes.viewBtn} onClick={routePage.bind(this, 'productivity/lists')}>View</Button></h5>
+          <h5 className={classes.lastPreviewTitle}>{'* ' + data.listItems.edges.length + ` upcoming to-do list ${itemOrItems}`}<Button className={classes.viewBtn} onClick={routePage.bind(this, listsLink)}>View</Button></h5>
         </Grid>
       );
     }
