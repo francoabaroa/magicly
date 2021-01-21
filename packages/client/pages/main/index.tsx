@@ -6,10 +6,12 @@ import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
 import { LIST_TYPE } from '../../constants/appStrings';
 import Cookies from 'js-cookie';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { withStyles, makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
 
 const QUERY = gql`
   query GetMe (
@@ -32,6 +34,7 @@ const QUERY = gql`
       edges {
         id
         title
+        type
         status
         executionDate
       }
@@ -55,6 +58,17 @@ const QUERY = gql`
     }
   }
 `;
+
+const HtmlTooltip = withStyles((theme: Theme) => ({
+  tooltip: {
+    backgroundColor: '#FFF',
+    color: 'rgba(0, 0, 0, 0.87)',
+    maxWidth: 420,
+    fontSize: theme.typography.pxToRem(18),
+    border: '1px solid #002642',
+    borderRadius: '5px',
+  },
+}))(Tooltip);
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -109,42 +123,8 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: '10px',
       boxShadow: '15px 15px 0 0px #E59500',
     },
-    productivityPaper: {
-      padding: theme.spacing(1),
-      fontFamily: 'Playfair Display, serif',
-      textAlign: 'center',
-      color: '#02040F',
-      backgroundColor: '#E5DADA',
-      borderRadius: '10px',
-      boxShadow: '15px 15px 0 0px #02040F',
-    },
-    financesPaper: {
-      padding: theme.spacing(1),
-      fontFamily: 'Playfair Display, serif',
-      textAlign: 'center',
-      color: '#FFF',
-      backgroundColor: '#002642',
-      borderRadius: '10px',
-      boxShadow: '15px 15px 0 0px #0A7EF2',
-    },
     appSection: {
       color: '#FFF',
-      fontWeight: 'bold',
-      fontSize: '32px',
-      [theme.breakpoints.down('sm')]: {
-        fontSize: '26px',
-      },
-    },
-    productivityAppSection: {
-      color: '#02040F',
-      fontWeight: 'bold',
-      fontSize: '32px',
-      [theme.breakpoints.down('sm')]: {
-        fontSize: '26px',
-      },
-    },
-    financesAppSection: {
-      color: '#02040F',
       fontWeight: 'bold',
       fontSize: '32px',
       [theme.breakpoints.down('sm')]: {
@@ -250,9 +230,27 @@ const MainPage = () => {
       if (eventOrEvents === 'event') {
         homeWorkpageLink = `home/work/view/${data.homeworks.edges[0].id}`;
       }
+      let title = data.homeworks.edges[0].title;
       priorities.push(
         <Grid item key={0} xs={8}>
-          <h5 className={classes.previewTitle}>{'* ' + data.homeworks.edges.length + ` upcoming home work ${eventOrEvents}`}<Button className={classes.viewBtn} onClick={routePage.bind(this, homeWorkpageLink)}>View</Button></h5>
+          <h5
+            className={classes.previewTitle}>
+              {'* ' + data.homeworks.edges.length +
+              ` upcoming home work ${eventOrEvents}`}
+            <HtmlTooltip
+              title={
+                <React.Fragment>
+                  <Typography color="inherit">{title}</Typography>
+                </React.Fragment>
+              }
+            >
+              <Button
+                  className={classes.viewBtn}
+                  onClick={routePage.bind(this, homeWorkpageLink)}>
+                  View
+              </Button>
+            </HtmlTooltip>
+          </h5>
         </Grid>
       );
     }
@@ -263,9 +261,29 @@ const MainPage = () => {
       if (itemOrItems === 'item') {
         listsLink = `productivity/lists/view/${data.listItems.edges[0].id}`;
       }
+      let name = data.listItems.edges[0].name;
       priorities.push(
         <Grid item key={1} xs={8}>
-          <h5 className={classes.lastPreviewTitle}>{'* ' + data.listItems.edges.length + ` upcoming to-do list ${itemOrItems}`}<Button className={classes.viewBtn} onClick={routePage.bind(this, listsLink)}>View</Button></h5>
+          <h5
+            className={classes.lastPreviewTitle}>
+            {'* ' + data.listItems.edges.length +
+            ` upcoming to-do list ${itemOrItems}`}
+          <HtmlTooltip
+            title={
+              <React.Fragment>
+                <Typography color="inherit">
+                    {name}
+                </Typography>
+              </React.Fragment>
+            }
+          >
+            <Button
+              className={classes.viewBtn}
+              onClick={routePage.bind(this, listsLink)}>
+              View
+            </Button>
+          </HtmlTooltip>
+        </h5>
         </Grid>
       );
     }
