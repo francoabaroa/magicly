@@ -197,10 +197,10 @@ const HomeWorkPage = () => {
   ) => {
     if (hasHomeWork) {
       return (
-        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center" style={{maxWidth: '800px'}}>
+        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           {
             pastWork.length > 0 ?
-              <Grid item xs={12} lg={12} md={12} sm={12}>
+              <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
                 <h1 className={classes.sectionTitle}>Past Home Work</h1>
               </Grid> :
               null
@@ -219,10 +219,10 @@ const HomeWorkPage = () => {
   ) => {
     if (hasHomeWork) {
       return (
-        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center" style={{ maxWidth: '800px' }}>
+        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           {
             upcomingWork.length > 0 ?
-              <Grid item xs={12} lg={12} md={12} sm={12}>
+              <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
                 <h1 className={classes.sectionTitle}>Upcoming Home Work</h1>
               </Grid> :
               null
