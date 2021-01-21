@@ -94,12 +94,16 @@ const ViewTodoListItemsPage = () => {
               <span className={classes.details}>{data.listItem.type}</span>
             </div>
           </Grid>
-          <Grid item xs={7} lg={7} md={7} sm={7}>
-            <div className={classes.individualFeature}>
-              <Notes className={classes.icon} />
-              <span className={classes.details}>{data.listItem.notes}</span>
-            </div>
-          </Grid>
+          {
+            data.listItem.notes && data.listItem.notes.length > 0 ?
+              <Grid item xs={7} lg={7} md={7} sm={7}>
+                <div className={classes.individualFeature}>
+                  <Notes className={classes.icon} />
+                  <span className={classes.details}>{data.listItem.notes}</span>
+                </div>
+              </Grid> :
+              null
+          }
         </Grid>
       );
     } else {

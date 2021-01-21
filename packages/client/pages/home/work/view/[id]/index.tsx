@@ -6,7 +6,7 @@ import { withApollo } from '../../../../../apollo/apollo';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -166,17 +166,18 @@ const ViewHomeWorkPage = () => {
     // TODO: adapt function if only required fields are passed, to show right things on the UI
     // TODO: add edit and delete functionality
     if (data && data.homework) {
+      let dateString = '';
+      if (data.homework.executionDate) {
+        dateString = data.homework.executionDate.split('T')[0];
+      }
+      // TODO: TIMEZONE NEEDS TO BE DYNAMIC, NOT FIXED
+      let date = moment(dateString).tz('America/New_York').format('MMMM Do, YYYY');
+
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
             <h1 className={classes.title}> { getCapitalizedString(data.homework.title) }</h1>
           </Grid>
-          {/* <Grid item xs={7} lg={7} md={7} sm={7}>
-            <div className={classes.individualFeature}>
-              <Title fontSize={'large'} className={classes.icon} />
-              <span className={classes.details}>{data.homework.title}</span>
-            </div>
-          </Grid> */}
           <Grid item xs={7} lg={7} md={7} sm={7}>
             <div className={classes.individualFeature}>
               <Add fontSize={'large'} className={classes.icon}/>
@@ -188,7 +189,7 @@ const ViewHomeWorkPage = () => {
               <Grid item xs={7} lg={7} md={7} sm={7}>
                 <div className={classes.individualFeature}>
                   <Event fontSize={'large'} className={classes.icon} />
-                  <span className={classes.details}>{moment(data.homework.executionDate).format('MMMM Do, YYYY')}</span>
+                  <span className={classes.details}>{date}</span>
                 </div>
               </Grid> :
               null
