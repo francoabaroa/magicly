@@ -15,7 +15,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-
 const QUERY = gql`
   query GetDocumentUrl ($id: ID!) {
     getDocumentAndUrl(id: $id) {
@@ -45,9 +44,10 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: '0 auto',
       display: 'block',
       marginTop: '2px',
-      color: '#FFF',
-      backgroundColor: '#002642',
+      color: '#002642',
+      backgroundColor: '#FFF',
       borderRadius: '50px',
+      border: '3px #002642 solid',
       width: '175px',
       height: '40px',
       [theme.breakpoints.down('md')]: {
@@ -62,10 +62,9 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: '0 auto',
       display: 'block',
       marginTop: '2px',
-      color: '#002642',
-      backgroundColor: '#FFF',
+      color: '#FFF',
+      backgroundColor: '#002642',
       borderRadius: '50px',
-      border: '3px #002642 solid',
       width: '175px',
       height: '40px',
       [theme.breakpoints.down('md')]: {
