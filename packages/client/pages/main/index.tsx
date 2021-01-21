@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme: Theme) =>
     previewTitle: {
       fontFamily: 'Playfair Display, serif',
       fontWeight: 'normal',
-      fontSize: '16px',
+      fontSize: '22px',
       color: '#002642',
       margin: 'auto',
       textAlign: 'center',
@@ -89,13 +89,13 @@ const useStyles = makeStyles((theme: Theme) =>
     lastPreviewTitle: {
       fontFamily: 'Playfair Display, serif',
       fontWeight: 'normal',
-      fontSize: '16px',
+      fontSize: '22px',
       color: '#002642',
       marginBottom: '35px',
       margin: 'auto',
       textAlign: 'center',
       [theme.breakpoints.down('sm')]: {
-        fontSize: '12px',
+        fontSize: '14px',
         marginBottom: '15px',
       },
     },
@@ -174,6 +174,22 @@ const useStyles = makeStyles((theme: Theme) =>
         height: '40px'
       },
     },
+    viewBtn: {
+      fontFamily: 'Overpass, serif',
+      fontSize: '14px',
+      margin: '0 auto',
+      marginLeft: '10px',
+      color: '#FFF',
+      backgroundColor: '#002642',
+      borderRadius: '50px',
+      width: '40px',
+      height: '25px',
+      [theme.breakpoints.down('md')]: {
+        fontSize: '14px',
+        width: '40px',
+        height: '25px'
+      },
+    }
   }),
 );
 
@@ -231,7 +247,7 @@ const MainPage = () => {
       let eventOrEvents = data.homeworks.edges.length <=1 ? 'event' : 'events';
       priorities.push(
         <Grid item key={0} xs={8}>
-          <h5 className={classes.previewTitle}>{data.homeworks.edges.length + ` upcoming home work ${eventOrEvents}`}<Button onClick={routePage.bind(this, 'home/work')}>View</Button></h5>
+          <h5 className={classes.previewTitle}>{'* ' + data.homeworks.edges.length + ` upcoming home work ${eventOrEvents}`}<Button onClick={routePage.bind(this, 'home/work')}>View</Button></h5>
         </Grid>
       );
     }
@@ -240,7 +256,7 @@ const MainPage = () => {
       let itemOrItems = data.listItems.edges.length <= 1 ? 'item' : 'items';
       priorities.push(
         <Grid item key={1} xs={8}>
-          <h5 className={classes.lastPreviewTitle}>{data.listItems.edges.length + ` upcoming to-do list ${itemOrItems}`}<Button onClick={routePage.bind(this, 'productivity/lists')}>View</Button></h5>
+          <h5 className={classes.lastPreviewTitle}>{'* ' + data.listItems.edges.length + ` upcoming to-do list ${itemOrItems}`}<Button className={classes.viewBtn} onClick={routePage.bind(this, 'productivity/lists')}>View</Button></h5>
         </Grid>
       );
     }
