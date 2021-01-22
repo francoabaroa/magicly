@@ -18,6 +18,19 @@ export default gql`
       executionDate: Date
       executor: String
     ): Homework!
+    updateHomework(
+      id: ID!
+      title: String
+      status: Status
+      type: HomeworkType
+      notificationType: NotificationType
+      keywords: [String]
+      cost: Int
+      costCurrency: CostCurrency
+      notes: String
+      executionDate: Date
+      executor: String
+    ): Homework!
     deleteHomework(id: ID!): Boolean!
   }
   type Homework {

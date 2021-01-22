@@ -2,6 +2,7 @@ import * as Sequelize from 'sequelize';
 import { combineResolvers } from 'graphql-resolvers';
 
 import { isAuthenticated, isHomeworkOwner } from './authorization';
+import { ApolloError } from 'apollo-server';
 
 //TODO: Deprecation warning: value provided is not in a recognized RFC2822 or ISO format. moment construction falls back to js Date(), which is not reliable across all browsers and versions. Non RFC2822/ISO date formats are discouraged and will be removed in an upcoming major release. Please refer to http://momentjs.com/guides/#/warnings/js-date/ for more info.
 const toCursorHash = string => Buffer.from(string).toString('base64');
@@ -108,6 +109,54 @@ export default {
           return homework;
         } catch (error) {
           throw new Error(error);
+        }
+      },
+    ),
+    updateHomework: combineResolvers(
+      isAuthenticated,
+      async (
+        parent,
+        {
+          id,
+          title,
+          status,
+          type,
+          notificationType,
+          keywords,
+          cost,
+          costCurrency,
+          notes,
+          executionDate,
+          executor
+        },
+        { me, models }
+      ) => {
+        try {
+          const homework = await models.Homework.findByPk(id);
+          if (!homework) {
+            throw new ApolloError('No existing homework found.');
+          }
+
+          if (homework) {
+            if (homework.userId !== me.id) {
+              throw new ApolloError('Please contact Magicly support');
+            }
+
+            homework.title = title;
+            homework.status = status;
+            homework.type = type;
+            homework.notificationType = notificationType;
+            homework.keywords = keywords;
+            homework.cost = cost;
+            homework.costCurrency = costCurrency;
+            homework.notes = notes;
+            homework.executionDate = executionDate;
+            homework.executor = executor;
+            await homework.save();
+          }
+          return homework;
+        } catch (error) {
+          throw new ApolloError(error);
         }
       },
     ),

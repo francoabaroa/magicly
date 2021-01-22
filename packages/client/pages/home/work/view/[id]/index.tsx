@@ -241,6 +241,14 @@ const ViewHomeWorkPage = () => {
           </Grid> */}
           <Grid item xs={7} lg={7} md={7} sm={7}>
             <Button
+              onClick={routePage.bind(this, `home/work/edit/${data.homework.id}`)}
+              className={classes.completeBtn}
+            >
+              Edit
+            </Button>
+          </Grid>
+          <Grid item xs={7} lg={7} md={7} sm={7}>
+            <Button
               onClick={handleDeleteHomeWorkOpen}
               className={classes.deleteButton}
             >
