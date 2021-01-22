@@ -184,7 +184,7 @@ const HomePage = () => {
       );
     } else {
       return (
-        <Grid item xs={7} lg={12} md={7} sm={7} className={classes.paper}>
+        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
           <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'home/documents')}>
             Important Documents
             </h2>
