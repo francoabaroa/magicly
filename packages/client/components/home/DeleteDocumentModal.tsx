@@ -1,6 +1,6 @@
-import React, { useState, SetStateAction } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
-import { APP_CONFIG, QUESTION_TYPE } from '../../constants/appStrings';
+import { APP_CONFIG } from '../../constants/appStrings';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
