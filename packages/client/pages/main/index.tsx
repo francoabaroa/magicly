@@ -73,6 +73,7 @@ const HtmlTooltip = withStyles((theme: Theme) => ({
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
+      marginTop: '20px',
       flexGrow: 1,
     },
     title: {
@@ -99,19 +100,6 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       [theme.breakpoints.down('sm')]: {
         fontSize: '12px',
-      },
-    },
-    lastPreviewTitle: {
-      fontFamily: 'Playfair Display, serif',
-      fontWeight: 'normal',
-      fontSize: '22px',
-      color: '#002642',
-      marginBottom: '35px',
-      margin: 'auto',
-      textAlign: 'center',
-      [theme.breakpoints.down('sm')]: {
-        fontSize: '14px',
-        marginBottom: '15px',
       },
     },
     paper: {
@@ -265,7 +253,7 @@ const MainPage = () => {
       priorities.push(
         <Grid item key={1} xs={8}>
           <h5
-            className={classes.lastPreviewTitle}>
+            className={classes.previewTitle}>
             {'* ' + data.listItems.edges.length +
             ` upcoming to-do list ${itemOrItems}`}
           <HtmlTooltip
@@ -287,6 +275,7 @@ const MainPage = () => {
         </Grid>
       );
     }
+
     return priorities;
   };
 
