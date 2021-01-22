@@ -8,7 +8,6 @@ import { withApollo } from '../../apollo/apollo';
 import { LIST_TYPE, QUESTION_STATUS } from '../../constants/appStrings';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import AddCircle from '@material-ui/icons/AddCircle';
 import Visibility from '@material-ui/icons/Visibility';
 
@@ -311,20 +310,18 @@ const ProductivityPage = () => {
       );
     } else {
       return (
-        <Grid item xs={7} lg={7} md={7} sm={7}>
-          <Paper className={classes.paper}>
-            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/recommendations')}>
-              Recommendations
-              </h2>
-            <hr />
-            <h3 className={classes.description}>
-              Save TV series, movies, books, travels, food or any recommendation you get
-              </h3>
-            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/recommendations/add')}>
-              <AddCircle fontSize={'large'} className={classes.icon} />
-              <span className={classes.details}>add</span>
-            </div>
-          </Paper>
+        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
+          <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/recommendations')}>
+            Recommendations
+            </h2>
+          <hr />
+          <h3 className={classes.description}>
+            Save TV series, movies, books, restaurants or any other recommendation you get
+            </h3>
+          <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/recommendations/add')}>
+            <AddCircle fontSize={'large'} className={classes.icon} />
+            <span className={classes.details}>add</span>
+          </div>
         </Grid>
       );
     }
@@ -366,20 +363,18 @@ const ProductivityPage = () => {
       );
     } else {
       return (
-        <Grid item xs={7} lg={7} md={7} sm={7}>
-          <Paper className={classes.paper}>
-            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/shopping')}>
-              Shopping
-              </h2>
-            <hr />
-            <h3 className={classes.description}>
-              Create grocery, gift or any shopping list you need
-              </h3>
-            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
-              <AddCircle fontSize={'large'} className={classes.icon} />
-              <span className={classes.details}>add</span>
-            </div>
-          </Paper>
+        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
+          <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/shopping')}>
+            Shopping
+            </h2>
+          <hr />
+          <h3 className={classes.description}>
+            Create grocery, gift or any shopping list you need
+            </h3>
+          <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
+            <AddCircle fontSize={'large'} className={classes.icon} />
+            <span className={classes.details}>add</span>
+          </div>
         </Grid>
       );
     }

@@ -7,10 +7,8 @@ import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import AddCircle from '@material-ui/icons/AddCircle';
 import Visibility from '@material-ui/icons/Visibility';
-import { Divider } from '@material-ui/core';
 
 const QUERY = gql`
   query GetMe {
