@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Layout from '../../../../../components/Layout';
 import { withApollo } from '../../../../../apollo/apollo';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/react-hooks';
+import DeleteListItemModal from '../../../../../components/productivity/DeleteListItemModal';
 import gql from 'graphql-tag';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Add from '@material-ui/icons/Add';
+import Button from '@material-ui/core/Button';
 import Notes from '@material-ui/icons/Notes';
 
 const QUERY = gql`
@@ -24,6 +26,22 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+    },
+    deleteButton: {
+      fontFamily: 'Overpass, serif',
+      fontSize: '14px',
+      margin: '0 auto',
+      display: 'block',
+      color: '#FFF',
+      backgroundColor: '#002642',
+      borderRadius: '50px',
+      width: '175px',
+      height: '40px',
+      [theme.breakpoints.down('md')]: {
+        fontSize: '14px',
+        width: '150px',
+        height: '45px'
+      },
     },
     title: {
       fontFamily: 'Playfair Display, serif',
@@ -67,6 +85,7 @@ const ViewRecommendationItemPage = () => {
   const router = useRouter();
   const classes = useStyles();
   const { id } = router.query;
+  const [deleteListItem, setDeleteListItem] = useState(false);
   const { data, loading, error, refetch } = useQuery(QUERY, {
     variables: { id },
   });
@@ -75,6 +94,14 @@ const ViewRecommendationItemPage = () => {
     const lowerCaseTitle = title.toLowerCase();
     if (typeof lowerCaseTitle !== 'string') return ''
     return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
+  };
+
+  const handleDeleteListItemOpen = () => {
+    setDeleteListItem(true);
+  };
+
+  const handleDeleteListItemClose = () => {
+    setDeleteListItem(false);
   };
 
   const getUI = (data: any) => {
@@ -102,6 +129,20 @@ const ViewRecommendationItemPage = () => {
               </Grid> :
               null
           }
+          <Grid item xs={7} lg={7} md={7} sm={7}>
+            <Button
+              onClick={handleDeleteListItemOpen}
+              className={classes.deleteButton}
+            >
+              Delete
+            </Button>
+            <DeleteListItemModal
+              listItem={data.listItem}
+              openModal={deleteListItem}
+              handleClose={handleDeleteListItemClose.bind(this)}
+              pageUrl={'productivity/recommendations'}
+            />
+          </Grid>
         </Grid>
       );
     } else {
