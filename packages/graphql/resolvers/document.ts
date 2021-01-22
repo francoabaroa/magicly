@@ -110,8 +110,22 @@ export default {
     deleteDocument: combineResolvers(
       isAuthenticated,
       isDocumentOwner,
-      async (parent, { id }, { models }) => {
+      async (parent, { id }, { me, models, deleteS3File }) => {
         try {
+          const document = await models.Document.findByPk(id);
+          if (!document) {
+            throw new Error('Document does not exist');
+          }
+          const deletedInfo =
+            await deleteS3File(
+              me.id,
+              me.email, document.bucketDocId
+            );
+
+          if (Object.keys(deletedInfo).length > 0) {
+            throw new Error('Document not deleted correctly?');
+          }
+
           return await models.Document.destroy({ where: { id } });
         } catch (error) {
           throw new Error(error);

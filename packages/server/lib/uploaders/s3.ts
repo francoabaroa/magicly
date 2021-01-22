@@ -82,6 +82,24 @@ export class AWSS3Uploader implements ApolloServerFileUploads.IUploader {
     });
   }
 
+  async deleteFile(userId: any, userEmail: any, bucketDocId: any): Promise<any> {
+    let hashedEmail = this.hashEmail(userEmail);
+    const params = {
+      Bucket: this.config.destinationBucketName + '/' + userId + hashedEmail,
+      Key: bucketDocId,
+    };
+
+    return new Promise((resolve, reject) => {
+      this.s3.deleteObject(params, function (err, data) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(data)
+        }
+      })
+    });
+  }
+
   async singleFileUploadResolver(
     file: ApolloServerFileUploads.File,
     me: any
