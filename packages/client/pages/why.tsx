@@ -3,11 +3,26 @@ import Layout from '../components/Layout';
 import { withApollo } from '../apollo/apollo';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import Home from '@material-ui/icons/Home';
+import CheckBox from '@material-ui/icons/CheckBox';
+import AttachMoney from '@material-ui/icons/AttachMoney';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    icon: {
+      fontSize: '50px',
+      color: '#002642',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '30px',
+      },
+    },
+    whyPage: {
+      [theme.breakpoints.down('sm')]: {
+        marginLeft: '20px',
+        marginRight: '20px'
+      },
+    },
     root: {
       flexGrow: 1,
     },
@@ -67,10 +82,6 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: '0px',
       fontSize: '20px',
     },
-    whyPage: {
-      marginRight: '30px',
-      marginLeft: '30px',
-    },
     marginBottom: {
      marginBottom: '50px',
      fontFamily: 'Playfair Display, serif',
@@ -79,13 +90,29 @@ const useStyles = makeStyles((theme: Theme) =>
      backgroundColor: "#E6EAED",
      borderRadius: '0px',
     },
-    section: {
+    sectionLeft: {
+      padding: theme.spacing(3),
       marginBottom: '50px',
       fontFamily: 'Playfair Display, serif',
       color: '#02040F',
       boxShadow: 'none',
       backgroundColor: "#E6EAED",
-      borderRadius: '0px',
+      borderRadius: '0px 50px 50px 0px',
+      [theme.breakpoints.down('sm')]: {
+        borderRadius: '50px',
+      },
+    },
+    section: {
+      padding: theme.spacing(3),
+      marginBottom: '50px',
+      fontFamily: 'Playfair Display, serif',
+      color: '#02040F',
+      boxShadow: 'none',
+      backgroundColor: "#E6EAED",
+      borderRadius: '50px 0px 0px 50px',
+      [theme.breakpoints.down('sm')]: {
+        borderRadius: '50px',
+      },
     }
   }),
 );
@@ -101,70 +128,76 @@ const WhyPage = () => {
           </Grid>
         </Grid>
         <div className={classes.root}>
-          <Grid container alignItems="flex-start" justify="flex-end" direction="row">
-            <Grid item xs={6} lg={12} md={12} sm={6} className={classes.section}>
-              <Paper className={classes.paper}>
-                <div>
+          <Grid container alignItems="flex-end" justify="flex-end" direction="row">
+            <Grid item xs={12} lg={8} md={8} sm={12} className={classes.section}>
+              <Grid container alignItems="flex-start" justify="flex-start" direction="row">
+                <Grid item xs={12} lg={3} md={3} sm={12} style={{ textAlign: 'center' }}>
                   <h2 className={classes.valueProp}>
                     Home
                   </h2>
-                </div>
-                <div>
+                  <Home fontSize={'large'} className={classes.icon} />
+                </Grid>
+                <Grid item xs={12} lg={9} md={9} sm={12}>
                   <ul>
                     <li className={classes.subheader}>
-                      Manage and stay on top of all your home upkeep to know exactly the costs and work you put into your home.
+                      Manage and organize all your home upkeep
                     </li>
                     <li className={classes.subheader}>
-                      Save time finding important home documents and never misplace them again.
+                      Know exactly  what costs and work you put into your home
                     </li>
                     <li className={classes.subheader}>
-                      Don’t rely on word of mouth references to find professional, reliable service providers anymore - find and book what you need on Magicly.
+                      Save time by uploading and organizing  important home documents
+                    </li>
+                    <li className={classes.subheader}>
+                      Find and book professional, reliable home service providers
                     </li>
                   </ul>
-                </div>
-              </Paper>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
           <Grid container alignItems="flex-start" justify="flex-start" direction="row">
-            <Grid item xs={6} lg={12} md={12} sm={6} className={classes.section}>
-              <Paper className={classes.paper}>
-                <div>
+            <Grid item xs={12} lg={8} md={8} sm={12} className={classes.sectionLeft}>
+              <Grid container alignItems="flex-start" justify="flex-start" direction="row">
+                <Grid item xs={12} lg={4} md={4} sm={12} style={{ textAlign: 'center' }}>
                   <h2 className={classes.valueProp}>
                     Productivity
                   </h2>
-                </div>
-                <div>
+                  <CheckBox fontSize={'large'} className={classes.icon} />
+                </Grid>
+                <Grid item xs={12} lg={8} md={8} sm={12}>
                   <ul>
                     <li className={classes.subheader}>
-                      Get better at managing your time, while getting more things done.
+                      Get better at managing your time with helpful lists
                     </li>
                     <li className={classes.subheader}>
-                      Take back your time and have more time to do the things you enjoy.
+                      Get reliable answers to your tech questions
                     </li>
                   </ul>
-                </div>
-              </Paper>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
-          <Grid container alignItems="flex-start" justify="flex-end" direction="row">
-            <Grid item xs={6} lg={12} md={12} sm={6} className={classes.section}>
-              <Paper className={classes.paper}>
-                <div>
+          <Grid container alignItems="flex-end" justify="flex-end" direction="row">
+            <Grid item xs={12} lg={8} md={8} sm={12} className={classes.section}>
+              <Grid container alignItems="flex-start" justify="flex-start" direction="row">
+                <Grid item xs={12} lg={3} md={3} sm={12} style={{textAlign: 'center'}}>
                   <h2 className={classes.valueProp}>
                     Finances
                   </h2>
-                </div>
-                <div>
+                  <AttachMoney fontSize={'large'} className={classes.icon} />
+                </Grid>
+                <Grid item xs={12} lg={9} md={9} sm={12}>
                   <ul>
                     <li className={classes.subheader}>
-                      Easily view and manage multiple finance accounts in one place to get an overview of your wealth's health.
+                      Easily manage multiple finance accounts in one place
                     </li>
                     <li className={classes.subheader}>
-                      Instead of saving endless paper receipts, store and manage them on Magicly.
+                      Store and manage receipts and expenses
                     </li>
                   </ul>
-                </div>
-              </Paper>
+                </Grid>
+              </Grid>
             </Grid>
             {/* <Grid item xs={4} lg={4} md={4} sm={4} className={classes.section}>
               <Paper className={classes.paper}>
