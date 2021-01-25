@@ -129,7 +129,6 @@ const NewHomeWorkForm = () => {
 
   const submitForm = event => {
     event.preventDefault();
-    const executionDateObj = new Date(executionDate);
     const variables = {
       variables: {
         title,
@@ -140,7 +139,7 @@ const NewHomeWorkForm = () => {
         cost: parseFloat(cost),
         costCurrency,
         notes,
-        executionDate: executionDateObj,
+        executionDate,
         executor
       }
     };

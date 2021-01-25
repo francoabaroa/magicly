@@ -115,8 +115,7 @@ const EditHomeWorkForm = (props) => {
   const router = useRouter();
   let dateString = props.homework.executionDate.split('T')[0];
   // TODO: TIMEZONE NEEDS TO BE DYNAMIC, NOT FIXED
-  // TODO: DATE BUG!
-  let date = moment(dateString).tz('America/New_York').format('YYYY-MM-DD');
+  let date = moment(dateString).tz('America/New_York').format();
 
   const [updateHomework, { data, loading, error }] = useMutation(UPDATE_HOMEWORK);
   const [cost, setCost] = useState(props.homework.cost);
@@ -135,7 +134,6 @@ const EditHomeWorkForm = (props) => {
 
   const submitForm = event => {
     event.preventDefault();
-    const executionDateObj = new Date(executionDate);
     const variables = {
       variables: {
         id: props.homework.id,
@@ -147,7 +145,7 @@ const EditHomeWorkForm = (props) => {
         cost: parseFloat(cost),
         costCurrency,
         notes,
-        executionDate: executionDateObj,
+        executionDate,
         executor
       }
     };
@@ -264,7 +262,7 @@ const EditHomeWorkForm = (props) => {
                 id="date-picker-dialog"
                 label="Date"
                 format="MM/dd/yyyy"
-                value={'2021-01-25'}
+                value={executionDate}
                 onChange={handleDateChange}
                 KeyboardButtonProps={{
                   'aria-label': 'change date',
