@@ -6,10 +6,10 @@ import { withApollo } from '../apollo/apollo';
 const NotFoundPage = () => {
   return (
     <Layout>
-      <h1 style={{textAlign: 'center'}}>Oops! Page not found</h1>
+      <h1 style={{textAlign: 'center', marginTop: '50px'}}>Oops! Page not found</h1>
       <h2 style={{textAlign: 'center'}}>
         <Link href="main">
-          Return to Magicly
+          <a>Return to Magicly</a>
         </Link>
       </h2>
     </Layout>
