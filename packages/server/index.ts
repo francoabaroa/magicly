@@ -28,6 +28,7 @@ import Verifier from 'email-verifier';
 import passport from 'passport';
 
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const logger = require('pino')();
 
 require('dotenv').config({ path: '../../.env' });
 
@@ -383,6 +384,7 @@ async function main() {
 
     app.post('/signup', async (req, res) => {
       const { email, password, firstName, currentCity, hasSocialAuthLogin } = req.body;
+      const child = logger.child({ a: 'signupErrors12' });
 
       let verifier = new Verifier(process.env.EMAIL_VERIFICATION_KEY);
       verifier.verify(email, async (err, data) => {
@@ -438,6 +440,8 @@ async function main() {
           );
 
           if (!user) {
+            child.warn('EMAIL_VERIFICATION_FAILED_NO_USER_CREATED - ' + ' - ' + JSON.stringify(data) + ' - ' + JSON.stringify(user));
+            child.info('ARGS: ', email, firstName, currentCity);
             res.status(404).send({
               success: false,
               message: `Could not create account: ${email}`,
@@ -458,6 +462,7 @@ async function main() {
           });
 
         } else {
+          child.warn('EMAIL_VERIFICATION_FAILED - ' + ' - ' + JSON.stringify(data));
           res.status(404).send({
             success: false,
             message: `Could not create account: ${email}`,
