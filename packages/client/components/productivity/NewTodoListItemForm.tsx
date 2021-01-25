@@ -214,15 +214,11 @@ const NewTodoListItemForm = () => {
       <form onSubmit={submitForm}>
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
           <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h2 className={classes.title}>First, type your task in the box below and select which list to store it in:</h2>
+            <h2 className={classes.title}>Type your task in the box below and select which list you want to store it in:</h2>
           </Grid>
 
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
             <TextField style={{ paddingBottom: '10px' }} autoComplete="off" id="outlined-basic" variant="outlined" onChange={event => setName(event.target.value)} className={classes.textField} />
-          </Grid>
-
-          <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h2 className={classes.title}>Next, select which list you want to store it in:</h2>
           </Grid>
 
           <Grid item xs={12} lg={12} md={12} sm={12}>
