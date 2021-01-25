@@ -114,12 +114,17 @@ const ViewTodoListItemsPage = () => {
           <Grid item xs={8}>
             <h1 className={classes.title}> {data.listItem.name}</h1>
           </Grid>
-          <Grid item xs={7} lg={7} md={7} sm={7}>
-            <div className={classes.individualFeature}>
-              <Add style={{ color: '#0A7EF2' }} />
-              <span className={classes.details}>{data.listItem.type}</span>
-            </div>
-          </Grid>
+          {
+            data.listItem.type !== 'TODO' ?
+              <Grid item xs={7} lg={7} md={7} sm={7}>
+                <div className={classes.individualFeature}>
+                  <Add style={{ color: '#0A7EF2' }} />
+                  <span className={classes.details}>{data.listItem.type}</span>
+                </div>
+              </Grid> :
+              null
+          }
+
           {
             data.listItem.notes && data.listItem.notes.length > 0 ?
               <Grid item xs={7} lg={7} md={7} sm={7}>
