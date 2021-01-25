@@ -38,7 +38,7 @@ let url = '';
 let sequelizeConfig = {};
 
 if (isProduction) {
-  url = 'https://magiclyapp.herokuapp.com/';
+  url = 'https://www.magicly.app/';
 } else if (isTest) {
   url = 'http://localhost:3000/';
 }
