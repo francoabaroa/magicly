@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: 'auto',
       textAlign: 'center',
     },
-    signInButton: {
+    submitBtn: {
       fontFamily: 'Overpass, serif',
       fontSize: '16px',
       margin: '0 auto',
@@ -159,7 +159,7 @@ const SupportPage = () => {
                     required
                   />
                 </div>
-                <Button disabled className={classes.signInButton} type="submit"> Submit </Button>
+                <Button disabled className={classes.submitBtn} type="submit"> Submit </Button>
               </form>
             </Grid>
           </Grid>
