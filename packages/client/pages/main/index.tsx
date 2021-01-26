@@ -219,23 +219,63 @@ const MainPage = () => {
     return '!';
   };
 
-  const getPriorities = () => {
-    let priorities = [];
-    let isSingleHomeWorkItem = false;
-    let isSingleListItem = false;
+  const getListItemPriorities = (isSingleListItem) => {
+    if(data && data.listItems && data.listItems.edges && data.listItems.edges.length > 0) {
+      let itemOrItems = data.listItems.edges.length <= 1 ? 'item' : 'items';
+      let listsLink = `productivity/lists`;
+      if (itemOrItems === 'item') {
+        listsLink = `productivity/lists/view/${data.listItems.edges[0].id}`;
+      }
+      let name = data.listItems.edges[0].name;
+      return (
+        <Grid item key={1} xs={8}>
+          <h5
+            className={classes.previewTitle}>
+            {'* ' + data.listItems.edges.length +
+              ` upcoming to-do list ${itemOrItems}`}
+            {
+              isSingleListItem ?
+                <HtmlTooltip
+                  title={
+                    <React.Fragment>
+                      <Typography color="inherit">
+                        {name}
+                      </Typography>
+                    </React.Fragment>
+                  }
+                >
+                  <Button
+                    className={classes.viewBtn}
+                    onClick={routePage.bind(this, listsLink)}>
+                    View
+                </Button>
+                </HtmlTooltip> :
+                <Button
+                  className={classes.viewBtn}
+                  onClick={routePage.bind(this, listsLink)}>
+                  View
+                </Button>
+            }
+
+          </h5>
+        </Grid>
+      );
+    }
+  };
+
+  const getHomeWorkPriorities = (isSingleHomeWorkItem) => {
     if (data && data.homeworks && data.homeworks.edges && data.homeworks.edges.length > 0) {
-      let eventOrEvents = data.homeworks.edges.length <=1 ? 'event' : 'events';
+      let eventOrEvents = data.homeworks.edges.length <= 1 ? 'event' : 'events';
       let homeWorkpageLink = `home/work`;
       if (eventOrEvents === 'event') {
-        isSingleHomeWorkItem = true;
         homeWorkpageLink = `home/work/view/${data.homeworks.edges[0].id}`;
       }
       let title = data.homeworks.edges[0].title;
-      priorities.push(
+      return (
         <Grid item key={0} xs={8}>
           <h5
             className={classes.previewTitle}>
-              {'* ' + data.homeworks.edges.length +
+            {'* ' + data.homeworks.edges.length +
               ` upcoming home work ${eventOrEvents}`}
             {
               isSingleHomeWorkItem ?
@@ -262,47 +302,26 @@ const MainPage = () => {
         </Grid>
       );
     }
+  };
+
+  const getTechQuestionReply = () => {};
+
+  const getPriorities = () => {
+    let priorities = [];
+    let isSingleHomeWorkItem = false;
+    let isSingleListItem = false;
+
+    if (data && data.homeworks && data.homeworks.edges && data.homeworks.edges.length > 0) {
+      isSingleHomeWorkItem = data.homeworks.edges.length <= 1 ? true : false;
+      priorities.push(
+        getHomeWorkPriorities(isSingleHomeWorkItem)
+      );
+    }
 
     if (data && data.listItems && data.listItems.edges && data.listItems.edges.length > 0) {
-      let itemOrItems = data.listItems.edges.length <= 1 ? 'item' : 'items';
-      let listsLink = `productivity/lists`;
-      if (itemOrItems === 'item') {
-        isSingleListItem = true;
-        listsLink = `productivity/lists/view/${data.listItems.edges[0].id}`;
-      }
-      let name = data.listItems.edges[0].name;
+      isSingleListItem = data.listItems.edges.length <= 1 ? true : false;
       priorities.push(
-        <Grid item key={1} xs={8}>
-          <h5
-            className={classes.previewTitle}>
-            {'* ' + data.listItems.edges.length +
-            ` upcoming to-do list ${itemOrItems}`}
-          {
-              isSingleListItem ?
-                <HtmlTooltip
-                  title={
-                    <React.Fragment>
-                      <Typography color="inherit">
-                        {name}
-                      </Typography>
-                    </React.Fragment>
-                  }
-                >
-                  <Button
-                    className={classes.viewBtn}
-                    onClick={routePage.bind(this, listsLink)}>
-                    View
-            </Button>
-                </HtmlTooltip> :
-                <Button
-                  className={classes.viewBtn}
-                  onClick={routePage.bind(this, listsLink)}>
-                  View
-            </Button>
-          }
-
-        </h5>
-        </Grid>
+        getListItemPriorities(isSingleListItem)
       );
     }
 
