@@ -136,7 +136,7 @@ const NewRecommendationForm = () => {
           </Grid>
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <FormControl className={classes.formControl}>
+            <FormControl required className={classes.formControl}>
               <InputLabel id="demo-simple-select-label">Recommendation type</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
