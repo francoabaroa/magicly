@@ -147,7 +147,7 @@ const PricingPage = () => {
             <Grid item xs={12} lg={4} md={4} sm={4}>
               <Paper className={classes.paper}>
                 <h2 className={classes.planName}>
-                  The Basics
+                  Basic
               </h2>
                 <h3 className={classes.pricingAmt}>
                   $4.99/month

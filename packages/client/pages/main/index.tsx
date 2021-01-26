@@ -4,7 +4,7 @@ import Layout from '../../components/Layout';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
-import { LIST_TYPE } from '../../constants/appStrings';
+import { LIST_TYPE, QUESTION_STATUS } from '../../constants/appStrings';
 import Cookies from 'js-cookie';
 import { withStyles, makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -19,7 +19,24 @@ const QUERY = gql`
     $limit: Int,
     $excludePast: Boolean,
     $listType: ListType!,
+    $questionStatus: [QuestionStatus],
   ) {
+    questions(
+      questionStatus: $questionStatus,
+      cursor: $cursor,
+      limit: $limit
+    ) {
+      edges {
+        id
+        body
+        type
+        urgent
+        status
+      }
+      pageInfo {
+        endCursor
+      }
+    }
     me {
       id
       firstName
@@ -168,7 +185,13 @@ const MainPage = () => {
   const { data, loading, error, refetch } = useQuery(QUERY, {
     variables: {
       listType: LIST_TYPE.TODO,
-      excludePast: true
+      excludePast: true,
+      questionStatus: [
+        QUESTION_STATUS.SOLVED,
+        QUESTION_STATUS.UNSOLVED,
+        QUESTION_STATUS.CANCELLED,
+        QUESTION_STATUS.ANSWERED,
+      ],
     }
   });
 
@@ -202,6 +225,10 @@ const MainPage = () => {
     }
 
     if (data && data.listItems && data.listItems.edges && data.listItems.edges.length === 0) {
+      hasPriorities = false;
+    }
+
+    if (data && data.questions && data.questions.edges && data.questions.edges.length === 0) {
       hasPriorities = false;
     }
 
@@ -304,12 +331,54 @@ const MainPage = () => {
     }
   };
 
-  const getTechQuestionReply = () => {};
+  const getTechQuestionReply = (isSingleQuestion) => {
+    if (data && data.questions && data.questions.edges && data.questions.edges.length > 0) {
+      let shouldAddLink = data.questions.edges.length <= 1 ? true : false;
+      let homeWorkpageLink = `productivity/help`;
+
+      if (shouldAddLink) {
+        homeWorkpageLink = `productivity/help/view/${data.questions.edges[0].id}`;
+      }
+
+      let body = data.questions.edges[0].body;
+      return (
+        <Grid item key={0} xs={8}>
+          <h5
+            className={classes.previewTitle}>
+            {'* ' + data.questions.edges.length +
+              ` answered tech question`}
+            {
+              isSingleQuestion ?
+                <HtmlTooltip
+                  title={
+                    <React.Fragment>
+                      <Typography color="inherit">{body}</Typography>
+                    </React.Fragment>
+                  }
+                >
+                  <Button
+                    className={classes.viewBtn}
+                    onClick={routePage.bind(this, homeWorkpageLink)}>
+                    View
+              </Button>
+                </HtmlTooltip> :
+                <Button
+                  className={classes.viewBtn}
+                  onClick={routePage.bind(this, homeWorkpageLink)}>
+                  View
+              </Button>
+            }
+          </h5>
+        </Grid>
+      );
+    }
+  };
 
   const getPriorities = () => {
     let priorities = [];
     let isSingleHomeWorkItem = false;
     let isSingleListItem = false;
+    let isSingleQuestion = false;
 
     if (data && data.homeworks && data.homeworks.edges && data.homeworks.edges.length > 0) {
       isSingleHomeWorkItem = data.homeworks.edges.length <= 1 ? true : false;
@@ -322,6 +391,13 @@ const MainPage = () => {
       isSingleListItem = data.listItems.edges.length <= 1 ? true : false;
       priorities.push(
         getListItemPriorities(isSingleListItem)
+      );
+    }
+
+    if (data && data.questions && data.questions.edges && data.questions.edges.length > 0) {
+      isSingleQuestion = data.questions.edges.length <= 1 ? true : false;
+      priorities.push(
+        getTechQuestionReply(isSingleQuestion)
       );
     }
 
