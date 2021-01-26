@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingTop: '10px',
       margin: 'auto',
       textAlign: 'center',
+      marginTop: '20px'
     },
     paper: {
       padding: theme.spacing(2),
@@ -38,6 +39,9 @@ const BasicPlanPage = () => {
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={12}>
             <h1 className={classes.title}>Basic Plan</h1>
+          </Grid>
+          <Grid item xs={12}>
+            <h3 className={classes.title}>Coming Soon</h3>
           </Grid>
         </Grid>
         {/* <div className={classes.root}>

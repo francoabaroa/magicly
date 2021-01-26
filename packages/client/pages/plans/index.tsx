@@ -84,6 +84,7 @@ const useStyles = makeStyles((theme: Theme) =>
     features: {
       marginTop: '35px',
       marginBottom: '25px',
+      textAlign: 'left'
     },
     details: {
       marginLeft: '20px',
@@ -123,22 +124,22 @@ const PricingPage = () => {
                 <h2 className={classes.planName}>
                   FREE
               </h2>
-                <h3 className={classes.pricingAmtHidden}>
+                <h3 className={classes.pricingAmt}>
                   FREE
               </h3>
-                <Button className={classes.getStarted} onClick={routePage.bind(this, 'plans/free')}>Get started</Button>
+                <Button className={classes.getStarted} onClick={routePage.bind(this, 'signup')}>Get started</Button>
                 <div className={classes.features}>
                   <div className={classes.individualFeature}>
                     <DoneOutline fontSize={'small'} className={classes.checkmark}/>
-                    <span className={classes.details}>details</span>
+                    <span className={classes.details}>1 GB Document Storage</span>
                   </div>
                   <div className={classes.individualFeature}>
                     <DoneOutline fontSize={'small'} className={classes.checkmark}/>
-                    <span className={classes.details}>details</span>
+                    <span className={classes.details}>2 Tech Questions</span>
                   </div>
                   <div className={classes.individualFeature}>
-                    <DoneOutline fontSize={'small'} className={classes.checkmark}/>
-                    <span className={classes.details}>details</span>
+                    <DoneOutline fontSize={'small'} className={classes.checkmark} />
+                    <span className={classes.details}>Ads</span>
                   </div>
                 </div>
               </Paper>
@@ -149,21 +150,21 @@ const PricingPage = () => {
                   The Basics
               </h2>
                 <h3 className={classes.pricingAmt}>
-                  $9.99/month
+                  $4.99/month
               </h3>
                 <Button className={classes.getStarted} onClick={routePage.bind(this, 'plans/basic')}>Get started</Button>
                 <div className={classes.features}>
                   <div className={classes.individualFeature}>
                     <DoneOutline fontSize={'small'} className={classes.checkmark}/>
-                    <span className={classes.details}>details</span>
+                    <span className={classes.details}>10 GB Document Storage</span>
                   </div>
                   <div className={classes.individualFeature}>
                     <DoneOutline fontSize={'small'} className={classes.checkmark}/>
-                    <span className={classes.details}>details</span>
+                    <span className={classes.details}>10 Tech Questions</span>
                   </div>
                   <div className={classes.individualFeature}>
-                    <DoneOutline fontSize={'small'} className={classes.checkmark}/>
-                    <span className={classes.details}>details</span>
+                    <DoneOutline fontSize={'small'} className={classes.checkmark} />
+                    <span className={classes.details}>No Ads</span>
                   </div>
                 </div>
               </Paper>
@@ -174,21 +175,21 @@ const PricingPage = () => {
                   Premium
               </h2>
                 <h3 className={classes.pricingAmt}>
-                  $14.99/month
+                  $9.99/month
               </h3>
                 <Button className={classes.getStarted} onClick={routePage.bind(this, 'plans/premium')}>Get started</Button>
                 <div className={classes.features}>
                   <div className={classes.individualFeature}>
                     <DoneOutline fontSize={'small'} className={classes.checkmark}/>
-                    <span className={classes.details}>details</span>
+                    <span className={classes.details}>25 GB Document Storage</span>
                   </div>
                   <div className={classes.individualFeature}>
                     <DoneOutline fontSize={'small'} className={classes.checkmark}/>
-                    <span className={classes.details}>details</span>
+                    <span className={classes.details}>20 Tech Questions</span>
                   </div>
                   <div className={classes.individualFeature}>
-                    <DoneOutline fontSize={'small'} className={classes.checkmark}/>
-                    <span className={classes.details}>details</span>
+                    <DoneOutline fontSize={'small'} className={classes.checkmark} />
+                    <span className={classes.details}>No Ads</span>
                   </div>
                 </div>
               </Paper>

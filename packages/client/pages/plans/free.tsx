@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingTop: '10px',
       margin: 'auto',
       textAlign: 'center',
+      marginTop: '20px'
     },
     paper: {
       padding: theme.spacing(2),
