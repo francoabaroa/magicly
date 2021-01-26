@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { APP_CONFIG } from '../../constants/appStrings';
+import { APP_CONFIG, QUESTION_STATUS } from '../../constants/appStrings';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { withStyles, createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -145,19 +145,19 @@ const QportalChatModal = (props) => {
   }
 
   const requestMoreInfo = (userId) => {
-    submitAnswer('PENDING', userId);
+    submitAnswer(QUESTION_STATUS.ANSWERED, userId);
   };
 
   const markSolved = (userId) => {
-    submitAnswer('SOLVED', userId);
+    submitAnswer(QUESTION_STATUS.SOLVED, userId);
   };
 
   const markCancelled = (userId) => {
-    submitAnswer('CANCELLED', userId);
+    submitAnswer(QUESTION_STATUS.CANCELLED, userId);
   };
 
   const markUnsolved = (userId) => {
-    submitAnswer('UNSOLVED', userId);
+    submitAnswer(QUESTION_STATUS.UNSOLVED, userId);
   };
 
   const saveBody = (event: React.ChangeEvent<HTMLInputElement>) => {
