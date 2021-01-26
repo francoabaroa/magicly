@@ -196,17 +196,17 @@ const MainPage = () => {
   };
 
   const getGreeting = (me: any, isNewUser: boolean) => {
-    let hasPriorities = false;
-    if (data && data.homeworks && data.homeworks.edges && data.homeworks.edges.length > 0) {
-      hasPriorities = true;
+    let hasPriorities = true;
+    if (data && data.homeworks && data.homeworks.edges && data.homeworks.edges.length === 0) {
+      hasPriorities = false;
     }
 
-    if (data && data.listItems && data.listItems.edges && data.listItems.edges.length > 0) {
-      hasPriorities = true;
+    if (data && data.listItems && data.listItems.edges && data.listItems.edges.length === 0) {
+      hasPriorities = false;
     }
 
     if (me && me.firstName && me.firstName.length > 0) {
-      if (isNewUser || hasPriorities) {
+      if (isNewUser || !hasPriorities) {
         return 'Welcome, ' + getCapitalizedString(me.firstName);
       }
 
