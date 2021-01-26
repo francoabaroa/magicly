@@ -9,6 +9,7 @@ import { withApollo } from '../../../apollo/apollo';
 import Cookies from 'js-cookie';
 import Grid from '@material-ui/core/Grid';
 import AddCircle from '@material-ui/icons/AddCircle';
+import AddAPhoto from '@material-ui/icons/AddAPhoto';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const QUERY = gql`
@@ -39,6 +40,14 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+    },
+    hugeIcon: {
+      color: '#E5DADA',
+      fontSize: '120px',
+      marginTop: '60px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '80px',
+      },
     },
     title: {
       fontFamily: 'Playfair Display, serif',
@@ -91,6 +100,52 @@ const useStyles = makeStyles((theme: Theme) =>
       textDecoration: 'none',
       fontFamily: 'Playfair Display',
       color: '#002642',
+    },
+    tap: {
+      color: '#02040F',
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      fontWeight: 'bold',
+      fontSize: '18px',
+      margin: 'auto',
+      marginLeft: '10px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '16px',
+      },
+    },
+    someExamples: {
+      color: '#02040F',
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      fontWeight: 'normal',
+      fontSize: '18px',
+      margin: 'auto',
+      marginLeft: '10px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '16px',
+      },
+    },
+    paper: {
+      padding: theme.spacing(1),
+      fontFamily: 'Playfair Display, serif',
+      color: '#FFF',
+      textAlign: 'left',
+      backgroundColor: "#E5DADA",
+      borderRadius: '10px',
+      boxShadow: '15px 15px 0 0px #02040F',
+      marginBottom: '20px',
+      maxWidth: '400px'
+    },
+    examples: {
+      fontFamily: 'Playfair Display, serif',
+      fontWeight: 'normal',
+      fontSize: '16px',
+      color: '#002642',
+      margin: 'auto',
+      textAlign: 'center',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '14px',
+      },
     },
     type: {
       marginLeft: '15px',
@@ -186,6 +241,33 @@ const DocumentsPage = () => {
     });
   }
 
+  const getEmptyUI = () => {
+    return (
+      <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }} onClick={routePage.bind(this, 'home/documents/add')}>
+          <AddAPhoto fontSize={'large'} className={classes.hugeIcon} />
+        </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
+          <span className={classes.tap}>click the camera icon to add a new document</span>
+        </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center', marginTop: '90px', marginBottom: '10px' }}>
+          <span className={classes.someExamples}>some examples for inspiration</span>
+        </Grid>
+        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
+          <Grid item xs={12} lg={12} md={12} sm={12} style={{ padding: '5px' }}>
+            <span className={classes.examples}>- insurance papers</span>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} style={{ padding: '5px' }}>
+            <span className={classes.examples}>- medical records</span>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} style={{ padding: '5px' }}>
+            <span className={classes.examples}>- appliance manuals</span>
+          </Grid>
+        </Grid>
+      </Grid>
+    );
+  };
+
   const getMainUI = () => {
     if (hasSavedDocuments) {
       return (
@@ -203,22 +285,7 @@ const DocumentsPage = () => {
         </Grid>
       );
     } else {
-      return (
-        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
-          <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h1 className={classes.title}>My Important Documents</h1>
-          </Grid>
-          <Grid item xs={8} lg={7} md={7} sm={7}>
-            <h1 className={classes.mediumTitle}>store documents you accrue over time so you never forget them</h1>
-          </Grid>
-          <Grid item xs={12} lg={6} md={6} sm={6}>
-            <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/add')}>
-              <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>add document</span>
-            </div>
-          </Grid>
-        </Grid>
-      );
+      return getEmptyUI();
     }
   };
 

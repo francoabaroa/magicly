@@ -323,7 +323,7 @@ const HomeWorkPage = () => {
           <AddCircle fontSize={'large'} className={classes.hugeIcon} />
         </Grid>
         <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
-          <span className={classes.tap}>tap the plus icon to start adding home work</span>
+          <span className={classes.tap}>click the plus icon to start adding home work</span>
         </Grid>
         <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center', marginTop: '90px', marginBottom: '10px' }}>
           <span className={classes.someExamples}>some examples for inspiration</span>
