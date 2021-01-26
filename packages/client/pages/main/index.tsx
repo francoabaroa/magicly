@@ -206,7 +206,7 @@ const MainPage = () => {
     }
 
     if (me && me.firstName && me.firstName.length > 0) {
-      if (isNewUser) {
+      if (isNewUser || hasPriorities) {
         return 'Welcome, ' + getCapitalizedString(me.firstName);
       }
 
