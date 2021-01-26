@@ -46,6 +46,17 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
     },
+    paper: {
+      padding: theme.spacing(1),
+      fontFamily: 'Playfair Display, serif',
+      color: '#FFF',
+      textAlign: 'left',
+      backgroundColor: "#E5DADA",
+      borderRadius: '10px',
+      boxShadow: '15px 15px 0 0px #02040F',
+      marginBottom: '20px',
+      maxWidth: '400px'
+    },
     title: {
       fontFamily: 'Playfair Display, serif',
       fontWeight: 'bold',
@@ -61,6 +72,9 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: '10px',
       },
     },
+    description: {
+      fontWeight: 'normal'
+    },
     sectionTitle: {
       fontFamily: 'Playfair Display, serif',
       fontWeight: 'bold',
@@ -74,6 +88,17 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: '22px',
         marginTop: '15px',
         marginBottom: '10px',
+      },
+    },
+    examples: {
+      fontFamily: 'Playfair Display, serif',
+      fontWeight: 'normal',
+      fontSize: '16px',
+      color: '#002642',
+      margin: 'auto',
+      textAlign: 'center',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '14px',
       },
     },
     findButton: {
@@ -94,6 +119,54 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       marginBottom: '5px',
     },
+    tap: {
+      color: '#02040F',
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      fontWeight: 'bold',
+      fontSize: '18px',
+      margin: 'auto',
+      marginLeft: '10px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '16px',
+      },
+    },
+    someExamples: {
+      color: '#02040F',
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      fontWeight: 'normal',
+      fontSize: '18px',
+      margin: 'auto',
+      marginLeft: '10px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '16px',
+      },
+    },
+    suggestion: {
+      color: 'rgba(0, 38, 66, 0.5)',
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      fontWeight: 'normal',
+      fontSize: '18px',
+      margin: 'auto',
+      marginLeft: '10px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '16px',
+      },
+    },
+    suggestionBold: {
+      color: 'rgba(0, 38, 66, 0.5)',
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      fontWeight: 'bold',
+      fontSize: '18px',
+      margin: 'auto',
+      marginLeft: '10px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '16px',
+      },
+    },
     details: {
       color: '#0A7EF2',
       fontFamily: 'Playfair Display, serif',
@@ -104,6 +177,14 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: '10px',
       [theme.breakpoints.down('sm')]: {
         fontSize: '22px',
+      },
+    },
+    hugeIcon: {
+      color: '#E5DADA',
+      fontSize: '120px',
+      marginTop: '60px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '80px',
       },
     },
     icon: {
@@ -161,7 +242,7 @@ const HomeWorkPage = () => {
     );
   };
 
-  if (data && data.me && data.me.homeworks) {
+  if (data && data.me && data.me.homeworks && data.me.homeworks.length > 0) {
     hasHomeWork = true;
     data.me.homeworks.forEach((homework, key) => {
       // TODO: need to update homework_status once it becomes stale
@@ -235,33 +316,63 @@ const HomeWorkPage = () => {
     }
   }
 
+  const getEmptyUI = () => {
+    return (
+      <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }} onClick={routePage.bind(this, 'home/work/add')}>
+          <AddCircle fontSize={'large'} className={classes.hugeIcon} />
+        </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
+          <span className={classes.tap}>tap the plus icon to start adding home work</span>
+        </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center', marginTop: '90px', marginBottom: '10px' }}>
+          <span className={classes.someExamples}>some examples for inspiration</span>
+        </Grid>
+        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
+          <Grid item xs={12} lg={12} md={12} sm={12} style={{padding: '5px'}}>
+            <span className={classes.examples}>- pool cleaning</span>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} style={{ padding: '5px' }}>
+            <span className={classes.examples}>- dishwasher installation</span>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} style={{ padding: '5px' }}>
+            <span className={classes.examples}>- fix garage door</span>
+          </Grid>
+        </Grid>
+      </Grid>
+    );
+  };
+
+  const getMainUI = () => {
+    return (
+      <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+        <Grid item xs={12} lg={5} md={5} sm={5}>
+          <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
+            <AddCircle fontSize={'large'} className={classes.icon} />
+            <span className={classes.details}>add home work</span>
+          </div>
+        </Grid>
+        <Grid item xs={12} lg={5} md={5} sm={5}>
+          <div className={classes.individualFeature}>
+            <Search fontSize={'large'} className={classes.icon} />
+            <span className={classes.details}>search</span>
+          </div>
+        </Grid>
+        {getUpcomingHomeWork(hasHomeWork, upcomingWork)}
+        {getPastHomeWork(hasHomeWork, pastWork)}
+      </Grid>
+    );
+  };
+
 
   return (
     <Layout>
       <div className={classes.homeWorkPage}>
-      <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
-          <Grid item xs={12} lg={12} md={12} sm={12}>
-            {/* <h1 className={classes.title}>Home Work</h1> */}
-          </Grid>
-
-          {/* <Grid item xs={12} lg={12} md={12} sm={12} onClick={routePage.bind(this, 'find')}>
-          <Button className={classes.findButton}> Find Products & Services </Button>
-        </Grid> */}
-        <Grid item xs={12} lg={5} md={5} sm={5}>
-            <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
-              <AddCircle fontSize={'large'} className={classes.icon} />
-              <span className={classes.details}>add home work</span>
-            </div>
-          </Grid>
-        <Grid item xs={12} lg={5} md={5} sm={5}>
-            <div className={classes.individualFeature}>
-              <Search fontSize={'large'} className={classes.icon} />
-              <span className={classes.details}>search</span>
-            </div>
-          </Grid>
-          {getUpcomingHomeWork(hasHomeWork, upcomingWork)}
-          {getPastHomeWork(hasHomeWork, pastWork)}
-      </Grid>
+        {
+          hasHomeWork ?
+          getMainUI() :
+          getEmptyUI()
+        }
       </div>
     </Layout>
   );

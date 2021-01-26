@@ -241,7 +241,7 @@ const HomePage = () => {
             </h2>
           <hr />
           <h3 className={classes.description}>
-            Keep track of any work done to your home, such as maintenance, repairs, installations and more
+            Keep track of any work you do to your home, such as maintenance, repairs, installations and more
             </h3>
           <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
             <AddCircle fontSize={'large'} className={classes.icon} />
