@@ -185,7 +185,12 @@ export default function PrimarySearchAppBar(props) {
   };
 
   const routePage = (pageName: string) => {
-    router.push('/' + pageName, undefined, { shallow: true });
+    if (pageName === 'blog' && window) {
+      let blogLink = 'https://magicly.medium.com/';
+      window.open(blogLink, '_blank');
+    } else {
+      router.push('/' + pageName, undefined, { shallow: true });
+    }
   };
 
   const signOut = () => {
