@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../../components/Layout';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
-import { LIST_TYPE } from '../../../constants/appStrings';
+import { LIST_TYPE, ITEM_TYPE } from '../../../constants/appStrings';
 import { withApollo } from '../../../apollo/apollo';
 import Cookies from 'js-cookie';
 import Grid from '@material-ui/core/Grid';
@@ -249,13 +249,17 @@ const ListsPage = () => {
       <Grid key={key} container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
         <Grid item xs={4} lg={3} md={4} sm={4}>
           <Link href="lists/view/[id]" as={`lists/view/${listItem.id}`}>
-            <span className={classes.link}>{listItem.name}</span>
+            <a className={classes.link}>{listItem.name}</a>
           </Link>
         </Grid>
         <Grid item xs={4} lg={3} md={4} sm={4}>
-          <Link href="lists/view/[id]" as={`lists/view/${listItem.id}`}>
-            <span className={classes.type}>{listItem.type}</span>
-          </Link>
+          {
+            listItem.type !== ITEM_TYPE.TODO ?
+            <Link href="lists/view/[id]" as={`lists/view/${listItem.id}`}>
+              <a className={classes.type}>{listItem.type}</a>
+            </Link> :
+            null
+          }
         </Grid>
       </Grid>
     );
