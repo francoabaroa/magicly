@@ -8,7 +8,7 @@ const NotFoundPage = () => {
     <Layout>
       <h1 style={{textAlign: 'center', marginTop: '50px'}}>Oops! Page not found</h1>
       <h2 style={{textAlign: 'center'}}>
-        <Link href="main">
+        <Link href="/">
           <a>Return to Magicly</a>
         </Link>
       </h2>
