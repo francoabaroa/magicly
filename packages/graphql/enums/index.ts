@@ -109,6 +109,7 @@ const enums = gql`
     SOLVED
     UNSOLVED
     CANCELLED
+    ANSWERED
   }
 
   enum ProductType {

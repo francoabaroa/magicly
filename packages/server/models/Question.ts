@@ -9,7 +9,7 @@ export interface QuestionAttributes {
   body: string;
   type: 'TECH' | 'HOME' | 'FINANCE' | 'SCAM' | 'SERVICE' | 'PRODUCT' | 'APP';
   keywords?: string[] | null;
-  status: 'PENDING' | 'SOLVED' | 'UNSOLVED' | 'CANCELLED';
+  status: 'PENDING' | 'SOLVED' | 'UNSOLVED' | 'CANCELLED' | 'ANSWERED';
   notificationType: 'EMAIL' | 'SMS' | 'WHATSAPP' | 'CALL' | 'NONE';
   urgent?: boolean | null;
   createdAt?: Date;
@@ -85,6 +85,7 @@ export const QuestionFactory = (sequelize: Sequelize.Sequelize, DataTypes: Seque
         'SOLVED',
         'UNSOLVED',
         'CANCELLED',
+        'ANSWERED'
       ),
       defaultValue: 'PENDING',
       unique: false,

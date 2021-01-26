@@ -191,6 +191,7 @@ const ProductivityPage = () => {
           QUESTION_STATUS.SOLVED,
           QUESTION_STATUS.UNSOLVED,
           QUESTION_STATUS.CANCELLED,
+          QUESTION_STATUS.ANSWERED,
         ],
         limit: 3,
       }
