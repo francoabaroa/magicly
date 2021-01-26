@@ -38,8 +38,6 @@ const isProduction = !!process.env.DATABASE_URL;
 let url = '';
 let sequelizeConfig = {};
 
-import { createUsersWithHomeworks } from './data/createUsersWithHomeworks';
-
 if (isProduction) {
   url = 'https://www.magicly.app/';
 } else if (isTest) {
@@ -200,8 +198,7 @@ async function main() {
   // TODO: remove flag and update credentials for production BEFORE LAUNCH
   // TODO: need to use migrations in production
   // https://stackoverflow.com/questions/21105748/sequelize-js-how-to-use-migrations-and-sync
-  // db.sequelize.authenticate().then(async () => {
-  db.sequelize.sync({ force: isTest || isProduction }).then(async () => {
+  db.sequelize.authenticate().then(async () => {
 
     /*
       { force: isTest || isProduction }
@@ -210,10 +207,6 @@ async function main() {
         createUsersWithHomeworks(db);
       }
     */
-
-    if (isTest || isProduction) {
-      createUsersWithHomeworks(db);
-    }
 
     app.get('/auth/google/signout', async (req, res) => {
       req.logout();
