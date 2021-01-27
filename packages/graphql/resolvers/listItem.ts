@@ -17,7 +17,7 @@ export default {
       }
       return await models.ListItem.findByPk(id);
     },
-    listItems: async (parent, { listType, cursor, limit = 100 }, { models, me }) => {
+    listItems: async (parent, { listType, excludeComplete, cursor, limit = 100 }, { models, me }) => {
       let list = await models.List.findOne({
         where: { type: listType, userId: me.id }
       });
@@ -47,9 +47,13 @@ export default {
         }
         : {
           where: {
-            listId: listId
+            listId: listId,
           }
         };
+
+      if (excludeComplete) {
+        cursorOptions.where['complete'] = !excludeComplete;
+      }
 
       const listItems = await models.ListItem.findAll({
         order: [['createdAt', 'DESC']],
@@ -160,6 +164,7 @@ export default {
             type,
             notes,
             listId,
+            complete: false,
           });
 
           return listItem;

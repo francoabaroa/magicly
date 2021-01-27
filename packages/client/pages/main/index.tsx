@@ -18,6 +18,7 @@ const QUERY = gql`
     $cursor: String,
     $limit: Int,
     $excludePast: Boolean,
+    $excludeComplete: Boolean,
     $listType: ListType!,
     $questionStatus: [QuestionStatus],
   ) {
@@ -58,6 +59,7 @@ const QUERY = gql`
     }
     listItems(
       listType: $listType,
+      excludeComplete: $excludeComplete,
       cursor: $cursor,
       limit: $limit
     ) {
@@ -186,6 +188,7 @@ const MainPage = () => {
     variables: {
       listType: LIST_TYPE.TODO,
       excludePast: true,
+      excludeComplete: true,
       questionStatus: [
         QUESTION_STATUS.SOLVED,
         QUESTION_STATUS.UNSOLVED,
@@ -219,26 +222,26 @@ const MainPage = () => {
   };
 
   const getGreeting = (me: any, isNewUser: boolean) => {
-    let hasPriorities = true;
-    if (data && data.homeworks && data.homeworks.edges && data.homeworks.edges.length === 0) {
-      hasPriorities = false;
+    let hasPriorities = false;
+
+    if (data && data.homeworks && data.homeworks.edges && data.homeworks.edges.length > 0) {
+      hasPriorities = true;
     }
 
-    if (data && data.listItems && data.listItems.edges && data.listItems.edges.length === 0) {
-      hasPriorities = false;
+    if (data && data.listItems && data.listItems.edges && data.listItems.edges.length > 0) {
+      hasPriorities = true;
     }
 
-    if (data && data.questions && data.questions.edges && data.questions.edges.length === 0) {
-      hasPriorities = false;
+    if (data && data.questions && data.questions.edges && data.questions.edges.length > 0) {
+      hasPriorities = true;
     }
 
     if (me && me.firstName && me.firstName.length > 0) {
       if (isNewUser || !hasPriorities) {
-        return 'Welcome, ' + getCapitalizedString(me.firstName);
+        return 'Welcome ' + getCapitalizedString(me.firstName);
       }
 
-      let yourPriorities = 'here are your priorities: ';
-      return 'Hi ' + getCapitalizedString(me.firstName) + ', ' + yourPriorities
+      return 'Hi ' + getCapitalizedString(me.firstName) + ' ';
     }
     if (me && me.email && me.email.length > 0) {
       return ', ' + getCapitalizedString(me.email.split('@')[0]);

@@ -2,7 +2,12 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    listItems (listType: ListType!, cursor: String, limit: Int): ListItemConnection!
+    listItems (
+      listType: ListType!,
+      excludeComplete: Boolean,
+      cursor: String,
+      limit: Int
+    ): ListItemConnection!
     listItem (id: ID!): ListItem
     shoppingListItems (cursor: String, limit: Int): ListItemConnection!
   }
