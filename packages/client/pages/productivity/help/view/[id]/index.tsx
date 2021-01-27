@@ -174,7 +174,7 @@ const ViewQuestionPage = () => {
                   onClick={handleViewAnswerOpen}
                   className={classes.viewAnswerBtn}
                 >
-                  View Answer
+                  View Chat
                 </Button>
                 : null
             }

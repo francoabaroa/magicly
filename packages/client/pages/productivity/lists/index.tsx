@@ -164,6 +164,12 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: '10px',
       },
     },
+    emptyMarginTopBlock: {
+      marginTop: '50px',
+      [theme.breakpoints.down('sm')]: {
+        marginTop: '20px'
+      },
+    },
     link: {
       marginLeft: '15px',
       fontSize: '20px',
@@ -194,11 +200,14 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: '15px',
     },
     icon: {
-      color: '#0A7EF2',
-      fontSize: '14px',
+      color: 'rgba(0, 38, 66, 0.8)',
+      fontSize: '18px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '18px',
+      },
     },
     details: {
-      color: '#0A7EF2',
+      color: 'rgba(0, 38, 66, 0.8)',
       fontFamily: 'Playfair Display, serif',
       textAlign: 'center',
       fontWeight: 'normal',
@@ -206,7 +215,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: 'auto',
       marginLeft: '10px',
       [theme.breakpoints.down('sm')]: {
-        fontSize: '18px',
+        fontSize: '22px',
       },
     },
   }),
@@ -325,16 +334,18 @@ const ListsPage = () => {
     if (hasSavedListItems) {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
-          <Grid item xs={12} lg={5} md={5} sm={5}>
+          <Grid item lg={12} sm={12} xs={12} md={12} className={classes.emptyMarginTopBlock}>
+          </Grid>
+          <Grid item xs={4} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists/add')}>
               <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>add to-do item</span>
+              <span className={classes.details}>add</span>
             </div>
           </Grid>
-          <Grid item xs={12} lg={5} md={5} sm={5}>
+          <Grid item xs={4} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists/add')}>
               <Search fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>search lists</span>
+              <span className={classes.details}>search</span>
             </div>
           </Grid>
 
