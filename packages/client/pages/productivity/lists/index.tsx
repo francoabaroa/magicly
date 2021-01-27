@@ -352,7 +352,7 @@ const ListsPage = () => {
           {
             todoListItemsUI.length > 0 ?
               <Grid item xs={8}>
-                <h1 className={classes.title}>To-Do Now</h1>
+                <h1 className={classes.title}>To-do</h1>
               </Grid> :
               null
           }
@@ -361,7 +361,7 @@ const ListsPage = () => {
           {
             watchListItemsUI.length > 0 ?
               <Grid item xs={8}>
-                <h1 className={classes.title}>To Watch</h1>
+                <h1 className={classes.title}>Watch</h1>
               </Grid> :
               null
           }
@@ -370,7 +370,7 @@ const ListsPage = () => {
           {
             laterListItemsUI.length > 0 ?
               <Grid item xs={8}>
-                <h1 className={classes.title}>To-Do Later</h1>
+                <h1 className={classes.title}>Later</h1>
               </Grid> :
               null
           }

@@ -63,9 +63,13 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     textField: {
       minWidth: '400px',
+      [theme.breakpoints.down('sm')]: {
+        minWidth: '300px',
+      },
     },
     checkboxLabel: {
       fontSize: '28px',
+      fontWeight: 'bold'
     },
     formControl: {
       minWidth: '350px',
@@ -84,7 +88,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: '14px',
       margin: '0 auto',
       display: 'block',
-      marginTop: '2px',
+      marginTop: '50px',
       color: '#FFF',
       backgroundColor: '#002642',
       borderRadius: '50px',
@@ -121,7 +125,11 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       fontFamily: 'Playfair Display',
       fontStyle: 'normal',
-      fontWeight: 'bold',
+      fontWeight: 'normal',
+      marginTop: '50px',
+      [theme.breakpoints.down('xs')]: {
+        marginTop: '40px',
+      },
     },
     datePicker: {
       minWidth: '350px',
@@ -214,30 +222,80 @@ const NewTodoListItemForm = () => {
       <form onSubmit={submitForm}>
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
           <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h2 className={classes.title}>Type your task in the box below and select which list you want to store it in:</h2>
+            <h2 className={classes.title}>Type your task in the box below and select in which list you want to store it:</h2>
           </Grid>
 
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
             <TextField style={{ paddingBottom: '10px' }} autoComplete="off" id="outlined-basic" variant="outlined" onChange={event => setName(event.target.value)} className={classes.textField} />
           </Grid>
 
-          <Grid item xs={12} lg={12} md={12} sm={12}>
-            <FormControl component="fieldset">
-              <RadioGroup aria-label="list" name="list1" value={list} onChange={handleListChange} row>
+          <Grid item xs={12} lg={4} md={4} sm={12}>
+            <Grid container spacing={1} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+              <Grid item xs={12} lg={12} md={12} sm={12}>
                 <FormControlLabel
                   classes={{ label: classes.checkboxLabel }}
                   value={LIST_TYPE.TODO}
-                  control={
-                  <Radio
+                  control={<Radio
                     disableRipple
                     classes={{ root: classes.radio, checked: classes.checked }}
+                    onChange={handleListChange}
+                    checked={list === LIST_TYPE.TODO}
+                    value={LIST_TYPE.TODO}
                   />}
-                  label={'To-Do Now'}
+                  label={LIST_TYPE.TODO}
+                  labelPlacement="end"
                 />
-                <FormControlLabel classes={{ label: classes.checkboxLabel }} value={LIST_TYPE.WATCH} control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label={'To Watch'} />
-                <FormControlLabel classes={{ label: classes.checkboxLabel }} value={LIST_TYPE.LATER} control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label={'To-Do Later'} />
-              </RadioGroup>
-            </FormControl>
+              </Grid>
+              <Grid item xs={12} lg={8} md={12} sm={12}>
+                <div>all the stuff you "must" do -- commitments, obligations, things that have to be done</div>
+              </Grid>
+            </Grid>
+          </Grid>
+
+          <Grid item xs={12} lg={4} md={4} sm={12}>
+            <Grid container spacing={1} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+              <Grid item xs={12} lg={12} md={12} sm={12}>
+                <FormControlLabel
+                  classes={{ label: classes.checkboxLabel }}
+                  value={LIST_TYPE.WATCH}
+                  control={<Radio
+                    disableRipple
+                    classes={{ root: classes.radio, checked: classes.checked }}
+                    onChange={handleListChange}
+                    checked={list === LIST_TYPE.WATCH}
+                    value={LIST_TYPE.WATCH}
+                  />}
+                  label={LIST_TYPE.WATCH}
+                  labelPlacement="end"
+                />
+              </Grid>
+              <Grid item xs={12} lg={8} md={12} sm={12}>
+                <div>all the stuff that you have to follow up on, wait for someone else to get back to you on, or otherwise remember</div>
+              </Grid>
+            </Grid>
+          </Grid>
+
+          <Grid item xs={12} lg={4} md={4} sm={12}>
+            <Grid container spacing={1} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+              <Grid item xs={12} lg={12} md={12} sm={12}>
+                <FormControlLabel
+                  classes={{ label: classes.checkboxLabel }}
+                  value={LIST_TYPE.LATER}
+                  control={<Radio
+                    disableRipple
+                    classes={{ root: classes.radio, checked: classes.checked }}
+                    onChange={handleListChange}
+                    checked={list === LIST_TYPE.LATER}
+                    value={LIST_TYPE.LATER}
+                  />}
+                  label={LIST_TYPE.LATER}
+                  labelPlacement="end"
+                />
+              </Grid>
+              <Grid item xs={12} lg={8} md={12} sm={12}>
+                <div>everything else -- everything you might want to do or will do when you have time or wish you could do</div>
+              </Grid>
+            </Grid>
           </Grid>
 
           {
