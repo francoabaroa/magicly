@@ -402,12 +402,12 @@ const FindPage = () => {
     for (let i = 0; i < filteredSearchResults.length; i++) {
       results.push(
         <Grid key={counter++}  container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.row}>
-            <Grid item xs={9} lg={8} md={8} sm={8} style={{ textAlign: 'left' }} className={classes.iconAndService}>
+          <Grid item xs={9} lg={8} md={8} sm={8} style={{ textAlign: 'left' }} className={classes.iconAndService}>
               <Build className={classes.toolIcon} />
               {/* href={filteredSearchResults[i].url} */}
               <a target="_blank" className={classes.link} onClick={handleIndividualServiceOpen.bind(this, filteredSearchResults[i])}>{filteredSearchResults[i].title}</a>
             </Grid>
-            <Grid item xs={2} lg={2} md={2} sm={2} style={{ textAlign: 'right' }}>
+          <Grid item xs={2} lg={2} md={2} sm={2} style={{ textAlign: 'right' }}>
               {getFavoriteIcon(filteredSearchResults[i].favorited, filteredSearchResults[i])}
             </Grid>
           </Grid>
@@ -530,7 +530,14 @@ const FindPage = () => {
                 null
             }
 
-            {hidePopularServices ? buildFilteredSearchResults() : null }
+            {
+              hidePopularServices ?
+                <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
+                  { buildFilteredSearchResults() }
+                </Grid>
+               :
+              null
+              }
 
           </Grid>
         </div>
