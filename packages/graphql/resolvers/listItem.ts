@@ -168,6 +168,26 @@ export default {
         }
       },
     ),
+    completeListItem: combineResolvers(
+      isAuthenticated,
+      async (parent, { id, complete }, { me, models }) => {
+        try {
+          const listItem = await models.ListItem.findByPk(id);
+
+          if (!listItem) {
+            throw new ApolloError('No existing list item found.');
+          }
+
+          if (listItem) {
+            listItem.complete = complete;
+            await listItem.save();
+          }
+          return listItem;
+        } catch (error) {
+          throw new Error(error);
+        }
+      },
+    ),
     deleteListItem: combineResolvers(
       isAuthenticated,
       async (parent, { id }, { models }) => {

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../../components/Layout';
+import ListItemRow from '../../../components/productivity/ListItemRow';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { LIST_TYPE, ITEM_TYPE } from '../../../constants/appStrings';
@@ -31,6 +32,7 @@ const QUERY = gql`
         type
         listItems {
           id
+          complete
           name
           type
           notes
@@ -246,22 +248,7 @@ const ListsPage = () => {
 
   const getIndividualListItem = (key: any, listItem: any) => {
     return (
-      <Grid key={key} container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
-        <Grid item xs={4} lg={3} md={4} sm={4}>
-          <Link href="lists/view/[id]" as={`lists/view/${listItem.id}`}>
-            <a className={classes.link}>{listItem.name}</a>
-          </Link>
-        </Grid>
-        <Grid item xs={4} lg={3} md={4} sm={4}>
-          {
-            listItem.type !== ITEM_TYPE.TODO ?
-            <Link href="lists/view/[id]" as={`lists/view/${listItem.id}`}>
-              <a className={classes.type}>{listItem.type}</a>
-            </Link> :
-            null
-          }
-        </Grid>
-      </Grid>
+      <ListItemRow key={key} listItem={listItem} />
     );
   };
 
@@ -329,22 +316,16 @@ const ListsPage = () => {
     if (hasSavedListItems) {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
-          <Grid item xs={12} lg={4} md={4} sm={4}>
+          <Grid item xs={12} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists/add')}>
               <AddCircle fontSize={'small'} className={classes.icon} />
               <span className={classes.details}>add to-do item</span>
             </div>
           </Grid>
-          <Grid item xs={12} lg={4} md={4} sm={4}>
+          <Grid item xs={12} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists/add')}>
               <Search fontSize={'small'} className={classes.icon} />
               <span className={classes.details}>search lists</span>
-            </div>
-          </Grid>
-          <Grid item xs={12} lg={4} md={4} sm={4}>
-            <div className={classes.individualFeature}>
-              <Edit fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>edit</span>
             </div>
           </Grid>
 

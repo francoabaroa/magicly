@@ -21,6 +21,10 @@ export default gql`
       executionDate: Date
       executor: String
     ): ListItem!
+    completeListItem(
+      id: ID!
+      complete: Boolean!
+    ): ListItem!
     deleteListItem(id: ID!): Boolean!
   }
   type ListItem {
