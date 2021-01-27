@@ -248,7 +248,10 @@ const ListsPage = () => {
 
   const getIndividualListItem = (key: any, listItem: any) => {
     return (
-      <ListItemRow key={key} listItem={listItem} />
+      <ListItemRow
+        key={key}
+        listItem={listItem}
+      />
     );
   };
 
@@ -265,23 +268,29 @@ const ListsPage = () => {
   }
 
   if (todoListItems.length > 0) {
-    hasSavedListItems = true;
     todoListItems.forEach((item, key) => {
-      todoListItemsUI.push(getIndividualListItem(key, item))
+      if (!item.complete) {
+        hasSavedListItems = true;
+        todoListItemsUI.push(getIndividualListItem(key, item));
+      }
     });
   }
 
   if (watchListItems.length > 0) {
-    hasSavedListItems = true;
     watchListItems.forEach((item, key) => {
-      watchListItemsUI.push(getIndividualListItem(key, item))
+      if (!item.complete) {
+        hasSavedListItems = true;
+        watchListItemsUI.push(getIndividualListItem(key, item));
+      }
     });
   }
 
   if (laterListItems.length > 0) {
-    hasSavedListItems = true;
     laterListItems.forEach((item, key) => {
-      laterListItemsUI.push(getIndividualListItem(key, item))
+      if (!item.complete) {
+        hasSavedListItems = true;
+        laterListItemsUI.push(getIndividualListItem(key, item));
+      }
     });
   }
 

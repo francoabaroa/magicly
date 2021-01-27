@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     horizontalLine: {
       marginTop: '5px',
-      maxWidth: '650px',
+      maxWidth: '700px',
     },
     type: {
       marginLeft: '15px',
@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 'bold',
     },
     centerText: {
-      textAlign: 'center',
+      textAlign: 'left',
     },
   }),
 );
@@ -88,7 +88,9 @@ const ListItemRow = (props) => {
   let isComplete = null;
   const router = useRouter();
   const classes = useStyles();
-  const [completeListItem, { data, loading, error }] = useMutation(COMPLETE_LIST_ITEM);
+  const [completeListItem, { data, loading, error }] = useMutation(
+    COMPLETE_LIST_ITEM,
+  );
 
   if (data && data.completeListItem && data.completeListItem.id) {
     isComplete = data.completeListItem.complete;
@@ -99,6 +101,7 @@ const ListItemRow = (props) => {
   let textDecoration = complete ? 'line-through' : 'none';
 
   if (error) return <p>Error: {error.message}</p>;
+
 
   const handleChange = (event) => {
     let isComplete = !complete;
@@ -116,18 +119,18 @@ const ListItemRow = (props) => {
 
   return (
       <Grid container spacing={1} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
-        <Grid item xs={1} lg={1} md={1} sm={1}>
+        <Grid item xs={1} lg={1} md={1} sm={1} style={{maxWidth: '40px'}}>
           <Radio
             checked={complete}
             onClick={handleChange}
           />
         </Grid>
-        <Grid item xs={1} lg={1} md={1} sm={1}>
+        <Grid item xs={5} lg={5} md={5} sm={5}>
           <Link href="lists/view/[id]" as={`lists/view/${props.listItem.id}`}>
             <a className={classes.link} style={{textDecoration}}>{props.listItem.name}</a>
           </Link>
         </Grid>
-        <Grid item xs={4} lg={3} md={4} sm={4}>
+        <Grid item xs={1} lg={1} md={1} sm={1}>
           {
             props.listItem.type !== ITEM_TYPE.TODO ?
               <Link href="lists/view/[id]" as={`lists/view/${props.listItem.id}`}>
