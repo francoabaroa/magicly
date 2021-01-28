@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { APP_CONFIG } from '../../constants/appStrings';
+import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -215,7 +216,9 @@ const NewHomeWorkForm = () => {
     <div>
         <Grid container spacing={1} justify="center" alignContent="center" alignItems="center" className={classes.form}>
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-            <h1 className={classes.title}>New Home Work</h1>
+          <MagiclyPageTitle
+            title={'New Home Work'}
+          />
           </Grid>
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>

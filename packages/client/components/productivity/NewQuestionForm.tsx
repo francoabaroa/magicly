@@ -2,6 +2,7 @@ import React, { useState, SetStateAction } from 'react';
 import { useRouter } from 'next/router';
 import { APP_CONFIG, QUESTION_TYPE } from '../../constants/appStrings';
 import MagiclyButton from '../shared/MagiclyButton';
+import MagiclyPageTitle from '../shared/MagiclyPageTitle';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -153,7 +154,9 @@ const NewQuestionForm = () => {
       <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
 
         <Grid item xs={12} lg={12} md={12} sm={12}>
-          <h1 className={classes.title}>Ask Us Any Tech Question. We’re Here to Help.</h1>
+          <MagiclyPageTitle
+            title={'Ask Us Any Tech Question. We’re Here to Help.'}
+          />
         </Grid>
 
         <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>

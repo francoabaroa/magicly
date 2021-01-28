@@ -1,6 +1,7 @@
 import React, { useState, SetStateAction, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { APP_CONFIG, DOC_TYPE } from '../../constants/appStrings';
+import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import MagiclyButton from '../shared/MagiclyButton';
@@ -268,7 +269,9 @@ const UploadDocument = (props) => {
     <div className={classes.root}>
       <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
         <Grid item xs={12} lg={12} md={12} sm={12}>
-          <h1 className={classes.title}>Add a New {title}</h1>
+          <MagiclyPageTitle
+            title={'Add a New ' + title}
+          />
         </Grid>
 
         <Grid item xs={12} lg={12} md={12} sm={12}>

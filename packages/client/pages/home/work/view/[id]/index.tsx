@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import Layout from '../../../../../components/Layout';
 import MagiclyPageTitle from '../../../../../components/shared/MagiclyPageTitle';
+import MagiclyButton from '../../../../../components/shared/MagiclyButton';
 import DeleteHomeWorkModal from '../../../../../components/home/DeleteHomeWorkModal';
 import { withApollo } from '../../../../../apollo/apollo';
 import { useRouter } from 'next/router';
@@ -46,6 +47,9 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+    },
+    centerText: {
+      textAlign: 'center',
     },
     title: {
       fontFamily: 'Playfair Display, serif',
@@ -242,21 +246,19 @@ const ViewHomeWorkPage = () => {
               Mark As Complete
             </Button>
           </Grid> */}
-          <Grid item xs={7} lg={7} md={7} sm={7}>
-            <Button
+
+          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+            <MagiclyButton
+              btnLabel={'Edit'}
               onClick={routePage.bind(this, `home/work/edit/${data.homework.id}`)}
-              className={classes.completeBtn}
-            >
-              Edit
-            </Button>
+            />
           </Grid>
-          <Grid item xs={7} lg={7} md={7} sm={7}>
-            <Button
+          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+            <MagiclyButton
+              btnLabel={'Delete'}
+              isWhiteBackgroundBtn={true}
               onClick={handleDeleteHomeWorkOpen}
-              className={classes.deleteButton}
-            >
-              Delete
-            </Button>
+            />
           </Grid>
 
         </Grid>
