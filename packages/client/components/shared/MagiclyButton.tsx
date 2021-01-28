@@ -39,9 +39,6 @@ const useStyles = makeStyles((theme: Theme) =>
         height: '45px'
       },
     },
-    input: {
-      display: 'none'
-    }
   }),
 );
 
@@ -68,7 +65,7 @@ const MagiclyButton = (props) => {
         type="file"
         required
         onChange={props.onFileChange}
-        className={classes.input}
+        hidden
       />
     );
   }

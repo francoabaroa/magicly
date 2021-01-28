@@ -255,32 +255,12 @@ const UploadDocument = (props) => {
         </Grid>
 
         <Grid item xs={12} lg={12} md={12} sm={12}>
-          <Button
-            variant="contained"
-            component="label"
-          >
-            Upload File
-  <input
-              type="file"
-              hidden
-              id="fileinput"
-              required
-            />
-          </Button>
-          {/* <MagiclyButton
+          <MagiclyButton
             btnLabel={'Choose ' + title}
             component={'label'}
             isChooseFileBtn={true}
             onFileChange={onChange}
-          /> */}
-          {/* <Button
-            variant="contained"
-            component="label"
-            style={{ backgroundColor: '#E59500', color: 'white' }}
-          >
-            Choose {title}
-            <input id="fileinput" type="file" required onChange={onChange} style={{ display: "none" }} />
-          </Button> */}
+          />
           {filename.length > 0 ?
             <div style={{ paddingLeft: '5px' }}> <span>{filename}</span> <span onClick={removeFile} className={classes.xButton}>×</span></div> :
             null
@@ -322,7 +302,6 @@ const UploadDocument = (props) => {
         <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
           <MagiclyButton
             btnLabel={moreDetails ? 'Hide Details' : 'Add More Details'}
-            isWhiteBackgroundBtn={false}
             onClick={toggleMoreDetailsButton}
           />
         </Grid>
@@ -354,26 +333,17 @@ const UploadDocument = (props) => {
         </Backdrop>
 
         <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-          <Button variant="contained" style={{ backgroundColor: '#840032', color: 'white' }} type='submit'>
-            Save
-            </Button>
-          <Button
-            onClick={() => router.back()}
-            variant="contained"
-            style={{ marginLeft: '10px' }}>
-            Cancel
-            </Button>
-          {/* <MagiclyButton
+          <MagiclyButton
             btnLabel={'Save'}
             onClick={submitForm}
-          /> */}
+          />
         </Grid>
         <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-          {/* <MagiclyButton
+          <MagiclyButton
             btnLabel={'Cancel'}
             isWhiteBackgroundBtn={true}
             onClick={() => router.back()}
-          /> */}
+          />
         </Grid>
       </Grid>
     </div>

@@ -1,12 +1,12 @@
 import React from 'react';
 import Layout from '../../../components/Layout';
-import UploadFile from '../../../components/UploadFile';
+import UploadDocument from '../../../components/home/UploadDocument';
 import { withApollo } from '../../../apollo/apollo';
 
 const AddDocument = () => {
   return (
     <Layout>
-      <UploadFile />
+      <UploadDocument />
     </Layout>
   );
 };
