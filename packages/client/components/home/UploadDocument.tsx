@@ -108,6 +108,23 @@ const useStyles = makeStyles((theme: Theme) =>
       zIndex: theme.zIndex.drawer + 1,
       color: '#fff',
     },
+    uploadBtn: {
+      fontFamily: 'Overpass, serif',
+      fontWeight: 'bold',
+      fontSize: '14px',
+      margin: '0 auto',
+      display: 'block',
+      color: '#FFF',
+      backgroundColor: '#002642',
+      borderRadius: '50px',
+      width: '175px',
+      height: '40px',
+      [theme.breakpoints.down('md')]: {
+        fontSize: '14px',
+        width: '150px',
+        height: '45px'
+      },
+    },
   }),
 );
 
@@ -255,12 +272,14 @@ const UploadDocument = (props) => {
         </Grid>
 
         <Grid item xs={12} lg={12} md={12} sm={12}>
-          <MagiclyButton
-            btnLabel={'Choose ' + title}
-            component={'label'}
-            isChooseFileBtn={true}
-            onFileChange={onChange}
-          />
+          <Button
+            variant="contained"
+            component="label"
+            className={classes.uploadBtn}
+          >
+            Choose {title}
+            <input id="fileinput" type="file" required onChange={onChange} style={{ display: "none" }} />
+          </Button>
           {filename.length > 0 ?
             <div style={{ paddingLeft: '5px' }}> <span>{filename}</span> <span onClick={removeFile} className={classes.xButton}>×</span></div> :
             null

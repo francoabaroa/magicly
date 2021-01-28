@@ -13,6 +13,8 @@
     "node": "12.10.0"
   },
   "dependencies": {
+    "browserslist": "^4.16.1",
+    "caniuse-lite": "^1.0.30001180",
     "concurrently": "^5.2.0"
   }
 }
