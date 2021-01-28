@@ -1,6 +1,7 @@
 import React, { useState, SetStateAction } from 'react';
 import { useRouter } from 'next/router';
 import { APP_CONFIG, QUESTION_TYPE } from '../../constants/appStrings';
+import MagiclyButton from '../shared/MagiclyButton';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -92,8 +93,7 @@ const NewQuestionForm = () => {
   const [notificationType, setNotificationType] = useState('NONE');
   const [reminder, setReminder] = useState('no');
 
-  const submitForm = event => {
-    event.preventDefault();
+  const submitForm = () => {
     if (type === '') {
       alert('You need to select a question type');
       return;
@@ -150,68 +150,68 @@ const NewQuestionForm = () => {
   return (
     <div className={classes.root}>
       {/* <h1>Add a new todo list item</h1> */}
-      <form onSubmit={submitForm}>
-        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+      <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
 
-          <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h1 className={classes.title}>Ask Us Any Tech Question. We’re Here to Help.</h1>
-          </Grid>
-
-          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <TextField autoComplete="off" className={classes.notes} id="standard-basic" label="Write your question here" onChange={event => setBody(event.target.value)}  />
-          </Grid>
-
-          <Grid item xs={12} lg={12} md={12} sm={12}>
-            <FormControl className={classes.formControl}>
-              <InputLabel id="demo-simple-select-label">Select the type of question</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={type}
-                onChange={handleTypeSelect}
-              >
-                <MenuItem value={QUESTION_TYPE.TECH}>{getCapitalizedString(QUESTION_TYPE.TECH)}</MenuItem>
-                <MenuItem value={QUESTION_TYPE.HOME}>{getCapitalizedString(QUESTION_TYPE.HOME)}</MenuItem>
-                <MenuItem value={QUESTION_TYPE.FINANCE}>{getCapitalizedString(QUESTION_TYPE.FINANCE)}</MenuItem>
-                <MenuItem value={QUESTION_TYPE.SCAM}>{getCapitalizedString(QUESTION_TYPE.SCAM)}</MenuItem>
-                <MenuItem value={QUESTION_TYPE.SERVICE}>{getCapitalizedString(QUESTION_TYPE.SERVICE)}</MenuItem>
-                <MenuItem value={QUESTION_TYPE.PRODUCT}>{getCapitalizedString(QUESTION_TYPE.PRODUCT)}</MenuItem>
-                <MenuItem value={QUESTION_TYPE.APP}>{getCapitalizedString(QUESTION_TYPE.APP)}</MenuItem>
-                <MenuItem value={QUESTION_TYPE.OTHER}>{getCapitalizedString(QUESTION_TYPE.OTHER)}</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-            <FormControl component="fieldset">
-              <FormLabel component="legend">Do you want to be notified through email?</FormLabel>
-              <RadioGroup aria-label="notif" name="notif1" value={reminder} onChange={onSetReminder}>
-                <FormControlLabel value="yes" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Yes" />
-                <FormControlLabel value="no" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="No" />
-              </RadioGroup>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12}>
-            <FormControl component="fieldset">
-              <FormLabel component="legend">Do you consider this matter to be urgent?</FormLabel>
-              <RadioGroup aria-label="urgent" name="urgent1" value={urgent} onChange={handleChange}>
-                <FormControlLabel value={true} control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Yes" />
-                <FormControlLabel value={false} control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="No" />
-              </RadioGroup>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-            <Button variant="contained" style={{ backgroundColor: '#840032', color: 'white' }} type='submit'>
-              Submit
-            </Button>
-            <Button
-              onClick={() => router.back()}
-              variant="contained"
-              style={{ marginLeft: '10px' }}>
-              Cancel
-            </Button>
-          </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12}>
+          <h1 className={classes.title}>Ask Us Any Tech Question. We’re Here to Help.</h1>
         </Grid>
-      </form>
+
+        <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+          <TextField autoComplete="off" className={classes.notes} id="standard-basic" label="Write your question here" onChange={event => setBody(event.target.value)}  />
+        </Grid>
+
+        <Grid item xs={12} lg={12} md={12} sm={12}>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="demo-simple-select-label">Select the type of question</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={type}
+              onChange={handleTypeSelect}
+            >
+              <MenuItem value={QUESTION_TYPE.TECH}>{getCapitalizedString(QUESTION_TYPE.TECH)}</MenuItem>
+              <MenuItem value={QUESTION_TYPE.HOME}>{getCapitalizedString(QUESTION_TYPE.HOME)}</MenuItem>
+              <MenuItem value={QUESTION_TYPE.FINANCE}>{getCapitalizedString(QUESTION_TYPE.FINANCE)}</MenuItem>
+              <MenuItem value={QUESTION_TYPE.SCAM}>{getCapitalizedString(QUESTION_TYPE.SCAM)}</MenuItem>
+              <MenuItem value={QUESTION_TYPE.SERVICE}>{getCapitalizedString(QUESTION_TYPE.SERVICE)}</MenuItem>
+              <MenuItem value={QUESTION_TYPE.PRODUCT}>{getCapitalizedString(QUESTION_TYPE.PRODUCT)}</MenuItem>
+              <MenuItem value={QUESTION_TYPE.APP}>{getCapitalizedString(QUESTION_TYPE.APP)}</MenuItem>
+              <MenuItem value={QUESTION_TYPE.OTHER}>{getCapitalizedString(QUESTION_TYPE.OTHER)}</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Do you want to be notified through email?</FormLabel>
+            <RadioGroup aria-label="notif" name="notif1" value={reminder} onChange={onSetReminder}>
+              <FormControlLabel value="yes" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Yes" />
+              <FormControlLabel value="no" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="No" />
+            </RadioGroup>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12}>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Do you consider this matter to be urgent?</FormLabel>
+            <RadioGroup aria-label="urgent" name="urgent1" value={urgent} onChange={handleChange}>
+              <FormControlLabel value={true} control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Yes" />
+              <FormControlLabel value={false} control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="No" />
+            </RadioGroup>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+          <MagiclyButton
+            btnLabel={'Submit'}
+            onClick={submitForm}
+          />
+        </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+          <MagiclyButton
+            btnLabel={'Cancel'}
+            isWhiteBackgroundBtn={true}
+            onClick={() => router.back()}
+          />
+        </Grid>
+      </Grid>
     </div>
   )
 }

@@ -1,5 +1,6 @@
 import React, { useState, SetStateAction } from 'react';
 import { useRouter } from 'next/router';
+import MagiclyButton from '../shared/MagiclyButton';
 import { APP_CONFIG, LIST_TYPE, ITEM_TYPE } from '../../constants/appStrings';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
@@ -85,6 +86,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     saveBtn: {
       fontFamily: 'Overpass, serif',
+      fontWeight: 'bold',
       fontSize: '14px',
       margin: '0 auto',
       display: 'block',
@@ -102,6 +104,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     saveCancelBtns: {
       fontFamily: 'Overpass, serif',
+      fontWeight: 'bold',
       fontSize: '14px',
       margin: '0 auto',
       display: 'block',
@@ -164,8 +167,7 @@ const NewTodoListItemForm = () => {
   const [executionDate, setExecutionDate] = useState(new Date());
   const [moreDetails, setMoreDetails] = useState(false);
 
-  const submitForm = event => {
-    event.preventDefault();
+  const submitForm = () => {
 
     if (name.length === 0) {
       // tell user
@@ -219,7 +221,6 @@ const NewTodoListItemForm = () => {
 
   return (
     <div className={classes.root}>
-      <form onSubmit={submitForm}>
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
           <Grid item xs={12} lg={12} md={12} sm={12}>
             <h2 className={classes.title}>Type your task in the box below and select in which list you want to store it:</h2>
@@ -451,26 +452,26 @@ const NewTodoListItemForm = () => {
           }
 
           <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <Button onClick={toggleMoreDetailsButton} className={classes.saveBtn}>
-              {moreDetails ? 'Hide Details' : 'Add More Details'}
-            </Button>
+            <MagiclyButton
+              btnLabel={moreDetails ? 'Hide Details' : 'Add More Details'}
+              onClick={toggleMoreDetailsButton}
+            />
           </Grid>
 
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-            <Button variant="contained" className={classes.saveCancelBtns} type='submit'>
-              Save
-            </Button>
+            <MagiclyButton
+              btnLabel={'Save'}
+              onClick={submitForm}
+            />
           </Grid>
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-            <Button
+            <MagiclyButton
+              btnLabel={'Cancel'}
+              isWhiteBackgroundBtn={true}
               onClick={() => router.back()}
-              className={classes.saveCancelBtns}
-              variant="contained">
-              Cancel
-            </Button>
+            />
           </Grid>
         </Grid>
-      </form>
     </div>
   )
 }

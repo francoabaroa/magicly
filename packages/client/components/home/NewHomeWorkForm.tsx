@@ -6,6 +6,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { withApollo } from '../../apollo/apollo';
+import MagiclyButton from '../shared/MagiclyButton';
 
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
@@ -127,8 +128,7 @@ const NewHomeWorkForm = () => {
   const [title, setTitle] = useState('');
   const [type, setType] = useState('');
 
-  const submitForm = event => {
-    event.preventDefault();
+  const submitForm = () => {
     const variables = {
       variables: {
         title,
@@ -213,8 +213,7 @@ const NewHomeWorkForm = () => {
 
   return (
     <div>
-      <form onSubmit={submitForm} className={classes.form}>
-        <Grid container spacing={1} justify="center" alignContent="center" alignItems="center">
+        <Grid container spacing={1} justify="center" alignContent="center" alignItems="center" className={classes.form}>
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
             <h1 className={classes.title}>New Home Work</h1>
           </Grid>
@@ -314,19 +313,20 @@ const NewHomeWorkForm = () => {
           } */}
 
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-            <Button variant="contained" style={{ backgroundColor: '#840032', color: 'white' }} type='submit'>
-              Save
-            </Button>
-            <Button
-              onClick={() => router.back()}
-              variant="contained"
-              style={{ marginLeft: '10px' }}>
-              Cancel
-            </Button>
+            <MagiclyButton
+              btnLabel={'Save'}
+              onClick={submitForm}
+            />
           </Grid>
-
+        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+          <MagiclyButton
+            btnLabel={'Cancel'}
+            isWhiteBackgroundBtn={true}
+            onClick={() => router.back()}
+          />
         </Grid>
-      </form>
+
+      </Grid>
     </div>
   )
 }

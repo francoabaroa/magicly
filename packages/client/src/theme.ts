@@ -7,7 +7,7 @@ const theme = createMuiTheme({
     fontFamily: 'Playfair Display, serif',
     button: {
       textTransform: 'none',
-      fontFamily: 'Playfair Display, serif',
+      fontFamily: 'Overpass, serif',
     }
   },
   palette: {
