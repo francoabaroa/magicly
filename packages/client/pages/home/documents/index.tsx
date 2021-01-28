@@ -4,6 +4,8 @@ import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../../components/Layout';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
+import MagiclyAddIconLabel from '../../../components/shared/MagiclyAddIconLabel';
+import MagiclyPageTitle from '../../../components/shared/MagiclyPageTitle';
 import { DOC_TYPE } from '../../../constants/appStrings';
 import { withApollo } from '../../../apollo/apollo';
 import Cookies from 'js-cookie';
@@ -40,6 +42,12 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+    },
+    emptyMarginTopBlock: {
+      marginTop: '50px',
+      [theme.breakpoints.down('sm')]: {
+        marginTop: '20px'
+      },
     },
     hugeIcon: {
       color: '#E5DADA',
@@ -167,7 +175,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     individualFeature: {
       textAlign: 'center',
-      marginBottom: '35px',
+      marginBottom: '15px',
     },
     icon: {
       color: '#0A7EF2',
@@ -272,13 +280,16 @@ const DocumentsPage = () => {
     if (hasSavedDocuments) {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+          <Grid item lg={12} sm={12} xs={12} md={12} className={classes.emptyMarginTopBlock}>
+          </Grid>
           <Grid item xs={8}>
-            <h1 className={classes.title}>Saved documents</h1>
+            <MagiclyPageTitle
+              title={'Saved documents'}
+            />
           </Grid>
           <Grid item xs={12} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/add')}>
-              <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>add document</span>
+              <MagiclyAddIconLabel />
             </div>
           </Grid>
           {documents}

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 import Layout from '../../../../../components/Layout';
+import MagiclyPageTitle from '../../../../../components/shared/MagiclyPageTitle';
 import DeleteHomeWorkModal from '../../../../../components/home/DeleteHomeWorkModal';
 import { withApollo } from '../../../../../apollo/apollo';
 import { useRouter } from 'next/router';
@@ -98,7 +99,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     individualFeature: {
       textAlign: 'center',
-      marginBottom: '5px',
+      marginBottom: '15px',
     },
     details: {
       color: 'rgba(0, 38, 66, 0.5)',
@@ -176,7 +177,9 @@ const ViewHomeWorkPage = () => {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h1 className={classes.title}> { getCapitalizedString(data.homework.title) }</h1>
+            <MagiclyPageTitle
+              title={getCapitalizedString(data.homework.title)}
+            />
           </Grid>
           <Grid item xs={7} lg={7} md={7} sm={7}>
             <div className={classes.individualFeature}>

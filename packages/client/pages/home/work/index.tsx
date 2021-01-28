@@ -3,6 +3,9 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../../components/Layout';
 import { useRouter } from 'next/router';
+import MagiclyAddIconLabel from '../../../components/shared/MagiclyAddIconLabel';
+import MagiclySearchIconLabel from '../../../components/shared/MagiclySearchIconLabel';
+import MagiclyPageTitle from '../../../components/shared/MagiclyPageTitle';
 import gql from 'graphql-tag';
 import { withApollo } from '../../../apollo/apollo';
 import Cookies from 'js-cookie';
@@ -56,6 +59,12 @@ const useStyles = makeStyles((theme: Theme) =>
       boxShadow: '15px 15px 0 0px #02040F',
       marginBottom: '20px',
       maxWidth: '400px'
+    },
+    emptyMarginTopBlock: {
+      marginTop: '50px',
+      [theme.breakpoints.down('sm')]: {
+        marginTop: '20px'
+      },
     },
     title: {
       fontFamily: 'Playfair Display, serif',
@@ -117,7 +126,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     individualFeature: {
       textAlign: 'center',
-      marginBottom: '5px',
+      marginBottom: '15px',
     },
     tap: {
       color: '#02040F',
@@ -282,7 +291,9 @@ const HomeWorkPage = () => {
           {
             pastWork.length > 0 ?
               <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
-                <h1 className={classes.sectionTitle}>Past Home Work</h1>
+                <MagiclyPageTitle
+                  title={'Past Home Work'}
+                />
               </Grid> :
               null
           }
@@ -304,7 +315,9 @@ const HomeWorkPage = () => {
           {
             upcomingWork.length > 0 ?
               <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
-                <h1 className={classes.sectionTitle}>Upcoming Home Work</h1>
+                <MagiclyPageTitle
+                  title={'Upcoming Home Work'}
+                />
               </Grid> :
               null
           }
@@ -346,16 +359,15 @@ const HomeWorkPage = () => {
   const getMainUI = () => {
     return (
       <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
-        <Grid item xs={12} lg={5} md={5} sm={5}>
+        <Grid item lg={12} sm={12} xs={12} md={12} className={classes.emptyMarginTopBlock}></Grid>
+        <Grid item xs={4} lg={5} md={5} sm={5}>
           <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>
-            <AddCircle fontSize={'large'} className={classes.icon} />
-            <span className={classes.details}>add home work</span>
+            <MagiclyAddIconLabel />
           </div>
         </Grid>
-        <Grid item xs={12} lg={5} md={5} sm={5}>
-          <div className={classes.individualFeature}>
-            <Search fontSize={'large'} className={classes.icon} />
-            <span className={classes.details}>search</span>
+        <Grid item xs={4} lg={5} md={5} sm={5}>
+          <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/search')}>
+            <MagiclySearchIconLabel />
           </div>
         </Grid>
         {getUpcomingHomeWork(hasHomeWork, upcomingWork)}

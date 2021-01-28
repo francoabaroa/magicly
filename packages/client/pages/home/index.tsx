@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     individualFeature: {
       textAlign: 'center',
-      marginBottom: '5px',
+      marginBottom: '15px',
     },
     details: {
       color: '#FFF',

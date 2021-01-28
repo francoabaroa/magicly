@@ -3,6 +3,7 @@ import Layout from '../../../../../components/Layout';
 import { withApollo } from '../../../../../apollo/apollo';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/react-hooks';
+import MagiclyPageTitle from '../../../../../components/shared/MagiclyPageTitle';
 import DeleteListItemModal from '../../../../../components/productivity/DeleteListItemModal';
 import gql from 'graphql-tag';
 import Grid from '@material-ui/core/Grid';
@@ -60,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     individualFeature: {
       textAlign: 'center',
-      marginBottom: '5px',
+      marginBottom: '15px',
     },
     details: {
       color: '#0A7EF2',
@@ -111,7 +112,9 @@ const ViewRecommendationItemPage = () => {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h1 className={classes.title}> {data.listItem.name}</h1>
+            <MagiclyPageTitle
+              title={data.listItem.name}
+            />
           </Grid>
           <Grid item xs={7} lg={7} md={7} sm={7}>
             <div className={classes.individualFeature}>

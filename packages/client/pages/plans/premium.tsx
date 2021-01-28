@@ -1,5 +1,6 @@
 import React from 'react';
 import Layout from '../../components/Layout';
+import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
 import { withApollo } from '../../apollo/apollo';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -38,7 +39,9 @@ const PremiumPlanPage = () => {
       <div className={classes.premiumPlanPage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={12}>
-            <h1 className={classes.title}>Premium Plan</h1>
+            <MagiclyPageTitle
+              title={'Premium Plan'}
+            />
           </Grid>
           <Grid item xs={12}>
             <h3 className={classes.title}>Coming Soon</h3>

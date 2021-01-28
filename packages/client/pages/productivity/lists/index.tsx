@@ -3,6 +3,9 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../../components/Layout';
 import ListItemRow from '../../../components/productivity/ListItemRow';
+import MagiclyAddIconLabel from '../../../components/shared/MagiclyAddIconLabel';
+import MagiclySearchIconLabel from '../../../components/shared/MagiclySearchIconLabel';
+import MagiclyPageTitle from '../../../components/shared/MagiclyPageTitle';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { LIST_TYPE, ITEM_TYPE } from '../../../constants/appStrings';
@@ -338,21 +341,21 @@ const ListsPage = () => {
           </Grid>
           <Grid item xs={4} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists/add')}>
-              <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>add</span>
+              <MagiclyAddIconLabel />
             </div>
           </Grid>
           <Grid item xs={4} lg={5} md={5} sm={5}>
-            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists/add')}>
-              <Search fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>search</span>
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists/search')}>
+              <MagiclySearchIconLabel />
             </div>
           </Grid>
 
           {
             todoListItemsUI.length > 0 ?
               <Grid item xs={8}>
-                <h1 className={classes.title}>To-do</h1>
+                <MagiclyPageTitle
+                  title={'To-do'}
+                 />
               </Grid> :
               null
           }
@@ -361,7 +364,9 @@ const ListsPage = () => {
           {
             watchListItemsUI.length > 0 ?
               <Grid item xs={8}>
-                <h1 className={classes.title}>Watch</h1>
+                <MagiclyPageTitle
+                  title={'Watch'}
+                />
               </Grid> :
               null
           }
@@ -370,7 +375,9 @@ const ListsPage = () => {
           {
             laterListItemsUI.length > 0 ?
               <Grid item xs={8}>
-                <h1 className={classes.title}>Later</h1>
+                <MagiclyPageTitle
+                  title={'Later'}
+                />
               </Grid> :
               null
           }

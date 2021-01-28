@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../../components/Layout';
+import MagiclyPageTitle from '../../../components/shared/MagiclyPageTitle';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { DOC_TYPE } from '../../../constants/appStrings';
@@ -98,7 +99,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     individualFeature: {
       textAlign: 'center',
-      marginBottom: '35px',
+      marginBottom: '15px',
     },
     icon: {
       color: '#0A7EF2',
@@ -179,7 +180,9 @@ const ReceiptsPage = () => {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h1 className={classes.title}>Saved receipts</h1>
+            <MagiclyPageTitle
+              title={'Saved Receipts'}
+            />
           </Grid>
           <Grid item xs={12} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePageWithQuery.bind(this, `finance/receipts/add`, {receipt: true})}>
@@ -194,7 +197,9 @@ const ReceiptsPage = () => {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h1 className={classes.title}>Saved receipts</h1>
+            <MagiclyPageTitle
+              title={'Saved Receipts'}
+            />
           </Grid>
           <Grid item xs={8} lg={7} md={7} sm={7}>
             <h1 className={classes.mediumTitle}>store receipts you accrue over time so you never lose them</h1>

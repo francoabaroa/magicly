@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../components/Layout';
+import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
@@ -86,7 +87,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     individualFeature: {
       textAlign: 'center',
-      marginBottom: '35px',
+      marginBottom: '15px',
     },
     icon: {
       color: '#0A7EF2',
@@ -214,7 +215,9 @@ const SavedProductsServicesPage = () => {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h1 className={classes.title}>My Saved Services</h1>
+            <MagiclyPageTitle
+              title={'Saved Services'}
+            />
           </Grid>
           <Grid item xs={12} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'find')}>

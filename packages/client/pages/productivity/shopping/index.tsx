@@ -3,6 +3,8 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../../components/Layout';
 import { useRouter } from 'next/router';
+import MagiclyPageTitle from '../../../components/shared/MagiclyPageTitle';
+import MagiclyAddIconLabel from '../../../components/shared/MagiclyAddIconLabel';
 import gql from 'graphql-tag';
 import { LIST_TYPE } from '../../../constants/appStrings';
 import { withApollo } from '../../../apollo/apollo';
@@ -112,7 +114,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     individualFeature: {
       textAlign: 'center',
-      marginBottom: '35px',
+      marginBottom: '15px',
     },
     icon: {
       color: '#0A7EF2',
@@ -192,12 +194,13 @@ const ShoppingPage = () => {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h1 className={classes.title}>My Shopping Lists</h1>
+            <MagiclyPageTitle
+              title={'Shopping Lists'}
+            />
           </Grid>
           <Grid item xs={12} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
-              <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>add shopping item</span>
+              <MagiclyAddIconLabel />
             </div>
           </Grid>
           {listItems}
@@ -207,12 +210,13 @@ const ShoppingPage = () => {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8} lg={7} md={7} sm={7}>
-            <h1 className={classes.mediumTitle}>store shopping title</h1>
+            <MagiclyPageTitle
+              title={'Shopping Lists'}
+            />
           </Grid>
           <Grid item xs={12} lg={6} md={6} sm={6}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
-              <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>add shopping item</span>
+              <MagiclyAddIconLabel />
             </div>
           </Grid>
           <Grid item xs={8} lg={7} md={7} sm={7}>

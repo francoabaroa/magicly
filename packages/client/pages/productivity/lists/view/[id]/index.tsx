@@ -4,6 +4,7 @@ import { withApollo } from '../../../../../apollo/apollo';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/react-hooks';
 import DeleteListItemModal from '../../../../../components/productivity/DeleteListItemModal';
+import MagiclyPageTitle from '../../../../../components/shared/MagiclyPageTitle';
 import gql from 'graphql-tag';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -60,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     individualFeature: {
       textAlign: 'center',
-      marginBottom: '5px',
+      marginBottom: '15px',
     },
     details: {
       color: '#0A7EF2',
@@ -112,7 +113,9 @@ const ViewTodoListItemsPage = () => {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h1 className={classes.title}> {data.listItem.name}</h1>
+            <MagiclyPageTitle
+              title={data.listItem.name}
+            />
           </Grid>
           {
             data.listItem.type !== 'TODO' ?

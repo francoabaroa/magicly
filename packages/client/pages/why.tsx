@@ -1,5 +1,6 @@
 import React from 'react';
 import Layout from '../components/Layout';
+import MagiclyPageTitle from '../components/shared/MagiclyPageTitle';
 import { withApollo } from '../apollo/apollo';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -25,6 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     root: {
       flexGrow: 1,
+      marginTop: '50px'
     },
     title: {
       fontFamily: 'Playfair Display, serif',
@@ -124,7 +126,9 @@ const WhyPage = () => {
       <div className={classes.whyPage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={10}>
-            <h1 className={classes.title}>Optimize Your Life In One Place</h1>
+            <MagiclyPageTitle
+              title={'Optimize Your Life In One Place'}
+            />
           </Grid>
         </Grid>
         <div className={classes.root}>

@@ -1,5 +1,6 @@
 import React from 'react';
 import Layout from '../../components/Layout';
+import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
 import { withApollo } from '../../apollo/apollo';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -93,7 +94,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#002642'
     },
     individualFeature: {
-      marginBottom: '5px',
+      marginBottom: '15px',
     },
     checkmark: {
       color: '#002642',
@@ -114,7 +115,9 @@ const PricingPage = () => {
       <div className={classes.pricingPage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h1 className={classes.title}>Pricing</h1>
+            <MagiclyPageTitle
+              title={'Pricing'}
+            />
           </Grid>
         </Grid>
         <div className={classes.root}>

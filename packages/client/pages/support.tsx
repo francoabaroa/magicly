@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
+import MagiclyPageTitle from '../components/shared/MagiclyPageTitle';
 import { useQuery } from '@apollo/react-hooks';
 import { withApollo } from '../apollo/apollo';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -116,7 +117,9 @@ const SupportPage = () => {
       <div className={classes.supportPage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h1 className={classes.title}>Contact Us</h1>
+            <MagiclyPageTitle
+              title={'Contact Us'}
+            />
           </Grid>
         </Grid>
         <div className={classes.root}>

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import Layout from '../components/Layout';
+import MagiclyPageTitle from '../components/shared/MagiclyPageTitle';
 import gql from 'graphql-tag';
 import { withApollo } from '../apollo/apollo';
 import Button from '@material-ui/core/Button';
@@ -205,7 +206,9 @@ const SignUpPage = () => {
       <div className={classes.signUpPage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h1 className={classes.title}>Sign up to start your free trial</h1>
+            <MagiclyPageTitle
+              title={'Sign up to start your free trial'}
+            />
           </Grid>
         </Grid>
         <div className={classes.root}>

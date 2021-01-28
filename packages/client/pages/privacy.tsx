@@ -1,5 +1,6 @@
 import React from 'react';
 import Layout from '../components/Layout';
+import MagiclyPageTitle from '../components/shared/MagiclyPageTitle';
 import { withApollo } from '../apollo/apollo';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -48,7 +49,9 @@ const PrivacyPage = () => {
       <div className={classes.privacyPage}>
       <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
         <Grid item xs={12}>
-          <h1 className={classes.title}>Privacy Policy</h1>
+            <MagiclyPageTitle
+              title={'Privacy Policy'}
+            />
         </Grid>
       </Grid>
       <div className={classes.root}>

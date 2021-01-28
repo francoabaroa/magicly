@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 import Layout from '../../../../../components/Layout';
+import MagiclyPageTitle from '../../../../../components/shared/MagiclyPageTitle';
 import { withApollo } from '../../../../../apollo/apollo';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/react-hooks';
@@ -107,7 +108,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     individualFeature: {
       textAlign: 'center',
-      marginBottom: '5px',
+      marginBottom: '15px',
     },
     details: {
       color: '#0A7EF2',
@@ -186,7 +187,9 @@ const ViewDocumentPage = () => {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h1 className={classes.title}>{data.getDocumentAndUrl.document.name}</h1>
+            <MagiclyPageTitle
+              title={data.getDocumentAndUrl.document.name}
+            />
           </Grid>
 
           <Grid item xs={12} lg={12} md={12} sm={12}>

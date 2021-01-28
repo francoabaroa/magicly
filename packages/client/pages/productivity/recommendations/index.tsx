@@ -3,6 +3,8 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../../components/Layout';
 import { useRouter } from 'next/router';
+import MagiclyAddIconLabel from '../../../components/shared/MagiclyAddIconLabel';
+import MagiclyPageTitle from '../../../components/shared/MagiclyPageTitle';
 import gql from 'graphql-tag';
 import { LIST_TYPE } from '../../../constants/appStrings';
 import { withApollo } from '../../../apollo/apollo';
@@ -110,6 +112,12 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: '10px',
       },
     },
+    emptyMarginTopBlock: {
+      marginTop: '50px',
+      [theme.breakpoints.down('sm')]: {
+        marginTop: '20px'
+      },
+    },
     mediumTitle: {
       fontFamily: 'Playfair Display, serif',
       fontWeight: 'bold',
@@ -167,7 +175,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     individualFeature: {
       textAlign: 'center',
-      marginBottom: '35px',
+      marginBottom: '15px',
     },
     icon: {
       color: '#0A7EF2',
@@ -273,13 +281,16 @@ const RecommendationsPage = () => {
     if (hasSavedListItems) {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+          <Grid item lg={12} sm={12} xs={12} md={12} className={classes.emptyMarginTopBlock}>
+          </Grid>
           <Grid item xs={8}>
-            <h1 className={classes.title}>My Saved Recommendations</h1>
+            <MagiclyPageTitle
+              title={'Saved Recommendations'}
+            />
           </Grid>
           <Grid item xs={12} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/recommendations/add')}>
-              <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>add recommendation</span>
+              <MagiclyAddIconLabel />
             </div>
           </Grid>
           {listItems}

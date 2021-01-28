@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import Layout from '../../components/Layout';
+import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
 import { APP_CONFIG, DEFAULT_NOTIFICATION_TYPE, LANGUAGE_ISO_2 } from '../../constants/appStrings';
 import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
@@ -225,7 +226,9 @@ const EditSettingsPage = (props) => {
       <div className={classes.signUpPage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h1 className={classes.title}>Account Settings</h1>
+            <MagiclyPageTitle
+              title={'Account Settings'}
+            />
           </Grid>
         </Grid>
         <div className={classes.root}>

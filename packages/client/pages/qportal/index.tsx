@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import QportalChatModal from '../../components/qportal/QportalChatModal';
+import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
 import Layout from '../../components/Layout';
 import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
@@ -180,7 +181,9 @@ const QportalSignInPage = () => {
       <div className={classes.qPortalPage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h1 className={classes.title}>{employee ? `Welcome ${parsedEmployee.firstName}` : "Employees Only: Access Denied"} </h1>
+            <MagiclyPageTitle
+              title={employee ? `Welcome ${parsedEmployee.firstName}` : "Employees Only: Access Denied"}
+            />
           </Grid>
         </Grid>
         <div className={classes.root}>

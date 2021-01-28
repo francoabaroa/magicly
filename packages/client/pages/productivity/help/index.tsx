@@ -4,6 +4,8 @@ import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../../components/Layout';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
+import MagiclyAskIconLabel from '../../../components/shared/MagiclyAskIconLabel';
+import MagiclyPageTitle from '../../../components/shared/MagiclyPageTitle';
 import { withApollo } from '../../../apollo/apollo';
 import Cookies from 'js-cookie';
 import Grid from '@material-ui/core/Grid';
@@ -83,7 +85,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     individualFeature: {
       textAlign: 'center',
-      marginBottom: '35px',
+      marginBottom: '15px',
     },
     icon: {
       color: '#0A7EF2',
@@ -169,12 +171,13 @@ const TechHelpPage = () => {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h1 className={classes.title}>My Tech Questions</h1>
+            <MagiclyPageTitle
+              title={'Asked tech questions'}
+            />
           </Grid>
           <Grid item xs={12} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/help/add')}>
-              <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>ask a tech question</span>
+              <MagiclyAskIconLabel />
             </div>
           </Grid>
           {questions}

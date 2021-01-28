@@ -1,6 +1,7 @@
 import React from 'react';
 import AppBar from '../components/AppBar';
 import Layout from '../components/Layout';
+import MagiclyPageTitle from '../components/shared/MagiclyPageTitle';
 import Button from '@material-ui/core/Button';
 import { withApollo } from '../apollo/apollo';
 import { useRouter } from 'next/router';
@@ -117,7 +118,10 @@ const Index = () => {
       <div className={classes.indexPage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={12}>
-            <h1 className={classes.title}>Run Your Life Like Magic</h1>
+            <MagiclyPageTitle
+              isLandingPageTitle={true}
+              title={'Run Your Life Like Magic'}
+            />
           </Grid>
           <Grid item xs={8}>
             <h2 className={classes.subtitle}>Do <span className={classes.bold}>everything in one app</span> to gain the freedom and time to focus on the things you love</h2>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Layout from '../../../../../components/Layout';
 import DeleteQuestionModal from '../../../../../components/productivity/DeleteQuestionModal';
 import ViewAnswerModal from '../../../../../components/productivity/ViewAnswerModal';
+import MagiclyPageTitle from '../../../../../components/shared/MagiclyPageTitle';
 import { withApollo } from '../../../../../apollo/apollo';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/react-hooks';
@@ -67,7 +68,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     individualFeature: {
       textAlign: 'center',
-      marginBottom: '5px',
+      marginBottom: '15px',
     },
     details: {
       color: '#0A7EF2',
@@ -147,7 +148,9 @@ const ViewQuestionPage = () => {
       return (
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h1 className={classes.title}> {data.question.body}</h1>
+            <MagiclyPageTitle
+              title={data.question.body}
+            />
           </Grid>
           <Grid item xs={7} lg={7} md={7} sm={7}>
             <div className={classes.individualFeature}>

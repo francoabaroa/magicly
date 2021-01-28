@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../components/Layout';
+import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
 import { useRouter } from 'next/router';
 import { APP_CONFIG } from '../../constants/appStrings';
 import gql from 'graphql-tag';
@@ -159,10 +160,9 @@ const SettingsPage = () => {
         <div className={classes.settingsPage}>
           <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
             <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
-              <h2
-                className={classes.title}>
-                Account Settings
-            </h2>
+              <MagiclyPageTitle
+                title={'Account Settings'}
+              />
             </Grid>
             <Grid item xs={12} lg={12} md={12} sm={12} className={classes.edit} onClick={routePage.bind(this, 'settings/edit')}>
               <span style={{marginRight: '0px'}}>edit</span>
@@ -219,10 +219,9 @@ const SettingsPage = () => {
         <div className={classes.settingsPage}>
           <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
             <Grid item xs={6} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
-              <h2
-                className={classes.title}>
-                Account Settings
-            </h2>
+              <MagiclyPageTitle
+                title={'Account Settings'}
+              />
             </Grid>
           </Grid>
           <div className={classes.root}>
