@@ -144,9 +144,18 @@ const useStyles = makeStyles((theme: Theme) =>
     description: {
       fontWeight: 'normal'
     },
+    individualFeatureTop: {
+      textAlign: 'center',
+      [theme.breakpoints.down('xs')]: {
+        padding: '0px'
+      },
+    },
     individualFeature: {
       textAlign: 'center',
       marginBottom: '15px',
+      [theme.breakpoints.down('xs')]: {
+        padding: '0px'
+      },
     },
     details: {
       color: '#FFF',
@@ -169,6 +178,11 @@ const useStyles = makeStyles((theme: Theme) =>
       fontStyle: 'normal',
       fontWeight: 'bold',
       fontSize: '18px',
+    },
+    recentPreview: {
+      [theme.breakpoints.down('xs')]: {
+        marginBottom: '20px',
+      },
     }
   }),
 );
@@ -289,13 +303,13 @@ const ProductivityPage = () => {
           <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
           <div className={classes.recent}>Most Recent: </div>
           </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12} className={classes.recentPreview}>
           { recommendationItemPreview }
           </Grid>
 
-          <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+          <Grid container spacing={1} justify="center" alignContent="center" alignItems="center">
             <Grid item xs={12} lg={6} md={6} sm={6}>
-              <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/recommendations')}>
+              <div className={classes.individualFeatureTop} onClick={routePage.bind(this, 'productivity/recommendations')}>
                 <Visibility fontSize={'large'} className={classes.icon} />
                 <span className={classes.details}>view all</span>
               </div>
@@ -342,13 +356,13 @@ const ProductivityPage = () => {
           <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
             <div className={classes.recent}>Most Recent: </div>
           </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12} className={classes.recentPreview}>
             {shoppingListItemsPreview}
           </Grid>
 
-          <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+          <Grid container spacing={1} justify="center" alignContent="center" alignItems="center">
             <Grid item xs={12} lg={6} md={6} sm={6}>
-              <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping')}>
+              <div className={classes.individualFeatureTop} onClick={routePage.bind(this, 'productivity/shopping')}>
                 <Visibility fontSize={'large'} className={classes.icon} />
                 <span className={classes.details}>view all</span>
               </div>
@@ -395,13 +409,13 @@ const ProductivityPage = () => {
           <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
             <div className={classes.recent}>Most Recent: </div>
           </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12} className={classes.recentPreview}>
           {todoListItemPreview}
           </Grid>
 
-          <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+          <Grid container spacing={1} justify="center" alignContent="center" alignItems="center">
             <Grid item xs={12} lg={6} md={6} sm={6}>
-              <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists')}>
+              <div className={classes.individualFeatureTop} onClick={routePage.bind(this, 'productivity/lists')}>
                 <Visibility fontSize={'large'} className={classes.icon} />
                 <span className={classes.details}>view all</span>
               </div>
@@ -448,13 +462,13 @@ const ProductivityPage = () => {
           <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
           <div className={classes.recent}>Most Recent: </div>
           </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12} className={classes.recentPreview}>
           {questionPreview}
           </Grid>
 
-          <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+          <Grid container spacing={1} justify="center" alignContent="center" alignItems="center">
             <Grid item xs={12} lg={6} md={6} sm={6}>
-              <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/help')}>
+              <div className={classes.individualFeatureTop} onClick={routePage.bind(this, 'productivity/help')}>
                 <Visibility fontSize={'large'} className={classes.icon} />
                 <span className={classes.details}>view all</span>
               </div>

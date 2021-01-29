@@ -476,7 +476,7 @@ const FindPage = () => {
     <Layout>
       <div className={classes.findPage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
-          <Grid item xs={6} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
+          <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
             <h2
               className={classes.title}>
               What kind of product or service are you looking for today?
