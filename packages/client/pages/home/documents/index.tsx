@@ -222,7 +222,7 @@ const DocumentsPage = () => {
 
   const getIndividualDocument = (key: any, document: any) => {
     return (
-      <Grid key={key} container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+      <Grid key={key} container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
         <Grid item xs={4} lg={3} md={4} sm={4}>
           <Link href="documents/view/[id]" as={`documents/view/${document.id}`}>
             <span className={classes.link}>{document.name}</span>
@@ -279,7 +279,7 @@ const DocumentsPage = () => {
   const getMainUI = () => {
     if (hasSavedDocuments) {
       return (
-        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item lg={12} sm={12} xs={12} md={12} className={classes.emptyMarginTopBlock}>
           </Grid>
           <Grid item xs={8}>

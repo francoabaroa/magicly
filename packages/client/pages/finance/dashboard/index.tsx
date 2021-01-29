@@ -539,7 +539,7 @@ const FinanceDashboardPage = () => {
           </Grid> */}
         </Grid>
         <div className={classes.root}>
-          <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+          <Grid container justify="center" alignContent="center" alignItems="center">
             { accountBalancesUI }
             <Grid item xs={12} lg={12} md={12} sm={12}>
               {token ? <PlaidLink token={token} title={'Add More Accounts'} /> : null}

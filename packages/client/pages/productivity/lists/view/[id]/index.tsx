@@ -111,7 +111,7 @@ const ViewTodoListItemsPage = () => {
     if (data && data.listItem) {
       let urgentString = data.listItem.urgent ? 'Urgent' : 'Not Urgent';
       return (
-        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
             <MagiclyPageTitle
               title={data.listItem.name}

@@ -139,7 +139,7 @@ const TechHelpPage = () => {
 
   const getIndividualQuestion = (key: any, question: any) => {
     return (
-      <Grid key={key} container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+      <Grid key={key} container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
         <Grid item xs={5} lg={5} md={5} sm={5}>
           <Link href="help/view/[id]" as={`help/view/${question.id}`}>
             <span className={classes.link}>{question.body.substring(0, 50) + '...'}</span>
@@ -169,7 +169,7 @@ const TechHelpPage = () => {
   const getMainUI = () => {
     if (hasSavedQuestions) {
       return (
-        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
             <MagiclyPageTitle
               title={'Asked tech questions'}

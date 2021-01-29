@@ -139,7 +139,7 @@ const SavedProductsServicesPage = () => {
 
   const getIndividualService = (key: any, service: any) => {
     return (
-      <Grid key={key} container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+      <Grid key={key} container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
         <Grid item xs={12} lg={12} md={12} sm={12}>
             <a target="_blank" className={classes.link} onClick={handleIndividualServiceOpen.bind(this, service)}>
               {service.name}
@@ -213,7 +213,7 @@ const SavedProductsServicesPage = () => {
   const getMainUI = () => {
     if (hasSavedServices) {
       return (
-        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
             <MagiclyPageTitle
               title={'Saved Services'}

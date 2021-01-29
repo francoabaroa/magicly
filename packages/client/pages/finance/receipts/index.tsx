@@ -153,7 +153,7 @@ const ReceiptsPage = () => {
 
   const getIndividualReceipt = (key: any, receipt: any) => {
     return (
-      <Grid key={key} container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+      <Grid key={key} container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
         <Grid item xs={4} lg={3} md={4} sm={4}>
           <Link href="receipts/view/[id]" as={`receipts/view/${receipt.id}`}>
             <span className={classes.link}>{receipt.name}</span>
@@ -178,7 +178,7 @@ const ReceiptsPage = () => {
   const getMainUI = () => {
     if (hasSavedReceipts) {
       return (
-        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
             <MagiclyPageTitle
               title={'Saved Receipts'}
@@ -195,7 +195,7 @@ const ReceiptsPage = () => {
       );
     } else {
       return (
-        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item xs={12} lg={12} md={12} sm={12}>
             <MagiclyPageTitle
               title={'Saved Receipts'}

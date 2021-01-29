@@ -148,7 +148,7 @@ const QportalSignInPage = () => {
       });
     }
     return (
-      <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+      <Grid container justify="center" alignContent="center" alignItems="center">
         { questionGrids }
       </Grid>
     );

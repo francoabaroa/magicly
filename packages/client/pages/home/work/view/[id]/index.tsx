@@ -188,7 +188,7 @@ const ViewHomeWorkPage = () => {
       let date = moment(dateString).tz('America/New_York').format('MMMM Do, YYYY');
 
       return (
-        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
             <MagiclyPageTitle
               title={getCapitalizedString(data.homework.title)}
@@ -242,7 +242,7 @@ const ViewHomeWorkPage = () => {
           }
           {
             data.homework.documents && data.homework.documents.length > 0 ?
-              <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+              <Grid container justify="center" alignContent="center" alignItems="center">
                 {getDocumentsUI()}
               </Grid> :
               null

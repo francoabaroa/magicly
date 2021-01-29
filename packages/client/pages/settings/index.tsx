@@ -169,7 +169,7 @@ const SettingsPage = () => {
             </Grid>
           </Grid>
           <div className={classes.root}>
-            <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" style={{ maxWidth: '500px', margin: '0 auto' }}>
+            <Grid container justify="center" alignContent="center" alignItems="center" style={{ maxWidth: '500px', margin: '0 auto' }}>
               <Grid item xs={12} lg={12} md={12} sm={12}>
                 <h4 className={classes.subtitle}>General Information</h4>
               </Grid>
@@ -225,7 +225,7 @@ const SettingsPage = () => {
             </Grid>
           </Grid>
           <div className={classes.root}>
-            <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" style={{ maxWidth: '500px', margin: '0 auto' }}>
+            <Grid container justify="center" alignContent="center" alignItems="center" style={{ maxWidth: '500px', margin: '0 auto' }}>
               <Grid item xs={12} lg={12} md={12} sm={12}>
                 <h4 className={classes.subtitle}>General Information</h4>
               </Grid>

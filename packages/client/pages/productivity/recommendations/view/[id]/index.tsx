@@ -110,7 +110,7 @@ const ViewRecommendationItemPage = () => {
     // TODO: add edit and delete functionality
     if (data && data.listItem) {
       return (
-        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
             <MagiclyPageTitle
               title={data.listItem.name}

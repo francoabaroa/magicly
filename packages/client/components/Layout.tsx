@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: 'rgba(0, 38, 66, 0.5)'
     },
     breadLink: {
+      color: 'rgba(0, 38, 66, 0.8)',
       "&:visited": {
         textDecoration: 'none',
         color: 'rgba(0, 38, 66, 0.8)'

@@ -446,7 +446,7 @@ const MainPage = () => {
             getPriorities()
           }
         </Grid>
-        <Grid container spacing={3} className={classes.root}>
+        <Grid container className={classes.root}>
           <Grid item xs={12} lg={4} md={4} sm={4}>
             <Paper className={classes.paper} onClick={routePage.bind(this, 'home')}>
               <h2 className={classes.appSection}>

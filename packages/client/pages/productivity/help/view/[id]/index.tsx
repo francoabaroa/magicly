@@ -146,7 +146,7 @@ const ViewQuestionPage = () => {
       let urgentString = data.question.urgent ? 'Urgent' : 'Not Urgent';
 
       return (
-        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
             <MagiclyPageTitle
               title={data.question.body}

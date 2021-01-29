@@ -162,7 +162,7 @@ const ShoppingPage = () => {
 
   const getIndividualListItem = (key: any, listItem: any) => {
     return (
-      <Grid key={key} container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+      <Grid key={key} container spacing={1} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
         <Grid item xs={4} lg={3} md={4} sm={4}>
           <Link href="shopping/view/[id]" as={`shopping/view/${listItem.id}`}>
             <span className={classes.link}>{listItem.name}</span>
@@ -192,7 +192,7 @@ const ShoppingPage = () => {
   const getMainUI = () => {
     if (hasSavedListItems) {
       return (
-        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+        <Grid container spacing={1} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
             <MagiclyPageTitle
               title={'Shopping Lists'}
@@ -208,7 +208,7 @@ const ShoppingPage = () => {
       );
     } else {
       return (
-        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+        <Grid container spacing={1} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8} lg={7} md={7} sm={7}>
             <MagiclyPageTitle
               title={'Shopping Lists'}

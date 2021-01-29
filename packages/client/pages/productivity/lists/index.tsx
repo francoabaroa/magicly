@@ -336,7 +336,7 @@ const ListsPage = () => {
   const getMainUI = () => {
     if (hasSavedListItems) {
       return (
-        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item lg={12} sm={12} xs={12} md={12} className={classes.emptyMarginTopBlock}>
           </Grid>
           <Grid item xs={4} lg={5} md={5} sm={5}>

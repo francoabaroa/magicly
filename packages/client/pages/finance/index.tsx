@@ -200,7 +200,7 @@ const FinancePage = () => {
           </Grid>
         </Grid>
         <div className={classes.root}>
-          <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+          <Grid container justify="center" alignContent="center" alignItems="center">
             <Grid item xs={8}>
               <h4 className={classes.subtitle}>Sync your accounts so you can track your finances in one place.</h4>
             </Grid>

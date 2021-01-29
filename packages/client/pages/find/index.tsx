@@ -484,7 +484,7 @@ const FindPage = () => {
           </Grid>
         </Grid>
         <div className={classes.root}>
-          <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+          <Grid container justify="center" alignContent="center" alignItems="center">
             {/* <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
               <h4 className={classes.subtitle}>What are you looking for today?</h4>
               <FormControl component="fieldset">

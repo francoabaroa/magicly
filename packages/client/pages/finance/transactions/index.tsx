@@ -74,7 +74,7 @@ const TransactionsPage = () => {
           </Grid>
         </Grid>
         <div className={classes.root}>
-          <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+          <Grid container justify="center" alignContent="center" alignItems="center">
             <Grid item xs={8}>
               { JSON.stringify(transactions) }
             </Grid>

@@ -121,7 +121,7 @@ const PricingPage = () => {
           </Grid>
         </Grid>
         <div className={classes.root}>
-          <Grid container spacing={3}>
+          <Grid container>
             <Grid item xs={12} lg={4} md={4} sm={4}>
               <Paper className={classes.paper}>
                 <h2 className={classes.planName}>

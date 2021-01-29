@@ -232,7 +232,7 @@ const EditSettingsPage = (props) => {
           </Grid>
         </Grid>
         <div className={classes.root}>
-          <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+          <Grid container justify="center" alignContent="center" alignItems="center">
             <Grid item xs={12} lg={4} md={4} sm={4}>
               <form onSubmit={submitForm}>
                 <div className={classes.inputs}>

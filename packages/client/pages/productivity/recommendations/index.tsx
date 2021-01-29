@@ -223,7 +223,7 @@ const RecommendationsPage = () => {
 
   const getIndividualListItem = (key: any, listItem: any) => {
     return (
-      <Grid key={key} container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+      <Grid key={key} container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
         <Grid item xs={4} lg={3} md={4} sm={4}>
           <Link href="recommendations/view/[id]" as={`recommendations/view/${listItem.id}`}>
             <span className={classes.link}>{listItem.name}</span>
@@ -280,7 +280,7 @@ const RecommendationsPage = () => {
   const getMainUI = () => {
     if (hasSavedListItems) {
       return (
-        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item lg={12} sm={12} xs={12} md={12} className={classes.emptyMarginTopBlock}>
           </Grid>
           <Grid item xs={8}>
