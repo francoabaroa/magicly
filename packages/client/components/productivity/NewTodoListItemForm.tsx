@@ -81,6 +81,21 @@ const useStyles = makeStyles((theme: Theme) =>
     centerText: {
       textAlign: 'center',
     },
+    laterList: {
+      marginTop: '10px'
+    },
+    watchList: {
+      marginTop: '10px'
+    },
+    moreDetailsBtn: {
+      textAlign: 'center',
+      marginTop: '30px',
+      marginBottom: '10px',
+    },
+    cancelBtn: {
+      textAlign: 'center',
+      marginTop: '10px',
+    },
     radioBtns: {
       fontSize: '16px'
     },
@@ -221,7 +236,7 @@ const NewTodoListItemForm = () => {
 
   return (
     <div className={classes.root}>
-        <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+        <Grid container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
           <Grid item xs={12} lg={12} md={12} sm={12}>
             <h2 className={classes.title}>Type your task in the box below and select in which list you want to store it:</h2>
           </Grid>
@@ -231,7 +246,7 @@ const NewTodoListItemForm = () => {
           </Grid>
 
           <Grid item xs={12} lg={4} md={4} sm={12}>
-            <Grid container spacing={1} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+            <Grid container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
               <Grid item xs={12} lg={12} md={12} sm={12}>
                 <FormControlLabel
                   classes={{ label: classes.checkboxLabel }}
@@ -247,14 +262,14 @@ const NewTodoListItemForm = () => {
                   labelPlacement="end"
                 />
               </Grid>
-              <Grid item xs={12} lg={8} md={12} sm={12}>
+              <Grid item xs={8} lg={8} md={12} sm={12}>
                 <div>all the stuff you "must" do -- commitments, obligations, things that have to be done</div>
               </Grid>
             </Grid>
           </Grid>
 
-          <Grid item xs={12} lg={4} md={4} sm={12}>
-            <Grid container spacing={1} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+        <Grid item xs={12} lg={4} md={4} sm={12} className={classes.watchList}>
+            <Grid container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
               <Grid item xs={12} lg={12} md={12} sm={12}>
                 <FormControlLabel
                   classes={{ label: classes.checkboxLabel }}
@@ -270,14 +285,14 @@ const NewTodoListItemForm = () => {
                   labelPlacement="end"
                 />
               </Grid>
-              <Grid item xs={12} lg={8} md={12} sm={12}>
+              <Grid item xs={8} lg={8} md={12} sm={12}>
                 <div>all the stuff that you have to follow up on, wait for someone else to get back to you on, or otherwise remember</div>
               </Grid>
             </Grid>
           </Grid>
 
-          <Grid item xs={12} lg={4} md={4} sm={12}>
-            <Grid container spacing={1} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+          <Grid item xs={12} lg={4} md={4} sm={12} className={classes.laterList}>
+            <Grid container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
               <Grid item xs={12} lg={12} md={12} sm={12}>
                 <FormControlLabel
                   classes={{ label: classes.checkboxLabel }}
@@ -293,7 +308,7 @@ const NewTodoListItemForm = () => {
                   labelPlacement="end"
                 />
               </Grid>
-              <Grid item xs={12} lg={8} md={12} sm={12}>
+              <Grid item xs={8} lg={8} md={12} sm={12}>
                 <div>everything else -- everything you might want to do or will do when you have time or wish you could do</div>
               </Grid>
             </Grid>
@@ -451,7 +466,7 @@ const NewTodoListItemForm = () => {
               null
           }
 
-          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+        <Grid item xs={12} lg={7} md={12} sm={12} className={classes.moreDetailsBtn}>
             <MagiclyButton
               btnLabel={moreDetails ? 'Hide Details' : 'Add More Details'}
               onClick={toggleMoreDetailsButton}
@@ -464,7 +479,7 @@ const NewTodoListItemForm = () => {
               onClick={submitForm}
             />
           </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.cancelBtn}>
             <MagiclyButton
               btnLabel={'Cancel'}
               isWhiteBackgroundBtn={true}

@@ -118,7 +118,7 @@ const ListItemRow = (props) => {
   };
 
   return (
-      <Grid container spacing={1} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+      <Grid container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
         <Grid item xs={1} lg={1} md={1} sm={1} style={{maxWidth: '40px'}}>
           <Radio
             checked={complete}

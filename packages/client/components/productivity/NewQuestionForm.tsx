@@ -61,8 +61,17 @@ const useStyles = makeStyles((theme: Theme) =>
         minWidth: '350px',
       },
     },
+    emailNotify: {
+      marginTop: '10px',
+      textAlign: 'center',
+    },
     centerText: {
       textAlign: 'center',
+    },
+    submitBtn: {
+      textAlign: 'center',
+      marginTop: '30px',
+      marginBottom: '10px'
     },
     notes: {
       minWidth: '550px',
@@ -151,7 +160,7 @@ const NewQuestionForm = () => {
   return (
     <div className={classes.root}>
       {/* <h1>Add a new todo list item</h1> */}
-      <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+      <Grid container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
 
         <Grid item xs={12} lg={12} md={12} sm={12}>
           <MagiclyPageTitle
@@ -183,7 +192,7 @@ const NewQuestionForm = () => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.emailNotify}>
           <FormControl component="fieldset">
             <FormLabel component="legend">Do you want to be notified through email?</FormLabel>
             <RadioGroup aria-label="notif" name="notif1" value={reminder} onChange={onSetReminder}>
@@ -201,7 +210,7 @@ const NewQuestionForm = () => {
             </RadioGroup>
           </FormControl>
         </Grid>
-        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.submitBtn}>
           <MagiclyButton
             btnLabel={'Submit'}
             onClick={submitForm}

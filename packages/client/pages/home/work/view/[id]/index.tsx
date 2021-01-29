@@ -50,6 +50,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     centerTextTopBtn: {
       textAlign: 'center',
+      marginTop: '30px',
+      marginBottom: '10px',
       [theme.breakpoints.down('xs')]: {
         marginTop: '50px',
       },

@@ -74,6 +74,14 @@ const useStyles = makeStyles((theme: Theme) =>
     centerText: {
       textAlign: 'center',
     },
+    saveBtn: {
+      textAlign: 'center',
+    },
+    buttonsTop: {
+      textAlign: 'center',
+      marginTop: '30px',
+      marginBottom: '10px'
+    },
     formControl: {
       minWidth: '550px',
       [theme.breakpoints.down('xs')]: {
@@ -214,7 +222,7 @@ const NewHomeWorkForm = () => {
 
   return (
     <div>
-        <Grid container spacing={1} justify="center" alignContent="center" alignItems="center" className={classes.form}>
+        <Grid container justify="center" alignContent="center" alignItems="center" className={classes.form}>
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
           <MagiclyPageTitle
             title={'New Home Work'}
@@ -315,7 +323,7 @@ const NewHomeWorkForm = () => {
               null
           } */}
 
-          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.buttonsTop}>
             <MagiclyButton
               btnLabel={'Save'}
               onClick={submitForm}

@@ -121,6 +121,9 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: '18px',
       },
     },
+    mainGrid: {
+      padding: '10px'
+    },
     paper: {
       fontFamily: 'Playfair Display, serif',
       textAlign: 'center',
@@ -128,6 +131,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: '#840032',
       borderRadius: '10px',
       boxShadow: '15px 15px 0 0px #E59500',
+      padding: '10px'
     },
     appSection: {
       color: '#FFF',
@@ -446,7 +450,7 @@ const MainPage = () => {
           }
         </Grid>
         <Grid container className={classes.root}>
-          <Grid item xs={12} lg={4} md={4} sm={4}>
+          <Grid item xs={12} lg={4} md={4} sm={4} className={classes.mainGrid}>
             <Paper className={classes.paper} onClick={routePage.bind(this, 'home')}>
               <h2 className={classes.appSection}>
                 My Home
@@ -460,7 +464,7 @@ const MainPage = () => {
             }
             </Paper>
           </Grid>
-          <Grid item xs={12} lg={4} md={4} sm={4}>
+          <Grid item xs={12} lg={4} md={4} sm={4} className={classes.mainGrid}>
             <Paper className={classes.paper} onClick={routePage.bind(this, 'productivity')}>
               <h2 className={classes.appSection}>
                 My Productivity
@@ -474,7 +478,7 @@ const MainPage = () => {
               }
             </Paper>
           </Grid>
-          <Grid item xs={12} lg={4} md={4} sm={4}>
+          <Grid item xs={12} lg={4} md={4} sm={4} className={classes.mainGrid}>
             <Paper className={classes.paper} onClick={routePage.bind(this, 'finance')}>
               <h2 className={classes.appSection}>
                 My Finances

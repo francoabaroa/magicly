@@ -172,6 +172,9 @@ const useStyles = makeStyles((theme: Theme) =>
         marginTop: '20px'
       },
     },
+    listTitle: {
+      marginBottom: '30px',
+    },
     link: {
       marginLeft: '15px',
       fontSize: '20px',
@@ -351,7 +354,7 @@ const ListsPage = () => {
 
           {
             todoListItemsUI.length > 0 ?
-              <Grid item xs={8}>
+              <Grid item xs={8} className={classes.listTitle}>
                 <MagiclyPageTitle
                   title={'To-do'}
                  />
@@ -362,7 +365,7 @@ const ListsPage = () => {
 
           {
             watchListItemsUI.length > 0 ?
-              <Grid item xs={8}>
+              <Grid item xs={8} className={classes.listTitle}>
                 <MagiclyPageTitle
                   title={'Watch'}
                 />
@@ -373,7 +376,7 @@ const ListsPage = () => {
 
           {
             laterListItemsUI.length > 0 ?
-              <Grid item xs={8}>
+              <Grid item xs={8} className={classes.listTitle}>
                 <MagiclyPageTitle
                   title={'Later'}
                 />

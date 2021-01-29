@@ -66,6 +66,10 @@ const useStyles = makeStyles((theme: Theme) =>
     centerText: {
       textAlign: 'center',
     },
+    saveBtn: {
+      textAlign: 'center',
+      marginBottom: '10px',
+    },
     notes: {
       marginBottom: '40px',
       minWidth: '550px',
@@ -125,7 +129,7 @@ const NewRecommendationForm = () => {
 
   return (
     <div>
-      <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+      <Grid container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
 
         <Grid item xs={12} lg={12} md={12} sm={12}>
           <MagiclyPageTitle
@@ -174,7 +178,7 @@ const NewRecommendationForm = () => {
           <TextField autoComplete="off" className={classes.notes} id="standard-basic" label="Additional notes" onChange={event => setNotes(event.target.value)} />
         </Grid>
 
-        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.saveBtn}>
           <MagiclyButton
             btnLabel={'Save'}
             onClick={submitForm}

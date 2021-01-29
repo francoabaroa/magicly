@@ -62,6 +62,15 @@ const useStyles = makeStyles((theme: Theme) =>
         margin: theme.spacing(1),
       },
     },
+    moreDetailsBtn: {
+      textAlign: 'center',
+      marginTop: '30px',
+      marginBottom: '10px',
+    },
+    cancelBtn: {
+      textAlign: 'center',
+      marginTop: '10px',
+    },
     chooseBtn: {
       fontFamily: 'Overpass, serif',
       fontWeight: 'bold',
@@ -120,6 +129,8 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: '50px',
       width: '175px',
       height: '40px',
+      marginTop: '10px',
+      marginBottom: '10px',
       [theme.breakpoints.down('md')]: {
         fontSize: '14px',
         width: '150px',
@@ -267,7 +278,7 @@ const UploadDocument = (props) => {
   let title = receipt === 'true' ? 'Receipt' : 'Document';
   return (
     <div className={classes.root}>
-      <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+      <Grid container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
         <Grid item xs={12} lg={12} md={12} sm={12}>
           <MagiclyPageTitle
             title={'Add a New ' + title}
@@ -321,7 +332,7 @@ const UploadDocument = (props) => {
           <TextField autoComplete="off" id="standard-basic" label="Receipt value (USD)" onChange={event => setDocValue(event.target.value)} className={classes.formControl} />
         </Grid> : null}
 
-        <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+        <Grid item xs={12} lg={7} md={12} sm={12} className={classes.moreDetailsBtn}>
           <MagiclyButton
             btnLabel={moreDetails ? 'Hide Details' : 'Add More Details'}
             onClick={toggleMoreDetailsButton}
@@ -360,7 +371,7 @@ const UploadDocument = (props) => {
             onClick={submitForm}
           />
         </Grid>
-        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.cancelBtn}>
           <MagiclyButton
             btnLabel={'Cancel'}
             isWhiteBackgroundBtn={true}
