@@ -83,6 +83,11 @@ const Layout = (props) => {
     let fullRoute = '';
     let individualRoutes = router.route.split('/');
     let breadcrumbChildren = [];
+    let nextIdRoute = '[id]';
+
+    if (individualRoutes[individualRoutes.length - 1] === nextIdRoute) {
+      individualRoutes.pop();
+    }
 
     if (shouldShowBreadcrumbs()) {
       individualRoutes.shift();
