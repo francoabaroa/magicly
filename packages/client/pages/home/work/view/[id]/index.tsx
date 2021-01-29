@@ -48,6 +48,12 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
     },
+    centerTextTopBtn: {
+      textAlign: 'center',
+      [theme.breakpoints.down('xs')]: {
+        marginTop: '50px',
+      },
+    },
     centerText: {
       textAlign: 'center',
     },
@@ -104,6 +110,9 @@ const useStyles = makeStyles((theme: Theme) =>
     individualFeature: {
       textAlign: 'center',
       marginBottom: '15px',
+      [theme.breakpoints.down('xs')]: {
+        marginBottom: '0px',
+      },
     },
     details: {
       color: 'rgba(0, 38, 66, 0.5)',
@@ -156,7 +165,7 @@ const ViewHomeWorkPage = () => {
     for (let i = 0; i < data.homework.documents.length; i++) {
       let pageLink = `home/documents/view/${data.homework.documents[i].id}`
       documents.push(
-        <Grid item xs={7} lg={7} md={7} sm={7} key={i}>
+        <Grid item xs={12} lg={12} md={12} sm={12} key={i}>
           <div className={classes.individualFeature} onClick={routePage.bind(this, pageLink)}>
             <Attachment fontSize={'large'} className={classes.icon} />
             <span className={classes.details}>{data.homework.documents[i].name}</span>
@@ -185,7 +194,7 @@ const ViewHomeWorkPage = () => {
               title={getCapitalizedString(data.homework.title)}
             />
           </Grid>
-          <Grid item xs={7} lg={7} md={7} sm={7}>
+          <Grid item xs={12} lg={12} md={12} sm={12}>
             <div className={classes.individualFeature}>
               <Add fontSize={'large'} className={classes.icon}/>
               <span className={classes.details}>{ getCapitalizedString(data.homework.type) }</span>
@@ -193,7 +202,7 @@ const ViewHomeWorkPage = () => {
           </Grid>
           {
             data.homework.executionDate ?
-              <Grid item xs={7} lg={7} md={7} sm={7}>
+              <Grid item xs={12} lg={12} md={12} sm={12}>
                 <div className={classes.individualFeature}>
                   <Event fontSize={'large'} className={classes.icon} />
                   <span className={classes.details}>{date}</span>
@@ -203,7 +212,7 @@ const ViewHomeWorkPage = () => {
           }
           {
             data.homework.cost ?
-              <Grid item xs={7} lg={7} md={7} sm={7}>
+              <Grid item xs={12} lg={12} md={12} sm={12}>
                 <div className={classes.individualFeature}>
                   <AttachMoney fontSize={'large'} className={classes.icon} />
                   <span className={classes.details}>{data.homework.cost}</span>
@@ -213,7 +222,7 @@ const ViewHomeWorkPage = () => {
           }
           {
             data.homework.executor && data.homework.executor.length > 0 ?
-              <Grid item xs={7} lg={7} md={7} sm={7}>
+              <Grid item xs={12} lg={12} md={12} sm={12}>
                 <div className={classes.individualFeature}>
                   <Person fontSize={'large'} className={classes.icon} />
                   <span className={classes.details}>{data.homework.executor}</span>
@@ -223,7 +232,7 @@ const ViewHomeWorkPage = () => {
           }
           {
             data.homework.notes && data.homework.notes.length > 0 ?
-              <Grid item xs={7} lg={7} md={7} sm={7}>
+              <Grid item xs={12} lg={12} md={12} sm={12}>
                 <div className={classes.individualFeature}>
                   <Notes fontSize={'large'} className={classes.icon} />
                   <span className={classes.details}>{data.homework.notes}</span>
@@ -238,7 +247,7 @@ const ViewHomeWorkPage = () => {
               </Grid> :
               null
           }
-          {/* <Grid item xs={7} lg={7} md={7} sm={7}>
+          {/* <Grid item xs={12} lg={12} md={12} sm={12}>
             <Button
               onClick={()=>{}}
               className={classes.completeBtn}
@@ -247,7 +256,7 @@ const ViewHomeWorkPage = () => {
             </Button>
           </Grid> */}
 
-          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
+          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerTextTopBtn}>
             <MagiclyButton
               btnLabel={'Edit'}
               onClick={routePage.bind(this, `home/work/edit/${data.homework.id}`)}

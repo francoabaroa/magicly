@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: '10px',
       },
       [theme.breakpoints.down('xs')]: {
-        marginTop: '0px',
+        marginTop: '40px',
       },
     },
   }),
