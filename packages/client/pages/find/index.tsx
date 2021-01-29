@@ -497,7 +497,9 @@ const FindPage = () => {
             {
               showSearch ?
                 <Grid item xs={12} lg={12} style={{ textAlign: 'center' }}>
-                  <TextField id="outlined-basic" label="Search" variant="outlined" className={classes.search} autoComplete="off" onInput={handleRealtimeSearch} />
+                  <form noValidate autoComplete="off">
+                    <TextField id="outlined-basic" label="Search" variant="outlined" className={classes.search} autoComplete="off" onInput={handleRealtimeSearch} />
+                  </form>
                 </Grid> : null
             }
 
