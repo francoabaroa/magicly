@@ -87,7 +87,6 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     paper: {
-      padding: theme.spacing(2),
       textAlign: 'center',
       color: '#840032',
       backgroundColor: "#E5DADA",

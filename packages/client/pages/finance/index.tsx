@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     paper: {
-      padding: theme.spacing(1),
+      padding: 1),
       fontFamily: 'Playfair Display, serif',
       textAlign: 'center',
       color: '#02040F',

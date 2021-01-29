@@ -62,7 +62,6 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     paper: {
-      padding: theme.spacing(1),
       fontFamily: 'Playfair Display, serif',
       color: '#02040F',
       boxShadow: 'none',
@@ -93,7 +92,6 @@ const useStyles = makeStyles((theme: Theme) =>
      borderRadius: '0px',
     },
     sectionLeft: {
-      padding: theme.spacing(3),
       marginBottom: '50px',
       fontFamily: 'Playfair Display, serif',
       color: '#02040F',
@@ -105,7 +103,6 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     section: {
-      padding: theme.spacing(3),
       marginBottom: '50px',
       fontFamily: 'Playfair Display, serif',
       color: '#02040F',
