@@ -62,6 +62,10 @@ const useStyles = makeStyles((theme: Theme) =>
         margin: theme.spacing(1),
       },
     },
+    itemType: {
+      textAlign: 'center',
+      marginTop: '40px',
+    },
     textField: {
       minWidth: '400px',
       [theme.breakpoints.down('sm')]: {
@@ -316,7 +320,7 @@ const NewTodoListItemForm = () => {
 
           {
             moreDetails ?
-              <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+              <Grid item xs={12} lg={7} md={12} sm={12} className={classes.itemType}>
                 <FormControl className={classes.formControl}>
                   <InputLabel id="demo-simple-select-label">Type of item</InputLabel>
                   <Select

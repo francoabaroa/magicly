@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     horizontalLine: {
       marginTop: '5px',
-      maxWidth: '700px',
+      maxWidth: '750px',
     },
     type: {
       marginLeft: '15px',
@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontStyle: 'normal',
       fontWeight: 'bold',
     },
-    centerText: {
+    leftText: {
       textAlign: 'left',
     },
   }),
@@ -118,7 +118,7 @@ const ListItemRow = (props) => {
   };
 
   return (
-      <Grid container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+      <Grid container justify="center" alignContent="center" alignItems="center" className={classes.leftText}>
         <Grid item xs={1} lg={1} md={1} sm={1} style={{maxWidth: '40px'}}>
           <Radio
             checked={complete}

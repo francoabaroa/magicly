@@ -98,6 +98,9 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: '10px',
       },
     },
+    leftText: {
+      textAlign: 'left',
+    },
     examples: {
       fontFamily: 'Playfair Display, serif',
       fontWeight: 'normal',
@@ -196,6 +199,20 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: '80px',
       },
     },
+    type: {
+      marginLeft: '15px',
+      fontSize: '20px',
+      textDecoration: 'none',
+      fontFamily: 'Overpass, serif',
+      color: '#840032',
+      padding: '8px',
+      borderRadius: '10px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '16px',
+        marginTop: '15px',
+        marginBottom: '0px',
+      },
+    },
     icon: {
       color: '#0A7EF2',
       fontSize: '24px',
@@ -215,7 +232,8 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#002642',
     },
     horizontalLine: {
-      marginTop: '20px'
+      marginTop: '20px',
+      maxWidth: '750px',
     },
     toolIcon: {
       color: '#002642',
@@ -241,12 +259,23 @@ const HomeWorkPage = () => {
 
   const getIndividualHomeWork = (key: any, homework: any) => {
     return (
-      <Grid key={key} item xs={12} lg={12} md={12} sm={12}>
-        <Home fontSize={'large'} className={classes.toolIcon} />
-        <Link href="work/view/[id]" as={`work/view/${homework.id}`}>
-          <span className={classes.link}>{homework.title}</span>
-        </Link>
-        <hr className={classes.horizontalLine} />
+      <Grid container justify="center" alignContent="center" alignItems="center" className={classes.leftText}>
+        <Grid item xs={1} lg={1} md={1} sm={1} style={{ maxWidth: '40px' }}>
+          <Home fontSize={'large'} className={classes.toolIcon} />
+        </Grid>
+        <Grid item xs={5} lg={5} md={5} sm={5}>
+          <Link href="work/view/[id]" as={`work/view/${homework.id}`}>
+            <span className={classes.link}>{homework.title}</span>
+          </Link>
+        </Grid>
+        <Grid item xs={1} lg={1} md={1} sm={1}>
+          <Link href="work/view/[id]" as={`work/view/${homework.id}`}>
+            <a className={classes.type}>{homework.type}</a>
+          </Link>
+        </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12}>
+          <hr className={classes.horizontalLine} />
+        </Grid>
       </Grid>
     );
   };
@@ -290,7 +319,7 @@ const HomeWorkPage = () => {
         <Grid container justify="center" alignContent="center" alignItems="center">
           {
             pastWork.length > 0 ?
-              <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+              <Grid item xs={12} lg={12} md={12} sm={12} xl={12} style={{ paddingBottom: '30px' }}>
                 <MagiclyPageTitle
                   title={'Past Home Work'}
                 />
@@ -314,7 +343,7 @@ const HomeWorkPage = () => {
         <Grid container justify="center" alignContent="center" alignItems="center">
           {
             upcomingWork.length > 0 ?
-              <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+              <Grid item xs={12} lg={12} md={12} sm={12} xl={12} style={{paddingBottom: '30px'}}>
                 <MagiclyPageTitle
                   title={'Upcoming Home Work'}
                 />
