@@ -364,7 +364,7 @@ const UploadDocument = (props) => {
           <MagiclyButton
             btnLabel={'Cancel'}
             isWhiteBackgroundBtn={true}
-            onClick={() => router.back()}
+            onClick={() => router.push('/home/documents' , undefined)}
           />
         </Grid>
       </Grid>
