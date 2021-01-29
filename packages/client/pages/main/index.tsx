@@ -1,6 +1,7 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../components/Layout';
+import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
@@ -105,7 +106,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: 'auto',
       textAlign: 'center',
       [theme.breakpoints.down('sm')]: {
-        fontSize: '18px',
+        fontSize: '22px',
         marginTop: '35px',
         marginBottom: '5px',
       },
@@ -116,9 +117,8 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: '22px',
       color: '#002642',
       margin: 'auto',
-      textAlign: 'center',
       [theme.breakpoints.down('sm')]: {
-        fontSize: '12px',
+        fontSize: '18px',
       },
     },
     paper: {
@@ -135,7 +135,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 'bold',
       fontSize: '32px',
       [theme.breakpoints.down('sm')]: {
-        fontSize: '26px',
+        fontSize: '20px',
       },
     },
     mainPage: {
@@ -164,20 +164,29 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     viewBtn: {
       fontFamily: 'Overpass, serif',
-      fontSize: '14px',
+      fontSize: '18px',
       margin: '0 auto',
       marginLeft: '10px',
       color: '#FFF',
       backgroundColor: '#002642',
       borderRadius: '50px',
-      width: '40px',
-      height: '25px',
+      width: '50px',
+      height: '35px',
       [theme.breakpoints.down('md')]: {
-        fontSize: '14px',
+        marginTop: '10px',
+        fontSize: '16px',
         width: '40px',
-        height: '25px'
+        height: '30px'
       },
-    }
+    },
+    priorityRow: {
+      textAlign: 'left',
+      maxWidth: '980px',
+      marginBottom: '10px',
+      [theme.breakpoints.down('xs')]: {
+        textAlign: 'center'
+      },
+    },
   }),
 );
 
@@ -257,12 +266,17 @@ const MainPage = () => {
         listsLink = `productivity/lists/view/${data.listItems.edges[0].id}`;
       }
       let name = data.listItems.edges[0].name;
+
       return (
-        <Grid item key={1} xs={8}>
-          <h5
-            className={classes.previewTitle}>
-            {'* ' + data.listItems.edges.length +
-              ` upcoming to-do list ${itemOrItems}`}
+        <Grid container spacing={1} justify="center" alignContent="center" alignItems="center" className={classes.priorityRow}>
+          <Grid item key={0} xs={12} md={4} lg={4} sm={4}>
+            <h5
+              className={classes.previewTitle}>
+              {'* ' + data.listItems.edges.length +
+                ` upcoming to-do list ${itemOrItems}`}
+            </h5>
+          </Grid>
+          <Grid item key={1} xs={12} md={1} lg={1} sm={1}>
             {
               isSingleListItem ?
                 <HtmlTooltip
@@ -286,8 +300,7 @@ const MainPage = () => {
                   View
                 </Button>
             }
-
-          </h5>
+          </Grid>
         </Grid>
       );
     }
@@ -302,11 +315,15 @@ const MainPage = () => {
       }
       let title = data.homeworks.edges[0].title;
       return (
-        <Grid item key={0} xs={8}>
-          <h5
-            className={classes.previewTitle}>
-            {'* ' + data.homeworks.edges.length +
-              ` upcoming home work ${eventOrEvents}`}
+        <Grid container spacing={1} justify="center" alignContent="center" alignItems="center" className={classes.priorityRow}>
+          <Grid item key={0} xs={12} md={4} lg={4} sm={4}>
+            <h5
+              className={classes.previewTitle}>
+              {'* ' + data.homeworks.edges.length +
+                ` upcoming home work ${eventOrEvents}`}
+            </h5>
+          </Grid>
+          <Grid item key={1} xs={12} md={1} lg={1} sm={1}>
             {
               isSingleHomeWorkItem ?
                 <HtmlTooltip
@@ -328,7 +345,7 @@ const MainPage = () => {
                   View
               </Button>
             }
-          </h5>
+          </Grid>
         </Grid>
       );
     }
@@ -344,12 +361,17 @@ const MainPage = () => {
       }
 
       let body = data.questions.edges[0].body;
+
       return (
-        <Grid item key={0} xs={8}>
-          <h5
-            className={classes.previewTitle}>
-            {'* ' + data.questions.edges.length +
-              ` answered tech question`}
+        <Grid container spacing={1} justify="center" alignContent="center" alignItems="center" className={classes.priorityRow}>
+          <Grid item key={0} xs={12} md={4} lg={4} sm={4}>
+            <h5
+              className={classes.previewTitle}>
+              {'* ' + data.questions.edges.length +
+                ` answered tech question`}
+            </h5>
+          </Grid>
+          <Grid item key={1} xs={12} md={1} lg={1} sm={1}>
             {
               isSingleQuestion ?
                 <HtmlTooltip
@@ -371,7 +393,7 @@ const MainPage = () => {
                   View
               </Button>
             }
-          </h5>
+          </Grid>
         </Grid>
       );
     }
@@ -413,7 +435,9 @@ const MainPage = () => {
       <div className={classes.mainPage}>
         <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
-            <h5 className={classes.title}>{getGreeting(data.me, isNewUser)}</h5>
+            <MagiclyPageTitle
+              title={getGreeting(data.me, isNewUser)}
+            />
           </Grid>
 
           {
@@ -422,55 +446,53 @@ const MainPage = () => {
             getPriorities()
           }
         </Grid>
-        <div className={classes.root}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={4} md={4} sm={4}>
-              <Paper className={classes.paper} onClick={routePage.bind(this, 'home')}>
-                <h2 className={classes.appSection}>
-                  My Home
-              </h2>
+        <Grid container spacing={3} className={classes.root}>
+          <Grid item xs={12} lg={4} md={4} sm={4}>
+            <Paper className={classes.paper} onClick={routePage.bind(this, 'home')}>
+              <h2 className={classes.appSection}>
+                My Home
+            </h2>
+            {
+                isNewUser ?
+                <h3 style={{ fontWeight: 'normal' }}>
+                  Important information pertaining to your home
+                </h3> :
+                null
+            }
+            </Paper>
+          </Grid>
+          <Grid item xs={12} lg={4} md={4} sm={4}>
+            <Paper className={classes.paper} onClick={routePage.bind(this, 'productivity')}>
+              <h2 className={classes.appSection}>
+                My Productivity
+            </h2>
               {
-                  isNewUser ?
+                isNewUser ?
                   <h3 style={{ fontWeight: 'normal' }}>
-                    Important information pertaining to your home
-                  </h3> :
+                    Increase your productivity in a simple way
+                </h3> :
                   null
               }
-              </Paper>
-            </Grid>
-            <Grid item xs={12} lg={4} md={4} sm={4}>
-              <Paper className={classes.paper} onClick={routePage.bind(this, 'productivity')}>
-                <h2 className={classes.appSection}>
-                  My Productivity
-              </h2>
-                {
-                  isNewUser ?
-                    <h3 style={{ fontWeight: 'normal' }}>
-                      Increase your productivity in a simple way
-                  </h3> :
-                    null
-                }
-              </Paper>
-            </Grid>
-            <Grid item xs={12} lg={4} md={4} sm={4}>
-              <Paper className={classes.paper} onClick={routePage.bind(this, 'finance')}>
-                <h2 className={classes.appSection}>
-                  My Finances
-              </h2>
-                {
-                  isNewUser ?
-                    <h3 style={{ fontWeight: 'normal' }}>
-                      Stay on top of your finances easily
-                  </h3> :
-                    null
-                }
-              </Paper>
-            </Grid>
-            {/* <Grid item xs={12} lg={12} md={12} sm={12} onClick={routePage.bind(this, 'find')}>
-              <Button className={classes.findButton}> Find Products & Services </Button>
-            </Grid> */}
+            </Paper>
           </Grid>
-        </div>
+          <Grid item xs={12} lg={4} md={4} sm={4}>
+            <Paper className={classes.paper} onClick={routePage.bind(this, 'finance')}>
+              <h2 className={classes.appSection}>
+                My Finances
+            </h2>
+              {
+                isNewUser ?
+                  <h3 style={{ fontWeight: 'normal' }}>
+                    Stay on top of your finances easily
+                </h3> :
+                  null
+              }
+            </Paper>
+          </Grid>
+          {/* <Grid item xs={12} lg={12} md={12} sm={12} onClick={routePage.bind(this, 'find')}>
+            <Button className={classes.findButton}> Find Products & Services </Button>
+          </Grid> */}
+        </Grid>
       </div>
     </Layout>
   );

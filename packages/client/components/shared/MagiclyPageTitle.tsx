@@ -30,6 +30,9 @@ const useStyles = makeStyles((theme: Theme) =>
         marginTop: '15px',
         marginBottom: '10px',
       },
+      [theme.breakpoints.down('xs')]: {
+        marginTop: '0px',
+      },
     },
   }),
 );
