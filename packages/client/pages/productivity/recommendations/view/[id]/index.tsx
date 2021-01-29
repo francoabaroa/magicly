@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: '15px',
     },
     details: {
-      color: '#0A7EF2',
+      color: 'rgba(0, 38, 66, 0.8)',
       fontFamily: 'Playfair Display, serif',
       textAlign: 'center',
       fontWeight: 'normal',
@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     icon: {
-      color: '#0A7EF2',
+      color: 'rgba(0, 38, 66, 0.8)',
       fontSize: '14px',
     }
   }),
@@ -118,7 +118,7 @@ const ViewRecommendationItemPage = () => {
           </Grid>
           <Grid item xs={7} lg={7} md={7} sm={7}>
             <div className={classes.individualFeature}>
-              <Add fontSize={'small'} style={{ color: '#0A7EF2' }} />
+              <Add fontSize={'small'} style={{ color: 'rgba(0, 38, 66, 0.8)' }} />
               <span className={classes.details}>{data.listItem.type}</span>
             </div>
           </Grid>

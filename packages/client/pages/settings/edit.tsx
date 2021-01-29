@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import Layout from '../../components/Layout';
 import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
+import MagiclyButton from '../../components/shared/MagiclyButton';
 import { APP_CONFIG, DEFAULT_NOTIFICATION_TYPE, LANGUAGE_ISO_2 } from '../../constants/appStrings';
 import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
@@ -66,41 +67,8 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: '35px',
       },
     },
-    updateSettingsButton: {
-      fontFamily: 'Overpass, serif',
-      fontSize: '16px',
-      margin: '0 auto',
-      display: 'block',
-      marginTop: '0px',
-      marginBottom: '30px',
-      color: '#FFF',
-      backgroundColor: '#0A7EF2',
-      borderRadius: '50px',
-      width: '90px',
-      height: '40px',
-      [theme.breakpoints.down('sm')]: {
-        fontSize: '12px',
-        width: '80px',
-        height: '35px'
-      },
-    },
-    resetPasswordBtn: {
-      fontFamily: 'Overpass, serif',
-      fontSize: '16px',
-      margin: '0 auto',
-      display: 'block',
-      marginTop: '0px',
-      marginBottom: '30px',
-      color: '#FFF',
-      backgroundColor: '#0A7EF2',
-      borderRadius: '50px',
-      width: '150px',
-      height: '40px',
-      [theme.breakpoints.down('sm')]: {
-        fontSize: '12px',
-        width: '110px',
-        height: '35px'
-      },
+    saveBtn: {
+      marginBottom: '10px',
     },
     signUpPage: {
       marginRight: '30px',
@@ -234,63 +202,71 @@ const EditSettingsPage = (props) => {
         <div className={classes.root}>
           <Grid container justify="center" alignContent="center" alignItems="center">
             <Grid item xs={12} lg={4} md={4} sm={4}>
-              <form onSubmit={submitForm}>
-                <div className={classes.inputs}>
-                  <TextField
-                    className={classes.label}
-                    label="First Name"
-                    defaultValue={firstName}
-                    onChange={event => setFirstName(event.target.value)}
-                    required
-                  />
-                </div>
-                <div className={classes.inputs}>
-                  <TextField
-                    className={classes.label}
-                    label="Current City"
-                    defaultValue={currentCity}
-                    onChange={event => setCurrentCity(event.target.value)}
-                    required
-                  />
-                </div>
-                <div className={classes.inputs}>
-                  <TextField
-                    className={classes.label}
-                    label="Email"
-                    defaultValue={email}
-                    onChange={event => setEmail(event.target.value)}
-                    required
-                  />
-                </div>
-                <div className={classes.inputs}>
-                  <FormControl className={classes.label} required>
-                    <InputLabel>Language</InputLabel>
-                    <Select
-                      value={language}
-                      onChange={handleLanguageSelect}
-                      style={{textAlign:'left'}}
-                    >
-                      <MenuItem value={LANGUAGE_ISO_2.EN}>{'English'}</MenuItem>
-                      <MenuItem value={LANGUAGE_ISO_2.ES}>{'Spanish'}</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-                <div className={classes.lastInput}>
-                  <FormControl className={classes.label} required>
-                    <InputLabel>Notifications</InputLabel>
-                    <Select
-                      value={notificationType}
-                      onChange={handleNotificationTypeSelect}
-                      style={{ textAlign: 'left' }}
-                    >
-                      <MenuItem value={DEFAULT_NOTIFICATION_TYPE.EMAIL}>{'Email'}</MenuItem>
-                      <MenuItem value={DEFAULT_NOTIFICATION_TYPE.SMS}>{'SMS'}</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-                <Button className={classes.updateSettingsButton} type="submit"> Save </Button>
-                <Button className={classes.resetPasswordBtn} onClick={()=>{}}> Reset Password </Button>
-              </form>
+              <div className={classes.inputs}>
+                <TextField
+                  className={classes.label}
+                  label="First Name"
+                  defaultValue={firstName}
+                  onChange={event => setFirstName(event.target.value)}
+                  required
+                />
+              </div>
+              <div className={classes.inputs}>
+                <TextField
+                  className={classes.label}
+                  label="Current City"
+                  defaultValue={currentCity}
+                  onChange={event => setCurrentCity(event.target.value)}
+                  required
+                />
+              </div>
+              <div className={classes.inputs}>
+                <TextField
+                  className={classes.label}
+                  label="Email"
+                  defaultValue={email}
+                  onChange={event => setEmail(event.target.value)}
+                  required
+                />
+              </div>
+              <div className={classes.inputs}>
+                <FormControl className={classes.label} required>
+                  <InputLabel>Language</InputLabel>
+                  <Select
+                    value={language}
+                    onChange={handleLanguageSelect}
+                    style={{textAlign:'left'}}
+                  >
+                    <MenuItem value={LANGUAGE_ISO_2.EN}>{'English'}</MenuItem>
+                    <MenuItem value={LANGUAGE_ISO_2.ES}>{'Spanish'}</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+              <div className={classes.lastInput}>
+                <FormControl className={classes.label} required>
+                  <InputLabel>Notifications</InputLabel>
+                  <Select
+                    value={notificationType}
+                    onChange={handleNotificationTypeSelect}
+                    style={{ textAlign: 'left' }}
+                  >
+                    <MenuItem value={DEFAULT_NOTIFICATION_TYPE.EMAIL}>{'Email'}</MenuItem>
+                    <MenuItem value={DEFAULT_NOTIFICATION_TYPE.SMS}>{'SMS'}</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+
+              <div className={classes.saveBtn}>
+                <MagiclyButton
+                  btnLabel={'Save'}
+                  onClick={submitForm}
+                />
+              </div>
+              <MagiclyButton
+                btnLabel={'Reset Password'}
+                isWhiteBackgroundBtn={true}
+                onClick={() => { }}
+              />
             </Grid>
           </Grid>
         </div>

@@ -3,6 +3,7 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../components/Layout';
 import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
+import MagiclyFindServicesIconLabel from '../../components/shared/MagiclyFindServicesIconLabel';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
@@ -221,8 +222,7 @@ const SavedProductsServicesPage = () => {
           </Grid>
           <Grid item xs={12} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'find')}>
-              <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>find more services</span>
+              <MagiclyFindServicesIconLabel />
             </div>
           </Grid>
           {services}

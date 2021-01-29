@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Layout from '../../../../../components/Layout';
 import DeleteQuestionModal from '../../../../../components/productivity/DeleteQuestionModal';
 import ViewAnswerModal from '../../../../../components/productivity/ViewAnswerModal';
+import MagiclyButton from '../../../../../components/shared/MagiclyButton';
 import MagiclyPageTitle from '../../../../../components/shared/MagiclyPageTitle';
 import { withApollo } from '../../../../../apollo/apollo';
 import { useRouter } from 'next/router';
@@ -71,7 +72,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: '15px',
     },
     details: {
-      color: '#0A7EF2',
+      color: 'rgba(0, 38, 66, 0.8)',
       fontFamily: 'Playfair Display, serif',
       textAlign: 'center',
       fontWeight: 'normal',
@@ -83,8 +84,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     icon: {
-      color: '#0A7EF2',
-      // fontSize: '14px',
+      color: 'rgba(0, 38, 66, 0.8)',
     },
     viewAnswerBtn: {
       fontFamily: 'Overpass, serif',
@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'block',
       marginTop: '2px',
       color: '#FFF',
-      backgroundColor: '#0A7EF2',
+      backgroundColor: 'rgba(0, 38, 66, 0.8)',
       borderRadius: '50px',
       border: '3px #FFF solid',
       width: '185px',
@@ -154,7 +154,7 @@ const ViewQuestionPage = () => {
           </Grid>
           <Grid item xs={7} lg={7} md={7} sm={7}>
             <div className={classes.individualFeature}>
-              <Adjust style={{ color: '#0A7EF2' }} />
+              <Adjust style={{ color: 'rgba(0, 38, 66, 0.8)' }} />
               <span className={classes.details}>{data.question.type}</span>
             </div>
           </Grid>
@@ -170,15 +170,13 @@ const ViewQuestionPage = () => {
               <span className={classes.details}>{urgentString}</span>
             </div>
           </Grid>
-          <Grid item xs={12} sm={12} lg={12} md={12}>
+          <Grid item xs={12} sm={12} lg={12} md={12} style={{marginBottom: '10px'}}>
             {
               data && data.question && data.question.answers.length > 0 ?
-                <Button
+                <MagiclyButton
+                  btnLabel={'View Chat'}
                   onClick={handleViewAnswerOpen}
-                  className={classes.viewAnswerBtn}
-                >
-                  View Chat
-                </Button>
+                />
                 : null
             }
 
@@ -194,12 +192,11 @@ const ViewQuestionPage = () => {
             />
           </Grid>
           <Grid item xs={12} sm={12} lg={12} md={12}>
-            <Button
+            <MagiclyButton
+              btnLabel={'Delete Question'}
+              isWhiteBackgroundBtn={true}
               onClick={handleDeleteQuestionOpen}
-              className={classes.viewAnswerBtn}
-            >
-              Delete Question
-            </Button>
+            />
           </Grid>
         </Grid>
       );
