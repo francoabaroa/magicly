@@ -224,7 +224,7 @@ const EditSettingsPage = (props) => {
   return (
     <Layout>
       <div className={classes.signUpPage}>
-        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
             <MagiclyPageTitle
               title={'Account Settings'}

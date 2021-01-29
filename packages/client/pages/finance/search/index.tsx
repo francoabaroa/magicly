@@ -327,7 +327,7 @@ const FinanceSearchPage = () => {
   return (
     <Layout>
       <div className={classes.financePage}>
-        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item xs={12}>
             <h2
               className={classes.title}>
@@ -336,7 +336,7 @@ const FinanceSearchPage = () => {
           </Grid>
         </Grid>
         <div className={classes.root}>
-          <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+          <Grid container justify="center" alignContent="center" alignItems="center">
             <Grid item xs={12} lg={12} style={{textAlign: 'center'}}>
               <TextField id="outlined-basic" label="Search" variant="outlined" className={classes.search} autoComplete="off" />
               <Button variant="contained" style={{ backgroundColor: '#840032', color: 'white', marginLeft: '10px', height: '55px' }} onClick={handleSearch}>

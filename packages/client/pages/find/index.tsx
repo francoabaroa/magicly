@@ -332,7 +332,7 @@ const FindPage = () => {
     if (popularServices.length > 0) {
       popularServices.forEach((service) => {
         searchResults.push(
-          <Grid key={counter++} container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.row}>
+          <Grid key={counter++} container justify="center" alignContent="center" alignItems="center" className={classes.row}>
             <Grid item xs={9} lg={8} md={8} sm={8} style={{ textAlign: 'left' }} className={classes.iconAndService}>
               <Build className={classes.toolIcon} />
               <a target="_blank" className={classes.link} onClick={handleIndividualServiceOpen.bind(this, service)}>{service.title}</a>
@@ -401,7 +401,7 @@ const FindPage = () => {
 
     for (let i = 0; i < filteredSearchResults.length; i++) {
       results.push(
-        <Grid key={counter++}  container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.row}>
+        <Grid key={counter++}  container justify="center" alignContent="center" alignItems="center" className={classes.row}>
           <Grid item xs={9} lg={8} md={8} sm={8} style={{ textAlign: 'left' }} className={classes.iconAndService}>
               <Build className={classes.toolIcon} />
               {/* href={filteredSearchResults[i].url} */}
@@ -475,7 +475,7 @@ const FindPage = () => {
   return (
     <Layout>
       <div className={classes.findPage}>
-        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
             <h2
               className={classes.title}>
@@ -504,7 +504,7 @@ const FindPage = () => {
             }
 
             {hasSavedServices ?
-              <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+              <Grid container justify="center" alignContent="center" alignItems="center">
                 <Grid item xs={12} lg={12} md={12} sm={12} onClick={routePage.bind(this, 'find/saved')}>
                   <Button className={classes.viewProdsServs} > View Saved Services</Button>
                   {/* <Button className={classes.viewProdsServs} > View Saved Services & Products </Button> */}

@@ -158,7 +158,7 @@ const SettingsPage = () => {
     return (
       <Layout>
         <div className={classes.settingsPage}>
-          <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+          <Grid container justify="center" alignContent="center" alignItems="center">
             <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
               <MagiclyPageTitle
                 title={'Account Settings'}
@@ -217,7 +217,7 @@ const SettingsPage = () => {
     return (
       <Layout>
         <div className={classes.settingsPage}>
-          <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+          <Grid container justify="center" alignContent="center" alignItems="center">
             <Grid item xs={6} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
               <MagiclyPageTitle
                 title={'Account Settings'}

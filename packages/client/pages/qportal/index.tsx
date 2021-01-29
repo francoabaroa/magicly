@@ -179,7 +179,7 @@ const QportalSignInPage = () => {
   return (
     <Layout>
       <div className={classes.qPortalPage}>
-        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
             <MagiclyPageTitle
               title={employee ? `Welcome ${parsedEmployee.firstName}` : "Employees Only: Access Denied"}
@@ -187,7 +187,7 @@ const QportalSignInPage = () => {
           </Grid>
         </Grid>
         <div className={classes.root}>
-          <Grid container spacing={1} justify="center" alignContent="center" alignItems="center">
+          <Grid container justify="center" alignContent="center" alignItems="center">
             <Grid item xs={12} lg={4} md={4} sm={4}>
               <form action={url + 'auth/google'}>
                 <Button disabled={employee ? true : false} className={classes.buttons} type={"submit"}> { employee ? "Authenticated" : "Authenticate" } </Button>

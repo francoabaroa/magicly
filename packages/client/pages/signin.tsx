@@ -162,7 +162,7 @@ const SignInPage = () => {
   return (
     <Layout>
       <div className={classes.signInPage}>
-        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
             <MagiclyPageTitle
               title={'Welcome Back'}

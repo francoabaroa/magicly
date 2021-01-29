@@ -47,7 +47,7 @@ const PrivacyPage = () => {
   return (
     <Layout>
       <div className={classes.privacyPage}>
-      <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+      <Grid container justify="center" alignContent="center" alignItems="center">
         <Grid item xs={12}>
             <MagiclyPageTitle
               title={'Privacy Policy'}

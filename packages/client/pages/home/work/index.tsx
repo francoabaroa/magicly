@@ -288,7 +288,7 @@ const HomeWorkPage = () => {
   ) => {
     if (hasHomeWork) {
       return (
-        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           {
             pastWork.length > 0 ?
               <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
@@ -312,7 +312,7 @@ const HomeWorkPage = () => {
   ) => {
     if (hasHomeWork) {
       return (
-        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           {
             upcomingWork.length > 0 ?
               <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
@@ -332,7 +332,7 @@ const HomeWorkPage = () => {
 
   const getEmptyUI = () => {
     return (
-      <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+      <Grid container justify="center" alignContent="center" alignItems="center">
         <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }} onClick={routePage.bind(this, 'home/work/add')}>
           <AddCircle fontSize={'large'} className={classes.hugeIcon} />
         </Grid>
@@ -342,7 +342,7 @@ const HomeWorkPage = () => {
         <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center', marginTop: '90px', marginBottom: '10px' }}>
           <span className={classes.someExamples}>some examples for inspiration</span>
         </Grid>
-        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
+        <Grid container justify="center" alignContent="center" alignItems="center" className={classes.paper}>
           <Grid item xs={12} lg={12} md={12} sm={12} style={{padding: '5px'}}>
             <span className={classes.examples}>- pool cleaning</span>
           </Grid>
@@ -359,7 +359,7 @@ const HomeWorkPage = () => {
 
   const getMainUI = () => {
     return (
-      <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+      <Grid container justify="center" alignContent="center" alignItems="center">
         <Grid item lg={12} sm={12} xs={12} md={12} className={classes.emptyMarginTopBlock}></Grid>
         <Grid item xs={4} lg={5} md={5} sm={5}>
           <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work/add')}>

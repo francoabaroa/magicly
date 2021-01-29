@@ -189,7 +189,7 @@ const FinancePage = () => {
         <h2 className={classes.pageHeading}>My Finances</h2>
       </div>
       <div className={classes.financePage}>
-        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
             <h2
               className={classes.title}>

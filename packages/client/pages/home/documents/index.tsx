@@ -251,7 +251,7 @@ const DocumentsPage = () => {
 
   const getEmptyUI = () => {
     return (
-      <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+      <Grid container justify="center" alignContent="center" alignItems="center">
         <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }} onClick={routePage.bind(this, 'home/documents/add')}>
           <AddAPhoto fontSize={'large'} className={classes.hugeIcon} />
         </Grid>
@@ -261,7 +261,7 @@ const DocumentsPage = () => {
         <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center', marginTop: '90px', marginBottom: '10px' }}>
           <span className={classes.someExamples}>some examples for inspiration</span>
         </Grid>
-        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center" className={classes.paper}>
+        <Grid container justify="center" alignContent="center" alignItems="center" className={classes.paper}>
           <Grid item xs={12} lg={12} md={12} sm={12} style={{ padding: '5px' }}>
             <span className={classes.examples}>- insurance papers</span>
           </Grid>

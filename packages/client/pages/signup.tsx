@@ -204,7 +204,7 @@ const SignUpPage = () => {
   return (
     <Layout>
       <div className={classes.signUpPage}>
-        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
             <MagiclyPageTitle
               title={'Sign up to start your free trial'}

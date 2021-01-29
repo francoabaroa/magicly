@@ -268,7 +268,7 @@ const MainPage = () => {
       let name = data.listItems.edges[0].name;
 
       return (
-        <Grid container spacing={1} justify="center" alignContent="center" alignItems="center" className={classes.priorityRow}>
+        <Grid container  justify="center" alignContent="center" alignItems="center" className={classes.priorityRow}>
           <Grid item key={0} xs={12} md={4} lg={4} sm={4}>
             <h5
               className={classes.previewTitle}>
@@ -315,7 +315,7 @@ const MainPage = () => {
       }
       let title = data.homeworks.edges[0].title;
       return (
-        <Grid container spacing={1} justify="center" alignContent="center" alignItems="center" className={classes.priorityRow}>
+        <Grid container  justify="center" alignContent="center" alignItems="center" className={classes.priorityRow}>
           <Grid item key={0} xs={12} md={4} lg={4} sm={4}>
             <h5
               className={classes.previewTitle}>
@@ -363,7 +363,7 @@ const MainPage = () => {
       let body = data.questions.edges[0].body;
 
       return (
-        <Grid container spacing={1} justify="center" alignContent="center" alignItems="center" className={classes.priorityRow}>
+        <Grid container  justify="center" alignContent="center" alignItems="center" className={classes.priorityRow}>
           <Grid item key={0} xs={12} md={4} lg={4} sm={4}>
             <h5
               className={classes.previewTitle}>
@@ -433,7 +433,7 @@ const MainPage = () => {
   return (
     <Layout>
       <div className={classes.mainPage}>
-        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
             <MagiclyPageTitle
               title={getGreeting(data.me, isNewUser)}

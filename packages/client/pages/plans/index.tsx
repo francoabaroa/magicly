@@ -113,7 +113,7 @@ const PricingPage = () => {
   return (
     <Layout>
       <div className={classes.pricingPage}>
-        <Grid container spacing={2} justify="center" alignContent="center" alignItems="center">
+        <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item xs={8}>
             <MagiclyPageTitle
               title={'Pricing'}

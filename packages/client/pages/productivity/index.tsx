@@ -301,7 +301,7 @@ const ProductivityPage = () => {
           { recommendationItemPreview }
           </Grid>
 
-          <Grid container spacing={1} justify="center" alignContent="center" alignItems="center">
+          <Grid container justify="center" alignContent="center" alignItems="center">
             <Grid item xs={6} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/recommendations')}>
                 <Visibility fontSize={'large'} className={classes.icon} />
@@ -354,7 +354,7 @@ const ProductivityPage = () => {
             {shoppingListItemsPreview}
           </Grid>
 
-          <Grid container spacing={1} justify="center" alignContent="center" alignItems="center">
+          <Grid container justify="center" alignContent="center" alignItems="center">
             <Grid item xs={6} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping')}>
                 <Visibility fontSize={'large'} className={classes.icon} />
@@ -407,7 +407,7 @@ const ProductivityPage = () => {
           {todoListItemPreview}
           </Grid>
 
-          <Grid container spacing={1} justify="center" alignContent="center" alignItems="center">
+          <Grid container justify="center" alignContent="center" alignItems="center">
             <Grid item xs={6} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists')}>
                 <Visibility fontSize={'large'} className={classes.icon} />
@@ -460,7 +460,7 @@ const ProductivityPage = () => {
           {questionPreview}
           </Grid>
 
-          <Grid container spacing={1} justify="center" alignContent="center" alignItems="center">
+          <Grid container justify="center" alignContent="center" alignItems="center">
             <Grid item xs={6} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/help')}>
                 <Visibility fontSize={'large'} className={classes.icon} />

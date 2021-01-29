@@ -169,7 +169,7 @@ const HomePage = () => {
             {documentPreview}
           </Grid>
 
-          <Grid container spacing={1} justify="center" alignContent="center" alignItems="center">
+          <Grid container justify="center" alignContent="center" alignItems="center">
             <Grid item xs={6} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents')}>
                 <Visibility fontSize={'large'} className={classes.icon} />
@@ -225,7 +225,7 @@ const HomePage = () => {
             {homeWorkPreview}
           </Grid>
 
-          <Grid container spacing={1} justify="center" alignContent="center" alignItems="center">
+          <Grid container justify="center" alignContent="center" alignItems="center">
             <Grid item xs={6} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/work')}>
                 <Visibility fontSize={'large'} className={classes.icon} />
@@ -276,7 +276,7 @@ const HomePage = () => {
 
   return (
     <Layout>
-      <Grid container spacing={1} justify="center" alignContent="center" alignItems="center">
+      <Grid container justify="center" alignContent="center" alignItems="center">
         <Grid item xs={12} lg={12} md={12} sm={12} xl={12} style={{ textAlign: 'center' }}>
           <h2 className={classes.pageHeading}></h2>
         </Grid>
