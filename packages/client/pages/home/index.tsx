@@ -170,13 +170,13 @@ const HomePage = () => {
           </Grid>
 
           <Grid container spacing={1} justify="center" alignContent="center" alignItems="center">
-            <Grid item xs={12} lg={6} md={6} sm={6}>
+            <Grid item xs={6} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents')}>
                 <Visibility fontSize={'large'} className={classes.icon} />
                 <span className={classes.details}>view all</span>
               </div>
             </Grid>
-            <Grid item xs={12} lg={6} md={6} sm={6}>
+            <Grid item xs={6} lg={6} md={6} sm={6}>
               <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/add')}>
                 <AddCircle fontSize={'large'} className={classes.icon} />
                 <span className={classes.details}>add</span>
