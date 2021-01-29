@@ -513,7 +513,7 @@ async function main() {
       res.redirect(301, '/signin');
     });
 
-    app.listen(PORT, (err) => {
+    app.listen(PORT, (err?: () => void) => {
       if (err) throw err;
       console.log(`[ server ] ready on port ${PORT}`);
     });

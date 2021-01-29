@@ -415,6 +415,7 @@ const MainPage = () => {
           <Grid item xs={8}>
             <h5 className={classes.title}>{getGreeting(data.me, isNewUser)}</h5>
           </Grid>
+
           {
             isNewUser ?
             null :

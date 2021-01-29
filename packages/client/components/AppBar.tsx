@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -328,17 +329,21 @@ export default function PrimarySearchAppBar(props) {
     <div className={classes.grow}>
       <AppBar position="static" className={classes.appbar}>
         <Toolbar>
-          {/* <IconButton
+          <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
+            onClick={routePage.bind(this, '')}
           >
-            <MenuIcon />
-          </IconButton> */}
-          <Typography className={classes.title} onClick={routePage.bind(this, '')} variant="h6" noWrap>
-            { APP_CONFIG.appName }
-          </Typography>
+            <Image
+              src="/magicly_logo.svg"
+              alt="Magicly Logo"
+              width={45}
+              height={45}
+            />
+          </IconButton>
+
           {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -352,11 +357,6 @@ export default function PrimarySearchAppBar(props) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div> */}
-          <div className={classes.sectionMobile}>
-            <Typography className={classes.titleMobile} onClick={routePage.bind(this, '')}>
-              {APP_CONFIG.appName}
-            </Typography>
-          </div>
           <div className={classes.grow} />
             {
               props.signedInUser && props.signedInUser.id && props.signedInUser.id !== null ?
