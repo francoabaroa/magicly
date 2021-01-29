@@ -127,6 +127,7 @@ const useStyles = makeStyles((theme: Theme) =>
     individualFeature: {
       textAlign: 'center',
       marginBottom: '15px',
+      whiteSpace: 'nowrap',
     },
     tap: {
       color: '#02040F',
