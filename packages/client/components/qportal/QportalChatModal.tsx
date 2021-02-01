@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { APP_CONFIG, QUESTION_STATUS } from '../../constants/appStrings';
+import MagiclyLoading from '../shared/MagiclyLoading';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { withStyles, createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -133,7 +134,7 @@ const QportalChatModal = (props) => {
     });
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <MagiclyLoading open={true}/>;
   if (error) return <p>Error: {error.message}</p>;
   if (data && data.createAnswer && data.createAnswer.id) {
     // TODO: show dialog message when homework is created!

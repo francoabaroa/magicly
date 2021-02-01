@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { APP_CONFIG } from '../../constants/appStrings';
 import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
+import MagiclyLoading from '../shared/MagiclyLoading';
 import MagiclyButton from '../../components/shared/MagiclyButton';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
@@ -174,7 +175,7 @@ const EditHomeWorkForm = (props) => {
     );
   }
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <MagiclyLoading open={true}/>;
   if (error) return <p>Error: {error.message}</p>;
   if (data && data.updateHomework && data.updateHomework.id) {
     // TODO: show dialog message when homework is created!

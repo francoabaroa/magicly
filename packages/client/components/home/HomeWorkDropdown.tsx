@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { APP_CONFIG } from '../../constants/appStrings';
+import MagiclyLoading from '../shared/MagiclyLoading';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -46,7 +47,7 @@ const HomeWorkDropdown = (props) => {
   const { data, loading, error } = useQuery(QUERY, { pollInterval: 500 });
   const homeWorkDropdownItems = [];
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <MagiclyLoading open={true}/>;
   if (error) return <p>Error: {error.message}</p>;
   if (data && data.me && data.me.homeworks) {
     data.me.homeworks.forEach((homework, key) => {
