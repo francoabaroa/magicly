@@ -620,14 +620,14 @@ const FinanceDashboardPage = () => {
             <Grid item xs={12} sm={12} lg={12} md={12} style={{ marginTop: '10px',marginBottom: '10px' }}>
               <MagiclyButton
                 isWhiteBackgroundBtn={true}
-                btnLabel={'Manage Receipts'}
+                btnLabel={'Receipts'}
                 onClick={routePage.bind(this, `finance/receipts`)}
               />
             </Grid>
             <Grid item xs={12} sm={12} lg={12} md={12} style={{ marginBottom: '30px' }}>
               <MagiclyButton
                 isWhiteBackgroundBtn={true}
-                btnLabel={'Manage Transactions'}
+                btnLabel={'Transactions'}
                 onClick={routePage.bind(this, `finance/search`)}
               />
             </Grid>
