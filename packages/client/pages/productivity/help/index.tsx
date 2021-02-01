@@ -5,6 +5,7 @@ import Layout from '../../../components/Layout';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import MagiclyLoading from '../../../components/shared/MagiclyLoading';
+import MagiclyError from '../../../components/shared/MagiclyError';
 import MagiclyAskIconLabel from '../../../components/shared/MagiclyAskIconLabel';
 import MagiclyPageTitle from '../../../components/shared/MagiclyPageTitle';
 import { withApollo } from '../../../apollo/apollo';
@@ -129,7 +130,7 @@ const TechHelpPage = () => {
   );
 
   if (loading) return <MagiclyLoading open={true}/>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <MagiclyError message={error.message} />;
   if (!Cookies.get('signedin')) {
     // navigate('/')
   }

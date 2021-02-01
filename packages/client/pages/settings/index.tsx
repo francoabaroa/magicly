@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../components/Layout';
+import MagiclyError from '../../components/shared/MagiclyError';
 import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
 import { useRouter } from 'next/router';
 import { APP_CONFIG } from '../../constants/appStrings';
@@ -141,7 +142,7 @@ const SettingsPage = () => {
   const classes = useStyles();
   const { data, loading, error, refetch } = useQuery(QUERY);
 
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <MagiclyError message={error.message} />;
 
   const routePage = (pageName: string) => {
     if (data && data.me) {

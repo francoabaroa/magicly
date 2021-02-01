@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import Layout from '../../components/Layout';
+import MagiclyError from '../../components/shared/MagiclyError';
 import { useRouter } from 'next/router';
 import { APP_CONFIG } from '../../constants/appStrings';
 import gql from 'graphql-tag';
@@ -208,7 +209,7 @@ const FindPage = () => {
     getServices();
   }, []);
 
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <MagiclyError message={error.message} />;
 
   const updateServices = (updatedService) => {
     if (updatedService) {

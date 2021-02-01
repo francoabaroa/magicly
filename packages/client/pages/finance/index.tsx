@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../components/Layout';
 import MagiclyLoading from '../../components/shared/MagiclyLoading';
+import MagiclyError from '../../components/shared/MagiclyError';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
@@ -218,7 +219,7 @@ const FinancePage = () => {
   }, []);
 
   if (loading) return <MagiclyLoading open={true}/>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <MagiclyError message={error.message} />;
   if (!Cookies.get('signedin')) {
     // navigate('/')
   }

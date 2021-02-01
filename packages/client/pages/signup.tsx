@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/react-hooks';
 import Layout from '../components/Layout';
 import MagiclyPageTitle from '../components/shared/MagiclyPageTitle';
 import MagiclyLoading from '../components/shared/MagiclyLoading';
+import MagiclyError from '../components/shared/MagiclyError';
 import gql from 'graphql-tag';
 import { withApollo } from '../apollo/apollo';
 import Button from '@material-ui/core/Button';
@@ -148,9 +149,11 @@ const SignUpPage = () => {
 
   // TODO: show meaningful error message
   if (error && error.message.includes('SequelizeUniqueConstraintError')) {
-    return <p>Error: {'This email already exists in our system. Please reset your password.'}</p>
+    return <MagiclyError
+      message={'This email already exists in our system.Please reset your password.'}
+    />
   } else if (error) {
-    return <p>Error: {error.message}</p>;
+    return <MagiclyError message={error.message} />
   }
 
   const submitForm = event => {

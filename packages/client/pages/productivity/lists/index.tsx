@@ -3,6 +3,7 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../../components/Layout';
 import MagiclyLoading from '../../../components/shared/MagiclyLoading';
+import MagiclyError from '../../../components/shared/MagiclyError';
 import ListItemRow from '../../../components/productivity/ListItemRow';
 import MagiclyAddIconLabel from '../../../components/shared/MagiclyAddIconLabel';
 import MagiclySearchIconLabel from '../../../components/shared/MagiclySearchIconLabel';
@@ -252,7 +253,7 @@ const ListsPage = () => {
   );
 
   if (loading) return <MagiclyLoading open={true}/>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <MagiclyError message={error.message} />;
   if (!Cookies.get('signedin')) {
     // navigate('/')
   }

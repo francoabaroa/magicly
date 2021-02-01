@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../../components/Layout';
 import { useRouter } from 'next/router';
 import MagiclyLoading from '../../../components/shared/MagiclyLoading';
+import MagiclyError from '../../../components/shared/MagiclyError';
 import MagiclyPageTitle from '../../../components/shared/MagiclyPageTitle';
 import MagiclyAddIconLabel from '../../../components/shared/MagiclyAddIconLabel';
 import gql from 'graphql-tag';
@@ -152,7 +153,7 @@ const ShoppingPage = () => {
   );
 
   if (loading) return <MagiclyLoading open={true}/>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <MagiclyError message={error.message} />;
   if (!Cookies.get('signedin')) {
     // navigate('/')
   }

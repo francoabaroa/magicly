@@ -6,6 +6,7 @@ import MagiclyLoading from '../../../components/shared/MagiclyLoading';
 import { useRouter } from 'next/router';
 import MagiclyAddIconLabel from '../../../components/shared/MagiclyAddIconLabel';
 import MagiclyPageTitle from '../../../components/shared/MagiclyPageTitle';
+import MagiclyError from '../../../components/shared/MagiclyError';
 import gql from 'graphql-tag';
 import { LIST_TYPE } from '../../../constants/appStrings';
 import { withApollo } from '../../../apollo/apollo';
@@ -212,7 +213,7 @@ const RecommendationsPage = () => {
   );
 
   if (loading) return <MagiclyLoading open={true}/>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <MagiclyError message={error.message} />;
   if (!Cookies.get('signedin')) {
     // navigate('/')
   }

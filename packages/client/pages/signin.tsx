@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/react-hooks';
 import Layout from '../components/Layout';
 import MagiclyPageTitle from '../components/shared/MagiclyPageTitle';
 import MagiclyLoading from '../components/shared/MagiclyLoading';
+import MagiclyError from '../components/shared/MagiclyError';
 import gql from 'graphql-tag';
 import { withApollo } from '../apollo/apollo';
 import Button from '@material-ui/core/Button';
@@ -120,9 +121,9 @@ const SignInPage = () => {
 
   // TODO: show meaningful message if account doesnt exist or credentials are wrong
   if (error && error.message.includes('No user found with these login credentials')) {
-    return <p>Error: {error.message}</p>;
+    return <MagiclyError message={error.message} />;
   } else if (error) {
-    return <p>Error: {error.message}</p>;
+    return <MagiclyError message={error.message} />;
   }
 
   const submitForm = event => {

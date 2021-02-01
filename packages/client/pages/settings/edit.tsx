@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/react-hooks';
 import Layout from '../../components/Layout';
 import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
 import MagiclyLoading from '../../components/shared/MagiclyLoading';
+import MagiclyError from '../../components/shared/MagiclyError';
 import MagiclyButton from '../../components/shared/MagiclyButton';
 import { APP_CONFIG, DEFAULT_NOTIFICATION_TYPE, LANGUAGE_ISO_2 } from '../../constants/appStrings';
 import gql from 'graphql-tag';
@@ -143,9 +144,11 @@ const EditSettingsPage = (props) => {
   if (loading) return <MagiclyLoading open={true}/>;
   // TODO: show meaningful error message
   if (error && error.message.includes('SequelizeUniqueConstraintError')) {
-    return <p>Error: {'This email already exists in our system. Please reset your password.'}</p>
+    return <MagiclyError
+      message={'This email already exists in our system.'}
+    />
   } else if (error) {
-    return <p>Error: {error.message}</p>;
+    return <MagiclyError message={error.message} />;
   }
 
   const submitForm = event => {
