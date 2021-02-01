@@ -10,6 +10,7 @@ import { withApollo } from '../../../apollo/apollo';
 import Cookies from 'js-cookie';
 import Grid from '@material-ui/core/Grid';
 import AddCircle from '@material-ui/icons/AddCircle';
+import AddAPhoto from '@material-ui/icons/AddAPhoto';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const QUERY = gql`
@@ -105,6 +106,59 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#0A7EF2',
       fontSize: '14px',
     },
+    hugeIcon: {
+      color: '#E5DADA',
+      fontSize: '120px',
+      marginTop: '60px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '80px',
+      },
+    },
+    tap: {
+      color: '#02040F',
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      fontWeight: 'bold',
+      fontSize: '18px',
+      margin: 'auto',
+      marginLeft: '10px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '16px',
+      },
+    },
+    someExamples: {
+      color: '#02040F',
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      fontWeight: 'normal',
+      fontSize: '18px',
+      margin: 'auto',
+      marginLeft: '10px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '16px',
+      },
+    },
+    paper: {
+      fontFamily: 'Playfair Display, serif',
+      color: '#FFF',
+      textAlign: 'left',
+      backgroundColor: "#E5DADA",
+      borderRadius: '10px',
+      boxShadow: '15px 15px 0 0px #02040F',
+      marginBottom: '20px',
+      maxWidth: '400px'
+    },
+    examples: {
+      fontFamily: 'Playfair Display, serif',
+      fontWeight: 'normal',
+      fontSize: '16px',
+      color: '#002642',
+      margin: 'auto',
+      textAlign: 'center',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '14px',
+      },
+    },
     details: {
       color: '#0A7EF2',
       fontFamily: 'Playfair Display, serif',
@@ -175,6 +229,33 @@ const ReceiptsPage = () => {
     });
   }
 
+  const getEmptyUI = () => {
+    return (
+      <Grid container justify="center" alignContent="center" alignItems="center">
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }} onClick={routePage.bind(this, 'home/documents/add')}>
+          <AddAPhoto fontSize={'large'} className={classes.hugeIcon} />
+        </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
+          <span className={classes.tap}>click the camera icon to add a new receipt</span>
+        </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center', marginTop: '90px', marginBottom: '10px' }}>
+          <span className={classes.someExamples}>some examples for inspiration</span>
+        </Grid>
+        <Grid container justify="center" alignContent="center" alignItems="center" className={classes.paper}>
+          <Grid item xs={12} lg={12} md={12} sm={12} style={{ padding: '5px' }}>
+            <span className={classes.examples}>- restaurant receipts</span>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} style={{ padding: '5px' }}>
+            <span className={classes.examples}>- medical receipts</span>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} style={{ padding: '5px' }}>
+            <span className={classes.examples}>- shopping receipts</span>
+          </Grid>
+        </Grid>
+      </Grid>
+    );
+  };
+
   const getMainUI = () => {
     if (hasSavedReceipts) {
       return (
@@ -194,24 +275,7 @@ const ReceiptsPage = () => {
         </Grid>
       );
     } else {
-      return (
-        <Grid container justify="center" alignContent="center" alignItems="center">
-          <Grid item xs={12} lg={12} md={12} sm={12}>
-            <MagiclyPageTitle
-              title={'Saved Receipts'}
-            />
-          </Grid>
-          <Grid item xs={8} lg={7} md={7} sm={7}>
-            <h1 className={classes.mediumTitle}>store receipts you accrue over time so you never lose them</h1>
-          </Grid>
-          <Grid item xs={12} lg={6} md={6} sm={6}>
-            <div className={classes.individualFeature} onClick={routePageWithQuery.bind(this, `finance/receipts/add`, {receipt: true})}>
-              <AddCircle fontSize={'small'} className={classes.icon} />
-              <span className={classes.details}>add receipt</span>
-            </div>
-          </Grid>
-        </Grid>
-      );
+      return getEmptyUI();
     }
   };
 
