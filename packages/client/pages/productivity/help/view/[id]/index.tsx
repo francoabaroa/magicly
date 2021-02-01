@@ -193,7 +193,7 @@ const ViewQuestionPage = () => {
           </Grid>
           <Grid item xs={12} sm={12} lg={12} md={12}>
             <MagiclyButton
-              btnLabel={'Delete Question'}
+              btnLabel={'Delete'}
               isWhiteBackgroundBtn={true}
               onClick={handleDeleteQuestionOpen}
             />
