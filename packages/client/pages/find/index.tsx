@@ -479,7 +479,7 @@ const FindPage = () => {
           <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
             <h2
               className={classes.title}>
-              What kind of product or service are you looking for today?
+              What service are you looking for today?
             </h2>
           </Grid>
         </Grid>
