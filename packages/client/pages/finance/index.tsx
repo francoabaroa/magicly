@@ -8,9 +8,9 @@ import { withApollo } from '../../apollo/apollo';
 import Cookies from 'js-cookie';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import AccountBalance from '@material-ui/icons/AccountBalance';
 
 import PlaidLink from '../../components/finance/PlaidLink';
 
@@ -34,6 +34,49 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
     },
+    someExamples: {
+      color: '#02040F',
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      fontWeight: 'normal',
+      fontSize: '18px',
+      margin: 'auto',
+      marginLeft: '10px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '16px',
+      },
+    },
+    hugeIcon: {
+      color: '#E5DADA',
+      fontSize: '120px',
+      marginTop: '60px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '80px',
+      },
+    },
+    tap: {
+      color: '#02040F',
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      fontWeight: 'bold',
+      fontSize: '18px',
+      margin: 'auto',
+      marginLeft: '10px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '16px',
+      },
+    },
+    examples: {
+      fontFamily: 'Playfair Display, serif',
+      fontWeight: 'normal',
+      fontSize: '16px',
+      color: '#002642',
+      margin: 'auto',
+      textAlign: 'center',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '14px',
+      },
+    },
     pageHeading: {
       fontFamily: 'Playfair Display, serif',
       fontSize: '32px',
@@ -49,12 +92,13 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     paper: {
       fontFamily: 'Playfair Display, serif',
-      textAlign: 'center',
-      color: '#02040F',
+      color: '#FFF',
+      textAlign: 'left',
       backgroundColor: "#E5DADA",
       borderRadius: '10px',
       boxShadow: '15px 15px 0 0px #02040F',
-      marginBottom: '10px',
+      marginBottom: '20px',
+      maxWidth: '400px'
     },
     title: {
       fontFamily: 'Playfair Display, serif',
@@ -182,44 +226,34 @@ const FinancePage = () => {
     router.push('/' + pageName, undefined, { shallow: true });
   };
 
+
   return (
     <Layout>
-      <div style={{ textAlign: 'center' }}>
-        <h2 className={classes.pageHeading}>My Finances</h2>
-      </div>
-      <div className={classes.financePage}>
-        <Grid container justify="center" alignContent="center" alignItems="center">
-          <Grid item xs={8}>
-            <h2
-              className={classes.title}>
-              <span style={{ fontWeight: 'normal', color: '#FFF' }}>Secure. </span>
-              <span style={{ fontWeight: 'bold', color: '#FFF' }}>Easy. </span>
-              <span style={{ color: '#E59500' }}>Quick. </span>
-          </h2>
+      <Grid container justify="center" alignContent="center" alignItems="center">
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
+          {token ? <PlaidLink token={token} /> : null}
+        </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
+          <span className={classes.tap}>tap the bank icon to securely sync your accounts</span>
+        </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center', marginTop: '90px', marginBottom: '10px' }}>
+          <span className={classes.someExamples}>some examples for inspiration</span>
+        </Grid>
+        <Grid container justify="center" alignContent="center" alignItems="center" className={classes.paper}>
+          <Grid item xs={12} lg={12} md={12} sm={12} style={{ padding: '5px' }}>
+            <span className={classes.examples}>- checking/savings accounts</span>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} style={{ padding: '5px' }}>
+            <span className={classes.examples}>- investments (401k, IRAs, etc)</span>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} style={{ padding: '5px' }}>
+            <span className={classes.examples}>- loans</span>
           </Grid>
         </Grid>
-        <div className={classes.root}>
-          <Grid container justify="center" alignContent="center" alignItems="center">
-            <Grid item xs={8}>
-              <h4 className={classes.subtitle}>Sync your accounts so you can track your finances in one place.</h4>
-            </Grid>
-            <Grid item xs={8}>
-              <h4 className={classes.subtitle}>Don’t worry, we’ll never save any of your financial information.</h4>
-            </Grid>
-            <Grid item xs={8}>
-              <h4 className={classes.policy}>Read more about our privacy policy regarding the finance section <Link href="/privacy">
-                <a className={classes.policyLink}>here.</a>
-              </Link></h4>
-            </Grid>
-            <Grid item xs={12} lg={12} md={12} sm={12}>
-              {token ? <PlaidLink token={token} title={'Get Started'} /> : null}
-            </Grid>
-            <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
-              <CircularProgress color="inherit" />
-            </Backdrop>
-          </Grid>
-        </div>
-      </div>
+        <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </Grid>
     </Layout>
   );
 };

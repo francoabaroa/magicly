@@ -63,7 +63,7 @@ const Layout = (props) => {
   const shouldShowBreadcrumbs = () => {
     let homeRoute = '/home';
     let productivityRoute = '/productivity';
-    let financeRoute = 'finance';
+    let financeRoute = '/finance';
 
     if (router.route.includes(homeRoute) && router.route !== homeRoute) {
       return true;

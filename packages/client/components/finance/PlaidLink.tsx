@@ -3,6 +3,8 @@ import { usePlaidLink } from 'react-plaid-link';
 import { useRouter } from 'next/router';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import AccountBalance from '@material-ui/icons/AccountBalance';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,6 +30,14 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: '14px',
         width: '150px',
         height: '30px'
+      },
+    },
+    hugeIcon: {
+      color: '#E5DADA',
+      fontSize: '120px',
+      marginTop: '60px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '80px',
       },
     },
   }),
@@ -96,18 +106,38 @@ const PlaidLink = (props) => {
 
   const { open, ready, error } = usePlaidLink(config);
 
+  if (props.addMoreAccounts) {
+    return (
+      <Button
+        onClick={() => open()}
+        disabled={!ready}
+        className={classes.getStartedBtn}
+      >
+        {
+          props.title ?
+            props.title :
+            'Get Started'
+        }
+      </Button>
+    );
+  }
+
   return (
-    <Button
+    <IconButton
+      color="primary"
+      aria-label="add accounts"
+      component="span"
       onClick={() => open()}
       disabled={!ready}
-      className={classes.getStartedBtn}
+      disableFocusRipple
+      disableRipple
+      style={{backgroundColor: 'transparent'}}
     >
-      {
-        props.title ?
-        props.title:
-        'Get Started'
-      }
-    </Button>
+      <AccountBalance
+        fontSize={'large'}
+        className={classes.hugeIcon}
+      />
+    </IconButton>
   );
 };
 export default PlaidLink;

@@ -542,7 +542,7 @@ const FinanceDashboardPage = () => {
           <Grid container justify="center" alignContent="center" alignItems="center">
             { accountBalancesUI }
             <Grid item xs={12} lg={12} md={12} sm={12}>
-              {token ? <PlaidLink token={token} title={'Add More Accounts'} /> : null}
+              {token ? <PlaidLink token={token} title={'Add More Accounts'} addMoreAccounts={true} /> : null}
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6} style={{marginTop: '75px', textAlign: 'center'}}>
               <span className={classes.chartTitle}>Spending Breakdown By Account</span>
