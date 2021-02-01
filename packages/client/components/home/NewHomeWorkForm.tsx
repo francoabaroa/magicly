@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { APP_CONFIG } from '../../constants/appStrings';
 import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
 import MagiclyLoading from '../shared/MagiclyLoading';
+import MagiclyError from '../shared/MagiclyError';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -173,7 +174,7 @@ const NewHomeWorkForm = () => {
   }
 
   if (loading) return <MagiclyLoading open={true}/>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <MagiclyError message={error.message} />;
   if (data && data.createHomework && data.createHomework.id) {
     // TODO: show dialog message when homework is created!
     if (process.browser || (window && window.location)) {

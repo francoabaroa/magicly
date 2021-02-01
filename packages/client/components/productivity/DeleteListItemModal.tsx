@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { APP_CONFIG } from '../../constants/appStrings';
+import MagiclyError from '../shared/MagiclyError';
 import MagiclyLoading from '../shared/MagiclyLoading';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
@@ -93,7 +94,7 @@ const DeleteListItemModal = (props) => {
   };
 
   if (loading) return <MagiclyLoading open={true}/>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <MagiclyError message={error.message} />;
 
   return (
     <Dialog

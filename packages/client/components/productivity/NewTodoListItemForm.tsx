@@ -2,6 +2,7 @@ import React, { useState, SetStateAction } from 'react';
 import { useRouter } from 'next/router';
 import MagiclyButton from '../shared/MagiclyButton';
 import MagiclyLoading from '../shared/MagiclyLoading';
+import MagiclyError from '../shared/MagiclyError';
 import { APP_CONFIG, LIST_TYPE, ITEM_TYPE } from '../../constants/appStrings';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
@@ -207,7 +208,7 @@ const NewTodoListItemForm = () => {
   }
 
   if (loading) return <MagiclyLoading open={true}/>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <MagiclyError message={error.message} />;
   if (data && data.createListItem && data.createListItem.id) {
     // TODO: show dialog message when homework is created!
     if (process.browser || (window && window.location)) {

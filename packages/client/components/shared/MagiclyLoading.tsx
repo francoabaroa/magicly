@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const MagiclyLoading = (props) => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
 
   return (
     <Layout>

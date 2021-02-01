@@ -2,6 +2,7 @@ import React, { useState, SetStateAction } from 'react';
 import { useRouter } from 'next/router';
 import { APP_CONFIG, QUESTION_TYPE } from '../../constants/appStrings';
 import MagiclyLoading from '../shared/MagiclyLoading';
+import MagiclyError from '../shared/MagiclyError';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -102,7 +103,7 @@ const DeleteQuestionModal = (props) => {
   };
 
   if (loading) return <MagiclyLoading open={true}/>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <MagiclyError message={error.message} />;
   if (data && data.createQuestion && data.createQuestion.id) {
     // TODO: show dialog message when homework is created!
     if (process.browser || (window && window.location)) {

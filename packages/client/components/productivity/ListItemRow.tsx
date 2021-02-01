@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import MagiclyError from '../shared/MagiclyError';
 import { APP_CONFIG, LIST_TYPE, ITEM_TYPE } from '../../constants/appStrings';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
@@ -100,7 +101,7 @@ const ListItemRow = (props) => {
   const [complete, setComplete] = useState(isComplete);
   let textDecoration = complete ? 'line-through' : 'none';
 
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <MagiclyError message={error.message} />;
 
 
   const handleChange = (event) => {

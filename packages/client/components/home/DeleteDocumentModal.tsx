@@ -2,6 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { APP_CONFIG } from '../../constants/appStrings';
 import MagiclyLoading from '../shared/MagiclyLoading';
+import MagiclyError from '../shared/MagiclyError';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -94,7 +95,7 @@ const DeleteDocumentModal = (props) => {
   };
 
   if (loading) return <MagiclyLoading open={true}/>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <MagiclyError message={error.message} />;
 
   return (
     <Dialog
