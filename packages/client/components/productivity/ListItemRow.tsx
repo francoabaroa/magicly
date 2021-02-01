@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     horizontalLine: {
       marginTop: '5px',
-      maxWidth: '750px',
+      maxWidth: '800px',
     },
     type: {
       marginLeft: '15px',
@@ -82,6 +82,11 @@ const useStyles = makeStyles((theme: Theme) =>
     leftText: {
       textAlign: 'left',
     },
+    hwType: {
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+      },
+    }
   }),
 );
 
@@ -126,12 +131,12 @@ const ListItemRow = (props) => {
             onClick={handleChange}
           />
         </Grid>
-        <Grid item xs={5} lg={5} md={5} sm={5}>
+        <Grid item xs={10} lg={5} md={5} sm={10}>
           <Link href="lists/view/[id]" as={`lists/view/${props.listItem.id}`}>
             <a className={classes.link} style={{textDecoration}}>{props.listItem.name}</a>
           </Link>
         </Grid>
-        <Grid item xs={1} lg={1} md={1} sm={1}>
+      <Grid item xs={1} lg={1} md={1} sm={1} className={classes.hwType}>
           {
             props.listItem.type !== ITEM_TYPE.TODO ?
               <Link href="lists/view/[id]" as={`lists/view/${props.listItem.id}`}>

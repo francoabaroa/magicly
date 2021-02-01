@@ -103,6 +103,11 @@ const useStyles = makeStyles((theme: Theme) =>
     leftText: {
       textAlign: 'left',
     },
+    hwType: {
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+      },
+    },
     examples: {
       fontFamily: 'Playfair Display, serif',
       fontWeight: 'normal',
@@ -222,24 +227,26 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: '18px',
       },
     },
-    homeWorkPage: {
-      marginRight: '50px',
-      marginLeft: '50px',
-    },
     link: {
       marginLeft: '15px',
       fontSize: '20px',
       textDecoration: 'none',
       fontFamily: 'Playfair Display',
       color: '#002642',
+      [theme.breakpoints.down('sm')]: {
+        display: 'inline-block',
+      },
     },
     horizontalLine: {
       marginTop: '20px',
-      maxWidth: '750px',
+      maxWidth: '800px',
     },
     toolIcon: {
       color: '#002642',
       fontSize: '18px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '12px',
+      },
     },
   }),
 );
@@ -253,7 +260,7 @@ const HomeWorkPage = () => {
   let upcomingWork: Array<any> = [];
   let hasHomeWork: boolean = false;
 
-  if (loading) return <MagiclyLoading open={true}/>;
+  if (loading) return <MagiclyLoading open={true} />;
   if (error) return <MagiclyError message={error.message} />;
   if (!Cookies.get('signedin')) {
     // navigate('/')
@@ -265,12 +272,12 @@ const HomeWorkPage = () => {
         <Grid item xs={1} lg={1} md={1} sm={1} style={{ maxWidth: '40px' }}>
           <Home fontSize={'large'} className={classes.toolIcon} />
         </Grid>
-        <Grid item xs={5} lg={5} md={5} sm={5}>
+        <Grid item xs={10} lg={5} md={5} sm={10}>
           <Link href="work/view/[id]" as={`work/view/${homework.id}`}>
             <span className={classes.link}>{homework.title}</span>
           </Link>
         </Grid>
-        <Grid item xs={1} lg={1} md={1} sm={1}>
+        <Grid item xs={1} lg={1} md={1} sm={1} className={classes.hwType}>
           <Link href="work/view/[id]" as={`work/view/${homework.id}`}>
             <a className={classes.type}>{homework.type}</a>
           </Link>
@@ -328,7 +335,7 @@ const HomeWorkPage = () => {
               </Grid> :
               null
           }
-          { pastWork }
+          { pastWork}
         </Grid>
       );
     } else {
@@ -345,7 +352,7 @@ const HomeWorkPage = () => {
         <Grid container justify="center" alignContent="center" alignItems="center">
           {
             upcomingWork.length > 0 ?
-              <Grid item xs={12} lg={12} md={12} sm={12} xl={12} style={{paddingBottom: '30px'}}>
+              <Grid item xs={12} lg={12} md={12} sm={12} xl={12} style={{ paddingBottom: '30px' }}>
                 <MagiclyPageTitle
                   title={'Upcoming Home Work'}
                 />
@@ -373,7 +380,7 @@ const HomeWorkPage = () => {
           <span className={classes.someExamples}>some examples for inspiration</span>
         </Grid>
         <Grid container justify="center" alignContent="center" alignItems="center" className={classes.paper}>
-          <Grid item xs={12} lg={12} md={12} sm={12} style={{padding: '5px'}}>
+          <Grid item xs={12} lg={12} md={12} sm={12} style={{ padding: '5px' }}>
             <span className={classes.examples}>- pool cleaning</span>
           </Grid>
           <Grid item xs={12} lg={12} md={12} sm={12} style={{ padding: '5px' }}>
@@ -410,11 +417,11 @@ const HomeWorkPage = () => {
 
   return (
     <Layout>
-      <div className={classes.homeWorkPage}>
+      <div>
         {
           hasHomeWork ?
-          getMainUI() :
-          getEmptyUI()
+            getMainUI() :
+            getEmptyUI()
         }
       </div>
     </Layout>
