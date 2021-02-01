@@ -282,7 +282,7 @@ async function main() {
         );
         transactions.push(transaction);
       }
-      response.json({ transactions: transactions });
+      response.json({ transactions: transactions, numOfAccounts: plaidAccounts.length });
     });
 
     // TODO: where should I place this?

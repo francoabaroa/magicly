@@ -15,6 +15,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import AttachMoney from '@material-ui/icons/AttachMoney';
+import IconButton from '@material-ui/core/IconButton';
+import MaterialUITooltip from '@material-ui/core/Tooltip';
+import Info from '@material-ui/icons/Info';
 
 import PlaidLink from '../../../components/finance/PlaidLink';
 
@@ -54,21 +57,6 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
-    },
-    accountBalancesTitle: {
-      fontFamily: 'Playfair Display, serif',
-      fontWeight: 'bold',
-      fontSize: '28px',
-      color: '#002642',
-      marginTop: '30px',
-      marginBottom: '75px',
-      margin: 'auto',
-      textAlign: 'center',
-      [theme.breakpoints.down('sm')]: {
-        fontSize: '22px',
-        marginTop: '0px',
-        marginBottom: '25px',
-      },
     },
     chartTitle: {
       fontFamily: 'Playfair Display, serif',
@@ -173,8 +161,10 @@ const useStyles = makeStyles((theme: Theme) =>
       background: '#FFFFFF',
       boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.25)',
       borderRadius: '10px',
-      maxWidth: '250px',
+      maxWidth: '270px',
       marginRight: '15px',
+      marginBottom: '10px',
+      padding: '5px',
     },
     icon: {
       color: '#002642',
@@ -216,6 +206,7 @@ const fetchLinkToken = async () => {
 const FinanceDashboardPage = () => {
   const router = useRouter();
   const classes = useStyles();
+  const [numberOfAccounts, setNumberOfAccounts] = useState(0);
   const [transactions, setTransactions] = useState({});
   const [spending, setSpending] = useState({});
   const [investments, setInvestments] = useState({});
@@ -237,6 +228,9 @@ const FinanceDashboardPage = () => {
     handleToggle();
     const transactions = await fetchTransactions(xDays);
     if (transactions && transactions.transactions && transactions.transactions[0].transactions.length > 0) {
+      if (transactions && transactions.numOfAccounts) {
+        setNumberOfAccounts(transactions.numOfAccounts);
+      }
       setTransactions(organizeTransactions(transactions));
       handleClose();
     }
@@ -252,6 +246,9 @@ const FinanceDashboardPage = () => {
       handleToggle();
       const transactions = await fetchTransactions(lastXDays);
       if (transactions && transactions.transactions && transactions.transactions[0].transactions.length > 0) {
+        if (transactions && transactions.numOfAccounts) {
+          setNumberOfAccounts(transactions.numOfAccounts);
+        }
         setTransactions(organizeTransactions(transactions));
         let plaidToken = await fetchLinkToken();
         setToken(plaidToken);
@@ -491,6 +488,22 @@ const FinanceDashboardPage = () => {
     for (const key in accountBalances) {
       let title = getCapitalizedString(key);
       let balance = accountBalances[key].toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+      let accountLabel = numberOfAccounts <= 1 ? 'Account' : 'Accounts';
+      let depositoryUXFriendlyLabel = 'Checking & Savings';
+      let accountTitle = [];
+
+      if (title === 'Depository') {
+        accountTitle.push(
+          <MaterialUITooltip title={depositoryUXFriendlyLabel}>
+            <p className={classes.accountName}>{title + ' ' + accountLabel}</p>
+          </MaterialUITooltip>
+        );
+      } else {
+        accountTitle.push(
+          <p className={classes.accountName}>{title + ' ' + accountLabel}
+          </p>
+        );
+      }
 
       accountBalancesUI.push(
         <Grid key={ID++} item xs={12} lg={columnSpan} md={columnSpan} sm={12} className={classes.balanceBox}>
@@ -498,7 +511,7 @@ const FinanceDashboardPage = () => {
             <AttachMoney fontSize={'large'} className={classes.icon} />
             <span className={classes.balance}>{balance}</span>
           </div>
-          <p className={classes.accountName}>{title} Account</p>
+          {accountTitle}
         </Grid>
       );
     }
