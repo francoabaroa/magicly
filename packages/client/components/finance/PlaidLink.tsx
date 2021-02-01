@@ -13,23 +13,19 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     getStartedBtn: {
       fontFamily: 'Overpass, serif',
-      fontSize: '22px',
+      fontWeight: 'bold',
+      fontSize: '14px',
       margin: '0 auto',
       display: 'block',
-      marginTop: '10px',
       color: '#FFF',
-      backgroundColor: '#E59500',
+      backgroundColor: '#002642',
       borderRadius: '50px',
-      width: '250px',
-      height: '50px',
-      '&:hover': {
-        color: '#E59500',
-        backgroundColor: 'white'
-      },
-      [theme.breakpoints.down('sm')]: {
+      width: '175px',
+      height: '40px',
+      [theme.breakpoints.down('md')]: {
         fontSize: '14px',
         width: '150px',
-        height: '30px'
+        height: '45px'
       },
     },
     hugeIcon: {

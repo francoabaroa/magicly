@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../../../components/Layout';
+import MagiclyPageTitle from '../../../components/shared/MagiclyPageTitle';
+import MagiclyButton from '../../../components/shared/MagiclyButton';
 import { useRouter } from 'next/router';
 import { withApollo } from '../../../apollo/apollo';
 import Cookies from 'js-cookie';
@@ -39,6 +41,7 @@ const otherBarData = {
 //(node:46223) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 /finance/dashboard listeners added to [EventEmitter]. Use emitter.setMaxListeners() to increase limit
 
 const COLORS = ['#002642', '#E59500', '#0A7EF2', '#840032', '#E5DADA', '#02040F'];
+
 const PLAID_ACCOUNT_TYPES = {
   INVESTMENT: 'INVESTMENT',
   DEPOSITORY: 'DEPOSITORY',
@@ -52,17 +55,17 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
     },
-    title: {
+    accountBalancesTitle: {
       fontFamily: 'Playfair Display, serif',
       fontWeight: 'bold',
-      fontSize: '34px',
+      fontSize: '28px',
       color: '#002642',
       marginTop: '30px',
       marginBottom: '75px',
       margin: 'auto',
       textAlign: 'center',
       [theme.breakpoints.down('sm')]: {
-        fontSize: '24px',
+        fontSize: '22px',
         marginTop: '0px',
         marginBottom: '25px',
       },
@@ -74,7 +77,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: '24px',
       lineHeight: '32px',
       textAlign: 'center',
-      color: '#000000',
+      color: '#002642',
       marginRight: '20px'
     },
     financePage: {
@@ -152,7 +155,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 'bold',
       fontSize: '22px',
       textAlign: 'center',
-      color: '#0A7EF2',
+      color: 'rgba(0, 38, 66, 0.5)',
     },
     balance: {
       fontFamily: 'Playfair Display, serif',
@@ -160,14 +163,22 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 'normal',
       fontSize: '32px',
       textAlign: 'center',
-      color: '#000',
+      color: '#002642',
     },
     individualFeature: {
       textAlign: 'center',
     },
+    balanceBox: {
+      textAlign: 'center',
+      background: '#FFFFFF',
+      boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.25)',
+      borderRadius: '10px',
+      maxWidth: '250px',
+      marginRight: '15px',
+    },
     icon: {
-      color: '#0A7EF2',
-      fontSize: '22px',
+      color: '#002642',
+      fontSize: '24px',
     },
     accountBalanceTitle: {
       fontFamily: 'Playfair Display, serif',
@@ -175,13 +186,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 'bold',
       fontSize: '24px',
       textAlign: 'center',
-      color: '#000',
-    },
-    spacing: {
-      marginTop: '75px',
-      [theme.breakpoints.down('md')]: {
-        marginTop: '0px',
-      },
+      color: '#002642',
     },
     dropdown: {
       [theme.breakpoints.down('md')]: {
@@ -445,14 +450,7 @@ const FinanceDashboardPage = () => {
   };
 
   const getBarChartUI = () => {
-    const colorArray = [
-      '#002642',
-      '#E59500',
-      '#0A7EF2',
-      '#840032',
-      '#E5DADA',
-      '#02040F'
-    ];
+    const colorArray = ['#002642', '#E59500', '#0A7EF2', '#840032', '#E5DADA', '#02040F'];
     const data = [];
     let counter = 0;
     for (const property in barChartDataKeys) {
@@ -495,7 +493,7 @@ const FinanceDashboardPage = () => {
       let balance = accountBalances[key].toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 
       accountBalancesUI.push(
-        <Grid key={ID++} item xs={12} lg={columnSpan} md={columnSpan} sm={12} style={{ textAlign: 'center' }}>
+        <Grid key={ID++} item xs={12} lg={columnSpan} md={columnSpan} sm={12} className={classes.balanceBox}>
           <div className={classes.individualFeature}>
             <AttachMoney fontSize={'large'} className={classes.icon} />
             <span className={classes.balance}>{balance}</span>
@@ -513,11 +511,10 @@ const FinanceDashboardPage = () => {
     <Layout>
       <div className={classes.financePage}>
         <Grid container justify="center" alignContent="center" alignItems="center">
-          <Grid item xs={6} lg={12} md={12} sm={12} style={{ textAlign:'center' }}>
-            <h2
-              className={classes.title}>
-              My Finance Dashboard
-            </h2>
+          <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign:'center', marginBottom: '30px' }}>
+            <MagiclyPageTitle
+              title={'Finance Dashboard'}
+            />
           </Grid>
           {/* ACCOUNTS DROPDOWN */}
           {/* <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
@@ -541,9 +538,6 @@ const FinanceDashboardPage = () => {
         <div className={classes.root}>
           <Grid container justify="center" alignContent="center" alignItems="center">
             { accountBalancesUI }
-            <Grid item xs={12} lg={12} md={12} sm={12}>
-              {token ? <PlaidLink token={token} title={'Add More Accounts'} addMoreAccounts={true} /> : null}
-            </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6} style={{marginTop: '75px', textAlign: 'center'}}>
               <span className={classes.chartTitle}>Spending Breakdown By Account</span>
               <span className={classes.dropdown}><FormControl className={classes.formControl}>
@@ -620,21 +614,22 @@ const FinanceDashboardPage = () => {
                 Upload Receipts
             </Button>
             </Grid> */}
-            <Grid item xs={12} sm={12} lg={12} md={12} className={classes.spacing} style={{ marginTop: '45px' }}>
-              <Button
-                onClick={routePage.bind(this, `finance/receipts`)}
-                className={classes.manageReceiptsBtn}
-              >
-                Manage Receipts
-            </Button>
+            <Grid item xs={12} lg={12} md={12} sm={12} style={{ marginTop: '30px',}}>
+              {token ? <PlaidLink token={token} title={'Add More Accounts'} addMoreAccounts={true} /> : null}
             </Grid>
-            <Grid item xs={12} sm={12} lg={12} md={12}>
-              <Button
+            <Grid item xs={12} sm={12} lg={12} md={12} style={{ marginTop: '10px',marginBottom: '10px' }}>
+              <MagiclyButton
+                isWhiteBackgroundBtn={true}
+                btnLabel={'Manage Receipts'}
+                onClick={routePage.bind(this, `finance/receipts`)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} lg={12} md={12} style={{ marginBottom: '30px' }}>
+              <MagiclyButton
+                isWhiteBackgroundBtn={true}
+                btnLabel={'Manage Transactions'}
                 onClick={routePage.bind(this, `finance/search`)}
-                className={classes.manageTransactionsBtn}
-              >
-                Manage Transactions
-            </Button>
+              />
             </Grid>
           </Grid>
         </div>
