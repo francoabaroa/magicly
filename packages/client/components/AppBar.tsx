@@ -14,6 +14,8 @@ import DoubleArrow from '@material-ui/icons/DoubleArrow';
 import ContactSupport from '@material-ui/icons/ContactSupport';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import Settings from '@material-ui/icons/Settings';
+import Home from '@material-ui/icons/Home';
+import QueryBuilder from '@material-ui/icons/QueryBuilder';
 import Book from '@material-ui/icons/Book';
 import ArrowDropDownCircle from '@material-ui/icons/ArrowDropDownCircle';
 import { useRouter } from 'next/router';
@@ -85,7 +87,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     mainPages: {
       fontFamily: 'Playfair Display, serif',
-      fontWeight: 'normal',
+      fontWeight: 'bold',
       color: '#002642',
       display: 'none',
       padding: '9px',
@@ -239,6 +241,24 @@ export default function PrimarySearchAppBar(props) {
             </MenuItem> :
             null
           }
+          <MenuItem onClick={routePage.bind(this, 'home')}>
+            <IconButton color="inherit">
+              <Home />
+            </IconButton>
+            <p>My Home</p>
+          </MenuItem>
+          <MenuItem onClick={routePage.bind(this, 'productivity')}>
+            <IconButton color="inherit">
+              <QueryBuilder />
+            </IconButton>
+            <p>My Productivity</p>
+          </MenuItem>
+          <MenuItem onClick={routePage.bind(this, 'finance')}>
+            <IconButton color="inherit">
+              <AttachMoney />
+            </IconButton>
+            <p>My Finances</p>
+          </MenuItem>
           <MenuItem onClick={routePage.bind(this, 'settings')}>
             <IconButton color="inherit">
               <Settings />
