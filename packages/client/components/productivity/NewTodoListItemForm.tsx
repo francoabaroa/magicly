@@ -240,6 +240,10 @@ const NewTodoListItemForm = () => {
     setExecutionDate(date);
   };
 
+  let todoListLabel = 'To-Do';
+  let watchListLabel = 'Watch';
+  let laterListLabel = 'Later';
+
   return (
     <div className={classes.root}>
         <Grid container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
@@ -264,7 +268,7 @@ const NewTodoListItemForm = () => {
                     checked={list === LIST_TYPE.TODO}
                     value={LIST_TYPE.TODO}
                   />}
-                  label={LIST_TYPE.TODO}
+                  label={todoListLabel}
                   labelPlacement="end"
                 />
               </Grid>
@@ -287,7 +291,7 @@ const NewTodoListItemForm = () => {
                     checked={list === LIST_TYPE.WATCH}
                     value={LIST_TYPE.WATCH}
                   />}
-                  label={LIST_TYPE.WATCH}
+                  label={watchListLabel}
                   labelPlacement="end"
                 />
               </Grid>
@@ -310,7 +314,7 @@ const NewTodoListItemForm = () => {
                     checked={list === LIST_TYPE.LATER}
                     value={LIST_TYPE.LATER}
                   />}
-                  label={LIST_TYPE.LATER}
+                  label={laterListLabel}
                   labelPlacement="end"
                 />
               </Grid>

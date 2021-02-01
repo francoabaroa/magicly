@@ -358,7 +358,7 @@ const ListsPage = () => {
             todoListItemsUI.length > 0 ?
               <Grid item xs={8} className={classes.listTitle}>
                 <MagiclyPageTitle
-                  title={'To-do'}
+                  title={'To-Do'}
                  />
               </Grid> :
               null
