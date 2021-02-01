@@ -3,6 +3,7 @@ import Layout from '../../../../../components/Layout';
 import { withApollo } from '../../../../../apollo/apollo';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/react-hooks';
+import MagiclyButton from '../../../../../components/shared/MagiclyButton';
 import DeleteListItemModal from '../../../../../components/productivity/DeleteListItemModal';
 import MagiclyPageTitle from '../../../../../components/shared/MagiclyPageTitle';
 import gql from 'graphql-tag';
@@ -139,13 +140,11 @@ const ViewTodoListItemsPage = () => {
               null
           }
 
-          <Grid item xs={7} lg={7} md={7} sm={7}>
-            <Button
+          <Grid item xs={7} lg={7} md={7} sm={7} style={{marginTop: '30px'}}>
+            <MagiclyButton
+              btnLabel={'Delete'}
               onClick={handleDeleteListItemOpen}
-              className={classes.deleteButton}
-            >
-              Delete
-            </Button>
+            />
             <DeleteListItemModal
               listItem={data.listItem}
               openModal={deleteListItem}
