@@ -5,6 +5,7 @@ import Layout from '../../../components/Layout';
 import MagiclyLoading from '../../../components/shared/MagiclyLoading';
 import { useRouter } from 'next/router';
 import MagiclyAddIconLabel from '../../../components/shared/MagiclyAddIconLabel';
+import MagiclySearchIconLabel from '../../../components/shared/MagiclySearchIconLabel';
 import MagiclyPageTitle from '../../../components/shared/MagiclyPageTitle';
 import MagiclyError from '../../../components/shared/MagiclyError';
 import gql from 'graphql-tag';
@@ -266,6 +267,15 @@ const RecommendationsPage = () => {
 
   if (data && data.listItems && data.listItems.edges && data.listItems.edges.length > 0) {
     hasSavedListItems = true;
+
+    listItems.push(
+      <Grid item xs={12} lg={12} md={12} sm={12} xl={12} style={{ paddingBottom: '30px' }}>
+        <MagiclyPageTitle
+          title={'Saved Recommendations'}
+        />
+      </Grid>
+    );
+
     data.listItems.edges.forEach((listItem, key) => {
       listItems.push(
         getIndividualListItem(
@@ -309,16 +319,18 @@ const RecommendationsPage = () => {
         <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item lg={12} sm={12} xs={12} md={12} className={classes.emptyMarginTopBlock}>
           </Grid>
-          <Grid item xs={8}>
-            <MagiclyPageTitle
-              title={'Saved Recommendations'}
-            />
-          </Grid>
-          <Grid item xs={12} lg={5} md={5} sm={5}>
+
+          <Grid item xs={4} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/recommendations/add')}>
               <MagiclyAddIconLabel />
             </div>
           </Grid>
+          <Grid item xs={4} lg={5} md={5} sm={5}>
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/recommendations/search')}>
+              <MagiclySearchIconLabel />
+            </div>
+          </Grid>
+
           {listItems}
         </Grid>
       );

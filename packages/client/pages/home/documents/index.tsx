@@ -7,6 +7,7 @@ import MagiclyError from '../../../components/shared/MagiclyError';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import MagiclyAddIconLabel from '../../../components/shared/MagiclyAddIconLabel';
+import MagiclySearchIconLabel from '../../../components/shared/MagiclySearchIconLabel';
 import MagiclyPageTitle from '../../../components/shared/MagiclyPageTitle';
 import { DOC_TYPE } from '../../../constants/appStrings';
 import { withApollo } from '../../../apollo/apollo';
@@ -192,6 +193,7 @@ const useStyles = makeStyles((theme: Theme) =>
     individualFeature: {
       textAlign: 'center',
       marginBottom: '15px',
+      whiteSpace: 'nowrap',
     },
     icon: {
       color: '#0A7EF2',
@@ -265,6 +267,14 @@ const DocumentsPage = () => {
 
   if (data && data.documents && data.documents.edges && data.documents.edges.length > 0) {
     hasSavedDocuments = true;
+    documents.push(
+      <Grid item xs={12} lg={12} md={12} sm={12} xl={12} style={{ paddingBottom: '30px' }}>
+        <MagiclyPageTitle
+          title={'Saved Documents'}
+        />
+      </Grid>
+    );
+
     data.documents.edges.forEach((document, key) => {
       documents.push(
         getIndividualDocument(
@@ -308,16 +318,18 @@ const DocumentsPage = () => {
         <Grid container justify="center" alignContent="center" alignItems="center">
           <Grid item lg={12} sm={12} xs={12} md={12} className={classes.emptyMarginTopBlock}>
           </Grid>
-          <Grid item xs={8}>
-            <MagiclyPageTitle
-              title={'Saved documents'}
-            />
-          </Grid>
-          <Grid item xs={12} lg={5} md={5} sm={5}>
+
+          <Grid item xs={4} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/add')}>
               <MagiclyAddIconLabel />
             </div>
           </Grid>
+          <Grid item xs={4} lg={5} md={5} sm={5}>
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'home/documents/search')}>
+              <MagiclySearchIconLabel />
+            </div>
+          </Grid>
+
           {documents}
         </Grid>
       );

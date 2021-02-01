@@ -8,6 +8,8 @@ import MagiclyLoading from '../../../components/shared/MagiclyLoading';
 import MagiclyError from '../../../components/shared/MagiclyError';
 import MagiclyAskIconLabel from '../../../components/shared/MagiclyAskIconLabel';
 import MagiclyPageTitle from '../../../components/shared/MagiclyPageTitle';
+import MagiclyAddIconLabel from '../../../components/shared/MagiclyAddIconLabel';
+import MagiclySearchIconLabel from '../../../components/shared/MagiclySearchIconLabel';
 import { withApollo } from '../../../apollo/apollo';
 import Cookies from 'js-cookie';
 import Grid from '@material-ui/core/Grid';
@@ -51,6 +53,12 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: '18px',
       [theme.breakpoints.down('sm')]: {
         fontSize: '12px',
+      },
+    },
+    emptyMarginTopBlock: {
+      marginTop: '50px',
+      [theme.breakpoints.down('sm')]: {
+        marginTop: '20px'
       },
     },
     questionStatus: {
@@ -180,6 +188,14 @@ const TechHelpPage = () => {
 
   if (data && data.questions && data.questions.edges && data.questions.edges.length > 0) {
     hasSavedQuestions = true;
+    questions.push(
+      <Grid item xs={12} lg={12} md={12} sm={12} xl={12} style={{ paddingBottom: '30px' }}>
+        <MagiclyPageTitle
+          title={'Asked Tech Questions'}
+        />
+      </Grid>
+    );
+
     data.questions.edges.forEach((question, key) => {
       questions.push(
         getIndividualQuestion(
@@ -194,14 +210,17 @@ const TechHelpPage = () => {
     if (hasSavedQuestions) {
       return (
         <Grid container justify="center" alignContent="center" alignItems="center">
-          <Grid item xs={8}>
-            <MagiclyPageTitle
-              title={'Asked tech questions'}
-            />
+          <Grid item lg={12} sm={12} xs={12} md={12} className={classes.emptyMarginTopBlock}>
           </Grid>
-          <Grid item xs={12} lg={5} md={5} sm={5}>
+
+          <Grid item xs={4} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/help/add')}>
               <MagiclyAskIconLabel />
+            </div>
+          </Grid>
+          <Grid item xs={4} lg={5} md={5} sm={5}>
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/help/search')}>
+              <MagiclySearchIconLabel />
             </div>
           </Grid>
           {questions}
