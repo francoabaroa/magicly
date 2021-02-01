@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     horizontalLine: {
       marginTop: '5px',
-      maxWidth: '800px',
+      maxWidth: '900px',
     },
     type: {
       marginLeft: '15px',

@@ -14,6 +14,7 @@ import Cookies from 'js-cookie';
 import Grid from '@material-ui/core/Grid';
 import AddAPhoto from '@material-ui/icons/AddAPhoto';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import InsertDriveFile from '@material-ui/icons/InsertDriveFile';
 
 const QUERY = gql`
   query GetDocuments (
@@ -155,6 +156,21 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: '14px',
       },
     },
+    leftText: {
+      textAlign: 'left',
+    },
+    toolIcon: {
+      color: '#002642',
+      fontSize: '18px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '12px',
+      },
+    },
+    docType: {
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+      },
+    },
     type: {
       marginLeft: '15px',
       fontSize: '20px',
@@ -193,6 +209,10 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: '18px',
       },
     },
+    horizontalLine: {
+      marginTop: '20px',
+      maxWidth: '900px',
+    },
   }),
 );
 
@@ -222,16 +242,22 @@ const DocumentsPage = () => {
 
   const getIndividualDocument = (key: any, document: any) => {
     return (
-      <Grid key={key} container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
-        <Grid item xs={4} lg={3} md={4} sm={4}>
+      <Grid container justify="center" alignContent="center" alignItems="center" className={classes.leftText}>
+        <Grid item xs={1} lg={1} md={1} sm={1} style={{ maxWidth: '40px' }}>
+          <InsertDriveFile fontSize={'large'} className={classes.toolIcon} />
+        </Grid>
+        <Grid item xs={10} lg={5} md={5} sm={10}>
           <Link href="documents/view/[id]" as={`documents/view/${document.id}`}>
             <span className={classes.link}>{document.name}</span>
           </Link>
         </Grid>
-        <Grid item xs={4} lg={3} md={4} sm={4}>
+        <Grid item xs={1} lg={1} md={1} sm={1} className={classes.docType}>
           <Link href="documents/view/[id]" as={`documents/view/${document.id}`}>
             <span className={classes.type}>{document.type}</span>
           </Link>
+        </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12}>
+          <hr className={classes.horizontalLine} />
         </Grid>
       </Grid>
     );

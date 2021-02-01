@@ -14,6 +14,7 @@ import Cookies from 'js-cookie';
 import Grid from '@material-ui/core/Grid';
 import Stars from '@material-ui/icons/Stars';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import Star from '@material-ui/icons/Star';
 
 const QUERY = gql`
   query GetRecommendationItems (
@@ -51,6 +52,10 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down('sm')]: {
         fontSize: '80px',
       },
+    },
+    horizontalLine: {
+      marginTop: '20px',
+      maxWidth: '900px',
     },
     tap: {
       color: '#02040F',
@@ -173,6 +178,21 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: '14px',
       textAlign: 'center',
     },
+    leftText: {
+      textAlign: 'left',
+    },
+    toolIcon: {
+      color: '#002642',
+      fontSize: '18px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '12px',
+      },
+    },
+    recType: {
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+      },
+    },
     individualFeature: {
       textAlign: 'center',
       marginBottom: '15px',
@@ -223,16 +243,22 @@ const RecommendationsPage = () => {
 
   const getIndividualListItem = (key: any, listItem: any) => {
     return (
-      <Grid key={key} container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
-        <Grid item xs={4} lg={3} md={4} sm={4}>
+      <Grid container justify="center" alignContent="center" alignItems="center" className={classes.leftText}>
+        <Grid item xs={1} lg={1} md={1} sm={1} style={{ maxWidth: '40px' }}>
+          <Star fontSize={'large'} className={classes.toolIcon} />
+        </Grid>
+        <Grid item xs={10} lg={5} md={5} sm={10}>
           <Link href="recommendations/view/[id]" as={`recommendations/view/${listItem.id}`}>
             <span className={classes.link}>{listItem.name}</span>
           </Link>
         </Grid>
-        <Grid item xs={4} lg={3} md={4} sm={4}>
+        <Grid item xs={1} lg={1} md={1} sm={1} className={classes.recType}>
           <Link href="recommendations/view/[id]" as={`recommendations/view/${listItem.id}`}>
             <span className={classes.type}>{listItem.type}</span>
           </Link>
+        </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12}>
+          <hr className={classes.horizontalLine} />
         </Grid>
       </Grid>
     );

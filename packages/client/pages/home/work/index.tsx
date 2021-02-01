@@ -239,7 +239,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     horizontalLine: {
       marginTop: '20px',
-      maxWidth: '800px',
+      maxWidth: '900px',
     },
     toolIcon: {
       color: '#002642',
