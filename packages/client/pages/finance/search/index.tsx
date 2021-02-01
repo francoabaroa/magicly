@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../../../components/Layout';
+import MagiclyButton from '../../../components/shared/MagiclyButton';
+import MagiclyPageTitle from '../../../components/shared/MagiclyPageTitle';
 import { useRouter } from 'next/router';
 import { withApollo } from '../../../apollo/apollo';
 import Cookies from 'js-cookie';
@@ -39,6 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     table: {
       minWidth: 650,
+      color: '#002642'
     },
     title: {
       fontFamily: 'Playfair Display, serif',
@@ -62,7 +65,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: '20px',
       lineHeight: '32px',
       textAlign: 'center',
-      color: '#000000',
+      color: '#002642',
     },
     financePage: {
       marginRight: '30px',
@@ -107,6 +110,9 @@ const useStyles = makeStyles((theme: Theme) =>
         width: '130px',
         height: '35px'
       },
+    },
+    tableCell: {
+      color: '#002642 !important',
     },
     viewOrSearchButton: {
       fontFamily: 'Overpass, serif',
@@ -323,28 +329,47 @@ const FinanceSearchPage = () => {
     }
   };
 
+  const onSearchChange = (e) => {
+    if (e.target.value.length === 0) {
+      clearSearch()
+    }
+  };
+
   let rows = buildTableRows();
   return (
     <Layout>
       <div className={classes.financePage}>
         <Grid container justify="center" alignContent="center" alignItems="center">
-          <Grid item xs={12}>
-            <h2
-              className={classes.title}>
-              Transactions
-            </h2>
+          <Grid item xs={12} style={{marginBottom: '30px'}}>
+            <MagiclyPageTitle
+              title={'Transactions'}
+            />
           </Grid>
         </Grid>
         <div className={classes.root}>
           <Grid container justify="center" alignContent="center" alignItems="center">
             <Grid item xs={12} lg={12} style={{textAlign: 'center'}}>
-              <TextField id="outlined-basic" label="Search" variant="outlined" className={classes.search} autoComplete="off" />
-              <Button variant="contained" style={{ backgroundColor: '#840032', color: 'white', marginLeft: '10px', height: '55px' }} onClick={handleSearch}>
-                Search
-              </Button>
-              <Button variant="contained" style={{ border: '2px solid #840032', backgroundColor: 'white', color: '#840032', marginLeft: '10px', height: '55px' }} onClick={clearSearch}>
-                Clear
-              </Button>
+              <TextField
+                id="outlined-basic"
+                label="Search"
+                variant="outlined"
+                className={classes.search}
+                autoComplete="off"
+                type="search"
+                onChange={onSearchChange}
+              />
+            </Grid>
+            <Grid item xs={12} lg={12}
+              style={{
+                textAlign: 'center',
+                marginTop: '30px',
+                marginBottom: '30px'
+              }}
+            >
+              <MagiclyButton
+                btnLabel={'Search'}
+                onClick={handleSearch}
+              />
             </Grid>
             <Grid item xs={6} lg={2} md={2} sm={2} style={{ textAlign: 'center' }}>
               <FormControl className={classes.formControl}>
@@ -394,13 +419,13 @@ const FinanceSearchPage = () => {
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell align="right">Amount</TableCell>
-                  <TableCell align="right">Currency</TableCell>
-                  <TableCell align="right">Date</TableCell>
-                  <TableCell align="right">Account Name</TableCell>
-                  {/* <TableCell align="right">Account Official Name</TableCell> */}
-                  <TableCell align="right">Categories</TableCell>
+                  <TableCell className={classes.tableCell} style={{fontWeight: 'bold'}}>Name</TableCell>
+                  <TableCell className={classes.tableCell} style={{fontWeight: 'bold'}} align="right">Amount</TableCell>
+                  <TableCell className={classes.tableCell} style={{fontWeight: 'bold'}} align="right">Currency</TableCell>
+                  <TableCell className={classes.tableCell} style={{fontWeight: 'bold'}} align="right">Date</TableCell>
+                  <TableCell className={classes.tableCell} style={{fontWeight: 'bold'}} align="right">Account Name</TableCell>
+                  {/* <TableCell className={classes.tableCell} style={{fontWeight: 'bold'}} align="right">Account Official Name</TableCell> */}
+                  <TableCell className={classes.tableCell} style={{ fontWeight: 'bold' }} align="right">Categories</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -408,15 +433,15 @@ const FinanceSearchPage = () => {
                   rows ?
                       rows.map((row) => (
                         <TableRow key={row.keyId}>
-                          <TableCell component="th" scope="row">
+                          <TableCell className={classes.tableCell} component="th" scope="row">
                             {row.name}
                           </TableCell>
-                          <TableCell align="right">{row.amount}</TableCell>
-                          <TableCell align="right">{row.currency}</TableCell>
-                          <TableCell align="right">{row.date}</TableCell>
-                          <TableCell align="right">{row.accountName}</TableCell>
-                          {/* <TableCell align="right">{row.accountOfficialName}</TableCell> */}
-                          <TableCell align="right">{row.categories}</TableCell>
+                          <TableCell className={classes.tableCell} align="right">{row.amount}</TableCell>
+                          <TableCell className={classes.tableCell} align="right">{row.currency}</TableCell>
+                          <TableCell className={classes.tableCell} align="right">{row.date}</TableCell>
+                          <TableCell className={classes.tableCell} align="right">{row.accountName}</TableCell>
+                          {/* <TableCell className={classes.tableCell} align="right">{row.accountOfficialName}</TableCell> */}
+                          <TableCell className={classes.tableCell} align="right">{row.categories}</TableCell>
                         </TableRow>
                       )) : null
                 }
