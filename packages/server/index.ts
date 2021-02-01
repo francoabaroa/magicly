@@ -347,6 +347,7 @@ async function main() {
 
     app.post('/verify_email', async (req, res) => {
       const { email } = req.body;
+      const me = await context(req);
 
       let verifier = new Verifier(process.env.EMAIL_VERIFICATION_KEY);
       verifier.verify(email, async (err, data) => {
@@ -362,11 +363,18 @@ async function main() {
 
           const user = await db.User.findByEmail(email);
           if (user) {
-            res.status(404).send({
-              success: false,
-              message: `Could not verify email because this email already exists: ${email}`,
-            });
-            return;
+            if (email === me['email']) {
+              res.send({
+                success: true
+              });
+              return;
+            } else {
+              res.status(404).send({
+                success: false,
+                message: `Could not verify email because this email already exists: ${email}`,
+              });
+              return;
+            }
           }
 
           res.send({

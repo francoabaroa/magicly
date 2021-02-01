@@ -5,6 +5,7 @@ import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import MagiclyButton from '../shared/MagiclyButton';
+import MagiclyError from '../shared/MagiclyError';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -184,7 +185,7 @@ const UploadDocument = (props) => {
     if (data) setLastUploaded(data.addDocument);
   }, [data]);
 
-  if (error) return <div>{JSON.stringify(error, null, 2)}</div>;
+  if (error) return <MagiclyError message={error.message} />;
 
   const submitForm = () => {
     handleToggle();

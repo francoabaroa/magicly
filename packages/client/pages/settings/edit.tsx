@@ -151,8 +151,7 @@ const EditSettingsPage = (props) => {
     return <MagiclyError message={error.message} />;
   }
 
-  const submitForm = event => {
-    event.preventDefault();
+  const submitForm = () => {
     async function emailVerification() {
       const options: RequestInit = {
         method: 'POST',

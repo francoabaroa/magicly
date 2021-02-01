@@ -81,8 +81,11 @@ export default {
           }
 
           if (user) {
+            if (user.email !== email) {
+              user.email = email;
+            }
+
             user.firstName = firstName;
-            user.email = email;
             user.currentCity = currentCity;
             await user.save();
           }
