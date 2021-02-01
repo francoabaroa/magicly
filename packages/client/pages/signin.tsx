@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import Layout from '../components/Layout';
 import MagiclyPageTitle from '../components/shared/MagiclyPageTitle';
+import MagiclyLoading from '../components/shared/MagiclyLoading';
 import gql from 'graphql-tag';
 import { withApollo } from '../apollo/apollo';
 import Button from '@material-ui/core/Button';
@@ -115,7 +116,7 @@ const SignInPage = () => {
   const [password, setPassword] = useState('');
   const [signIn, { data, loading, error }] = useMutation(SIGN_IN);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <MagiclyLoading open={true}/>;
 
   // TODO: show meaningful message if account doesnt exist or credentials are wrong
   if (error && error.message.includes('No user found with these login credentials')) {

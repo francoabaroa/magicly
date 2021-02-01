@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import Layout from '../components/Layout';
 import MagiclyPageTitle from '../components/shared/MagiclyPageTitle';
+import MagiclyLoading from '../components/shared/MagiclyLoading';
 import gql from 'graphql-tag';
 import { withApollo } from '../apollo/apollo';
 import Button from '@material-ui/core/Button';
@@ -143,7 +144,7 @@ const SignUpPage = () => {
   const [hasSocialAuthLogin, setHasSocialAuthLogin] = useState(false);
   const [signUp, { data, loading, error }] = useMutation(SIGN_UP);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <MagiclyLoading open={true}/>;
 
   // TODO: show meaningful error message
   if (error && error.message.includes('SequelizeUniqueConstraintError')) {

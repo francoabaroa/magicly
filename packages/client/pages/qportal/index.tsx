@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import QportalChatModal from '../../components/qportal/QportalChatModal';
+import MagiclyLoading from '../../components/shared/MagiclyLoading';
 import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
 import Layout from '../../components/Layout';
 import gql from 'graphql-tag';
@@ -124,7 +125,7 @@ const QportalSignInPage = () => {
     skip: employee === null
   });
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <MagiclyLoading open={true}/>;
 
   if (error) {
     return <p>Error: {error.message}</p>;

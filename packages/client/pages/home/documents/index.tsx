@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../../components/Layout';
+import MagiclyLoading from '../../../components/shared/MagiclyLoading';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import MagiclyAddIconLabel from '../../../components/shared/MagiclyAddIconLabel';
@@ -208,7 +209,7 @@ const DocumentsPage = () => {
     }
   );
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <MagiclyLoading open={true}/>;
   if (error) return <p>Error: {error.message}</p>;
   if (!Cookies.get('signedin')) {
     // navigate('/')

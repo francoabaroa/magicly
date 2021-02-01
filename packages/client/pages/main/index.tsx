@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../components/Layout';
 import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
+import MagiclyLoading from '../../components/shared/MagiclyLoading';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
@@ -210,7 +211,7 @@ const MainPage = () => {
     }
   });
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <MagiclyLoading open={true}/>;
 
   if (error) return <p>Error: {error.message}</p>;
   if (!Cookies.get('signedin')) {

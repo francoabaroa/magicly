@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/react-hooks';
 import Layout from '../../../components/Layout';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
+import MagiclyLoading from '../../../components/shared/MagiclyLoading';
 import MagiclyAskIconLabel from '../../../components/shared/MagiclyAskIconLabel';
 import MagiclyPageTitle from '../../../components/shared/MagiclyPageTitle';
 import { withApollo } from '../../../apollo/apollo';
@@ -127,7 +128,7 @@ const TechHelpPage = () => {
     }
   );
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <MagiclyLoading open={true}/>;
   if (error) return <p>Error: {error.message}</p>;
   if (!Cookies.get('signedin')) {
     // navigate('/')

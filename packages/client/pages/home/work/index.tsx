@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import MagiclyAddIconLabel from '../../../components/shared/MagiclyAddIconLabel';
 import MagiclySearchIconLabel from '../../../components/shared/MagiclySearchIconLabel';
 import MagiclyPageTitle from '../../../components/shared/MagiclyPageTitle';
+import MagiclyLoading from '../../../components/shared/MagiclyLoading';
 import gql from 'graphql-tag';
 import { withApollo } from '../../../apollo/apollo';
 import Cookies from 'js-cookie';
@@ -251,7 +252,7 @@ const HomeWorkPage = () => {
   let upcomingWork: Array<any> = [];
   let hasHomeWork: boolean = false;
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <MagiclyLoading open={true}/>;
   if (error) return <p>Error: {error.message}</p>;
   if (!Cookies.get('signedin')) {
     // navigate('/')
