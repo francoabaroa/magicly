@@ -12,7 +12,6 @@ import { LIST_TYPE } from '../../../constants/appStrings';
 import { withApollo } from '../../../apollo/apollo';
 import Cookies from 'js-cookie';
 import Grid from '@material-ui/core/Grid';
-import AddCircle from '@material-ui/icons/AddCircle';
 import Stars from '@material-ui/icons/Stars';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 

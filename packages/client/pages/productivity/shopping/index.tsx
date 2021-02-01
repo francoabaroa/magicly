@@ -13,6 +13,8 @@ import { withApollo } from '../../../apollo/apollo';
 import Cookies from 'js-cookie';
 import Grid from '@material-ui/core/Grid';
 import AddCircle from '@material-ui/icons/AddCircle';
+import Stars from '@material-ui/icons/Stars';
+import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const QUERY = gql`
@@ -134,6 +136,59 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: '18px',
       },
     },
+    hugeIcon: {
+      color: '#E5DADA',
+      fontSize: '120px',
+      marginTop: '60px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '80px',
+      },
+    },
+    tap: {
+      color: '#02040F',
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      fontWeight: 'bold',
+      fontSize: '18px',
+      margin: 'auto',
+      marginLeft: '10px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '16px',
+      },
+    },
+    someExamples: {
+      color: '#02040F',
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      fontWeight: 'normal',
+      fontSize: '18px',
+      margin: 'auto',
+      marginLeft: '10px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '16px',
+      },
+    },
+    paper: {
+      fontFamily: 'Playfair Display, serif',
+      color: '#FFF',
+      textAlign: 'left',
+      backgroundColor: "#E5DADA",
+      borderRadius: '10px',
+      boxShadow: '15px 15px 0 0px #02040F',
+      marginBottom: '20px',
+      maxWidth: '400px'
+    },
+    examples: {
+      fontFamily: 'Playfair Display, serif',
+      fontWeight: 'normal',
+      fontSize: '16px',
+      color: '#002642',
+      margin: 'auto',
+      textAlign: 'center',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '14px',
+      },
+    },
   }),
 );
 
@@ -191,6 +246,33 @@ const ShoppingPage = () => {
     });
   }
 
+  const getEmptyUI = () => {
+    return (
+      <Grid container justify="center" alignContent="center" alignItems="center">
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }} onClick={routePage.bind(this, 'productivity/shopping/add')}>
+          <ShoppingCart fontSize={'large'} className={classes.hugeIcon} />
+        </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
+          <span className={classes.tap}>click the shopping cart icon to start creating shopping lists</span>
+        </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center', marginTop: '90px', marginBottom: '10px' }}>
+          <span className={classes.someExamples}>some examples for inspiration</span>
+        </Grid>
+        <Grid container justify="center" alignContent="center" alignItems="center" className={classes.paper}>
+          <Grid item xs={12} lg={12} md={12} sm={12} style={{ padding: '5px' }}>
+            <span className={classes.examples}>- weekly groceries list</span>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} style={{ padding: '5px' }}>
+            <span className={classes.examples}>- baby shower supplies list</span>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} style={{ padding: '5px' }}>
+            <span className={classes.examples}>- christmas gift shopping list</span>
+          </Grid>
+        </Grid>
+      </Grid>
+    );
+  };
+
   const getMainUI = () => {
     if (hasSavedListItems) {
       return (
@@ -209,23 +291,7 @@ const ShoppingPage = () => {
         </Grid>
       );
     } else {
-      return (
-        <Grid container justify="center" alignContent="center" alignItems="center">
-          <Grid item xs={8} lg={7} md={7} sm={7}>
-            <MagiclyPageTitle
-              title={'Shopping Lists'}
-            />
-          </Grid>
-          <Grid item xs={12} lg={6} md={6} sm={6}>
-            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
-              <MagiclyAddIconLabel />
-            </div>
-          </Grid>
-          <Grid item xs={8} lg={7} md={7} sm={7}>
-            <h1 className={classes.smallTitle}>tap the plus icon to start adding gifts, groceries or any other shopping items you need</h1>
-          </Grid>
-        </Grid>
-      );
+      return getEmptyUI();
     }
   };
 
