@@ -145,12 +145,12 @@ const SignUpPage = () => {
   const [hasSocialAuthLogin, setHasSocialAuthLogin] = useState(false);
   const [signUp, { data, loading, error }] = useMutation(SIGN_UP);
 
-  if (loading) return <MagiclyLoading open={true}/>;
+  if (loading) return <MagiclyLoading open={true} />;
 
   // TODO: show meaningful error message
   if (error && error.message.includes('SequelizeUniqueConstraintError')) {
     return <MagiclyError
-      message={'This email already exists in our system.Please reset your password.'}
+      message={'This email already exists in our system. Please reset your password.'}
     />
   } else if (error) {
     return <MagiclyError message={error.message} />
@@ -166,7 +166,12 @@ const SignUpPage = () => {
       return;
     }
 
-    if (email !== emailConfirmation) {
+    if (password1.length < 7) {
+      alert('Passwords needs to be 7 characters or more. Please fix.');
+      return;
+    }
+
+    if (email.toLowerCase() !== emailConfirmation.toLowerCase()) {
       alert('Emails are not the same. Please fix.');
       setEmail('');
       setEmailConfirmation('');
