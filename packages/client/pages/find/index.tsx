@@ -66,17 +66,17 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     subtitle: {
       fontFamily: 'Playfair Display, serif',
-      fontWeight: 'normal',
+      fontWeight: 'bold',
       fontSize: '24px',
       color: '#002642',
       marginTop: '0px',
-      marginBottom: '10px',
+      marginBottom: '30px',
       margin: 'auto',
       textAlign: 'center',
       [theme.breakpoints.down('sm')]: {
         fontSize: '18px',
         marginTop: '0px',
-        marginBottom: '5px',
+        marginBottom: '30px',
       },
     },
     findPage: {
@@ -89,8 +89,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: '18px',
       margin: '0 auto',
       display: 'block',
-      marginTop: '20px',
-      marginBottom: '20px',
+      marginBottom: '30px',
       color: '#002642',
       backgroundColor: '#FFF',
       border: '3px solid #002642',
@@ -129,7 +128,7 @@ const useStyles = makeStyles((theme: Theme) =>
       minWidth: '500px',
       color: '#002642',
       [theme.breakpoints.down('xs')]: {
-        minWidth: '320px',
+        minWidth: '250px',
       }
     },
     title: {
@@ -497,7 +496,7 @@ const FindPage = () => {
             </Grid> */}
             {
               showSearch ?
-                <Grid item xs={12} lg={12} style={{ textAlign: 'center' }}>
+                <Grid item xs={12} lg={12} style={{ textAlign: 'center', marginBottom: '30px' }}>
                   <form noValidate autoComplete="off">
                     <TextField id="outlined-basic" type="search" label="Search" variant="outlined" className={classes.search} autoComplete="off" onInput={handleRealtimeSearch} />
                   </form>
