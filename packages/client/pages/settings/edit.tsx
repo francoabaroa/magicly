@@ -265,11 +265,11 @@ const EditSettingsPage = (props) => {
                   onClick={submitForm}
                 />
               </div>
-              <MagiclyButton
+              {/* <MagiclyButton
                 btnLabel={'Reset Password'}
                 isWhiteBackgroundBtn={true}
                 onClick={() => { }}
-              />
+              /> */}
             </Grid>
           </Grid>
         </div>
