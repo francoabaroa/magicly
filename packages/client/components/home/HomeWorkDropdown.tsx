@@ -48,8 +48,8 @@ const HomeWorkDropdown = (props) => {
   const { data, loading, error } = useQuery(QUERY, { pollInterval: 500 });
   const homeWorkDropdownItems = [];
 
-  if (loading) return <MagiclyLoading open={true}/>;
-  if (error) return <MagiclyError message={error.message} />;
+  if (loading) return <MagiclyLoading open={true} hideLayout={true}/>;
+  if (error) return <MagiclyError message={error.message} hideLayout={true}/>;
   if (data && data.me && data.me.homeworks) {
     data.me.homeworks.forEach((homework, key) => {
       homeWorkDropdownItems.push(<MenuItem key={key} value={homework.id}>{homework.title}</MenuItem>)

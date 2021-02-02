@@ -1,6 +1,7 @@
 import React from 'react';
 import Layout from '../../components/Layout';
 import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
+import MagiclyButton from '../../components/shared/MagiclyButton';
 import { withApollo } from '../../apollo/apollo';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -33,7 +34,9 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       color: '#002642',
       backgroundColor: "#FFF",
-      border: '1px #002642 solid'
+      border: '1px #002642 solid',
+      padding: '5px',
+      margin: '5px'
     },
     planName: {
       fontSize: '26px',
@@ -129,7 +132,10 @@ const PricingPage = () => {
                 <h3 className={classes.pricingAmt}>
                   FREE
               </h3>
-                <Button className={classes.getStarted} onClick={routePage.bind(this, 'signup')}>Get started</Button>
+                <MagiclyButton
+                  btnLabel={'Get Started'}
+                  onClick={routePage.bind(this, 'signup')}
+                />
                 <div className={classes.features}>
                   <div className={classes.individualFeature}>
                     <DoneOutline fontSize={'small'} className={classes.checkmark}/>
@@ -154,7 +160,10 @@ const PricingPage = () => {
                 <h3 className={classes.pricingAmt}>
                   $4.99/month
               </h3>
-                <Button className={classes.getStarted} onClick={routePage.bind(this, 'plans/basic')}>Get started</Button>
+                <MagiclyButton
+                  btnLabel={'Get Started'}
+                  onClick={routePage.bind(this, 'plans/basic')}
+                />
                 <div className={classes.features}>
                   <div className={classes.individualFeature}>
                     <DoneOutline fontSize={'small'} className={classes.checkmark}/>
@@ -179,7 +188,10 @@ const PricingPage = () => {
                 <h3 className={classes.pricingAmt}>
                   $9.99/month
               </h3>
-                <Button className={classes.getStarted} onClick={routePage.bind(this, 'plans/premium')}>Get started</Button>
+                <MagiclyButton
+                  btnLabel={'Get Started'}
+                  onClick={routePage.bind(this, 'plans/premium')}
+                />
                 <div className={classes.features}>
                   <div className={classes.individualFeature}>
                     <DoneOutline fontSize={'small'} className={classes.checkmark}/>

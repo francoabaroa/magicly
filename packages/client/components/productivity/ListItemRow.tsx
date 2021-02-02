@@ -106,7 +106,7 @@ const ListItemRow = (props) => {
   const [complete, setComplete] = useState(isComplete);
   let textDecoration = complete ? 'line-through' : 'none';
 
-  if (error) return <MagiclyError message={error.message} />;
+  if (error) return <MagiclyError message={error.message} hideLayout={true}/>;
 
 
   const handleChange = (event) => {

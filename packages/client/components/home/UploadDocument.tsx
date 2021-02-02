@@ -185,7 +185,7 @@ const UploadDocument = (props) => {
     if (data) setLastUploaded(data.addDocument);
   }, [data]);
 
-  if (error) return <MagiclyError message={error.message} />;
+  if (error) return <MagiclyError message={error.message} hideLayout={true}/>;
 
   const submitForm = () => {
     handleToggle();

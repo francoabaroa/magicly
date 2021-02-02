@@ -17,6 +17,14 @@ const useStyles = makeStyles((theme: Theme) =>
 const MagiclyLoading = (props) => {
   const classes = useStyles();
 
+  if (props.hideLayout) {
+    return (
+      <Backdrop className={classes.backdrop} open={props.open}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    );
+  }
+
   return (
     <Layout>
       <Backdrop className={classes.backdrop} open={props.open}>

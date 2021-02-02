@@ -68,6 +68,18 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: '16px',
       },
     },
+    testingMsg: {
+      color: '#0A7EF2',
+      fontFamily: 'Playfair Display, serif',
+      textAlign: 'center',
+      fontWeight: 'normal',
+      fontSize: '18px',
+      margin: 'auto',
+      marginLeft: '10px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '16px',
+      },
+    },
     examples: {
       fontFamily: 'Playfair Display, serif',
       fontWeight: 'normal',
@@ -238,7 +250,14 @@ const FinancePage = () => {
         <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
           <span className={classes.tap}>tap the bank icon to securely sync your accounts</span>
         </Grid>
-        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center', marginTop: '90px', marginBottom: '10px' }}>
+
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center', marginTop: '20px' }}>
+          <span className={classes.testingMsg}>for testing please use the following username and password to connect any bank account:</span>
+          <p style={{ fontSize: '16px' }}>username: <span style={{ fontWeight: 'bold' }}>user_good</span></p>
+          <p style={{ fontSize: '16px' }}>password: <span style={{ fontWeight: 'bold' }}>pass_good</span></p>
+        </Grid>
+
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center', marginTop: '50px', marginBottom: '10px' }}>
           <span className={classes.someExamples}>some examples for inspiration</span>
         </Grid>
         <Grid container justify="center" alignContent="center" alignItems="center" className={classes.paper}>

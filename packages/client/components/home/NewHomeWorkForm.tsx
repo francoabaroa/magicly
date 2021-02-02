@@ -173,8 +173,8 @@ const NewHomeWorkForm = () => {
     );
   }
 
-  if (loading) return <MagiclyLoading open={true}/>;
-  if (error) return <MagiclyError message={error.message} />;
+  if (loading) return <MagiclyLoading open={true} hideLayout={true}/>;
+  if (error) return <MagiclyError message={error.message} hideLayout={true} />;
   if (data && data.createHomework && data.createHomework.id) {
     // TODO: show dialog message when homework is created!
     if (process.browser || (window && window.location)) {
