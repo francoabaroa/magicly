@@ -35,12 +35,14 @@ require('dotenv').config({ path: '../../.env' });
 const PORT = process.env.PORT || '3000';
 const isTest = !!process.env.DATABASE_TEST;
 const isProduction = !!process.env.DATABASE_URL;
+let environment = '';
 let url = '';
 let sequelizeConfig = {};
 
 if (isProduction) {
   url = 'https://www.magicly.app/';
 } else if (isTest) {
+  environment = 'development';
   url = 'http://localhost:3000/';
 }
 
@@ -48,7 +50,8 @@ const s3Uploader = new AWSS3Uploader({
   region: process.env.AWS_DEFAULT_REGION || 'us-east-1',
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  destinationBucketName: process.env.AWS_BUCKET
+  destinationBucketName: process.env.AWS_BUCKET,
+  environment
 });
 
 // TODO: if user lands on HTTP, important to redirect to HTTPS. Form submissions should only happen via HTTPS
@@ -612,6 +615,7 @@ async function bootstrapApolloServer(expressApp, db: DbInterface) {
     return {
       models: db,
       me,
+      environment,
       bucketName: process.env.AWS_BUCKET,
       getS3Url: s3Uploader.getPresignedUrl.bind(s3Uploader),
       deleteS3File: s3Uploader.deleteFile.bind(s3Uploader),

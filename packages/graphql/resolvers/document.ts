@@ -80,7 +80,7 @@ export default {
       async (
         parent,
         { file, name, type, keywords, notes, homeworkId, docValue },
-        { singleUpload, me, models, bucketName }
+        { singleUpload, me, models, bucketName, environment }
       ) => {
         try {
           const uploadedFile = await singleUpload(file, me);
@@ -91,7 +91,7 @@ export default {
               type,
               bucketDocId: uploadedFile.filename,
               bucketName,
-              bucketPath: bucketName + '/' + me.id + '/',
+              bucketPath: bucketName + '/' + me.id + '_' + environment,
               keywords,
               notes,
               docValue,
