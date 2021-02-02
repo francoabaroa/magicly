@@ -5,6 +5,7 @@ import Layout from '../../components/Layout';
 import MagiclyLoading from '../../components/shared/MagiclyLoading';
 import MagiclyError from '../../components/shared/MagiclyError';
 import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
+import MagiclySearchIconLabel from '../../components/shared/MagiclySearchIconLabel';
 import MagiclyFindServicesIconLabel from '../../components/shared/MagiclyFindServicesIconLabel';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
@@ -12,6 +13,8 @@ import { withApollo } from '../../apollo/apollo';
 import Cookies from 'js-cookie';
 import Grid from '@material-ui/core/Grid';
 import AddCircle from '@material-ui/icons/AddCircle';
+import RoomService from '@material-ui/icons/RoomService';
+import Build from '@material-ui/icons/Build';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -69,6 +72,32 @@ const useStyles = makeStyles((theme: Theme) =>
       textDecoration: 'none',
       fontFamily: 'Playfair Display',
       color: '#002642',
+    },
+    leftText: {
+      textAlign: 'left',
+    },
+    toolIcon: {
+      color: '#002642',
+      fontSize: '18px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '12px',
+      },
+    },
+    toolIconDiv: {
+      maxWidth: '40px',
+      [theme.breakpoints.down('sm')]: {
+        paddingLeft: '10px'
+      },
+    },
+    horizontalLine: {
+      marginTop: '20px',
+      maxWidth: '900px',
+    },
+    emptyMarginTopBlock: {
+      marginTop: '50px',
+      [theme.breakpoints.down('sm')]: {
+        marginTop: '20px'
+      },
     },
     type: {
       marginLeft: '15px',
@@ -142,11 +171,17 @@ const SavedProductsServicesPage = () => {
 
   const getIndividualService = (key: any, service: any) => {
     return (
-      <Grid key={key} container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+      <Grid container justify="center" alignContent="center" alignItems="center" className={classes.leftText}>
+        <Grid item xs={1} lg={1} md={1} sm={1} className={classes.toolIconDiv}>
+          <Build fontSize={'large'} className={classes.toolIcon} />
+        </Grid>
+        <Grid item xs={11} lg={6} md={6} sm={11}>
+          <a target="_blank" className={classes.link} onClick={handleIndividualServiceOpen.bind(this, service)}>
+            {service.name}
+          </a>
+        </Grid>
         <Grid item xs={12} lg={12} md={12} sm={12}>
-            <a target="_blank" className={classes.link} onClick={handleIndividualServiceOpen.bind(this, service)}>
-              {service.name}
-            </a>
+          <hr className={classes.horizontalLine} />
         </Grid>
       </Grid>
     );
@@ -201,6 +236,15 @@ const SavedProductsServicesPage = () => {
 
   if (data && data.services && data.services.edges && data.services.edges.length > 0) {
     hasSavedServices = true;
+
+    services.push(
+      <Grid item xs={12} lg={12} md={12} sm={12} xl={12} style={{ paddingBottom: '30px' }}>
+        <MagiclyPageTitle
+          title={'Saved Services'}
+        />
+      </Grid>
+    );
+
     data.services.edges.forEach((service, key) => {
       if (service.favorite) {
         services.push(
@@ -217,16 +261,20 @@ const SavedProductsServicesPage = () => {
     if (hasSavedServices) {
       return (
         <Grid container justify="center" alignContent="center" alignItems="center">
-          <Grid item xs={8}>
-            <MagiclyPageTitle
-              title={'Saved Services'}
-            />
+          <Grid item lg={12} sm={12} xs={12} md={12} className={classes.emptyMarginTopBlock}>
           </Grid>
-          <Grid item xs={12} lg={5} md={5} sm={5}>
+
+          <Grid item xs={4} lg={5} md={5} sm={5}>
             <div className={classes.individualFeature} onClick={routePage.bind(this, 'find')}>
               <MagiclyFindServicesIconLabel />
             </div>
           </Grid>
+          <Grid item xs={4} lg={5} md={5} sm={5}>
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'find/search')}>
+              <MagiclySearchIconLabel />
+            </div>
+          </Grid>
+
           {services}
         </Grid>
       );

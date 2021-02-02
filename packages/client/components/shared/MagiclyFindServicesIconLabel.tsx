@@ -32,7 +32,7 @@ const MagiclyFindServicesIconLabel = (props) => {
   return (
     <span>
       <AddCircle fontSize={'small'} className={classes.icon} />
-      <span className={classes.details}>find more services</span>
+      <span className={classes.details}>find</span>
     </span>
   );
 }
