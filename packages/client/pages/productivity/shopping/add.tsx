@@ -1,12 +1,12 @@
 import React from 'react';
 import Layout from '../../../components/Layout';
-import NewShoppingForm from '../../../components/productivity/NewShoppingForm';
+import NewShoppingListForm from '../../../components/productivity/NewShoppingListForm';
 import { withApollo } from '../../../apollo/apollo';
 
 const AddShopping = () => {
   return (
     <Layout>
-      <NewShoppingForm />
+      <NewShoppingListForm />
     </Layout>
   );
 };

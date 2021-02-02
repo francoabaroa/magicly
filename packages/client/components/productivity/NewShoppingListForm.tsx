@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { APP_CONFIG, LIST_TYPE, ITEM_TYPE } from '../../constants/appStrings';
-import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
+import MagiclyPageTitle from '../shared/MagiclyPageTitle';
 import MagiclyButton from '../shared/MagiclyButton';
 import MagiclyError from '../shared/MagiclyError';
 import MagiclyLoading from '../shared/MagiclyLoading';
@@ -15,6 +15,10 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Cancel from '@material-ui/icons/Cancel';
+
+import Chip from '@material-ui/core/Chip';
+import Paper from '@material-ui/core/Paper';
 
 // TODO: clean up before prod
 let url = null;
@@ -44,6 +48,33 @@ const CREATE_LIST_ITEM = gql`
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    root: {
+      display: 'flex',
+      justifyContent: 'center',
+      flexWrap: 'wrap',
+      listStyle: 'none',
+      padding: theme.spacing(0.5),
+      margin: 'auto',
+      maxWidth: '550px',
+      border: '1px solid rgba(0, 38, 66, 0.1)',
+      [theme.breakpoints.down('xs')]: {
+        maxWidth: '350px',
+      },
+    },
+    deleteIcon: {
+      color: '#002642',
+      fontSize: '18px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '12px',
+      },
+    },
+    chip: {
+      margin: theme.spacing(0.5),
+      fontWeight: 'bold',
+      backgroundColor: 'white',
+      border: '1px solid #002642',
+      color: '#002642'
+    },
     formControl: {
       margin: theme.spacing(1),
       minWidth: '550px',
@@ -57,14 +88,6 @@ const useStyles = makeStyles((theme: Theme) =>
         minWidth: '350px',
       },
     },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
-    title: {
-      fontFamily: 'Playfair Display',
-      fontStyle: 'normal',
-      fontWeight: 'bold',
-    },
     centerText: {
       textAlign: 'center',
     },
@@ -72,35 +95,38 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       marginBottom: '10px',
     },
-    notes: {
-      marginBottom: '40px',
-      minWidth: '550px',
-      [theme.breakpoints.down('xs')]: {
-        minWidth: '350px',
-      },
-    },
   }),
 );
 
-const NewShoppingForm = () => {
+const NewShoppingListForm = () => {
   const classes = useStyles();
   const [createListItem, { data, loading, error }] = useMutation(CREATE_LIST_ITEM);
   const router = useRouter();
-  const [name, setName] = useState('');
+  const [listName, setListName] = useState('');
+  const [itemName, setItemName] = useState('');
   const [type, setType] = useState('');
-  const [notes, setNotes] = useState('');
+  const [chipData, setChipData] = React.useState([]);
+
+  const handleDelete = (chipToDelete) => () => {
+    setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
+  };
 
   const submitForm = () => {
-    if (type === '') {
-      alert('You need to select a item type');
+    if (listName === '') {
+      alert('You need a list name');
+      return;
+    }
+
+    if (chipData.length === 0) {
+      alert('You need to add list items');
       return;
     }
 
     const variables = {
       variables: {
-        name,
+        name: itemName,
         type,
-        notes,
+        notes: '',
         listType: LIST_TYPE.SHOPPING
       }
     };
@@ -129,18 +155,59 @@ const NewShoppingForm = () => {
     return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
   };
 
+  const addItem = () => {
+    let currentChipData = chipData;
+    let newChipData = currentChipData.slice();
+
+    if (type === '') {
+      alert('You need to select a item type');
+      return;
+    }
+    if (itemName === '') {
+      alert('You need to add an item name');
+      return;
+    }
+
+    newChipData.push({ key: newChipData.length, label: itemName, type: type });
+
+    setItemName('');
+    setType('');
+    setChipData(newChipData);
+  };
+
   return (
     <div>
       <Grid container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
 
         <Grid item xs={12} lg={12} md={12} sm={12}>
           <MagiclyPageTitle
-            title={'Add A New Shopping Item'}
+            title={'Create A New Shopping List'}
           />
         </Grid>
 
         <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-          <TextField autoComplete="off" id="standard-basic" label="Item name" onChange={event => setName(event.target.value)} required className={classes.name} />
+          <TextField autoComplete="off" id="standard-basic" label="List name" onChange={event => setListName(event.target.value)} required className={classes.name} />
+        </Grid>
+
+        <Grid item xs={12} lg={6} md={12} sm={12} className={classes.centerText} style={{marginTop: '30px', marginBottom: '30px'}}>
+          <Paper component="ul" className={classes.root}>
+            {chipData.map((data) => {
+              return (
+                <li key={data.key}>
+                  <Chip
+                    label={data.label}
+                    onDelete={handleDelete(data)}
+                    className={classes.chip}
+                    deleteIcon={<Cancel fontSize={'small'} className={classes.deleteIcon} />}
+                  />
+                </li>
+              );
+            })}
+          </Paper>
+        </Grid>
+
+        <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+          <TextField autoComplete="off" id="standard-basic" label="Item name" onChange={event => setItemName(event.target.value)} required className={classes.name} value={itemName} />
         </Grid>
 
         <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
@@ -176,13 +243,15 @@ const NewShoppingForm = () => {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-          <TextField autoComplete="off" className={classes.notes} id="standard-basic" label="Additional notes" onChange={event => setNotes(event.target.value)} />
-        </Grid>
-
         <Grid item xs={12} lg={12} md={12} sm={12} className={classes.saveBtn}>
           <MagiclyButton
-            btnLabel={'Save'}
+            btnLabel={'Add Item'}
+            onClick={addItem}
+          />
+        </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.saveBtn}>
+          <MagiclyButton
+            btnLabel={'Save List'}
             onClick={submitForm}
           />
         </Grid>
@@ -199,4 +268,4 @@ const NewShoppingForm = () => {
   )
 }
 
-export default NewShoppingForm;
+export default NewShoppingListForm;
