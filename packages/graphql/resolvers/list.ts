@@ -95,6 +95,49 @@ export default {
         }
       },
     ),
+    createListWithItems: combineResolvers(
+      isAuthenticated,
+      async (
+        parent,
+        {
+          name,
+          type,
+          preSaveListItems,
+        },
+        { me, models }
+      ) => {
+        try {
+          let items = [];
+
+          const list = await models.List.create({
+            name,
+            type,
+            userId: me.id,
+          });
+
+          if (list && preSaveListItems && preSaveListItems.length > 0) {
+            for (let i = 0; i < preSaveListItems.length; i++) {
+              items.push({
+                listId: list.id,
+                name: preSaveListItems[i].name,
+                type: preSaveListItems[i].type,
+                notes: preSaveListItems[i].notes,
+                complete: preSaveListItems[i].complete
+              });
+            }
+          }
+
+          const bulkListItems = await models.ListItem.bulkCreate(items);
+          if (!bulkListItems) {
+            throw new ApolloError('listItems not created');
+          }
+
+          return list;
+        } catch (error) {
+          throw new ApolloError(error);
+        }
+      },
+    ),
     deleteList: combineResolvers(
       isAuthenticated,
       isListOwner,

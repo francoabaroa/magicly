@@ -10,6 +10,11 @@ export default gql`
       name: String,
       type: ListType!
     ): List!
+    createListWithItems(
+      name: String,
+      type: ListType!
+      preSaveListItems: [PreSaveListItem],
+    ): List!
     deleteList(id: ID!): Boolean!
   }
   type List {
@@ -24,5 +29,11 @@ export default gql`
   type ListConnection {
     edges: [List]!
     pageInfo: PageInfo!
+  }
+  input PreSaveListItem {
+    name: String!
+    type: ItemType!
+    complete: Boolean
+    notes: String
   }
 `;

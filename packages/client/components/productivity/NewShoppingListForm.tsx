@@ -28,23 +28,22 @@ if (process.env.NODE_ENV === 'development') {
   url = APP_CONFIG.prodUrl;
 }
 
-const CREATE_LIST_ITEM = gql`
-  mutation CreateListItem(
-    $name: String!,
-    $type: ItemType!,
-    $listType: ListType!,
-    $notes: String,
+const CREATE_LIST_WITH_ITEMS = gql`
+  mutation CreateListWithItems(
+    $name: String,
+    $type: ListType!,
+    $preSaveListItems: [PreSaveListItem],
   ) {
-    createListItem(
+    createListWithItems(
       name: $name,
       type: $type,
-      listType: $listType,
-      notes: $notes,
+      preSaveListItems: $preSaveListItems,
     ) {
       id
     }
   }
 `;
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -100,7 +99,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const NewShoppingListForm = () => {
   const classes = useStyles();
-  const [createListItem, { data, loading, error }] = useMutation(CREATE_LIST_ITEM);
+  const [createListWithItems, { data, loading, error }] = useMutation(CREATE_LIST_WITH_ITEMS);
   const router = useRouter();
   const [listName, setListName] = useState('');
   const [itemName, setItemName] = useState('');
@@ -112,31 +111,43 @@ const NewShoppingListForm = () => {
   };
 
   const submitForm = () => {
+    let listItems = [];
+
+    for (let i = 0; i < chipData.length; i++) {
+      listItems.push(
+        {
+          name: chipData[i].label,
+          type: chipData[i].type,
+          notes: chipData[i].notes,
+          complete: chipData[i].complete
+        }
+      );
+    }
+
     if (listName === '') {
       alert('You need a list name');
       return;
     }
 
-    if (chipData.length === 0) {
+    if (listItems.length === 0) {
       alert('You need to add list items');
       return;
     }
 
     const variables = {
       variables: {
-        name: itemName,
-        type,
-        notes: '',
-        listType: LIST_TYPE.SHOPPING
+        name: listName,
+        type: LIST_TYPE.SHOPPING,
+        preSaveListItems: listItems
       }
     };
-    createListItem(variables);
+    createListWithItems(variables);
 
   }
 
   if (loading) return <MagiclyLoading open={true} hideLayout={true}/>;
   if (error) return <MagiclyError message={error.message} hideLayout={true}/>;
-  if (data && data.createListItem && data.createListItem.id) {
+  if (data && data.createListWithItems && data.createListWithItems.id) {
     // TODO: show dialog message when homework is created!
     if (process.browser || (window && window.location)) {
       window.location.href = url + 'productivity/shopping';
@@ -163,17 +174,26 @@ const NewShoppingListForm = () => {
       alert('You need to select a item type');
       return;
     }
+
     if (itemName === '') {
       alert('You need to add an item name');
       return;
     }
 
-    newChipData.push({ key: newChipData.length, label: itemName, type: type });
+    newChipData.push({
+      key: newChipData.length,
+      label: itemName,
+      type: type,
+      notes: '',
+      complete: false
+    });
 
     setItemName('');
     setType('');
     setChipData(newChipData);
   };
+
+  let chipsDisplay = chipData.length === 0 ? 'none' : 'block';
 
   return (
     <div>
@@ -189,7 +209,7 @@ const NewShoppingListForm = () => {
           <TextField autoComplete="off" id="standard-basic" label="List name" onChange={event => setListName(event.target.value)} required className={classes.name} />
         </Grid>
 
-        <Grid item xs={12} lg={6} md={12} sm={12} className={classes.centerText} style={{marginTop: '30px', marginBottom: '30px'}}>
+        <Grid item xs={12} lg={6} md={12} sm={12} className={classes.centerText} style={{ marginTop: '30px', marginBottom: '30px', display: chipsDisplay}}>
           <Paper component="ul" className={classes.root}>
             {chipData.map((data) => {
               return (
