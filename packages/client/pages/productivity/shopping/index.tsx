@@ -7,6 +7,8 @@ import MagiclyLoading from '../../../components/shared/MagiclyLoading';
 import MagiclyError from '../../../components/shared/MagiclyError';
 import MagiclyPageTitle from '../../../components/shared/MagiclyPageTitle';
 import MagiclyAddIconLabel from '../../../components/shared/MagiclyAddIconLabel';
+import ListItemRow from '../../../components/productivity/ListItemRow';
+import MagiclySearchIconLabel from '../../../components/shared/MagiclySearchIconLabel';
 import gql from 'graphql-tag';
 import { LIST_TYPE } from '../../../constants/appStrings';
 import { withApollo } from '../../../apollo/apollo';
@@ -16,6 +18,7 @@ import AddCircle from '@material-ui/icons/AddCircle';
 import Stars from '@material-ui/icons/Stars';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import Star from '@material-ui/icons/Star';
 
 const QUERY = gql`
   query Lists (
@@ -162,6 +165,31 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: '16px',
       },
     },
+    emptyMarginTopBlock: {
+      marginTop: '50px',
+      [theme.breakpoints.down('sm')]: {
+        marginTop: '20px'
+      },
+    },
+    leftText: {
+      textAlign: 'left',
+    },
+    recType: {
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+      },
+    },
+    horizontalLine: {
+      marginTop: '20px',
+      maxWidth: '900px',
+    },
+    toolIcon: {
+      color: '#002642',
+      fontSize: '18px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '12px',
+      },
+    },
     someExamples: {
       color: '#02040F',
       fontFamily: 'Playfair Display, serif',
@@ -201,8 +229,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const ShoppingPage = () => {
   const router = useRouter();
   const classes = useStyles();
-  let listItems: Array<any> = [];
-  let hasSavedListItems: boolean = false;
+  let lists: Array<any> = [];
+  let hasSavedShoppingLists: boolean = false;
 
   const { data, loading, error } = useQuery(
     QUERY,
@@ -225,28 +253,42 @@ const ShoppingPage = () => {
     router.push('/' + pageName, undefined, { shallow: true });
   };
 
-  const getIndividualListItem = (key: any, listItem: any) => {
+  const getIndividualLists = (key: any, list: any) => {
+    let listItemsNum = 0;
+    let itemOrItems = ' items';
+    if (list && list.listItems && list.listItems.length > 0) {
+      listItemsNum = list.listItems.length;
+    }
+
+    if (listItemsNum === 1) {
+      itemOrItems = ' item';
+    }
+
     return (
-      <Grid key={key} container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
-        <Grid item xs={4} lg={3} md={4} sm={4}>
-          <Link href="shopping/view/[id]" as={`shopping/view/${listItem.id}`}>
-            <span className={classes.link}>{listItem.name}</span>
+      <Grid container justify="center" alignContent="center" alignItems="center" className={classes.leftText}>
+        <Grid item xs={1} lg={1} md={1} sm={1} style={{ maxWidth: '40px' }}>
+          <ShoppingCart fontSize={'large'} className={classes.toolIcon} />
+        </Grid>
+        <Grid item xs={11} lg={6} md={6} sm={11}>
+          <Link href="shopping/view/[id]" as={`shopping/view/${list.id}`}>
+            <span className={classes.link}>{list.name}</span>
           </Link>
         </Grid>
-        <Grid item xs={4} lg={3} md={4} sm={4}>
-          <Link href="shopping/view/[id]" as={`shopping/view/${listItem.id}`}>
-            <span className={classes.type}>{listItem.type}</span>
-          </Link>
+        <Grid item xs={1} lg={1} md={1} sm={1} className={classes.recType}>
+          <span className={classes.type}>{listItemsNum + itemOrItems}</span>
+        </Grid>
+        <Grid item xs={12} lg={12} md={12} sm={12}>
+          <hr className={classes.horizontalLine} />
         </Grid>
       </Grid>
     );
   };
 
   if (data && data.lists && data.lists.edges && data.lists.edges.length > 0) {
-    hasSavedListItems = true;
+    hasSavedShoppingLists = true;
     data.lists.edges.forEach((listItem, key) => {
-      listItems.push(
-        getIndividualListItem(
+      lists.push(
+        getIndividualLists(
           key,
           listItem
         )
@@ -282,20 +324,31 @@ const ShoppingPage = () => {
   };
 
   const getMainUI = () => {
-    if (hasSavedListItems) {
+    if (hasSavedShoppingLists) {
       return (
         <Grid container justify="center" alignContent="center" alignItems="center">
+
+          <Grid item lg={12} sm={12} xs={12} md={12} className={classes.emptyMarginTopBlock}>
+          </Grid>
+          <Grid item xs={4} lg={5} md={5} sm={5}>
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
+              <MagiclyAddIconLabel />
+            </div>
+          </Grid>
+          <Grid item xs={4} lg={5} md={5} sm={5}>
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/search')}>
+              <MagiclySearchIconLabel />
+            </div>
+          </Grid>
+
+
           <Grid item xs={8}>
             <MagiclyPageTitle
               title={'Shopping Lists'}
             />
           </Grid>
-          <Grid item xs={12} lg={5} md={5} sm={5}>
-            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
-              <MagiclyAddIconLabel />
-            </div>
-          </Grid>
-          {listItems}
+
+          {lists}
         </Grid>
       );
     } else {
