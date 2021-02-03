@@ -108,7 +108,6 @@ const ListItemRow = (props) => {
 
   if (error) return <MagiclyError message={error.message} hideLayout={true}/>;
 
-
   const handleChange = (event) => {
     let isComplete = !complete;
     setComplete(isComplete);
@@ -132,13 +131,15 @@ const ListItemRow = (props) => {
           />
         </Grid>
         <Grid item xs={10} lg={5} md={5} sm={10}>
-          <Link href="lists/view/[id]" as={`lists/view/${props.listItem.id}`}>
-            <a className={classes.link} style={{textDecoration}}>{props.listItem.name}</a>
-          </Link>
+        <span
+          className={classes.link}
+          style={{ textDecoration }}>
+            {props.listItem.name}
+        </span>
         </Grid>
       <Grid item xs={1} lg={1} md={1} sm={1} className={classes.hwType}>
           {
-            props.listItem.type !== ITEM_TYPE.TODO ?
+          props.listItem.type !== ITEM_TYPE.TODO && !props.isShoppingList ?
               <Link href="lists/view/[id]" as={`lists/view/${props.listItem.id}`}>
                 <a className={classes.type}>{props.listItem.type}</a>
               </Link> :
