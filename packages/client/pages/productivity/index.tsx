@@ -498,7 +498,7 @@ const ProductivityPage = () => {
         </Grid>
         { getTodoListSection() }
         { getRecommendationsSection() }
-        { getShoppingSection() }
+        {/* { getShoppingSection() } */}
         { getTechHelpSection() }
       </Grid>
     </Layout>
