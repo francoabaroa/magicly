@@ -103,7 +103,7 @@ const NewShoppingListForm = () => {
   const router = useRouter();
   const [listName, setListName] = useState('');
   const [itemName, setItemName] = useState('');
-  const [type, setType] = useState('');
+  const [type, setType] = useState('SHOPPING');
   const [chipData, setChipData] = React.useState([]);
 
   const handleDelete = (chipToDelete) => () => {
@@ -170,11 +170,6 @@ const NewShoppingListForm = () => {
     let currentChipData = chipData;
     let newChipData = currentChipData.slice();
 
-    if (type === '') {
-      alert('You need to select a item type');
-      return;
-    }
-
     if (itemName === '') {
       alert('You need to add an item name');
       return;
@@ -188,8 +183,8 @@ const NewShoppingListForm = () => {
       complete: false
     });
 
+    setType('SHOPPING');
     setItemName('');
-    setType('');
     setChipData(newChipData);
   };
 
@@ -230,7 +225,7 @@ const NewShoppingListForm = () => {
           <TextField autoComplete="off" id="standard-basic" label="Item name" onChange={event => setItemName(event.target.value)} required className={classes.name} value={itemName} />
         </Grid>
 
-        <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
+        {/* <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
           <FormControl className={classes.formControl}>
             <InputLabel id="demo-simple-select-label">Item type</InputLabel>
             <Select
@@ -261,9 +256,9 @@ const NewShoppingListForm = () => {
               <MenuItem value={ITEM_TYPE.OTHER}>{getCapitalizedString(ITEM_TYPE.OTHER)}</MenuItem>
             </Select>
           </FormControl>
-        </Grid>
+        </Grid> */}
 
-        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.saveBtn}>
+        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.saveBtn} style={{marginTop: '30px'}}>
           <MagiclyButton
             btnLabel={'Add Item'}
             onClick={addItem}
