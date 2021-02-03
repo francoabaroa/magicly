@@ -9,7 +9,6 @@ export default gql`
       limit: Int
     ): ListItemConnection!
     listItem (id: ID!): ListItem
-    shoppingListItems (cursor: String, limit: Int): ListItemConnection!
   }
   extend type Mutation {
     createListItem(

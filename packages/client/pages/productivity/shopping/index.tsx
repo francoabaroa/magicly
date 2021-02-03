@@ -18,21 +18,27 @@ import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const QUERY = gql`
-  query GetShoppingItems (
-    $listType: ListType!,
+  query Lists (
+    $listTypes: [ListType]!,
     $cursor: String,
     $limit: Int
   ) {
-    listItems(
-      listType: $listType,
+    lists(
+      listTypes: $listTypes,
       cursor: $cursor,
       limit: $limit
     ) {
       edges {
         id
-        notes
         name
         type
+        listItems {
+          id
+          complete
+          name
+          type
+          notes
+        }
       }
       pageInfo {
         endCursor
@@ -202,7 +208,9 @@ const ShoppingPage = () => {
     QUERY,
     {
       variables: {
-        listType: LIST_TYPE.SHOPPING,
+        listTypes: [
+          LIST_TYPE.SHOPPING
+      ],
       }
     }
   );
@@ -234,9 +242,9 @@ const ShoppingPage = () => {
     );
   };
 
-  if (data && data.listItems && data.listItems.edges && data.listItems.edges.length > 0) {
+  if (data && data.lists && data.lists.edges && data.lists.edges.length > 0) {
     hasSavedListItems = true;
-    data.listItems.edges.forEach((listItem, key) => {
+    data.lists.edges.forEach((listItem, key) => {
       listItems.push(
         getIndividualListItem(
           key,

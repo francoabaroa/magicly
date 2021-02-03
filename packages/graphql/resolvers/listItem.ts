@@ -75,61 +75,6 @@ export default {
         },
       };
     },
-    shoppingListItems: async (parent, { cursor, limit = 100 }, { models, me }) => {
-      let listType = 'SHOPPING';
-      let list = await models.List.findOne({
-        where: { type: listType, userId: me.id }
-      });
-
-      if (list === null) {
-        list = await models.List.create({
-          name: listType.toLowerCase(),
-          type: listType,
-          userId: me.id
-        });
-      }
-
-      const listId = list && list.id ? list.id : null;
-
-      if (listId === null) {
-        throw new ApolloError('No list id.');
-      }
-
-      const cursorOptions = cursor
-        ? {
-          where: {
-            createdAt: {
-              [Sequelize.Op.lt]: fromCursorHash(cursor),
-            },
-            listId: listId
-          },
-        }
-        : {
-          where: {
-            listId: listId
-          }
-        };
-
-      const listItems = await models.ListItem.findAll({
-        order: [['createdAt', 'DESC']],
-        limit: limit + 1,
-        ...cursorOptions,
-      });
-
-      const hasNextPage = listItems.length > limit;
-      const edges = hasNextPage ? listItems.slice(0, -1) : listItems;
-      const endCursor = edges.length > 0 ? toCursorHash(
-        // TODO: this is coming back undefined when cursor is being used
-        edges[edges.length - 1].createdAt.toString(),
-      ) : null;
-      return {
-        edges,
-        pageInfo: {
-          hasNextPage,
-          endCursor: endCursor,
-        },
-      };
-    }
   },
   Mutation: {
     createListItem: combineResolvers(

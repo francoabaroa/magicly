@@ -43,27 +43,6 @@ const QUERY = gql`
         endCursor
       }
     }
-    shoppingListItems(
-      cursor: $cursor,
-      limit: $limit
-    ) {
-      edges {
-        id
-        name
-        type
-        executionDate
-        complete
-        notes
-        list {
-          id
-          name
-          type
-        }
-      }
-      pageInfo {
-        endCursor
-      }
-    }
     lists(
       listTypes: $listTypes,
       cursor: $cursor,
@@ -338,56 +317,71 @@ const ProductivityPage = () => {
   };
 
   const getShoppingSection = () => {
-    if (data && data.shoppingListItems && data.shoppingListItems.edges && data.shoppingListItems.edges.length > 0) {
-      let shoppingListItemsPreview = getRecentShoppingListItemPreview();
-      return (
-        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
-          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
-            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/shopping')}>
-              Shopping
+    return (
+      <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
+        <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/shopping')}>
+          Shopping
             </h2>
-            <hr />
-          </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
-            <div className={classes.recent}>Most Recent: </div>
-          </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12} xl={12} className={classes.recentPreview}>
-            {shoppingListItemsPreview}
-          </Grid>
-
-          <Grid container justify="center" alignContent="center" alignItems="center">
-            <Grid item xs={6} lg={6} md={6} sm={6}>
-              <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping')}>
-                <Visibility fontSize={'large'} className={classes.icon} />
-                <span className={classes.details}>view all</span>
-              </div>
-            </Grid>
-            <Grid item xs={6} lg={6} md={6} sm={6}>
-              <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
-                <AddCircle fontSize={'large'} className={classes.icon} />
-                <span className={classes.details}>add</span>
-              </div>
-            </Grid>
-          </Grid>
-        </Grid>
-      );
-    } else {
-      return (
-        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
-          <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/shopping')}>
-            Shopping
-            </h2>
-          <hr />
-          <h3 className={classes.description}>
-            Create grocery, gift or any shopping list you need
+        <hr />
+        <h3 className={classes.description}>
+          Create grocery, gift or any shopping list you need
             </h3>
-          <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
-            <AddCircle fontSize={'large'} className={classes.icon} />
-            <span className={classes.details}>add</span>
-          </div>
-        </Grid>
-      );
-    }
+        <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
+          <AddCircle fontSize={'large'} className={classes.icon} />
+          <span className={classes.details}>add</span>
+        </div>
+      </Grid>
+    );
+    // if (data && data.shoppingListItems && data.shoppingListItems.edges && data.shoppingListItems.edges.length > 0) {
+    //   let shoppingListItemsPreview = getRecentShoppingListItemPreview();
+    //   return (
+    //     <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
+    //       <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+    //         <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/shopping')}>
+    //           Shopping
+    //         </h2>
+    //         <hr />
+    //       </Grid>
+    //       <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+    //         <div className={classes.recent}>Most Recent: </div>
+    //       </Grid>
+    //       <Grid item xs={12} lg={12} md={12} sm={12} xl={12} className={classes.recentPreview}>
+    //         {shoppingListItemsPreview}
+    //       </Grid>
+
+    //       <Grid container justify="center" alignContent="center" alignItems="center">
+    //         <Grid item xs={6} lg={6} md={6} sm={6}>
+    //           <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping')}>
+    //             <Visibility fontSize={'large'} className={classes.icon} />
+    //             <span className={classes.details}>view all</span>
+    //           </div>
+    //         </Grid>
+    //         <Grid item xs={6} lg={6} md={6} sm={6}>
+    //           <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
+    //             <AddCircle fontSize={'large'} className={classes.icon} />
+    //             <span className={classes.details}>add</span>
+    //           </div>
+    //         </Grid>
+    //       </Grid>
+    //     </Grid>
+    //   );
+    // } else {
+    //   return (
+    //     <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
+    //       <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/shopping')}>
+    //         Shopping
+    //         </h2>
+    //       <hr />
+    //       <h3 className={classes.description}>
+    //         Create grocery, gift or any shopping list you need
+    //         </h3>
+    //       <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
+    //         <AddCircle fontSize={'large'} className={classes.icon} />
+    //         <span className={classes.details}>add</span>
+    //       </div>
+    //     </Grid>
+    //   );
+    // }
   };
 
   const getTodoListSection = () => {
