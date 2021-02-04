@@ -300,50 +300,54 @@ const ProductivityPage = () => {
     if (data && data.listItems && data.listItems.edges && data.listItems.edges.length > 0) {
       let recommendationItemPreview = getRecentRecommendationItemPreview();
       return (
-        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
-          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
-          <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/recommendations')}>
-            Recommendations
+        <Grid container justify="center" alignContent="center" alignItems="center">
+          <Grid item xs={7} lg={7} md={7} sm={7} xl={12} className={classes.paper}>
+            <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+              <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/recommendations')}>
+                Recommendations
             </h2>
-          <hr />
-          </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
-          <div className={classes.recent}>Most Recent: </div>
-          </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12} xl={12} className={classes.recentPreview}>
-          { recommendationItemPreview }
-          </Grid>
-
-          <Grid container justify="center" alignContent="center" alignItems="center">
-            <Grid item xs={6} lg={6} md={6} sm={6}>
-              <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/recommendations')}>
-                <Visibility fontSize={'large'} className={classes.icon} />
-                <span className={classes.details}>view all</span>
-              </div>
+              <hr />
             </Grid>
-            <Grid item xs={6} lg={6} md={6} sm={6}>
-              <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/recommendations/add')}>
-                <AddCircle fontSize={'large'} className={classes.icon} />
-                <span className={classes.details}>add</span>
-              </div>
+            <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+              <div className={classes.recent}>Most Recent: </div>
+            </Grid>
+            <Grid item xs={12} lg={12} md={12} sm={12} xl={12} className={classes.recentPreview}>
+              {recommendationItemPreview}
+            </Grid>
+
+            <Grid container justify="center" alignContent="center" alignItems="center">
+              <Grid item xs={6} lg={6} md={6} sm={6}>
+                <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/recommendations')}>
+                  <Visibility fontSize={'large'} className={classes.icon} />
+                  <span className={classes.details}>view all</span>
+                </div>
+              </Grid>
+              <Grid item xs={6} lg={6} md={6} sm={6}>
+                <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/recommendations/add')}>
+                  <AddCircle fontSize={'large'} className={classes.icon} />
+                  <span className={classes.details}>add</span>
+                </div>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
       );
     } else {
       return (
-        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
-          <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/recommendations')}>
-            Recommendations
+        <Grid container justify="center" alignContent="center" alignItems="center">
+          <Grid item xs={7} lg={7} md={7} sm={7} xl={12} className={classes.paper}>
+            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/recommendations')}>
+              Recommendations
             </h2>
-          <hr />
-          <h3 className={classes.description}>
-            Save TV series, movies, books, restaurants or any other recommendation you get
+            <hr />
+            <h3 className={classes.description}>
+              Save TV series, movies, books, restaurants or any other recommendation you get
             </h3>
-          <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/recommendations/add')}>
-            <AddCircle fontSize={'large'} className={classes.icon} />
-            <span className={classes.details}>add</span>
-          </div>
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/recommendations/add')}>
+              <AddCircle fontSize={'large'} className={classes.icon} />
+              <span className={classes.details}>add</span>
+            </div>
+          </Grid>
         </Grid>
       );
     }
@@ -353,50 +357,54 @@ const ProductivityPage = () => {
     if (hasShoppingLists()) {
       let shoppingListPreview = getRecentShoppingListPreview();
       return (
-        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
-          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
-            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/shopping')}>
-              Shopping
+        <Grid container justify="center" alignContent="center" alignItems="center">
+          <Grid item xs={7} lg={7} md={7} sm={7} xl={12} className={classes.paper}>
+            <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+              <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/shopping')}>
+                Shopping
             </h2>
-            <hr />
-          </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
-            <div className={classes.recent}>Most Recent: </div>
-          </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12} xl={12} className={classes.recentPreview}>
-            {shoppingListPreview}
-          </Grid>
-
-          <Grid container justify="center" alignContent="center" alignItems="center">
-            <Grid item xs={6} lg={6} md={6} sm={6}>
-              <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping')}>
-                <Visibility fontSize={'large'} className={classes.icon} />
-                <span className={classes.details}>view all</span>
-              </div>
+              <hr />
             </Grid>
-            <Grid item xs={6} lg={6} md={6} sm={6}>
-              <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
-                <AddCircle fontSize={'large'} className={classes.icon} />
-                <span className={classes.details}>add</span>
-              </div>
+            <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+              <div className={classes.recent}>Most Recent: </div>
+            </Grid>
+            <Grid item xs={12} lg={12} md={12} sm={12} xl={12} className={classes.recentPreview}>
+              {shoppingListPreview}
+            </Grid>
+
+            <Grid container justify="center" alignContent="center" alignItems="center">
+              <Grid item xs={6} lg={6} md={6} sm={6}>
+                <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping')}>
+                  <Visibility fontSize={'large'} className={classes.icon} />
+                  <span className={classes.details}>view all</span>
+                </div>
+              </Grid>
+              <Grid item xs={6} lg={6} md={6} sm={6}>
+                <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
+                  <AddCircle fontSize={'large'} className={classes.icon} />
+                  <span className={classes.details}>add</span>
+                </div>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
       );
     } else {
       return (
-        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
-          <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/shopping')}>
-            Shopping
+        <Grid container justify="center" alignContent="center" alignItems="center">
+          <Grid item xs={7} lg={7} md={7} sm={7} xl={12} className={classes.paper}>
+            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/shopping')}>
+              Shopping
             </h2>
-          <hr />
-          <h3 className={classes.description}>
-            Create grocery, gift or any shopping list you need
+            <hr />
+            <h3 className={classes.description}>
+              Create grocery, gift or any shopping list you need
             </h3>
-          <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
-            <AddCircle fontSize={'large'} className={classes.icon} />
-            <span className={classes.details}>add</span>
-          </div>
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
+              <AddCircle fontSize={'large'} className={classes.icon} />
+              <span className={classes.details}>add</span>
+            </div>
+          </Grid>
         </Grid>
       );
     }
@@ -406,50 +414,54 @@ const ProductivityPage = () => {
     if (containsTodoListItems()) {
       let todoListItemPreview = getRecentToDoListItemPreview();
       return (
-        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
-          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
-          <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/lists')}>
-            To-Do Lists
+        <Grid container justify="center" alignContent="center" alignItems="center">
+          <Grid item xs={7} lg={7} md={7} sm={7} xl={12} className={classes.paper}>
+            <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+              <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/lists')}>
+                To-Do Lists
             </h2>
-          <hr />
-          </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
-            <div className={classes.recent}>Most Recent: </div>
-          </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12} xl={12} className={classes.recentPreview}>
-          {todoListItemPreview}
-          </Grid>
-
-          <Grid container justify="center" alignContent="center" alignItems="center">
-            <Grid item xs={6} lg={6} md={6} sm={6}>
-              <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists')}>
-                <Visibility fontSize={'large'} className={classes.icon} />
-                <span className={classes.details}>view all</span>
-              </div>
+              <hr />
             </Grid>
-            <Grid item xs={6} lg={6} md={6} sm={6}>
-              <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists/add')}>
-                <AddCircle fontSize={'large'} className={classes.icon} />
-                <span className={classes.details}>add</span>
-              </div>
+            <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+              <div className={classes.recent}>Most Recent: </div>
+            </Grid>
+            <Grid item xs={12} lg={12} md={12} sm={12} xl={12} className={classes.recentPreview}>
+              {todoListItemPreview}
+            </Grid>
+
+            <Grid container justify="center" alignContent="center" alignItems="center">
+              <Grid item xs={6} lg={6} md={6} sm={6}>
+                <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists')}>
+                  <Visibility fontSize={'large'} className={classes.icon} />
+                  <span className={classes.details}>view all</span>
+                </div>
+              </Grid>
+              <Grid item xs={6} lg={6} md={6} sm={6}>
+                <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists/add')}>
+                  <AddCircle fontSize={'large'} className={classes.icon} />
+                  <span className={classes.details}>add</span>
+                </div>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
       );
     } else {
       return (
-        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
-          <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/lists')}>
-            To-Do Lists
+        <Grid container justify="center" alignContent="center" alignItems="center">
+          <Grid item xs={7} lg={7} md={7} sm={7} xl={12} className={classes.paper}>
+            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/lists')}>
+              To-Do Lists
             </h2>
-          <hr />
-          <h3 className={classes.description}>
-            Stay productive and organized with your tasks
+            <hr />
+            <h3 className={classes.description}>
+              Stay productive and organized with your tasks
             </h3>
-          <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists/add')}>
-            <AddCircle fontSize={'large'} className={classes.icon} />
-            <span className={classes.details}>add</span>
-          </div>
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/lists/add')}>
+              <AddCircle fontSize={'large'} className={classes.icon} />
+              <span className={classes.details}>add</span>
+            </div>
+          </Grid>
         </Grid>
       );
     }
@@ -459,50 +471,54 @@ const ProductivityPage = () => {
     let questionPreview = getRecentQuestionPreview();
     if (data && data.questions && data.questions.edges && data.questions.edges.length > 0) {
       return (
-        <Grid item xs={7} lg={7} md={7} sm={7} style={{ marginBottom: '50px' }} className={classes.paper}>
-          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
-          <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/help')}>
-            Ask a Tech Question
+        <Grid container justify="center" alignContent="center" alignItems="center">
+          <Grid item xs={7} lg={7} md={7} sm={7} style={{ marginBottom: '50px' }} className={classes.paper}>
+            <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+              <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/help')}>
+                Ask a Tech Question
             </h2>
-          <hr />
-          </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
-          <div className={classes.recent}>Most Recent: </div>
-          </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12} xl={12} className={classes.recentPreview}>
-          {questionPreview}
-          </Grid>
-
-          <Grid container justify="center" alignContent="center" alignItems="center">
-            <Grid item xs={6} lg={6} md={6} sm={6}>
-              <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/help')}>
-                <Visibility fontSize={'large'} className={classes.icon} />
-                <span className={classes.details}>view all</span>
-              </div>
+              <hr />
             </Grid>
-            <Grid item xs={6} lg={6} md={6} sm={6}>
-              <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/help/add')}>
-                <AddCircle fontSize={'large'} className={classes.icon} />
-                <span className={classes.details}>ask</span>
-              </div>
+            <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+              <div className={classes.recent}>Most Recent: </div>
+            </Grid>
+            <Grid item xs={12} lg={12} md={12} sm={12} xl={12} className={classes.recentPreview}>
+              {questionPreview}
+            </Grid>
+
+            <Grid container justify="center" alignContent="center" alignItems="center">
+              <Grid item xs={6} lg={6} md={6} sm={6}>
+                <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/help')}>
+                  <Visibility fontSize={'large'} className={classes.icon} />
+                  <span className={classes.details}>view all</span>
+                </div>
+              </Grid>
+              <Grid item xs={6} lg={6} md={6} sm={6}>
+                <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/help/add')}>
+                  <AddCircle fontSize={'large'} className={classes.icon} />
+                  <span className={classes.details}>ask</span>
+                </div>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
       );
     } else {
       return (
-        <Grid item xs={7} lg={7} md={7} sm={7} style={{ marginBottom: '50px' }} className={classes.paper}>
-          <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/help')}>
-            Ask a Tech Question
+        <Grid container justify="center" alignContent="center" alignItems="center">
+          <Grid item xs={7} lg={7} md={7} sm={7} style={{ marginBottom: '50px' }} className={classes.paper}>
+            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/help')}>
+              Ask a Tech Question
             </h2>
-          <hr />
-          <h3 className={classes.description}>
-            Answer questions, concerns or doubts you might have about technology
+            <hr />
+            <h3 className={classes.description}>
+              Answer questions, concerns or doubts you might have about technology
             </h3>
-          <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/help/add')}>
-            <AddCircle fontSize={'large'} className={classes.icon} />
-            <span className={classes.details}>ask a tech question</span>
-          </div>
+            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/help/add')}>
+              <AddCircle fontSize={'large'} className={classes.icon} />
+              <span className={classes.details}>ask a tech question</span>
+            </div>
+          </Grid>
         </Grid>
       );
     }
