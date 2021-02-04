@@ -63,6 +63,25 @@ const QUERY = gql`
         endCursor
       }
     }
+    shoppingLists(
+      cursor: $cursor,
+      limit: $limit,
+    ) {
+      edges {
+        id
+        name
+        type
+        listItems {
+          id
+          name
+          type
+          notes
+        }
+      }
+      pageInfo {
+        endCursor
+      }
+    }
     questions(
       questionStatus: $questionStatus,
       cursor: $cursor,
@@ -206,17 +225,22 @@ const ProductivityPage = () => {
     return recommendationItem;
   };
 
-  const getRecentShoppingListItemPreview = () => {
-    let shoppingListItem = [];
-    for (let element of data.shoppingListItems.edges) {
-      shoppingListItem.push(
-        <Link key={5} href="productivity/shopping/view/[id]" as={`productivity/shopping/view/${element.id}`}>
-          <div>- {element.name}</div>
-        </Link>
-      );
-      break;
+  const getRecentShoppingListPreview = () => {
+    let shoppingList = [];
+    if (data && data.shoppingLists && data.shoppingLists.edges && data.shoppingLists.edges.length > 0) {
+      for (let i = 0; i < data.shoppingLists.edges.length; i++) {
+        if (data.shoppingLists.edges[i].listItems.length > 0) {
+          let element = data.shoppingLists.edges[i];
+          shoppingList.push(
+            <Link key={5} href="productivity/shopping/view/[id]" as={`productivity/shopping/view/${element.id}`}>
+              <div>- {element.name}</div>
+            </Link>
+          );
+          break;
+        }
+      }
     }
-    return shoppingListItem;
+    return shoppingList;
   };
 
   const getRecentQuestionPreview = () => {
@@ -232,14 +256,23 @@ const ProductivityPage = () => {
     return questionsPreview;
   };
 
+  const hasShoppingLists = () => {
+    if (data && data.shoppingLists && data.shoppingLists.edges && data.shoppingLists.edges.length > 0) {
+      for (let i = 0; i < data.shoppingLists.edges.length; i++) {
+        if (data.shoppingLists.edges[i].listItems.length > 0) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   const containsTodoListItems = () => {
     if (data && data.lists && data.lists.edges && data.lists.edges.length > 0) {
-      if (
-        data.lists.edges[0].listItems.length > 0 ||
-        data.lists.edges[1].listItems.length > 0 ||
-        data.lists.edges[2].listItems.length > 0
-      ) {
-        return true;
+      for (let i = 0; i < data.lists.edges.length; i++) {
+        if (data.lists.edges[i].listItems.length > 0) {
+          return true;
+        }
       }
     }
     return false;
@@ -317,71 +350,56 @@ const ProductivityPage = () => {
   };
 
   const getShoppingSection = () => {
-    return (
-      <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
-        <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/shopping')}>
-          Shopping
+    if (hasShoppingLists()) {
+      let shoppingListPreview = getRecentShoppingListPreview();
+      return (
+        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+            <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/shopping')}>
+              Shopping
             </h2>
-        <hr />
-        <h3 className={classes.description}>
-          Create grocery, gift or any shopping list you need
-            </h3>
-        <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
-          <AddCircle fontSize={'large'} className={classes.icon} />
-          <span className={classes.details}>add</span>
-        </div>
-      </Grid>
-    );
-    // if (data && data.shoppingListItems && data.shoppingListItems.edges && data.shoppingListItems.edges.length > 0) {
-    //   let shoppingListItemsPreview = getRecentShoppingListItemPreview();
-    //   return (
-    //     <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
-    //       <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
-    //         <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/shopping')}>
-    //           Shopping
-    //         </h2>
-    //         <hr />
-    //       </Grid>
-    //       <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
-    //         <div className={classes.recent}>Most Recent: </div>
-    //       </Grid>
-    //       <Grid item xs={12} lg={12} md={12} sm={12} xl={12} className={classes.recentPreview}>
-    //         {shoppingListItemsPreview}
-    //       </Grid>
+            <hr />
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12}>
+            <div className={classes.recent}>Most Recent: </div>
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} xl={12} className={classes.recentPreview}>
+            {shoppingListPreview}
+          </Grid>
 
-    //       <Grid container justify="center" alignContent="center" alignItems="center">
-    //         <Grid item xs={6} lg={6} md={6} sm={6}>
-    //           <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping')}>
-    //             <Visibility fontSize={'large'} className={classes.icon} />
-    //             <span className={classes.details}>view all</span>
-    //           </div>
-    //         </Grid>
-    //         <Grid item xs={6} lg={6} md={6} sm={6}>
-    //           <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
-    //             <AddCircle fontSize={'large'} className={classes.icon} />
-    //             <span className={classes.details}>add</span>
-    //           </div>
-    //         </Grid>
-    //       </Grid>
-    //     </Grid>
-    //   );
-    // } else {
-    //   return (
-    //     <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
-    //       <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/shopping')}>
-    //         Shopping
-    //         </h2>
-    //       <hr />
-    //       <h3 className={classes.description}>
-    //         Create grocery, gift or any shopping list you need
-    //         </h3>
-    //       <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
-    //         <AddCircle fontSize={'large'} className={classes.icon} />
-    //         <span className={classes.details}>add</span>
-    //       </div>
-    //     </Grid>
-    //   );
-    // }
+          <Grid container justify="center" alignContent="center" alignItems="center">
+            <Grid item xs={6} lg={6} md={6} sm={6}>
+              <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping')}>
+                <Visibility fontSize={'large'} className={classes.icon} />
+                <span className={classes.details}>view all</span>
+              </div>
+            </Grid>
+            <Grid item xs={6} lg={6} md={6} sm={6}>
+              <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
+                <AddCircle fontSize={'large'} className={classes.icon} />
+                <span className={classes.details}>add</span>
+              </div>
+            </Grid>
+          </Grid>
+        </Grid>
+      );
+    } else {
+      return (
+        <Grid item xs={7} lg={7} md={7} sm={7} className={classes.paper}>
+          <h2 className={classes.sectionTitle} onClick={routePage.bind(this, 'productivity/shopping')}>
+            Shopping
+            </h2>
+          <hr />
+          <h3 className={classes.description}>
+            Create grocery, gift or any shopping list you need
+            </h3>
+          <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
+            <AddCircle fontSize={'large'} className={classes.icon} />
+            <span className={classes.details}>add</span>
+          </div>
+        </Grid>
+      );
+    }
   };
 
   const getTodoListSection = () => {
@@ -498,7 +516,7 @@ const ProductivityPage = () => {
         </Grid>
         { getTodoListSection() }
         { getRecommendationsSection() }
-        {/* { getShoppingSection() } */}
+        { getShoppingSection() }
         { getTechHelpSection() }
       </Grid>
     </Layout>

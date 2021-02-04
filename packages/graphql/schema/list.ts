@@ -3,6 +3,7 @@ import { gql } from 'apollo-server-express';
 export default gql`
   extend type Query {
     lists(listTypes: [ListType], cursor: String, limit: Int): ListConnection!
+    shoppingLists(cursor: String, limit: Int): ListConnection!
     list (id: ID!): List
   }
   extend type Mutation {

@@ -58,6 +58,48 @@ export default {
           endCursor: endCursor,
         },
       };
+    },
+    shoppingLists: async (parent, { cursor, limit = 100 }, { models, me }) => {
+      const cursorOptions = cursor
+        ? {
+          where: {
+            createdAt: {
+              [Sequelize.Op.lt]: fromCursorHash(cursor),
+            },
+            userId: me.id,
+            type: {
+              [Sequelize.Op.in]: ['SHOPPING']
+            }
+          },
+        }
+        : {
+          where: {
+            userId: me.id,
+            type: {
+              [Sequelize.Op.in]: ['SHOPPING']
+            }
+          }
+        };
+
+
+      const lists = await models.List.findAll({
+        order: [['createdAt', 'DESC']],
+        limit: limit + 1,
+        ...cursorOptions,
+      });
+      const hasNextPage = lists.length > limit;
+      const edges = hasNextPage ? lists.slice(0, -1) : lists;
+      const endCursor = edges.length > 0 ? toCursorHash(
+        // TODO: this is coming back undefined when cursor is being used
+        edges[edges.length - 1].createdAt.toString(),
+      ) : null;
+      return {
+        edges,
+        pageInfo: {
+          hasNextPage,
+          endCursor: endCursor,
+        },
+      };
     }
   },
   Mutation: {
