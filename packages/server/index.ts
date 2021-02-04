@@ -361,10 +361,15 @@ async function main() {
           data
           && (data.formatCheck === 'true' || data.formatCheck === true)
           && (data.dnsCheck === 'true' || data.dnsCheck === true)
-          && (data.smtpCheck === 'true' || data.smtpCheck === true)
         ) {
 
           const user = await db.User.findByEmail(email);
+
+          if (data.smtpCheck === 'false' || data.smtpCheck === false) {
+            let child = logger.child({ endpoint: '/verify_email', ...data, ...user, email });
+            child.warn('EMAIL_VERIFICATION_SMPT_CHECK_FAILED');
+          }
+
           if (user) {
             if (email === me['email']) {
               res.send({
@@ -384,6 +389,8 @@ async function main() {
             success: true
           });
         } else {
+          let child = logger.child({ endpoint: '/verify_email', ...data, email });
+          child.warn('EMAIL_VERIFICATION_FAILED');
           res.status(404).send({
             success: false,
             message: `Could not verify email: ${email}`,
@@ -395,7 +402,6 @@ async function main() {
 
     app.post('/signup', async (req, res) => {
       const { email, password, firstName, currentCity, hasSocialAuthLogin } = req.body;
-      const child = logger.child({ endpoint: '/signup' });
 
       let verifier = new Verifier(process.env.EMAIL_VERIFICATION_KEY);
       verifier.verify(email, async (err, data) => {
@@ -406,8 +412,12 @@ async function main() {
             data
             && (data.formatCheck === 'true' || data.formatCheck === true)
             && (data.dnsCheck === 'true' || data.dnsCheck === true)
-            && (data.smtpCheck === 'true' || data.smtpCheck === true)
           ) {
+
+          if (data.smtpCheck === 'false' || data.smtpCheck === false) {
+            let child = logger.child({ endpoint: '/signup', ...data, email });
+            child.warn('EMAIL_VERIFICATION_SMPT_CHECK_FAILED');
+          }
 
           const user = await db.User.create(
             {
