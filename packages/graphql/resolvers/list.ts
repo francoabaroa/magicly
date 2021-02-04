@@ -126,6 +126,55 @@ export default {
         }
       },
     ),
+    updateListWithItems: combineResolvers(
+      isAuthenticated,
+      async (
+        parent,
+        {
+          id,
+          name,
+          type,
+          preSaveListItems,
+        },
+        { me, models }
+      ) => {
+        try {
+          let items = [];
+          let oldList = await models.List.destroy({ where: { id } });
+
+          if (!oldList) {
+            throw new ApolloError('error while updating shopping list');
+          }
+
+          const newList = await models.List.create({
+            name,
+            type,
+            userId: me.id,
+          });
+
+          if (newList && preSaveListItems && preSaveListItems.length > 0) {
+            for (let i = 0; i < preSaveListItems.length; i++) {
+              items.push({
+                listId: newList.id,
+                name: preSaveListItems[i].name,
+                type: preSaveListItems[i].type,
+                notes: preSaveListItems[i].notes,
+                complete: preSaveListItems[i].complete
+              });
+            }
+          }
+
+          const bulkListItems = await models.ListItem.bulkCreate(items);
+          if (!bulkListItems) {
+            throw new ApolloError('listItems not created');
+          }
+
+          return newList;
+        } catch (error) {
+          throw new ApolloError(error);
+        }
+      }
+    ),
     deleteList: combineResolvers(
       isAuthenticated,
       isListOwner,

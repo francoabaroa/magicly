@@ -6,7 +6,7 @@ import { useQuery } from '@apollo/react-hooks';
 import MagiclyLoading from '../../../../../components/shared/MagiclyLoading';
 import MagiclyError from '../../../../../components/shared/MagiclyError';
 import MagiclyPageTitle from '../../../../../components/shared/MagiclyPageTitle';
-import MagiclyAddIconLabel from '../../../../../components/shared/MagiclyAddIconLabel';
+import MagiclyEditIconLabel from '../../../../../components/shared/MagiclyEditIconLabel';
 import MagiclySearchIconLabel from '../../../../../components/shared/MagiclySearchIconLabel';
 import ListItemRow from '../../../../../components/productivity/ListItemRow';
 import gql from 'graphql-tag';
@@ -117,8 +117,8 @@ const ViewShoppingListPage = (props) => {
           <Grid item lg={12} sm={12} xs={12} md={12} className={classes.emptyMarginTopBlock}>
           </Grid>
           <Grid item xs={4} lg={5} md={5} sm={5}>
-            <div className={classes.individualFeature} onClick={routePage.bind(this, 'productivity/shopping/add')}>
-              <MagiclyAddIconLabel />
+            <div className={classes.individualFeature} onClick={routePage.bind(this, `productivity/shopping/edit/${data.list.id}`)}>
+              <MagiclyEditIconLabel />
             </div>
           </Grid>
           <Grid item xs={4} lg={5} md={5} sm={5}>

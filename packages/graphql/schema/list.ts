@@ -15,6 +15,12 @@ export default gql`
       type: ListType!
       preSaveListItems: [PreSaveListItem],
     ): List!
+    updateListWithItems(
+      id: ID!
+      name: String,
+      type: ListType!
+      preSaveListItems: [PreSaveListItem],
+    ): List!
     deleteList(id: ID!): Boolean!
   }
   type List {
@@ -35,5 +41,6 @@ export default gql`
     type: ItemType!
     complete: Boolean
     notes: String
+    id: ID
   }
 `;
