@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "ts-node index.ts",
-    "homeworkEmailNotify": "ts-node jobs/homeworkEmailNotify.ts",
+    "homeworkEmailNotifyScript": "ts-node jobs/homeworkEmailNotify.ts",
     "dev": "nodemon index.ts",
     "build": "../../node_modules/typescript/bin/tsc",
     "migrate": "npm run build && ../../node_modules/.bin/sequelize db:migrate --env development",

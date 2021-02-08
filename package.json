@@ -3,6 +3,7 @@
   "scripts": {
     "build": "yarn workspace @magicly/client run build",
     "start": "yarn workspace @magicly/server run start",
+    "homeworkEmailNotify": "yarn workspace @magicly/server run homeworkEmailNotifyScript",
     "dev": "export $(cat .env | xargs) && yarn workspace @magicly/server run dev"
   },
   "private": true,
