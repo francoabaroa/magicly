@@ -1,6 +1,6 @@
-import Umzug from 'umzug';
-import path from 'path';
-import Sequelize from 'sequelize';
+import Umzug = require('umzug');
+import path = require('path');
+import Sequelize = require('sequelize');
 import { DbInterface } from '../typings/DbInterface';
 import { AnswerFactory } from './Answer';
 import { AttachmentFactory } from './Attachment';
