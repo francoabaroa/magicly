@@ -2,7 +2,7 @@ require('dotenv').config();
 import AWS = require('aws-sdk');
 import nodemailer = require('nodemailer');
 import moment = require('moment');
-import logger() = require('pino');
+import logger = require('pino');
 import * as Sequelize from 'sequelize';
 import { createModels } from '../models/index';
 
@@ -45,6 +45,9 @@ if (process.env.DATABASE_URL) {
     }
   };
 }
+
+let child = logger().child({ section: 'beforeCreateModels' });
+child.info('BEFORE_CREATE_MODELS');
 
 const db = createModels(
   sequelizeConfig,
@@ -122,8 +125,14 @@ const markEmailsAsSent = async (returnedHomeworkIds) => {
 };
 
 const findAndSendEmails = async () => {
+  let child = logger().child({ section: 'getHomeworks' });
+  child.info('BEFORE_getHomeworks');
   const homeworks = await getHomeworks();
+  child = logger().child({ section: 'sendEmails' });
+  child.info('BEFORE_sendEmails');
   const returnedHomeworkIds = await sendEmails(homeworks);
+  child = logger().child({ section: 'returnedHomeworkIds', returnedHomeworkIds });
+  child.info('BEFORE_returnedHomeworkIds');
   const done = await markEmailsAsSent(returnedHomeworkIds);
   return done;
 };
