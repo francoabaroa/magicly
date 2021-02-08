@@ -421,7 +421,7 @@ async function main() {
 
           const user = await db.User.create(
             {
-              email,
+              email: email.toLowerCase(),
               firstName,
               currentCity,
               password,
