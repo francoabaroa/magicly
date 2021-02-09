@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config()
 import AWS = require('aws-sdk');
 import nodemailer = require('nodemailer');
 import moment = require('moment');
@@ -21,7 +21,6 @@ let transporter = nodemailer.createTransport({
 
 const isProduction = !!process.env.DATABASE_URL;
 let sequelizeConfig = {};
-
 if (process.env.DATABASE_URL) {
   sequelizeConfig = {
     'database': process.env.DATABASE_URL,
@@ -45,9 +44,6 @@ if (process.env.DATABASE_URL) {
     }
   };
 }
-
-let child = logger().child({ section: 'beforeCreateModels' });
-child.info('BEFORE_CREATE_MODELS');
 
 const db = createModels(
   sequelizeConfig,
@@ -87,14 +83,13 @@ const sendIndividualEmail = async (homework) => {
 };
 
 const getHomeworks = async () => {
-  const startOfDay = moment().startOf('day').toDate();
-  const endOfDay = moment().endOf('day').toDate();
+  const Op = Sequelize.Op;
   const homeworks = await db.Homework.findAll({
     where: {
       status: 'UPCOMING',
       notificationType: 'EMAIL',
       executionDate: {
-        [Sequelize.Op.between]: [startOfDay, endOfDay]
+        [Op.eq]: moment().format('YYYY-MM-DD'),
       },
     }
   })
@@ -117,6 +112,10 @@ const sendEmails = async (homeworks) => {
 };
 
 const markEmailsAsSent = async (returnedHomeworkIds) => {
+  if (returnedHomeworkIds.length === 0) {
+    return false;
+  }
+
   let marked = await db.Homework.update(
     { notificationType: 'NONE' },
     { where: { id: returnedHomeworkIds }
@@ -125,21 +124,24 @@ const markEmailsAsSent = async (returnedHomeworkIds) => {
 };
 
 const findAndSendEmails = async () => {
-  let child = logger().child({ section: 'getHomeworks' });
-  child.info('BEFORE_getHomeworks');
-  const homeworks = await getHomeworks();
-  child = logger().child({ section: 'sendEmails' });
-  child.info('BEFORE_sendEmails');
-  const returnedHomeworkIds = await sendEmails(homeworks);
-  child = logger().child({ section: 'returnedHomeworkIds', returnedHomeworkIds });
-  child.info('BEFORE_returnedHomeworkIds');
-  const done = await markEmailsAsSent(returnedHomeworkIds);
-  return done;
+  try {
+    await db.sequelize.authenticate();
+    let child = logger().child({ function: 'findAndSendEmailsBeforeGetHomeworks', isProduction, dirname: __dirname });
+    child.warn('FIND_AND_SEND_EMAILS_CONTINUE');
+    console.log('Connection has been established successfully.', isProduction, __dirname);
+    const homeworks = await getHomeworks();
+    const returnedHomeworkIds = await sendEmails(homeworks);
+    const done = await markEmailsAsSent(returnedHomeworkIds);
+    return done;
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+
 };
 
 findAndSendEmails().then(result => {
   console.log('Result: ', result);
 }).catch(error => {
-  let child = logger().child({ function: 'findAndSendEmails' });
+  let child = logger().child({ function: 'findAndSendEmails', error});
   child.warn('FIND_AND_SEND_EMAILS_ERROR');
 });
