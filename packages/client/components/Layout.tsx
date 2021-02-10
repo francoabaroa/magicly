@@ -64,6 +64,7 @@ const Layout = (props) => {
     let homeRoute = '/home';
     let productivityRoute = '/productivity';
     let financeRoute = '/finance';
+    let findRoute = '/find';
 
     if (router.route.includes(homeRoute) && router.route !== homeRoute) {
       return true;
@@ -74,6 +75,10 @@ const Layout = (props) => {
     }
 
     if (router.route.includes(financeRoute) && router.route !== financeRoute) {
+      return true;
+    }
+
+    if (router.route.includes(findRoute) && router.route !== findRoute) {
       return true;
     }
 
