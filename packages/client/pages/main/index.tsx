@@ -320,7 +320,7 @@ const MainPage = () => {
       }
       let title = data.homeworks.edges[0].title;
       return (
-        <Grid container  justify="center" alignContent="center" alignItems="center" className={classes.priorityRow}>
+        <Grid container justify="center" alignContent="center" alignItems="center" className={classes.priorityRow}>
           <Grid item key={0} xs={12} md={4} lg={4} sm={4}>
             <h5
               className={classes.previewTitle}>
@@ -368,7 +368,7 @@ const MainPage = () => {
       let body = data.questions.edges[0].body;
 
       return (
-        <Grid container  justify="center" alignContent="center" alignItems="center" className={classes.priorityRow}>
+        <Grid container justify="center" alignContent="center" alignItems="center" className={classes.priorityRow}>
           <Grid item key={0} xs={12} md={4} lg={4} sm={4}>
             <h5
               className={classes.previewTitle}>
