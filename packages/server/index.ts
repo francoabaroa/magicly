@@ -287,6 +287,36 @@ async function main() {
       });
     });
 
+    app.post("/find/missing", async function (request, response, next) {
+      const { searchQuery } = request.body;
+      const subject = 'Did Not Find Service';
+      const text = `Service Queried: ${searchQuery}`;
+
+      await transporter.sendMail({
+        from: 'magicly@sincero.tech',
+        to: 'magicly@sincero.tech',
+        cc: 'franco@sincero.tech,alejandra@sincero.tech',
+        subject,
+        text,
+        html: `<p style="font-weight:bold"> Service Queried: ${searchQuery} </p>`
+      }, (err, info) => {
+        if (err) {
+          let child = logger().child({ function: 'supportSubmissionFailure', searchQuery });
+          child.warn('SUPPORT_SUBMISSION_FAILURE');
+          response.status(404).send({
+            success: false,
+            message: `Could not submit`,
+          });
+          return;
+        }
+        if (info) {
+          response.send({
+            success: true
+          });
+        }
+      });
+    });
+
     app.get("/finance/hasPlaidAccounts", async function (request, response, next) {
       const me: any = await context(request);
       let clientUserId;

@@ -187,6 +187,7 @@ const FindPage = () => {
   const [services, setServices] = useState({});
   const [popularServices, setPopularServices] = useState([]);
   const [hidePopularServices, setHidePopularServices] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [showSearch, setShowSearch] = useState(true);
   const [filteredSearchResults, setFilteredSearchResults] = useState([]);
   const [hasSavedServices, setHasSavedServices] = useState(false);
@@ -273,8 +274,37 @@ const FindPage = () => {
   };
 
   const notifyOfEmptySearch = () => {
-    // send an email to us or something
-    // TODO: implement
+    async function submitMissingSearch() {
+      const options: RequestInit = {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        body: `searchQuery=${searchQuery}`
+      };
+
+      fetch('/find/missing', options)
+        .then(response => {
+          if (!response.ok) {
+            if (response.status === 404) {
+              // TODO: Remove these
+              alert('Submission 404 Error');
+            }
+            if (response.status === 401) {
+              // TODO: Remove these
+              alert('Submission 401 Error');
+            }
+          }
+          return response;
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            window.location.replace('/find');
+          }
+        })
+    }
+    submitMissingSearch();
   };
 
   const routePage = (pageName: string) => {
@@ -352,6 +382,7 @@ const FindPage = () => {
     let word = event.target.value as string;
     if (word.length > 0) {
       setHidePopularServices(true);
+      setSearchQuery(word);
     } else if (word.length === 0) {
       setHidePopularServices(false);
     }
