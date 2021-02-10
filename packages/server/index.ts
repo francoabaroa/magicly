@@ -32,6 +32,22 @@ const logger = require('pino')();
 
 require('dotenv').config({ path: '../../.env' });
 
+import nodemailer = require('nodemailer');
+import AWS = require('aws-sdk');
+
+AWS.config.update({
+  accessKeyId: process.env.SES_ACCESS_KEY,
+  secretAccessKey: process.env.SES_SECRET_KEY,
+  region: process.env.SES_REGION,
+});
+
+// create Nodemailer SES transporter
+let transporter = nodemailer.createTransport({
+  SES: new AWS.SES({
+    apiVersion: '2010-12-01'
+  })
+});
+
 const PORT = process.env.PORT || '3000';
 const isTest = !!process.env.DATABASE_TEST;
 const isProduction = !!process.env.DATABASE_URL;
@@ -239,6 +255,36 @@ async function main() {
 
       if (service) hasSavedServices = true;
       response.json({ services, hasSavedServices });
+    });
+
+    app.post("/support/submit", async function (request, response, next) {
+      const { email, firstName, body } = request.body;
+      const subject = 'Contact Us Form Submission';
+      const text = `Email: ${email} || Name: ${firstName} || Body: ${body}`;
+
+      await transporter.sendMail({
+        from: 'magicly@sincero.tech',
+        to: 'magicly@sincero.tech',
+        cc: 'franco@sincero.tech,alejandra@sincero.tech',
+        subject,
+        text,
+        html: `<p style="font-weight:bold"> Email: ${email} </p><p style="font-weight:bold"> Name: ${firstName} </p><p style="font-weight:bold"> Body: ${body} </p>`
+      }, (err, info) => {
+        if (err) {
+          let child = logger().child({ function: 'supportSubmissionFailure', email, body });
+          child.warn('SUPPORT_SUBMISSION_FAILURE');
+          response.status(404).send({
+            success: false,
+            message: `Could not submit`,
+          });
+          return;
+        }
+        if (info) {
+          response.send({
+            success: true
+          });
+        }
+      });
     });
 
     app.get("/finance/hasPlaidAccounts", async function (request, response, next) {
