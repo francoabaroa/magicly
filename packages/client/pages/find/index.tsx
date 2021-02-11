@@ -193,6 +193,7 @@ const FindPage = () => {
   const [hasSavedServices, setHasSavedServices] = useState(false);
   const [modalOpen, setModalOpen] = React.useState(false);
   const [individualServiceOpen, setIndividualServiceOpen] = React.useState(false);
+  const [missingServiceDialogOpen, setMissingServiceDialogOpen] = React.useState(false);
   const [individualService, setIndividualService] = React.useState({});
 
   useEffect(() => {
@@ -269,6 +270,14 @@ const FindPage = () => {
     setIndividualServiceOpen(false);
   };
 
+  const handleMissingServiceDialogClose = () => {
+    setMissingServiceDialogOpen(false);
+  };
+
+  const handleMissingServiceDialogOpen = () => {
+    setMissingServiceDialogOpen(true);
+  };
+
   const handleClose = () => {
     setModalOpen(false);
   };
@@ -300,7 +309,7 @@ const FindPage = () => {
         .then(response => response.json())
         .then(data => {
           if (data.success) {
-            window.location.replace('/find');
+            handleMissingServiceDialogOpen();
           }
         })
     }
@@ -453,6 +462,25 @@ const FindPage = () => {
             Let us know
           </Button>
         </Grid>
+      );
+      results.push(
+        <Dialog
+          open={missingServiceDialogOpen}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle style={{ textAlign: 'center' }} id="alert-dialog-title">{'Thank you for helping us make Magicly better!'}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              We'll get back to you when we find that home service for you.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleMissingServiceDialogClose} color="primary">
+              Close
+          </Button>
+          </DialogActions>
+        </Dialog>
       );
     }
     return results;

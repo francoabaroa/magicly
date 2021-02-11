@@ -288,9 +288,15 @@ async function main() {
     });
 
     app.post("/find/missing", async function (request, response, next) {
+      let email = '';
       const { searchQuery } = request.body;
       const subject = 'Did Not Find Service';
-      const text = `Service Queried: ${searchQuery}`;
+      const text = `Service Queried: ${searchQuery} || User Email: ${email}`;
+      const me: any = await context(request);
+
+      if (me) {
+        email = me.email;
+      }
 
       await transporter.sendMail({
         from: 'magicly@sincero.tech',
@@ -298,7 +304,7 @@ async function main() {
         cc: 'franco@sincero.tech,alejandra@sincero.tech',
         subject,
         text,
-        html: `<p style="font-weight:bold"> Service Queried: ${searchQuery} </p>`
+        html: `<p style="font-weight:bold"> Service Queried: ${searchQuery} </p><p style="font-weight:bold"> User Email: ${email} </p>`
       }, (err, info) => {
         if (err) {
           let child = logger().child({ function: 'supportSubmissionFailure', searchQuery });
