@@ -323,6 +323,54 @@ async function main() {
       });
     });
 
+    app.post('/signin/forgot/verify', async (req, res) => {
+      const { email } = req.body
+      const user = await db.User.findByEmail(email);
+
+      if (!user) {
+        res.status(404).send({
+          success: false,
+          message: `Could not find account: ${email}`,
+        });
+        return;
+      }
+
+      // if user exists, need to create a special, 1 hr long token
+      // save that token to userId
+      // send email to user to reset password with UNIQUE link that will allow you to query special token
+      // if token matches when user clicks, they will be able to reset password
+
+      const token = await createToken(user, process.env.JWT_KEY, '1h');
+      const subject = 'FIX';
+      const text = 'FIX';
+      const randomString = '';
+      res.cookie('jwt-password-reset', token);
+
+      await transporter.sendMail({
+        from: 'magicly@sincero.tech',
+        to: 'magicly@sincero.tech',
+        cc: 'franco@sincero.tech,alejandra@sincero.tech',
+        subject,
+        text,
+        html: `<p style="font-weight:bold"> Service Queried: ${randomString} </p><p style="font-weight:bold"> User Email: ${email} </p>`
+      }, (err, info) => {
+        if (err) {
+          let child = logger().child({ function: 'supportSubmissionFailure', randomString });
+          child.warn('SUPPORT_SUBMISSION_FAILURE');
+          res.status(404).send({
+            success: false,
+            message: `Could not submit`,
+          });
+          return;
+        }
+        if (info) {
+          res.send({
+            success: true
+          });
+        }
+      });
+    });
+
     app.get("/finance/hasPlaidAccounts", async function (request, response, next) {
       const me: any = await context(request);
       let clientUserId;

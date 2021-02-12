@@ -2,17 +2,17 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import Layout from '../components/Layout';
-import MagiclyPageTitle from '../components/shared/MagiclyPageTitle';
-import MagiclyLoading from '../components/shared/MagiclyLoading';
-import MagiclyError from '../components/shared/MagiclyError';
+import Layout from '../../components/Layout';
+import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
+import MagiclyLoading from '../../components/shared/MagiclyLoading';
+import MagiclyError from '../../components/shared/MagiclyError';
 import gql from 'graphql-tag';
-import { withApollo } from '../apollo/apollo';
+import { withApollo } from '../../apollo/apollo';
 import Button from '@material-ui/core/Button';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import { APP_CONFIG } from '../constants/appStrings';
+import { APP_CONFIG } from '../../constants/appStrings';
 
 // TODO: clean up before prod
 let url = null;
@@ -117,7 +117,7 @@ const SignInPage = () => {
   const [password, setPassword] = useState('');
   const [signIn, { data, loading, error }] = useMutation(SIGN_IN);
 
-  if (loading) return <MagiclyLoading open={true}/>;
+  if (loading) return <MagiclyLoading open={true} />;
 
   // TODO: show meaningful message if account doesnt exist or credentials are wrong
   if (error && error.message.includes('No user found with these login credentials')) {
@@ -198,7 +198,7 @@ const SignInPage = () => {
               </form>
               <h4 className={classes.options}>
                 Forgot Your Password?
-                <Link href="/signup">
+                <Link href="/signin/forgot">
                   <a className={classes.link}> Reset Password</a>
                 </Link>
               </h4>
