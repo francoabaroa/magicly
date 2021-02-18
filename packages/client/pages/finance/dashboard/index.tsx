@@ -524,11 +524,6 @@ const FinanceDashboardPage = () => {
     <Layout>
       <div className={classes.financePage}>
         <Grid container justify="center" alignContent="center" alignItems="center">
-          <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign:'center', marginBottom: '30px' }}>
-            <MagiclyPageTitle
-              title={'Finance Dashboard'}
-            />
-          </Grid>
           {/* ACCOUNTS DROPDOWN */}
           {/* <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
             <span className={classes.dropdown}><FormControl className={classes.formControl}>
