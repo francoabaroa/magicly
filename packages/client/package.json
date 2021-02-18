@@ -25,6 +25,8 @@
     "apollo-link-error": "^1.1.13",
     "apollo-link-http": "^1.5.17",
     "apollo-upload-client": "12.1.0",
+    "chart.js": "^2.9.4",
+    "clsx": "^1.1.1",
     "date-fns": "^2.16.1",
     "graphql": "^15.0.0",
     "graphql-tag": "^2.10.3",
@@ -35,10 +37,13 @@
     "next": "^10.0.3",
     "next-with-apollo": "^5.0.0",
     "react": "^16.13.1",
+    "react-chartjs-2": "^2.11.1",
     "react-dom": "^16.13.1",
+    "react-perfect-scrollbar": "^1.5.8",
     "react-plaid-link": "^3.0.0",
     "recharts": "^1.8.5",
-    "styled-components": "^5.1.1"
+    "styled-components": "^5.1.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/react": "16.9.33",

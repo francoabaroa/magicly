@@ -4,6 +4,7 @@ import Layout from '../../components/Layout';
 import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
 import MagiclyLoading from '../../components/shared/MagiclyLoading';
 import MagiclyError from '../../components/shared/MagiclyError';
+import Dashboard from '../../components/main/Dashboard';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { withApollo } from '../../apollo/apollo';
@@ -144,9 +145,8 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     mainPage: {
-      marginRight: '30px',
-      marginLeft: '30px',
-      marginTop: '55px',
+      marginTop: '25px',
+      backgroundColor: '#f3f6f8',
     },
     findButton: {
       fontFamily: 'Overpass, serif',
@@ -438,69 +438,76 @@ const MainPage = () => {
   return (
     <Layout>
       <div className={classes.mainPage}>
-        <Grid container justify="center" alignContent="center" alignItems="center">
-          <Grid item xs={8}>
-            <MagiclyPageTitle
-              title={getGreeting(data.me, isNewUser)}
-            />
-          </Grid>
-
-          {
-            isNewUser ?
-            null :
-            getPriorities()
-          }
-        </Grid>
-        <Grid container className={classes.root}>
-          <Grid item xs={12} lg={4} md={4} sm={4} className={classes.mainGrid}>
-            <Paper className={classes.paper} onClick={routePage.bind(this, 'home')}>
-              <h2 className={classes.appSection}>
-                My Home
-            </h2>
-            {
-                isNewUser ?
-                <h3 style={{ fontWeight: 'normal' }}>
-                  Important information pertaining to your home
-                </h3> :
-                null
-            }
-            </Paper>
-          </Grid>
-          <Grid item xs={12} lg={4} md={4} sm={4} className={classes.mainGrid}>
-            <Paper className={classes.paper} onClick={routePage.bind(this, 'productivity')}>
-              <h2 className={classes.appSection}>
-                My Productivity
-            </h2>
-              {
-                isNewUser ?
-                  <h3 style={{ fontWeight: 'normal' }}>
-                    Increase your productivity in a simple way
-                </h3> :
-                  null
-              }
-            </Paper>
-          </Grid>
-          <Grid item xs={12} lg={4} md={4} sm={4} className={classes.mainGrid}>
-            <Paper className={classes.paper} onClick={routePage.bind(this, 'finance')}>
-              <h2 className={classes.appSection}>
-                My Finances
-            </h2>
-              {
-                isNewUser ?
-                  <h3 style={{ fontWeight: 'normal' }}>
-                    Stay on top of your finances easily
-                </h3> :
-                  null
-              }
-            </Paper>
-          </Grid>
-          {/* <Grid item xs={12} lg={12} md={12} sm={12} onClick={routePage.bind(this, 'find')}>
-            <Button className={classes.findButton}> Find Products & Services </Button>
-          </Grid> */}
-        </Grid>
+        <Dashboard isNewUser={isNewUser} />
       </div>
     </Layout>
-  );
+  )
+  // return (
+  //   <Layout>
+  //     <div className={classes.mainPage}>
+  //       <Grid container justify="center" alignContent="center" alignItems="center">
+  //         <Grid item xs={8}>
+  //           <MagiclyPageTitle
+  //             title={getGreeting(data.me, isNewUser)}
+  //           />
+  //         </Grid>
+
+  //         {
+  //           isNewUser ?
+  //           null :
+  //           getPriorities()
+  //         }
+  //       </Grid>
+  //       <Grid container className={classes.root}>
+  //         <Grid item xs={12} lg={4} md={4} sm={4} className={classes.mainGrid}>
+  //           <Paper className={classes.paper} onClick={routePage.bind(this, 'home')}>
+  //             <h2 className={classes.appSection}>
+  //               My Home
+  //           </h2>
+  //           {
+  //               isNewUser ?
+  //               <h3 style={{ fontWeight: 'normal' }}>
+  //                 Important information pertaining to your home
+  //               </h3> :
+  //               null
+  //           }
+  //           </Paper>
+  //         </Grid>
+  //         <Grid item xs={12} lg={4} md={4} sm={4} className={classes.mainGrid}>
+  //           <Paper className={classes.paper} onClick={routePage.bind(this, 'productivity')}>
+  //             <h2 className={classes.appSection}>
+  //               My Productivity
+  //           </h2>
+  //             {
+  //               isNewUser ?
+  //                 <h3 style={{ fontWeight: 'normal' }}>
+  //                   Increase your productivity in a simple way
+  //               </h3> :
+  //                 null
+  //             }
+  //           </Paper>
+  //         </Grid>
+  //         <Grid item xs={12} lg={4} md={4} sm={4} className={classes.mainGrid}>
+  //           <Paper className={classes.paper} onClick={routePage.bind(this, 'finance')}>
+  //             <h2 className={classes.appSection}>
+  //               My Finances
+  //           </h2>
+  //             {
+  //               isNewUser ?
+  //                 <h3 style={{ fontWeight: 'normal' }}>
+  //                   Stay on top of your finances easily
+  //               </h3> :
+  //                 null
+  //             }
+  //           </Paper>
+  //         </Grid>
+  //         {/* <Grid item xs={12} lg={12} md={12} sm={12} onClick={routePage.bind(this, 'find')}>
+  //           <Button className={classes.findButton}> Find Products & Services </Button>
+  //         </Grid> */}
+  //       </Grid>
+  //     </div>
+  //   </Layout>
+  // );
 };
 
 export default withApollo({ ssr: false })(MainPage);
