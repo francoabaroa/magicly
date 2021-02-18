@@ -4,7 +4,6 @@ import { red } from '@material-ui/core/colors';
 // Create a theme instance.
 const theme = createMuiTheme({
   typography: {
-    fontFamily: 'Playfair Display, serif',
     button: {
       textTransform: 'none',
       fontFamily: 'Overpass, serif',
