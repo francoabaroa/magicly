@@ -1106,8 +1106,9 @@ const Dashboard = (props) => {
     return (
       <Card
         className={clsx(classes.root)}
+        style={{opacity: '0.3'}}
       >
-        <CardHeader title="Recent Home Work" />
+        <CardHeader title="Sample Home Work" />
         <Divider />
         <PerfectScrollbar>
           <Box minWidth={800}>
@@ -1558,10 +1559,11 @@ const Dashboard = (props) => {
     return (
       <Card
         className={clsx(classes.root)}
+        style={{ opacity: '0.3' }}
       >
         <CardHeader
           subtitle={`${mockRecs.length} in total`}
-          title="Recent Recommendations"
+          title="Sample Recommendations"
 
         />
         <Divider />
@@ -1671,10 +1673,11 @@ const Dashboard = (props) => {
     return (
       <Card
         className={clsx(classes.root)}
+        style={{ opacity: '0.3' }}
       >
         <CardHeader
           subtitle={`${mockSLists.length} in total`}
-          title="Recent Shopping Lists"
+          title="Sample Shopping Lists"
 
         />
         <Divider />
@@ -1783,10 +1786,11 @@ const Dashboard = (props) => {
     return (
       <Card
         className={clsx(classes.root)}
+        style={{ opacity: '0.3' }}
       >
         <CardHeader
           subtitle={`${mockDocs.length} in total`}
-          title="Recent Documents"
+          title="Sample Documents"
 
         />
         <Divider />
