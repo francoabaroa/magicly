@@ -534,6 +534,7 @@ const Layout = (props) => {
          { getDrawer() }
           <main className={classes.content}>
             <Toolbar />
+            {getBreadcrumbs()}
             {props.children}
           </main>
         </div>

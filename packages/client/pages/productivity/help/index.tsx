@@ -171,7 +171,13 @@ const TechHelpPage = () => {
         </Grid>
         <Grid item xs={10} lg={5} md={5} sm={10}>
           <Link href="help/view/[id]" as={`help/view/${question.id}`}>
-            <span className={classes.link}>{question.body.substring(0, 50) + '...'}</span>
+            <span className={classes.link}>
+            {
+              question.body.length > 45 ?
+                question.body.substring(0, 45) + '...' :
+                question.body
+            }
+            </span>
           </Link>
         </Grid>
         <Grid item xs={1} lg={1} md={1} sm={1} className={classes.questionStatus}>

@@ -75,6 +75,64 @@ export default {
         },
       };
     },
+    recentRecommendations: async (parent, { listType = 'RECOMMENDATION', excludeComplete = false, cursor, limit = 5 }, { models, me }) => {
+      let list = await models.List.findOne({
+        where: { type: 'RECOMMENDATION', userId: me.id }
+      });
+
+      if (list === null) {
+        list = await models.List.create({
+          name: 'RECOMMENDATION'.toLowerCase(),
+          type: 'RECOMMENDATION',
+          userId: me.id
+        });
+      }
+
+      const listId = list && list.id ? list.id : null;
+
+      if (listId === null) {
+        throw new ApolloError('No list id.');
+      }
+
+      const cursorOptions = cursor
+        ? {
+          where: {
+            createdAt: {
+              [Sequelize.Op.lt]: fromCursorHash(cursor),
+            },
+            listId: listId
+          },
+        }
+        : {
+          where: {
+            listId: listId,
+          }
+        };
+
+      if (excludeComplete) {
+        cursorOptions.where['complete'] = !excludeComplete;
+      }
+
+      const listItems = await models.ListItem.findAll({
+        order: [['createdAt', 'DESC']],
+        limit: limit + 1,
+        ...cursorOptions,
+      });
+
+      const hasNextPage = listItems.length > limit;
+      const edges = hasNextPage ? listItems.slice(0, -1) : listItems;
+      const endCursor = edges.length > 0 ? toCursorHash(
+        // TODO: this is coming back undefined when cursor is being used
+        edges[edges.length - 1].createdAt.toString(),
+      ) : null;
+      return {
+        edges,
+        pageInfo: {
+          hasNextPage,
+          endCursor: endCursor,
+        },
+      };
+    },
   },
   Mutation: {
     createListItem: combineResolvers(

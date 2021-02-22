@@ -1,6 +1,6 @@
-import React, { useState, SetStateAction } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { APP_CONFIG, LIST_TYPE, QUESTION_STATUS } from '../../constants/appStrings';
+import { APP_CONFIG, LIST_TYPE, QUESTION_STATUS, DOC_TYPE } from '../../constants/appStrings';
 import MagiclyLoading from '../shared/MagiclyLoading';
 import MagiclyError from '../shared/MagiclyError';
 import gql from 'graphql-tag';
@@ -52,72 +52,149 @@ import { v4 as uuid } from 'uuid';
 import moment from 'moment';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import { TrainRounded } from '@material-ui/icons';
 
-const datum = [
+const mockShoppingLists = [
   {
     id: uuid(),
-    name: 'Dropbox',
+    name: 'Superbowl Sunday',
     imageUrl: '/static/images/products/product_1.png',
     updatedAt: moment().subtract(2, 'hours')
   },
   {
     id: uuid(),
-    name: 'Medium Corporation',
+    name: 'Liz Birthday',
     imageUrl: '/static/images/products/product_2.png',
     updatedAt: moment().subtract(2, 'hours')
   },
   {
     id: uuid(),
-    name: 'Slack',
+    name: 'Holiday Party',
     imageUrl: '/static/images/products/product_3.png',
     updatedAt: moment().subtract(3, 'hours')
   },
   {
     id: uuid(),
-    name: 'Lyft',
+    name: 'Taco Thursday',
     imageUrl: '/static/images/products/product_4.png',
     updatedAt: moment().subtract(5, 'hours')
   },
   {
     id: uuid(),
-    name: 'GitHub',
+    name: 'Wine Wednesday',
     imageUrl: '/static/images/products/product_5.png',
     updatedAt: moment().subtract(9, 'hours')
   }
 ];
 
-const dataumm = [
+const mockDocuments = [
+  {
+    id: uuid(),
+    name: 'Electrolux Washer',
+    imageUrl: '/static/images/products/product_1.png',
+    type: 'WARRANTY',
+    updatedAt: moment().subtract(2, 'hours')
+  },
+  {
+    id: uuid(),
+    name: 'Dyson Hand Vacuum',
+    imageUrl: '/static/images/products/product_2.png',
+    type: 'MANUAL',
+    updatedAt: moment().subtract(2, 'hours')
+  },
+  {
+    id: uuid(),
+    name: 'Beach House Deed',
+    imageUrl: '/static/images/products/product_3.png',
+    type: 'PROPERTY',
+    updatedAt: moment().subtract(3, 'hours')
+  },
+  {
+    id: uuid(),
+    name: 'Le Cordon Bleu Summer',
+    imageUrl: '/static/images/products/product_4.png',
+    type: 'CERTIFICATE',
+    updatedAt: moment().subtract(5, 'hours')
+  },
+  {
+    id: uuid(),
+    name: 'Family Tree',
+    imageUrl: '/static/images/products/product_5.png',
+    type: 'FAMILY',
+    updatedAt: moment().subtract(9, 'hours')
+  }
+];
+
+const mockRecommendations = [
+  {
+    id: uuid(),
+    name: 'Game of Thrones',
+    imageUrl: '/static/images/products/product_1.png',
+    type: 'TV',
+    updatedAt: moment().subtract(2, 'hours')
+  },
+  {
+    id: uuid(),
+    name: 'The French Laundry',
+    imageUrl: '/static/images/products/product_2.png',
+    type: 'RESTAURANT',
+    updatedAt: moment().subtract(2, 'hours')
+  },
+  {
+    id: uuid(),
+    name: 'Dalgona coffee',
+    imageUrl: '/static/images/products/product_3.png',
+    type: 'FOOD',
+    updatedAt: moment().subtract(3, 'hours')
+  },
+  {
+    id: uuid(),
+    name: 'Flashing Lights - El Fin De Semana',
+    imageUrl: '/static/images/products/product_4.png',
+    type: 'MUSIC',
+    updatedAt: moment().subtract(5, 'hours')
+  },
+  {
+    id: uuid(),
+    name: 'Per Se',
+    imageUrl: '/static/images/products/product_5.png',
+    type: 'RESTAURANT',
+    updatedAt: moment().subtract(9, 'hours')
+  }
+];
+
+const mockHomeworks = [
   {
     id: uuid(),
     ref: 'Generator Installation',
-    amount: 30.5,
+    amount: 330.5,
     customer: {
       name: 'Ekaterina Tankova'
     },
     createdAt: 1555016400000,
-    status: 'pending',
+    status: 'past',
     executor: 'Henry Martinez',
   },
   {
     id: uuid(),
     ref: 'Bathroom Repair',
-    amount: 25.1,
+    amount: 315.1,
     customer: {
       name: 'Cao Yu'
     },
     createdAt: 1555016400000,
-    status: 'delivered',
+    status: 'past',
     executor: 'Jack Letts',
   },
   {
     id: uuid(),
     ref: 'Landscaping Work',
-    amount: 10.99,
+    amount: 510.99,
     customer: {
       name: 'Alexa Richardson'
     },
     createdAt: 1554930000000,
-    status: 'refunded',
+    status: 'past',
     executor: 'Tiago Fresco',
   },
   {
@@ -128,29 +205,29 @@ const dataumm = [
       name: 'Anje Keizer'
     },
     createdAt: 1554757200000,
-    status: 'pending',
+    status: 'past',
     executor: 'Alex S.',
   },
   {
     id: uuid(),
     ref: 'Driveway Cleaning',
-    amount: 32.54,
+    amount: 132.54,
     customer: {
       name: 'Clarke Gillebert'
     },
     createdAt: 1554670800000,
-    status: 'delivered',
+    status: 'past',
     executor: 'Henry Martinez',
   },
   {
     id: uuid(),
-    ref: 'CDD1044',
-    amount: 16.76,
+    ref: 'Hurricane Windows',
+    amount: 1416.76,
     customer: {
       name: 'Adam Denisov'
     },
-    createdAt: 1554670800000,
-    status: 'delivered',
+    createdAt: 1615785950211,
+    status: 'upcoming',
     executor: '',
   }
 ];
@@ -171,6 +248,7 @@ const QUERY = gql`
     $excludeComplete: Boolean,
     $listType: ListType!,
     $questionStatus: [QuestionStatus],
+    $docTypes: [DocType],
   ) {
     questions(
       questionStatus: $questionStatus,
@@ -205,6 +283,8 @@ const QUERY = gql`
         type
         status
         executionDate
+        cost
+        executor
       }
     }
     listItems(
@@ -220,6 +300,68 @@ const QUERY = gql`
         executionDate
         complete
         notes
+        list {
+          id
+          name
+          type
+        }
+      }
+      pageInfo {
+        endCursor
+      }
+    }
+    recentRecommendations(
+      listType: $listType,
+      excludeComplete: $excludeComplete,
+      cursor: $cursor,
+      limit: $limit
+    ) {
+      edges {
+        id
+        name
+        type
+        executionDate
+        complete
+        notes
+        list {
+          id
+          name
+          type
+        }
+      }
+      pageInfo {
+        endCursor
+      }
+    }
+    shoppingLists(
+      cursor: $cursor,
+      limit: $limit,
+    ) {
+      edges {
+        id
+        name
+        type
+        updatedAt
+        listItems {
+          id
+          name
+          type
+          notes
+        }
+      }
+      pageInfo {
+        endCursor
+      }
+    }
+    documents(
+      docTypes: $docTypes,
+      cursor: $cursor,
+      limit: $limit
+    ) {
+      edges {
+        id
+        name
+        type
       }
       pageInfo {
         endCursor
@@ -307,13 +449,20 @@ const useStyles = makeStyles((theme: Theme) =>
 const Dashboard = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const [products] = useState(datum);
-  const [orders] = useState(dataumm);
+  const [mockSLists] = useState(mockShoppingLists);
+  const [mockDocs] = useState(mockDocuments);
+  const [mockRecs] = useState(mockRecommendations);
+  const [mockHWs] = useState(mockHomeworks);
+  const [creditUsage, setCreditUsage] = useState(0);
+  const [investmentsTotalString, setInvestmentsTotalString] = useState('0');
+  const [depositoriesTotalString, setDepositoriesTotalString] = useState('0');
   const { data, loading, error, refetch } = useQuery(QUERY, {
     variables: {
+      limit: 5,
       listType: LIST_TYPE.TODO,
-      excludePast: true,
-      excludeComplete: true,
+      excludePast: false,
+      excludeComplete: false,
+      docTypes: Object.keys(DOC_TYPE),
       questionStatus: [
         QUESTION_STATUS.SOLVED,
         QUESTION_STATUS.UNSOLVED,
@@ -324,10 +473,80 @@ const Dashboard = (props) => {
   });
   const router = useRouter();
 
+  const fetchHasPlaidAccounts = async () => {
+    const response = await fetch('/finance/hasPlaidAccounts', { method: 'GET' });
+    const responseJSON = await response.json();
+    return responseJSON.hasPlaidAccounts;
+  };
+
+  const fetchTransactions = async (lastXDays: any) => {
+    const response = await fetch('/finance/transactionsList?' + `lastXDays=${lastXDays}`);
+    if (response.redirected) {
+      return [];
+    }
+    const responseJSON = await response.json();
+    return responseJSON;
+  };
+
+  useEffect(() => {
+    async function getTxns() {
+      const hasPlaidAccountsVerdict = await fetchHasPlaidAccounts();
+      if (hasPlaidAccountsVerdict) {
+        // TODO: what should this be?
+        let lastXDays = 90;
+        const transactions = await fetchTransactions(lastXDays);
+        if (transactions && transactions.transactions && transactions.transactions[0].transactions.length > 0) {
+
+          let creditUsage = 0;
+          let creditLimit = 0;
+          let investmentTotal = 0;
+          let depositoryTotal = 0;
+
+          for (let i = 0; i < transactions.transactions[0].transactions.length; i++) {
+            let account = transactions.transactions[0].accounts[i];
+            if (account && account.type) {
+
+              if (account.type === 'credit') {
+                creditUsage += account.balances.current;
+                creditLimit += account.balances.limit;
+              }
+
+              if (account.type === 'investment') {
+                investmentTotal += account.balances.current;
+              }
+
+              if (account.type === 'depository') {
+                depositoryTotal += account.balances.current;
+              }
+
+            }
+
+          }
+          setCreditUsage((creditUsage / creditLimit) * 100);
+          setInvestmentsTotalString(investmentTotal.toFixed(2).replace(/(.)(?=(\d{3})+$)/g,'$1,'));
+          setDepositoriesTotalString(depositoryTotal.toFixed(2).replace(/(.)(?=(\d{3})+$)/g, '$1,'));
+        }
+      }
+    }
+    getTxns();
+  }, []);
+
+  const addCommas = (nStr) => {
+    nStr += '';
+    var x = nStr.split('.');
+    var x1 = x[0];
+    var x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+      x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
+  }
+
   const dataa = {
     datasets: [
       {
-        data: [23, 15, 22, 34, 6],
+        data: [1, 1, 1, 1, 1],
         backgroundColor: [
           '#002642',
           '#840032',
@@ -342,6 +561,7 @@ const Dashboard = (props) => {
     ],
     labels: ['Maintenance', 'Repair', 'Installation', 'Cleaning', 'Other'],
   };
+
 
   const options = {
     animation: false,
@@ -365,33 +585,33 @@ const Dashboard = (props) => {
     }
   };
 
-  const devices = [
+  const mockHomeworkByType = [
     {
       title: 'Maintenance',
-      value: 23,
+      value: 0,
       icon: CachedIcon,
       color: '#002642'
     }, , {
       title: 'Repair',
-      value: 15,
+      value: 0,
       icon: BuildIcon,
       color: '#840032'
     },
     {
       title: 'Installation',
-      value: 22,
+      value: 0,
       icon: LocalLaundryServiceIcon,
       color: '#E59500'
     },
     {
       title: 'Cleaning',
-      value: 34,
+      value: 0,
       icon: WavesIcon,
       color: '#0A7EF2'
     },
     {
       title: 'Other',
-      value: 6,
+      value: 0,
       icon:  HomeIcon,
       color: '#E5DADA'
     }
@@ -408,7 +628,13 @@ const Dashboard = (props) => {
     }
   }
 
-  console.log('hiFRUNK: ', data);
+  const getQueryStringValue = (key) => {
+    return decodeURIComponent(
+      window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1")
+    );
+  };
+
+  const isNewUser = getQueryStringValue("new") === 'true';
 
   const getBootstrapBreakpoint = () => {
     if (process.browser && window) {
@@ -418,12 +644,16 @@ const Dashboard = (props) => {
     return '';
   };
 
+  const routePage = (pageName: string) => {
+    router.push('/' + pageName, undefined)
+  };
+
   const getMockDepositoryInfo = () => {
     return (
       <Card
         className={clsx(classes.root)}
       >
-        <CardContent style={{opacity: 0.3}}>
+        <CardContent>
           <Grid
             container
             justify="space-between"
@@ -434,13 +664,13 @@ const Dashboard = (props) => {
                 gutterBottom
                 variant="h6"
               >
-                DEPOSITORY BALANCE
+                CHECKING/SAVINGS
             </Typography>
               <Typography
                 color="textPrimary"
                 variant="h4"
               >
-                $46,000
+                $0
             </Typography>
             </Grid>
             <Grid item>
@@ -459,7 +689,62 @@ const Dashboard = (props) => {
               className={classes.differenceValue}
               variant="body2"
             >
-              12%
+              0%
+          </Typography>
+            <Typography
+              color="textSecondary"
+              variant="caption"
+            >
+              Since last month
+          </Typography>
+          </Box>
+        </CardContent>
+      </Card>
+    );
+  };
+
+  const getRealDepositoryInfo = () => {
+    return (
+      <Card
+        className={clsx(classes.root)}
+      >
+        <CardContent>
+          <Grid
+            container
+            justify="space-between"
+          >
+            <Grid item>
+              <Typography
+                color="textSecondary"
+                gutterBottom
+                variant="h6"
+              >
+                CHECKING/SAVINGS
+            </Typography>
+              <Typography
+                color="textPrimary"
+                variant="h4"
+              >
+                {`$${addCommas(depositoriesTotalString)}`}
+            </Typography>
+            </Grid>
+            <Grid item>
+              <Avatar className={classes.avatar2}>
+                <AttachMoney />
+              </Avatar>
+            </Grid>
+          </Grid>
+          <Box
+            mt={2}
+            display="flex"
+            alignItems="center"
+          >
+            <ArrowUpwardIcon className={classes.differenceIcon} />
+            <Typography
+              className={classes.differenceValue}
+              variant="body2"
+            >
+              0%
           </Typography>
             <Typography
               color="textSecondary"
@@ -474,9 +759,8 @@ const Dashboard = (props) => {
   };
 
   const getDepositoryInfo = () => {
-    let hasData = false;
-    if (hasData) {
-      return getMockDepositoryInfo();
+    if (parseInt(depositoriesTotalString) > 0 && isNewUser !== true) {
+      return getRealDepositoryInfo();
     } else {
       return getMockDepositoryInfo();
     }
@@ -487,7 +771,7 @@ const Dashboard = (props) => {
       <Card
         className={clsx(classes.root)}
       >
-        <CardContent style={{opacity: 0.3}}>
+        <CardContent>
           <Grid
             container
             justify="space-between"
@@ -504,7 +788,7 @@ const Dashboard = (props) => {
                 color="textPrimary"
                 variant="h4"
               >
-                $24,000
+                $0
             </Typography>
             </Grid>
             <Grid item>
@@ -523,7 +807,7 @@ const Dashboard = (props) => {
               className={classes.differenceValue2}
               variant="body2"
             >
-              16%
+              0%
           </Typography>
             <Typography
               color="textSecondary"
@@ -537,10 +821,51 @@ const Dashboard = (props) => {
     );
   };
 
+  const getRealCreditUsage = () => {
+    return (
+      <Card
+        className={clsx(classes.root)}
+      >
+        <CardContent>
+          <Grid
+            container
+            justify="space-between"
+          >
+            <Grid item>
+              <Typography
+                color="textSecondary"
+                gutterBottom
+                variant="h6"
+              >
+                CREDIT USAGE
+            </Typography>
+              <Typography
+                color="textPrimary"
+                variant="h4"
+              >
+                {`${creditUsage}%`}
+            </Typography>
+            </Grid>
+            <Grid item>
+              <Avatar className={classes.avatar}>
+                <MoneyIcon />
+              </Avatar>
+            </Grid>
+          </Grid>
+          <Box mt={3}>
+            <LinearProgress
+              value={creditUsage}
+              variant="determinate"
+            />
+          </Box>
+        </CardContent>
+      </Card>
+    );
+  };
+
   const getCreditUsage = () => {
-    let hasData = false;
-    if (hasData) {
-      return getMockCreditUsage();
+    if (creditUsage > 0 && isNewUser !== true) {
+      return getRealCreditUsage();
     } else {
       return getMockCreditUsage();
     }
@@ -551,7 +876,7 @@ const Dashboard = (props) => {
       <Card
         className={clsx(classes.root)}
       >
-        <CardContent style={{opacity: 0.3}}>
+        <CardContent>
           <Grid
             container
             justify="space-between"
@@ -562,13 +887,13 @@ const Dashboard = (props) => {
                 gutterBottom
                 variant="h6"
               >
-                TODO LIST PROGRESS
+                TODO PROGRESS
             </Typography>
               <Typography
                 color="textPrimary"
                 variant="h4"
               >
-                75.5%
+                0%
             </Typography>
             </Grid>
             <Grid item>
@@ -579,7 +904,7 @@ const Dashboard = (props) => {
           </Grid>
           <Box mt={3}>
             <LinearProgress
-              value={75.5}
+              value={0}
               variant="determinate"
             />
           </Box>
@@ -588,21 +913,28 @@ const Dashboard = (props) => {
     );
   };
 
-  const getTodoListProgress = () => {
-    let hasData = false;
-    if (hasData) {
-      return getMockTodoListProgress();
-    } else {
-      return getMockTodoListProgress();
-    }
-  };
+  const getRealTodoListProgress = (listItems) => {
+    let complete = 0;
+    let incomplete = 0;
+    let total = 0;
+    let progress = 0;
 
-  const getMockInvestmentsTotal = () => {
+    for (let i = 0; i < listItems.length; i++) {
+      if (listItems[i].complete === true) {
+        complete += 1;
+      } else {
+        incomplete += 1;
+      }
+    }
+
+    total = complete + incomplete;
+    progress = (incomplete / total) * 100;
+
     return (
       <Card
         className={clsx(classes.root)}
       >
-        <CardContent style={{opacity: 0.3}}>
+        <CardContent>
           <Grid
             container
             justify="space-between"
@@ -613,13 +945,64 @@ const Dashboard = (props) => {
                 gutterBottom
                 variant="h6"
               >
-                TOTAL INVESTMENTS
+                TODO PROGRESS
             </Typography>
               <Typography
                 color="textPrimary"
                 variant="h4"
               >
-                $83,200
+                {`${progress}%`}
+            </Typography>
+            </Grid>
+            <Grid item>
+              <Avatar className={classes.avatar3}>
+                <InsertChartIcon />
+              </Avatar>
+            </Grid>
+          </Grid>
+          <Box mt={3}>
+            <LinearProgress
+              value={progress}
+              variant="determinate"
+            />
+          </Box>
+        </CardContent>
+      </Card>
+    );
+  };
+
+  const getTodoListProgress = () => {
+    let hasData = data && data.listItems && data.listItems.edges && data.listItems.edges.length > 0;
+    if (hasData && isNewUser !== true) {
+      return getRealTodoListProgress(data.listItems.edges);
+    } else {
+      return getMockTodoListProgress();
+    }
+  };
+
+  const getMockInvestmentsTotal = () => {
+    return (
+      <Card
+        className={clsx(classes.root)}
+      >
+        <CardContent>
+          <Grid
+            container
+            justify="space-between"
+          >
+            <Grid item>
+              <Typography
+                color="textSecondary"
+                gutterBottom
+                variant="h6"
+              >
+                INVESTMENTS
+            </Typography>
+              <Typography
+                color="textPrimary"
+                variant="h4"
+              >
+                $0
             </Typography>
             </Grid>
             <Grid item>
@@ -638,7 +1021,62 @@ const Dashboard = (props) => {
               className={classes.differenceValue}
               variant="body2"
             >
-              46%
+              0%
+          </Typography>
+            <Typography
+              color="textSecondary"
+              variant="caption"
+            >
+              Since last month
+          </Typography>
+          </Box>
+        </CardContent>
+      </Card>
+    );
+  };
+
+  const getRealInvestmentsTotal = () => {
+    return (
+      <Card
+        className={clsx(classes.root)}
+      >
+        <CardContent>
+          <Grid
+            container
+            justify="space-between"
+          >
+            <Grid item>
+              <Typography
+                color="textSecondary"
+                gutterBottom
+                variant="h6"
+              >
+                INVESTMENTS
+            </Typography>
+              <Typography
+                color="textPrimary"
+                variant="h4"
+              >
+                {`$${addCommas(investmentsTotalString)}`}
+            </Typography>
+            </Grid>
+            <Grid item>
+              <Avatar className={classes.avatar4}>
+                <AttachMoney />
+              </Avatar>
+            </Grid>
+          </Grid>
+          <Box
+            mt={2}
+            display="flex"
+            alignItems="center"
+          >
+            <ArrowUpwardIcon className={classes.differenceIcon} />
+            <Typography
+              className={classes.differenceValue}
+              variant="body2"
+            >
+              0%
           </Typography>
             <Typography
               color="textSecondary"
@@ -653,9 +1091,8 @@ const Dashboard = (props) => {
   };
 
   const getInvestmentsTotal = () => {
-    let hasData = false;
-    if (hasData) {
-      return getMockInvestmentsTotal();
+    if (parseInt(investmentsTotalString) > 0 && isNewUser !== true) {
+      return getRealInvestmentsTotal();
     } else {
       return getMockInvestmentsTotal();
     }
@@ -666,9 +1103,9 @@ const Dashboard = (props) => {
       <Card
         className={clsx(classes.root)}
       >
-        <CardHeader title="Recent Home Work" style={{ opacity: 0.3 }} />
+        <CardHeader title="Recent Home Work" />
         <Divider />
-        <PerfectScrollbar style={{ opacity: 0.3 }}>
+        <PerfectScrollbar>
           <Box minWidth={800}>
             <Table>
               <TableHead>
@@ -701,27 +1138,27 @@ const Dashboard = (props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {orders.map((order) => (
+                {mockHWs.map((mockHomework) => (
                   <TableRow
                     hover
-                    key={order.id}
+                    key={mockHomework.id}
                   >
                     <TableCell>
-                      {order.ref}
+                      {mockHomework.ref}
                     </TableCell>
                     <TableCell>
-                      {order.amount}
+                      {mockHomework.amount}
                     </TableCell>
                     <TableCell>
-                      {moment(order.createdAt).format('DD/MM/YYYY')}
+                      {moment(mockHomework.createdAt).format('DD/MM/YYYY')}
                     </TableCell>
                     <TableCell>
-                      {order.executor}
+                      {mockHomework.executor}
                     </TableCell>
                     <TableCell>
                       <Chip
                         color="primary"
-                        label={order.status}
+                        label={mockHomework.status}
                         size="small"
                       />
                     </TableCell>
@@ -735,7 +1172,7 @@ const Dashboard = (props) => {
           display="flex"
           justifyContent="flex-end"
           p={2}
-          style={{opacity: 0.3}}
+
         >
           <Button
             color="primary"
@@ -750,10 +1187,104 @@ const Dashboard = (props) => {
     );
   };
 
+  const getRealRecentHomework = (recentHomeworks) => {
+    return (
+      <Card
+        className={clsx(classes.root)}
+      >
+        <CardHeader title="Recent Home Work" />
+        <Divider />
+        <PerfectScrollbar>
+          <Box minWidth={800}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    Title
+                </TableCell>
+                  <TableCell>
+                    Cost (USD)
+                </TableCell>
+                  <TableCell sortDirection="desc">
+                    <Tooltip
+                      enterDelay={300}
+                      title="Sort"
+                    >
+                      <TableSortLabel
+                        active
+                        direction="desc"
+                      >
+                        Date
+                    </TableSortLabel>
+                    </Tooltip>
+                  </TableCell>
+                  <TableCell>
+                    Executor
+                </TableCell>
+                  <TableCell>
+                    Type
+                </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {recentHomeworks.map((recentHomework) => (
+                  <TableRow
+                    hover
+                    key={recentHomework.id}
+                    onClick={routePage.bind(this, `home/work/view/${recentHomework.id}`)}
+                  >
+                    <TableCell>
+                      {
+                        recentHomework.title.length > 21 ?
+                        recentHomework.title.substring(0, 21) + '...' :
+                        recentHomework.title
+                      }
+                    </TableCell>
+                    <TableCell>
+                      {recentHomework.cost}
+                    </TableCell>
+                    <TableCell>
+                      {moment(recentHomework.executionDate).format('DD/MM/YYYY')}
+                    </TableCell>
+                    <TableCell>
+                      {recentHomework.executor}
+                    </TableCell>
+                    <TableCell>
+                      <Chip
+                        color="primary"
+                        label={recentHomework.type}
+                        size="small"
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Box>
+        </PerfectScrollbar>
+        <Box
+          display="flex"
+          justifyContent="flex-end"
+          p={2}
+
+        >
+          <Button
+            color="primary"
+            endIcon={<ArrowRightIcon />}
+            size="small"
+            variant="text"
+            onClick={routePage.bind(this, `home/work`)}
+          >
+            View all
+        </Button>
+        </Box>
+      </Card>
+    );
+  };
+
   const getRecentHomework = () => {
-    let hasData = false;
-    if (hasData) {
-      return getMockRecentHomework();
+    if (data.homeworks && data.homeworks.edges && data.homeworks.edges.length > 0 && isNewUser !== true) {
+      return getRealRecentHomework(data.homeworks.edges);
     } else {
       return getMockRecentHomework();
     }
@@ -764,9 +1295,9 @@ const Dashboard = (props) => {
       <Card
         className={clsx(classes.root)}
       >
-        <CardHeader title="Home Health" style={{ opacity: 0.3 }} />
+        <CardHeader title="Home Health" />
         <Divider />
-        <CardContent style={{opacity: 0.3}}>
+        <CardContent>
           <Box
             height={300}
             position="relative"
@@ -781,7 +1312,7 @@ const Dashboard = (props) => {
             justifyContent="center"
             mt={2}
           >
-            {devices.map(({
+            {mockHomeworkByType.map(({
               color,
               icon: Icon,
               title,
@@ -814,10 +1345,206 @@ const Dashboard = (props) => {
     );
   };
 
+  const getRealHomeworkByType = (homeworks) => {
+    let past = 0;
+    let upcoming = 0;
+    let total = 0;
+    let progress = 0;
+
+    let maintenance = 0;
+    let repair = 0;
+    let installation = 0;
+    let cleaning = 0;
+    let other = 0;
+    let datux = [];
+
+    for (let i = 0; i < homeworks.length; i++) {
+      total += 1;
+
+      if (homeworks[i].type === 'MAINTENANCE') {
+        maintenance += 1;
+      } else if (homeworks[i].type === 'REPAIR') {
+        repair += 1;
+      } else if (homeworks[i].type === 'INSTALLATION') {
+        installation += 1;
+      } else if (homeworks[i].type === 'CLEANING') {
+        cleaning += 1;
+      } else if (homeworks[i].type === 'OTHER') {
+        other += 1;
+      }
+    }
+
+    datux = [maintenance, repair, installation, cleaning, other]
+
+    const dataaaa = {
+      datasets: [
+        {
+          data: datux,
+          backgroundColor: [
+            '#002642',
+            '#840032',
+            '#E59500',
+            '#0A7EF2',
+            '#E5DADA'
+          ],
+          borderWidth: 8,
+          borderColor: colors.common.white,
+          hoverBorderColor: colors.common.white
+        }
+      ],
+      labels: ['Maintenance', 'Repair', 'Installation', 'Cleaning', 'Other'],
+    };
+
+    const devicess = [
+      {
+        title: 'Maintenance',
+        value: (maintenance / total) * 100,
+        icon: CachedIcon,
+        color: '#002642'
+      }, , {
+        title: 'Repair',
+        value: (repair / total) * 100,
+        icon: BuildIcon,
+        color: '#840032'
+      },
+      {
+        title: 'Installation',
+        value: (installation / total) * 100,
+        icon: LocalLaundryServiceIcon,
+        color: '#E59500'
+      },
+      {
+        title: 'Cleaning',
+        value: (cleaning / total) * 100,
+        icon: WavesIcon,
+        color: '#0A7EF2'
+      },
+      {
+        title: 'Other',
+        value: (other / total) * 100,
+        icon: HomeIcon,
+        color: '#E5DADA'
+      }
+    ];
+
+    let bootstrapBreakpoint = getBootstrapBreakpoint();
+    if (bootstrapBreakpoint === 'xs') {
+      return (
+        <Card
+          className={clsx(classes.root)}
+        >
+          <CardHeader title="Home Health" />
+          <Divider />
+          <CardContent>
+            <Box
+              height={300}
+              position="relative"
+            >
+              <Doughnut
+                data={dataaaa}
+                options={options}
+              />
+            </Box>
+            <Box
+              display="flex"
+              justifyContent="center"
+              mt={2}
+            >
+              <Grid container>
+                {devicess.map(({
+                  color,
+                  icon: Icon,
+                  title,
+                  value
+                }) => (
+                  <Grid item sm={6} xs={6} lg={4}>
+                    <Box
+                      key={title}
+                      p={1}
+                      textAlign="center"
+                    >
+                      <Icon color="action" />
+                      <Typography
+                        color="textPrimary"
+                        variant="body1"
+                      >
+                        {title}
+                      </Typography>
+                      <Typography
+                        style={{ color }}
+                        variant="h6"
+                      >
+                        {value}
+                  %
+                </Typography>
+                    </Box>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          </CardContent>
+        </Card>
+      );
+    }
+
+    return (
+      <Card
+        className={clsx(classes.root)}
+      >
+        <CardHeader title="Home Health" />
+        <Divider />
+        <CardContent>
+          <Box
+            height={300}
+            position="relative"
+          >
+            <Doughnut
+              data={dataaaa}
+              options={options}
+            />
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="center"
+            mt={2}
+          >
+            {devicess.map(({
+              color,
+              icon: Icon,
+              title,
+              value
+            }) => (
+                <Box
+                  key={title}
+                  p={1}
+                  textAlign="center"
+                >
+                  <Icon color="action" />
+                  <Typography
+                    color="textPrimary"
+                    variant="body1"
+                  >
+                    {title}
+                  </Typography>
+                  <Typography
+                    style={{ color }}
+                    variant="h6"
+                  >
+                    {value}
+                %
+              </Typography>
+                </Box>
+            ))}
+          </Box>
+        </CardContent>
+      </Card>
+    );
+  };
+
   const getHomeworkByType = () => {
-    let hasData = false;
-    if (hasData) {
-      return getMockHomeworkByType();
+    let hasData = data && data.homeworks && data.homeworks.edges && data.homeworks.edges.length > 0;
+    if (hasData && isNewUser !== true) {
+      return getRealHomeworkByType(data.homeworks.edges);
     } else {
       return getMockHomeworkByType();
     }
@@ -829,21 +1556,21 @@ const Dashboard = (props) => {
         className={clsx(classes.root)}
       >
         <CardHeader
-          subtitle={`${products.length} in total`}
+          subtitle={`${mockRecs.length} in total`}
           title="Recent Recommendations"
-          style={{ opacity: 0.3 }}
+
         />
         <Divider />
-        <List style={{opacity: 0.3}}>
-          {products.map((product, i) => (
+        <List >
+          {mockRecs.map((mockRec, i) => (
             <ListItem
-              divider={i < products.length - 1}
-              key={product.id}
+              divider={i < mockRecs.length - 1}
+              key={mockRec.id}
             >
               <ListItemIcon>{<StarIcon />}</ListItemIcon>
               <ListItemText
-                primary={product.name}
-                secondary={`Updated ${product.updatedAt.fromNow()}`}
+                primary={mockRec.name}
+                secondary={`Type: ${mockRec.type}`}
               />
               <IconButton
                 edge="end"
@@ -859,7 +1586,7 @@ const Dashboard = (props) => {
           display="flex"
           justifyContent="flex-end"
           p={2}
-          style={{opacity: 0.3}}
+
         >
           <Button
             color="primary"
@@ -874,36 +1601,28 @@ const Dashboard = (props) => {
     );
   };
 
-  const getRecentRecommendations = () => {
-    let hasData = false;
-    if (hasData) {
-      return getMockRecentRecommendations();
-    } else {
-      return getMockRecentRecommendations();
-    }
-  };
-
-  const getMockRecentShoppingLists = () => {
+  const getRealRecentRecommendations = (recommendations) => {
     return (
       <Card
         className={clsx(classes.root)}
       >
         <CardHeader
-          subtitle={`${products.length} in total`}
-          title="Recent Shopping Lists"
-          style={{ opacity: 0.3 }}
+          subtitle={`${recommendations.length} in total`}
+          title="Recent Recommendations"
+
         />
         <Divider />
-        <List style={{opacity: 0.3}}>
-          {products.map((product, i) => (
+        <List >
+          {recommendations.map((recommendation, i) => (
             <ListItem
-              divider={i < products.length - 1}
-              key={product.id}
+              divider={i < recommendations.length - 1}
+              key={recommendation.id}
+              onClick={routePage.bind(this, `productivity/recommendations/view/${recommendation.id}`)}
             >
-              <ListItemIcon>{<ShoppingCartIcon />}</ListItemIcon>
+              <ListItemIcon>{<StarIcon />}</ListItemIcon>
               <ListItemText
-                primary={product.name}
-                secondary={`Updated ${product.updatedAt.fromNow()}`}
+                primary={recommendation.name}
+                secondary={`Type: ${recommendation.type}`}
               />
               <IconButton
                 edge="end"
@@ -919,7 +1638,120 @@ const Dashboard = (props) => {
           display="flex"
           justifyContent="flex-end"
           p={2}
-          style={{opacity: 0.3}}
+
+        >
+          <Button
+            color="primary"
+            endIcon={<ArrowRightIcon />}
+            size="small"
+            variant="text"
+            onClick={routePage.bind(this, `productivity/recommendations`)}
+          >
+            View all
+          </Button>
+        </Box>
+      </Card>
+    );
+  };
+
+  const getRecentRecommendations = () => {
+    let hasData = false;
+    if (data.recentRecommendations && data.recentRecommendations.edges && data.recentRecommendations.edges.length > 0 && isNewUser !== true) {
+      return getRealRecentRecommendations(data.recentRecommendations.edges);
+    } else {
+      return getMockRecentRecommendations();
+    }
+  };
+
+  const getMockRecentShoppingLists = () => {
+    return (
+      <Card
+        className={clsx(classes.root)}
+      >
+        <CardHeader
+          subtitle={`${mockSLists.length} in total`}
+          title="Recent Shopping Lists"
+
+        />
+        <Divider />
+        <List >
+          {mockSLists.map((mockShoppingList, i) => (
+            <ListItem
+              divider={i < mockSLists.length - 1}
+              key={mockShoppingList.id}
+            >
+              <ListItemIcon>{<ShoppingCartIcon />}</ListItemIcon>
+              <ListItemText
+                primary={mockShoppingList.name}
+                secondary={`Updated ${mockShoppingList.updatedAt.fromNow()}`}
+              />
+              <IconButton
+                edge="end"
+                size="small"
+              >
+                <MoreVertIcon />
+              </IconButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <Box
+          display="flex"
+          justifyContent="flex-end"
+          p={2}
+
+        >
+          <Button
+            color="primary"
+            endIcon={<ArrowRightIcon />}
+            size="small"
+            variant="text"
+          >
+            View all
+          </Button>
+        </Box>
+      </Card>
+    );
+  };
+
+  const getRealRecentShoppingLists = (shoppingLists) => {
+    return (
+      <Card
+        className={clsx(classes.root)}
+      >
+        <CardHeader
+          subtitle={`${shoppingLists.length} in total`}
+          title="Recent Shopping Lists"
+
+        />
+        <Divider />
+        <List >
+          {shoppingLists.map((shoppingList, i) => (
+            <ListItem
+              divider={i < shoppingLists.length - 1}
+              key={shoppingList.id}
+              onClick={routePage.bind(this, `productivity/shopping/view/${shoppingList.id}`)}
+            >
+              <ListItemIcon>{<ShoppingCartIcon />}</ListItemIcon>
+              <ListItemText
+                primary={shoppingList.name}
+                secondary={`Updated ${moment(shoppingList.updatedAt).fromNow()}`}
+              />
+              <IconButton
+                edge="end"
+                size="small"
+              >
+                <MoreVertIcon />
+              </IconButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <Box
+          display="flex"
+          justifyContent="flex-end"
+          p={2}
+
         >
           <Button
             color="primary"
@@ -936,8 +1768,8 @@ const Dashboard = (props) => {
 
   const getRecentShoppingLists = () => {
     let hasData = false;
-    if (hasData) {
-      return getMockRecentShoppingLists();
+    if (data.shoppingLists && data.shoppingLists.edges && data.shoppingLists.edges.length > 0 && isNewUser !== true) {
+      return getRealRecentShoppingLists(data.shoppingLists.edges);
     } else {
       return getMockRecentShoppingLists();
     }
@@ -949,21 +1781,21 @@ const Dashboard = (props) => {
         className={clsx(classes.root)}
       >
         <CardHeader
-          subtitle={`${products.length} in total`}
+          subtitle={`${mockDocs.length} in total`}
           title="Recent Documents"
-          style={{ opacity: 0.3 }}
+
         />
         <Divider />
-        <List style={{ opacity: 0.3 }}>
-          {products.map((product, i) => (
+        <List >
+          {mockDocs.map((mockDoc, i) => (
             <ListItem
-              divider={i < products.length - 1}
-              key={product.id}
+              divider={i < mockDocs.length - 1}
+              key={mockDoc.id}
             >
               <ListItemIcon>{<DescriptionIcon />}</ListItemIcon>
               <ListItemText
-                primary={product.name}
-                secondary={`Updated ${product.updatedAt.fromNow()}`}
+                primary={mockDoc.name}
+                secondary={`Type: ${mockDoc.type}`}
               />
               <IconButton
                 edge="end"
@@ -979,7 +1811,7 @@ const Dashboard = (props) => {
           display="flex"
           justifyContent="flex-end"
           p={2}
-          style={{opacity: 0.3}}
+
         >
           <Button
             color="primary"
@@ -994,10 +1826,62 @@ const Dashboard = (props) => {
     );
   };
 
+  const getRealRecentDocuments = (documents) => {
+    return (
+      <Card
+        className={clsx(classes.root)}
+      >
+        <CardHeader
+          subtitle={`${documents.length} in total`}
+          title="Recent Documents"
+
+        />
+        <Divider />
+        <List >
+          {documents.map((document, i) => (
+            <ListItem
+              divider={i < documents.length - 1}
+              key={document.id}
+              onClick={routePage.bind(this, `home/documents/view/${document.id}`)}
+            >
+              <ListItemIcon>{<DescriptionIcon />}</ListItemIcon>
+              <ListItemText
+                primary={document.name}
+                secondary={`Type: ${document.type}`}
+              />
+              <IconButton
+                edge="end"
+                size="small"
+              >
+                <MoreVertIcon />
+              </IconButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <Box
+          display="flex"
+          justifyContent="flex-end"
+          p={2}
+
+        >
+          <Button
+            color="primary"
+            endIcon={<ArrowRightIcon />}
+            size="small"
+            variant="text"
+            onClick={routePage.bind(this, `home/documents`)}
+          >
+            View all
+          </Button>
+        </Box>
+      </Card>
+    );
+  };
+
   const getRecentDocuments = () => {
-    let hasData = false;
-    if (hasData) {
-      return getMockRecentDocuments();
+    if (data.documents && data.documents.edges && data.documents.edges.length > 0 && isNewUser !== true) {
+      return getRealRecentDocuments(data.documents.edges);
     } else {
       return getMockRecentDocuments();
     }
@@ -1014,11 +1898,12 @@ const Dashboard = (props) => {
     <Container maxWidth={false} style={style}>
       <Grid
         container
-        spacing={3}
+        spacing={2}
       >
         <Grid
           item
           lg={3}
+          md={6}
           sm={6}
           xl={3}
           xs={12}
@@ -1029,6 +1914,7 @@ const Dashboard = (props) => {
           item
           lg={3}
           sm={6}
+          md={6}
           xl={3}
           xs={12}
         >
@@ -1038,6 +1924,7 @@ const Dashboard = (props) => {
           item
           lg={3}
           sm={6}
+          md={6}
           xl={3}
           xs={12}
         >
@@ -1047,6 +1934,7 @@ const Dashboard = (props) => {
           item
           lg={3}
           sm={6}
+          md={6}
           xl={3}
           xs={12}
         >
@@ -1064,7 +1952,7 @@ const Dashboard = (props) => {
         <Grid
           item
           lg={8}
-          md={12}
+          md={6}
           xl={9}
           xs={12}
         >
@@ -1073,7 +1961,7 @@ const Dashboard = (props) => {
         <Grid
           item
           lg={4}
-          md={6}
+          md={4}
           xl={3}
           xs={12}
         >
@@ -1082,7 +1970,7 @@ const Dashboard = (props) => {
         <Grid
           item
           lg={4}
-          md={6}
+          md={4}
           xl={3}
           xs={12}
         >
@@ -1091,7 +1979,7 @@ const Dashboard = (props) => {
         <Grid
           item
           lg={4}
-          md={6}
+          md={4}
           xl={3}
           xs={12}
         >

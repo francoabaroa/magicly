@@ -8,6 +8,12 @@ export default gql`
       cursor: String,
       limit: Int
     ): ListItemConnection!
+    recentRecommendations (
+      listType: ListType,
+      excludeComplete: Boolean,
+      cursor: String,
+      limit: Int
+    ): ListItemConnection!
     listItem (id: ID!): ListItem
   }
   extend type Mutation {
