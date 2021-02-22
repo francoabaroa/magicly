@@ -928,7 +928,7 @@ const Dashboard = (props) => {
     }
 
     total = complete + incomplete;
-    progress = (incomplete / total) * 100;
+    progress = parseFloat(((incomplete / total) * 100).toFixed(2));
 
     return (
       <Card
