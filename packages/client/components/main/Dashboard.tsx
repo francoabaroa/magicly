@@ -375,6 +375,11 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       height: '100%',
     },
+    hoverRow: {
+      '&:hover': {
+        backgroundColor: 'rgba(0, 0, 0, 0.04)',
+      },
+    },
     image: {
       height: 48,
       width: 48
@@ -639,8 +644,16 @@ const Dashboard = (props) => {
 
   const getBootstrapBreakpoint = () => {
     if (process.browser && window) {
-      var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+      var w = getWindowWidth();
       return (w < 768) ? 'xs' : ((w < 992) ? 'sm' : ((w < 1200) ? 'md' : 'lg'));
+    }
+    return '';
+  };
+
+  const getWindowWidth = () => {
+    if (process.browser && window) {
+      var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+      return w;
     }
     return '';
   };
@@ -661,9 +674,9 @@ const Dashboard = (props) => {
           >
             <Grid item>
               <Typography
-                color="textSecondary"
+                color="textPrimary"
                 gutterBottom
-                variant="h6"
+                variant={getWindowWidth() < 1465 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
               >
                 CHECKING/SAVINGS
             </Typography>
@@ -717,9 +730,9 @@ const Dashboard = (props) => {
           >
             <Grid item>
               <Typography
-                color="textSecondary"
+                color="textPrimary"
                 gutterBottom
-                variant="h6"
+                variant={getWindowWidth() < 1465 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
               >
                 CHECKING/SAVINGS
             </Typography>
@@ -780,9 +793,9 @@ const Dashboard = (props) => {
           >
             <Grid item>
               <Typography
-                color="textSecondary"
+                color="textPrimary"
                 gutterBottom
-                variant="h6"
+                variant={getWindowWidth() < 1465 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
               >
                 CREDIT USAGE
             </Typography>
@@ -836,9 +849,9 @@ const Dashboard = (props) => {
           >
             <Grid item>
               <Typography
-                color="textSecondary"
+                color="textPrimary"
                 gutterBottom
-                variant="h6"
+                variant={getWindowWidth() < 1465 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
               >
                 CREDIT USAGE
             </Typography>
@@ -886,9 +899,9 @@ const Dashboard = (props) => {
           >
             <Grid item>
               <Typography
-                color="textSecondary"
+                color="textPrimary"
                 gutterBottom
-                variant="h6"
+                variant={getWindowWidth() < 1465 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
               >
                 TODO PROGRESS
             </Typography>
@@ -949,9 +962,9 @@ const Dashboard = (props) => {
           >
             <Grid item>
               <Typography
-                color="textSecondary"
+                color="textPrimary"
                 gutterBottom
-                variant="h6"
+                variant={getWindowWidth() < 1465 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
               >
                 TODO PROGRESS
             </Typography>
@@ -1000,9 +1013,9 @@ const Dashboard = (props) => {
           >
             <Grid item>
               <Typography
-                color="textSecondary"
+                color="textPrimary"
                 gutterBottom
-                variant="h6"
+                variant={getWindowWidth() < 1465 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
               >
                 INVESTMENTS
             </Typography>
@@ -1056,9 +1069,9 @@ const Dashboard = (props) => {
           >
             <Grid item>
               <Typography
-                color="textSecondary"
+                color="textPrimary"
                 gutterBottom
-                variant="h6"
+                variant={getWindowWidth() < 1465 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
               >
                 INVESTMENTS
             </Typography>
@@ -1150,7 +1163,7 @@ const Dashboard = (props) => {
               <TableBody>
                 {mockHWs.map((mockHomework) => (
                   <TableRow
-                    hover
+                    hover={false}
                     key={mockHomework.id}
                   >
                     <TableCell>
@@ -1189,6 +1202,7 @@ const Dashboard = (props) => {
             endIcon={<ArrowRightIcon />}
             size="small"
             variant="text"
+            disabled
           >
             View all
         </Button>
@@ -1301,6 +1315,66 @@ const Dashboard = (props) => {
   };
 
   const getMockHomeworkByType = () => {
+    let bootstrapBreakpoint = getBootstrapBreakpoint();
+    if (bootstrapBreakpoint === 'xs') {
+      return (
+        <Card
+          className={clsx(classes.root)}
+        >
+          <CardHeader title="Home Health" />
+          <Divider />
+          <CardContent>
+            <Box
+              height={300}
+              position="relative"
+            >
+              <Doughnut
+                data={dataa}
+                options={options}
+              />
+            </Box>
+            <Box
+              display="flex"
+              justifyContent="center"
+              mt={2}
+            >
+              <Grid container>
+                {mockHomeworkByType.map(({
+                  color,
+                  icon: Icon,
+                  title,
+                  value
+                }) => (
+                  <Grid item sm={6} xs={6} lg={4}>
+                    <Box
+                      key={title}
+                      p={1}
+                      textAlign="center"
+                    >
+                      <Icon color="action" />
+                      <Typography
+                        color="textPrimary"
+                        variant="body1"
+                      >
+                        {title}
+                      </Typography>
+                      <Typography
+                        style={{ color }}
+                        variant="h4"
+                      >
+                        {value}
+                    %
+                  </Typography>
+                    </Box>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          </CardContent>
+        </Card>
+      );
+    }
+
     return (
       <Card
         className={clsx(classes.root)}
@@ -1583,12 +1657,6 @@ const Dashboard = (props) => {
                 primary={mockRec.name}
                 secondary={`Type: ${mockRec.type}`}
               />
-              <IconButton
-                edge="end"
-                size="small"
-              >
-                <MoreVertIcon />
-              </IconButton>
             </ListItem>
           ))}
         </List>
@@ -1604,6 +1672,7 @@ const Dashboard = (props) => {
             endIcon={<ArrowRightIcon />}
             size="small"
             variant="text"
+            disabled
           >
             View all
           </Button>
@@ -1629,18 +1698,13 @@ const Dashboard = (props) => {
               divider={i < recommendations.length - 1}
               key={recommendation.id}
               onClick={routePage.bind(this, `productivity/recommendations/view/${recommendation.id}`)}
+              className={classes.hoverRow}
             >
               <ListItemIcon>{<StarIcon />}</ListItemIcon>
               <ListItemText
                 primary={recommendation.name}
                 secondary={`Type: ${recommendation.type}`}
               />
-              <IconButton
-                edge="end"
-                size="small"
-              >
-                <MoreVertIcon />
-              </IconButton>
             </ListItem>
           ))}
         </List>
@@ -1697,12 +1761,6 @@ const Dashboard = (props) => {
                 primary={mockShoppingList.name}
                 secondary={`Updated ${mockShoppingList.updatedAt.fromNow()}`}
               />
-              <IconButton
-                edge="end"
-                size="small"
-              >
-                <MoreVertIcon />
-              </IconButton>
             </ListItem>
           ))}
         </List>
@@ -1718,6 +1776,7 @@ const Dashboard = (props) => {
             endIcon={<ArrowRightIcon />}
             size="small"
             variant="text"
+            disabled
           >
             View all
           </Button>
@@ -1743,18 +1802,13 @@ const Dashboard = (props) => {
               divider={i < shoppingLists.length - 1}
               key={shoppingList.id}
               onClick={routePage.bind(this, `productivity/shopping/view/${shoppingList.id}`)}
+              className={classes.hoverRow}
             >
               <ListItemIcon>{<ShoppingCartIcon />}</ListItemIcon>
               <ListItemText
                 primary={shoppingList.name}
                 secondary={`Updated ${moment(shoppingList.updatedAt).fromNow()}`}
               />
-              <IconButton
-                edge="end"
-                size="small"
-              >
-                <MoreVertIcon />
-              </IconButton>
             </ListItem>
           ))}
         </List>
@@ -1810,12 +1864,6 @@ const Dashboard = (props) => {
                 primary={mockDoc.name}
                 secondary={`Type: ${mockDoc.type}`}
               />
-              <IconButton
-                edge="end"
-                size="small"
-              >
-                <MoreVertIcon />
-              </IconButton>
             </ListItem>
           ))}
         </List>
@@ -1831,6 +1879,7 @@ const Dashboard = (props) => {
             endIcon={<ArrowRightIcon />}
             size="small"
             variant="text"
+            disabled
           >
             View all
           </Button>
@@ -1856,18 +1905,13 @@ const Dashboard = (props) => {
               divider={i < documents.length - 1}
               key={document.id}
               onClick={routePage.bind(this, `home/documents/view/${document.id}`)}
+              className={classes.hoverRow}
             >
               <ListItemIcon>{<DescriptionIcon />}</ListItemIcon>
               <ListItemText
                 primary={document.name}
                 secondary={`Type: ${document.type}`}
               />
-              <IconButton
-                edge="end"
-                size="small"
-              >
-                <MoreVertIcon />
-              </IconButton>
             </ListItem>
           ))}
         </List>
@@ -1955,7 +1999,7 @@ const Dashboard = (props) => {
         </Grid>
         <Grid
           item
-          lg={4}
+          lg={5}
           md={6}
           xl={3}
           xs={12}
@@ -1964,7 +2008,7 @@ const Dashboard = (props) => {
         </Grid>
         <Grid
           item
-          lg={8}
+          lg={7}
           md={6}
           xl={9}
           xs={12}
