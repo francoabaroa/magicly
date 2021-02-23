@@ -522,7 +522,8 @@ const Dashboard = (props) => {
             }
 
           }
-          setCreditUsage((creditUsage / creditLimit) * 100);
+          let formattedCreditUsage = parseFloat(((creditUsage / creditLimit) * 100).toFixed(2));
+          setCreditUsage(formattedCreditUsage);
           setInvestmentsTotalString(investmentTotal.toFixed(2).replace(/(.)(?=(\d{3})+$)/g,'$1,'));
           setDepositoriesTotalString(depositoryTotal.toFixed(2).replace(/(.)(?=(\d{3})+$)/g, '$1,'));
         }
@@ -707,6 +708,7 @@ const Dashboard = (props) => {
     return (
       <Card
         className={clsx(classes.root)}
+        onClick={routePage.bind(this, `finance/dashboard`)}
       >
         <CardContent>
           <Grid
@@ -825,6 +827,7 @@ const Dashboard = (props) => {
     return (
       <Card
         className={clsx(classes.root)}
+        onClick={routePage.bind(this, `finance/dashboard`)}
       >
         <CardContent>
           <Grid
@@ -937,6 +940,7 @@ const Dashboard = (props) => {
     return (
       <Card
         className={clsx(classes.root)}
+        onClick={routePage.bind(this, `productivity/lists`)}
       >
         <CardContent>
           <Grid
@@ -1043,6 +1047,7 @@ const Dashboard = (props) => {
     return (
       <Card
         className={clsx(classes.root)}
+        onClick={routePage.bind(this, `finance/dashboard`)}
       >
         <CardContent>
           <Grid
@@ -1361,7 +1366,7 @@ const Dashboard = (props) => {
     let installation = 0;
     let cleaning = 0;
     let other = 0;
-    let datux = [];
+    let realHomeworkData = [];
 
     for (let i = 0; i < homeworks.length; i++) {
       total += 1;
@@ -1379,12 +1384,12 @@ const Dashboard = (props) => {
       }
     }
 
-    datux = [maintenance, repair, installation, cleaning, other]
+    realHomeworkData = [maintenance, repair, installation, cleaning, other]
 
-    const dataaaa = {
+    const homeworkData = {
       datasets: [
         {
-          data: datux,
+          data: realHomeworkData,
           backgroundColor: [
             '#002642',
             '#840032',
@@ -1400,33 +1405,33 @@ const Dashboard = (props) => {
       labels: ['Maintenance', 'Repair', 'Installation', 'Cleaning', 'Other'],
     };
 
-    const devicess = [
+    const homeworkTypes = [
       {
         title: 'Maintenance',
-        value: (maintenance / total) * 100,
+        value: parseFloat(((maintenance / total) * 100).toFixed(2)),
         icon: CachedIcon,
         color: '#002642'
       }, , {
         title: 'Repair',
-        value: (repair / total) * 100,
+        value: parseFloat(((repair / total) * 100).toFixed(2)),
         icon: BuildIcon,
         color: '#840032'
       },
       {
         title: 'Installation',
-        value: (installation / total) * 100,
+        value: parseFloat(((installation / total) * 100).toFixed(2)),
         icon: LocalLaundryServiceIcon,
         color: '#E59500'
       },
       {
         title: 'Cleaning',
-        value: (cleaning / total) * 100,
+        value: parseFloat(((cleaning / total) * 100).toFixed(2)),
         icon: WavesIcon,
         color: '#0A7EF2'
       },
       {
         title: 'Other',
-        value: (other / total) * 100,
+        value: parseFloat(((other / total) * 100).toFixed(2)),
         icon: HomeIcon,
         color: '#E5DADA'
       }
@@ -1446,7 +1451,7 @@ const Dashboard = (props) => {
               position="relative"
             >
               <Doughnut
-                data={dataaaa}
+                data={homeworkData}
                 options={options}
               />
             </Box>
@@ -1456,7 +1461,7 @@ const Dashboard = (props) => {
               mt={2}
             >
               <Grid container>
-                {devicess.map(({
+                {homeworkTypes.map(({
                   color,
                   icon: Icon,
                   title,
@@ -1504,7 +1509,7 @@ const Dashboard = (props) => {
             position="relative"
           >
             <Doughnut
-              data={dataaaa}
+              data={homeworkData}
               options={options}
             />
           </Box>
@@ -1513,7 +1518,7 @@ const Dashboard = (props) => {
             justifyContent="center"
             mt={2}
           >
-            {devicess.map(({
+            {homeworkTypes.map(({
               color,
               icon: Icon,
               title,
