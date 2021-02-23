@@ -676,7 +676,7 @@ const Dashboard = (props) => {
               <Typography
                 color="textPrimary"
                 gutterBottom
-                variant={getWindowWidth() < 1465 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
+                variant={getWindowWidth() < 1466 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
               >
                 CHECKING/SAVINGS
             </Typography>
@@ -732,7 +732,7 @@ const Dashboard = (props) => {
               <Typography
                 color="textPrimary"
                 gutterBottom
-                variant={getWindowWidth() < 1465 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
+                variant={getWindowWidth() < 1466 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
               >
                 CHECKING/SAVINGS
             </Typography>
@@ -795,7 +795,7 @@ const Dashboard = (props) => {
               <Typography
                 color="textPrimary"
                 gutterBottom
-                variant={getWindowWidth() < 1465 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
+                variant={getWindowWidth() < 1466 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
               >
                 CREDIT USAGE
             </Typography>
@@ -851,7 +851,7 @@ const Dashboard = (props) => {
               <Typography
                 color="textPrimary"
                 gutterBottom
-                variant={getWindowWidth() < 1465 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
+                variant={getWindowWidth() < 1466 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
               >
                 CREDIT USAGE
             </Typography>
@@ -901,7 +901,7 @@ const Dashboard = (props) => {
               <Typography
                 color="textPrimary"
                 gutterBottom
-                variant={getWindowWidth() < 1465 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
+                variant={getWindowWidth() < 1466 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
               >
                 TODO PROGRESS
             </Typography>
@@ -964,7 +964,7 @@ const Dashboard = (props) => {
               <Typography
                 color="textPrimary"
                 gutterBottom
-                variant={getWindowWidth() < 1465 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
+                variant={getWindowWidth() < 1466 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
               >
                 TODO PROGRESS
             </Typography>
@@ -1015,7 +1015,7 @@ const Dashboard = (props) => {
               <Typography
                 color="textPrimary"
                 gutterBottom
-                variant={getWindowWidth() < 1465 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
+                variant={getWindowWidth() < 1466 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
               >
                 INVESTMENTS
             </Typography>
@@ -1071,7 +1071,7 @@ const Dashboard = (props) => {
               <Typography
                 color="textPrimary"
                 gutterBottom
-                variant={getWindowWidth() < 1465 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
+                variant={getWindowWidth() < 1466 && getWindowWidth() > 1280 ? 'body2' : 'h6'}
               >
                 INVESTMENTS
             </Typography>
