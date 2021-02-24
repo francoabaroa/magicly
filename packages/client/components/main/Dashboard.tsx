@@ -512,16 +512,28 @@ const Dashboard = (props) => {
             if (account && account.type) {
 
               if (account.type === 'credit') {
-                creditUsage += account.balances.current;
+                if (account.balances.available) {
+                  creditUsage += account.balances.available;
+                } else {
+                  creditUsage += account.balances.current;
+                }
                 creditLimit += account.balances.limit;
               }
 
               if (account.type === 'investment') {
-                investmentTotal += account.balances.current;
+                if (account.balances.available) {
+                  investmentTotal += account.balances.available;
+                } else {
+                  investmentTotal += account.balances.current;
+                }
               }
 
               if (account.type === 'depository') {
-                depositoryTotal += account.balances.current;
+                if (account.balances.available) {
+                  depositoryTotal += account.balances.available;
+                } else {
+                  depositoryTotal += account.balances.current;
+                }
               }
 
             }
