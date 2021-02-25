@@ -5,7 +5,7 @@ import MagiclyLoading from '../shared/MagiclyLoading';
 import MagiclyError from '../shared/MagiclyError';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
-import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme, useTheme, withStyles } from '@material-ui/core/styles';
 import { colors } from '@material-ui/core';
 import { Doughnut } from 'react-chartjs-2';
 import Button from '@material-ui/core/Button';
@@ -422,8 +422,15 @@ const useStyles = makeStyles((theme: Theme) =>
     differenceIcon: {
       color: colors.green[900]
     },
+    differenceIconMock: {
+      color: '#f3f6f8'
+    },
     differenceValue: {
       color: colors.green[900],
+      marginRight: theme.spacing(1)
+    },
+    differenceValueMock: {
+      color: '#f3f6f8',
       marginRight: theme.spacing(1)
     },
     avatar2: {
@@ -694,7 +701,7 @@ const Dashboard = (props) => {
             </Typography>
               <Typography
                 color="textPrimary"
-                variant="h4"
+                variant={getWindowWidth() < 1466 && getWindowWidth() > 1280 ? 'h6' : 'h4'}
               >
                 $0
             </Typography>
@@ -710,9 +717,9 @@ const Dashboard = (props) => {
             display="flex"
             alignItems="center"
           >
-            <ArrowUpwardIcon className={classes.differenceIcon} />
+            <ArrowUpwardIcon className={classes.differenceIconMock} />
             <Typography
-              className={classes.differenceValue}
+              className={classes.differenceValueMock}
               variant="body2"
             >
               0%
@@ -750,7 +757,7 @@ const Dashboard = (props) => {
             </Typography>
               <Typography
                 color="textPrimary"
-                variant="h4"
+                variant={getWindowWidth() < 1466 && getWindowWidth() > 1280 ? 'h6' : 'h4'}
               >
                 {`$${addCommas(depositoriesTotalString)}`}
             </Typography>
@@ -794,6 +801,17 @@ const Dashboard = (props) => {
   };
 
   const getMockCreditUsage = () => {
+
+    const CreditUsageLinearProgress = withStyles((theme) => ({
+      colorPrimary: {
+        backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
+      },
+      bar: {
+        borderRadius: 5,
+        backgroundColor: '#f3f6f8',
+      },
+    }))(LinearProgress);
+
     return (
       <Card
         className={clsx(classes.root)}
@@ -813,7 +831,7 @@ const Dashboard = (props) => {
             </Typography>
               <Typography
                 color="textPrimary"
-                variant="h4"
+                variant={getWindowWidth() < 1466 && getWindowWidth() > 1280 ? 'h6' : 'h4'}
               >
                 $0
             </Typography>
@@ -824,24 +842,11 @@ const Dashboard = (props) => {
               </Avatar>
             </Grid>
           </Grid>
-          <Box
-            mt={2}
-            display="flex"
-            alignItems="center"
-          >
-            <ArrowUpwardIcon className={classes.differenceIcon2} />
-            <Typography
-              className={classes.differenceValue2}
-              variant="body2"
-            >
-              0%
-          </Typography>
-            <Typography
-              color="textSecondary"
-              variant="caption"
-            >
-              Since last month
-          </Typography>
+          <Box mt={3}>
+            <CreditUsageLinearProgress
+              value={0}
+              variant="determinate"
+            />
           </Box>
         </CardContent>
       </Card>
@@ -849,6 +854,28 @@ const Dashboard = (props) => {
   };
 
   const getRealCreditUsage = () => {
+    let green = '#43a047';
+    let red = '#e53935';
+    let color = '';
+    let verbiage = 'Great! Your usage is below the recommended 30%';
+
+    if (creditUsage < 30) {
+      color = green;
+    } else {
+      verbiage = 'Uh-oh! Your usage is at or above the recommdended 30%';
+      color = red;
+    }
+
+    const CreditUsageLinearProgress = withStyles((theme) => ({
+      colorPrimary: {
+        backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
+      },
+      bar: {
+        borderRadius: 5,
+        backgroundColor: color,
+      },
+    }))(LinearProgress);
+
     return (
       <Card
         className={clsx(classes.root)}
@@ -869,7 +896,7 @@ const Dashboard = (props) => {
             </Typography>
               <Typography
                 color="textPrimary"
-                variant="h4"
+                variant={getWindowWidth() < 1466 && getWindowWidth() > 1280 ? 'h6' : 'h4'}
               >
                 {`${creditUsage}%`}
             </Typography>
@@ -881,10 +908,22 @@ const Dashboard = (props) => {
             </Grid>
           </Grid>
           <Box mt={3}>
-            <LinearProgress
+            <CreditUsageLinearProgress
               value={creditUsage}
               variant="determinate"
             />
+          </Box>
+          <Box
+            mt={2}
+            display="flex"
+            alignItems="center"
+          >
+            <Typography
+              color="textSecondary"
+              variant="caption"
+            >
+              {verbiage}
+            </Typography>
           </Box>
         </CardContent>
       </Card>
@@ -900,6 +939,16 @@ const Dashboard = (props) => {
   };
 
   const getMockTodoListProgress = () => {
+    const TodoListLinearProgress = withStyles((theme) => ({
+      colorPrimary: {
+        backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
+      },
+      bar: {
+        borderRadius: 5,
+        backgroundColor: '#f3f6f8',
+      },
+    }))(LinearProgress);
+
     return (
       <Card
         className={clsx(classes.root)}
@@ -919,7 +968,7 @@ const Dashboard = (props) => {
             </Typography>
               <Typography
                 color="textPrimary"
-                variant="h4"
+                variant={getWindowWidth() < 1466 && getWindowWidth() > 1280 ? 'h6' : 'h4'}
               >
                 0%
             </Typography>
@@ -931,7 +980,7 @@ const Dashboard = (props) => {
             </Grid>
           </Grid>
           <Box mt={3}>
-            <LinearProgress
+            <TodoListLinearProgress
               value={0}
               variant="determinate"
             />
@@ -946,6 +995,10 @@ const Dashboard = (props) => {
     let incomplete = 0;
     let total = 0;
     let progress = 0;
+    let green = '#43a047';
+    let red = '#e53935';
+    let color = '';
+    let verbiage = 'Great! 0 todo items to complete';
 
     for (let i = 0; i < listItems.length; i++) {
       if (listItems[i].complete === true) {
@@ -956,11 +1009,36 @@ const Dashboard = (props) => {
     }
 
     total = complete + incomplete;
+
     if (total === 0) {
       progress = 0;
+    } else if (incomplete === 0 && complete > 0) {
+      progress = 100;
     } else {
-      progress = parseFloat(((incomplete / total) * 100).toFixed(2));
+      progress = parseFloat(((complete / total) * 100).toFixed(2));
     }
+
+    if (progress < 50) {
+      color = red;
+    } else {
+      color = green;
+    }
+
+    if (incomplete > 1) {
+      verbiage = `Complete ${incomplete} todo items to get to 100%`;
+    } else if (incomplete === 1) {
+      verbiage = `Complete ${incomplete} todo item to get to 100%`;
+    }
+
+    const TodoListLinearProgress = withStyles((theme) => ({
+      colorPrimary: {
+        backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
+      },
+      bar: {
+        borderRadius: 5,
+        backgroundColor: color,
+      },
+    }))(LinearProgress);
 
     return (
       <Card
@@ -982,7 +1060,7 @@ const Dashboard = (props) => {
             </Typography>
               <Typography
                 color="textPrimary"
-                variant="h4"
+                variant={getWindowWidth() < 1466 && getWindowWidth() > 1280 ? 'h6' : 'h4'}
               >
                 {`${progress}%`}
             </Typography>
@@ -994,10 +1072,22 @@ const Dashboard = (props) => {
             </Grid>
           </Grid>
           <Box mt={3}>
-            <LinearProgress
+            <TodoListLinearProgress
               value={progress}
               variant="determinate"
             />
+          </Box>
+          <Box
+            mt={2}
+            display="flex"
+            alignItems="center"
+          >
+            <Typography
+              color="textSecondary"
+              variant="caption"
+            >
+              {verbiage}
+          </Typography>
           </Box>
         </CardContent>
       </Card>
@@ -1033,7 +1123,7 @@ const Dashboard = (props) => {
             </Typography>
               <Typography
                 color="textPrimary"
-                variant="h4"
+                variant={getWindowWidth() < 1466 && getWindowWidth() > 1280 ? 'h6' : 'h4'}
               >
                 $0
             </Typography>
@@ -1049,9 +1139,9 @@ const Dashboard = (props) => {
             display="flex"
             alignItems="center"
           >
-            <ArrowUpwardIcon className={classes.differenceIcon} />
+            <ArrowUpwardIcon className={classes.differenceIconMock} />
             <Typography
-              className={classes.differenceValue}
+              className={classes.differenceValueMock}
               variant="body2"
             >
               0%
@@ -1089,7 +1179,7 @@ const Dashboard = (props) => {
             </Typography>
               <Typography
                 color="textPrimary"
-                variant="h4"
+                variant={getWindowWidth() < 1466 && getWindowWidth() > 1280 ? 'h6' : 'h4'}
               >
                 {`$${addCommas(investmentsTotalString)}`}
             </Typography>
@@ -1132,7 +1222,7 @@ const Dashboard = (props) => {
     }
   };
 
-  const getMockRecentHomework = () => {
+  const getMockHomework = () => {
     return (
       <Card
         className={clsx(classes.root)}
@@ -1165,9 +1255,6 @@ const Dashboard = (props) => {
                     </Tooltip>
                   </TableCell>
                   <TableCell>
-                    Executor
-                </TableCell>
-                  <TableCell>
                     Status
                 </TableCell>
                 </TableRow>
@@ -1186,9 +1273,6 @@ const Dashboard = (props) => {
                     </TableCell>
                     <TableCell>
                       {moment(mockHomework.createdAt).format('DD/MM/YYYY')}
-                    </TableCell>
-                    <TableCell>
-                      {mockHomework.executor}
                     </TableCell>
                     <TableCell>
                       <Chip
@@ -1223,7 +1307,7 @@ const Dashboard = (props) => {
     );
   };
 
-  const getRealRecentHomework = (recentHomeworks) => {
+  const getRealUpcomingHomework = (recentHomeworks) => {
     return (
       <Card
         className={clsx(classes.root)}
@@ -1231,7 +1315,7 @@ const Dashboard = (props) => {
         <CardHeader title="Recent Home Work" />
         <Divider />
         <PerfectScrollbar>
-          <Box minWidth={800}>
+          <Box minWidth={600}>
             <Table>
               <TableHead>
                 <TableRow>
@@ -1254,9 +1338,6 @@ const Dashboard = (props) => {
                     </TableSortLabel>
                     </Tooltip>
                   </TableCell>
-                  <TableCell>
-                    Executor
-                </TableCell>
                   <TableCell>
                     Type
                 </TableCell>
@@ -1281,9 +1362,6 @@ const Dashboard = (props) => {
                     </TableCell>
                     <TableCell>
                       {moment(recentHomework.executionDate).format('DD/MM/YYYY')}
-                    </TableCell>
-                    <TableCell>
-                      {recentHomework.executor}
                     </TableCell>
                     <TableCell>
                       <Chip
@@ -1318,11 +1396,11 @@ const Dashboard = (props) => {
     );
   };
 
-  const getRecentHomework = () => {
+  const getUpcomingHomework = () => {
     if (data.homeworks && data.homeworks.edges && data.homeworks.edges.length > 0 && isNewUser !== true) {
-      return getRealRecentHomework(data.homeworks.edges);
+      return getRealUpcomingHomework(data.homeworks.edges);
     } else {
-      return getMockRecentHomework();
+      return getMockHomework();
     }
   };
 
@@ -2025,7 +2103,7 @@ const Dashboard = (props) => {
           xl={9}
           xs={12}
         >
-          {getRecentHomework()}
+          {getUpcomingHomework()}
         </Grid>
         <Grid
           item
