@@ -161,8 +161,8 @@ const useStyles = makeStyles((theme: Theme) =>
       background: '#FFFFFF',
       boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.25)',
       borderRadius: '10px',
-      maxWidth: '270px',
-      marginRight: '15px',
+      maxWidth: '280px',
+      marginRight: '5px',
       marginBottom: '10px',
       padding: '5px',
     },
@@ -485,6 +485,7 @@ const FinanceDashboardPage = () => {
     }
 
     let columnSpan: GRID_SIZES = 12 / Object.keys(accountBalances).length as GRID_SIZES;
+    console.log('COLUMN SPAN: ', columnSpan);
     for (const key in accountBalances) {
       let title = getCapitalizedString(key);
       let balance = accountBalances[key].toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
@@ -506,7 +507,7 @@ const FinanceDashboardPage = () => {
       }
 
       accountBalancesUI.push(
-        <Grid key={ID++} item xs={12} lg={columnSpan} md={columnSpan} sm={12} className={classes.balanceBox}>
+        <Grid key={ID++} item xs={12} lg={3} md={6} sm={12} className={classes.balanceBox}>
           <div className={classes.individualFeature}>
             <AttachMoney fontSize={'large'} className={classes.icon} />
             <span className={classes.balance}>{balance}</span>
@@ -545,39 +546,10 @@ const FinanceDashboardPage = () => {
         </Grid>
         <div className={classes.root}>
           <Grid container justify="center" alignContent="center" alignItems="center">
+            <Grid container justify="center" alignContent="center" alignItems="center">
             { accountBalancesUI }
-            <Grid item xs={12} sm={12} md={6} lg={6} style={{marginTop: '75px', textAlign: 'center'}}>
-              <span className={classes.chartTitle}>Spending Breakdown By Account</span>
-              <span className={classes.dropdown}><FormControl className={classes.formControl}>
-                <InputLabel id="demo-simple-select-label">Date</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={lastXDays}
-                  onChange={handleDateSelect}
-                >
-                  <MenuItem value={30}>{'Last 30 Days'}</MenuItem>
-                  <MenuItem value={60}>{'Last 60 Days'}</MenuItem>
-                  <MenuItem value={90}>{'Last 90 Days'}</MenuItem>
-                  <MenuItem value={180}>{'Last 6 Months'}</MenuItem>
-                  <MenuItem value={365}>{'Last Year'}</MenuItem>
-                </Select>
-              </FormControl></span>
-              <ResponsiveContainer width="95%" height={300}>
-                <BarChart
-                  className={classes.centerGraph}
-                  data={barChartData}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  {getBarChartUI()}
-                </BarChart>
-              </ResponsiveContainer>
             </Grid>
-            <Grid item xs={12} sm={12} md={6} lg={6} style={{ marginTop: '75px', textAlign: 'center' }}>
+            <Grid item xs={12} sm={12} md={12} lg={6} style={{ marginTop: '75px', textAlign: 'center' }}>
               <span className={classes.chartTitle}>Spending Breakdown By Category</span>
               <span className={classes.dropdown}><FormControl className={classes.formControl}>
                 <InputLabel id="demo-simple-select-label">Date</InputLabel>
@@ -612,6 +584,37 @@ const FinanceDashboardPage = () => {
                   <Tooltip />
                   <Legend />
                 </PieChart>
+              </ResponsiveContainer>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={6} style={{ marginTop: '75px', textAlign: 'center' }}>
+              <span className={classes.chartTitle}>Spending Breakdown By Account</span>
+              <span className={classes.dropdown}><FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-label">Date</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={lastXDays}
+                  onChange={handleDateSelect}
+                >
+                  <MenuItem value={30}>{'Last 30 Days'}</MenuItem>
+                  <MenuItem value={60}>{'Last 60 Days'}</MenuItem>
+                  <MenuItem value={90}>{'Last 90 Days'}</MenuItem>
+                  <MenuItem value={180}>{'Last 6 Months'}</MenuItem>
+                  <MenuItem value={365}>{'Last Year'}</MenuItem>
+                </Select>
+              </FormControl></span>
+              <ResponsiveContainer width="95%" height={300}>
+                <BarChart
+                  className={classes.centerGraph}
+                  data={barChartData}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  {getBarChartUI()}
+                </BarChart>
               </ResponsiveContainer>
             </Grid>
             {/* <Grid item xs={12} sm={12} lg={2} md={2} >
