@@ -485,7 +485,7 @@ const FinanceDashboardPage = () => {
     }
 
     let columnSpan: GRID_SIZES = 12 / Object.keys(accountBalances).length as GRID_SIZES;
-    console.log('COLUMN SPAN: ', columnSpan);
+
     for (const key in accountBalances) {
       let title = getCapitalizedString(key);
       let balance = accountBalances[key].toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
