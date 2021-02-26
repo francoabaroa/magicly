@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { APP_CONFIG, LIST_TYPE, QUESTION_STATUS, DOC_TYPE } from '../../constants/appStrings';
 import MagiclyLoading from '../shared/MagiclyLoading';
 import MagiclyError from '../shared/MagiclyError';
+import MagiclyButton from '../shared/MagiclyButton';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import { createStyles, makeStyles, Theme, useTheme, withStyles } from '@material-ui/core/styles';
@@ -27,6 +28,8 @@ import {
   Avatar,
   Box,
   Card,
+  CardActionArea,
+  CardActions,
   CardContent,
   Chip,
   Container,
@@ -378,6 +381,12 @@ const useStyles = makeStyles((theme: Theme) =>
     hoverRow: {
       '&:hover': {
         backgroundColor: 'rgba(0, 0, 0, 0.04)',
+      },
+    },
+    addHWBtn: {
+      marginTop: '120px',
+      [theme.breakpoints.down('md')]: {
+        marginTop: '50px',
       },
     },
     image: {
@@ -833,7 +842,7 @@ const Dashboard = (props) => {
                 color="textPrimary"
                 variant={getWindowWidth() < 1466 && getWindowWidth() > 1280 ? 'h6' : 'h4'}
               >
-                $0
+                0%
             </Typography>
             </Grid>
             <Grid item>
@@ -998,7 +1007,7 @@ const Dashboard = (props) => {
     let green = '#43a047';
     let red = '#e53935';
     let color = '';
-    let verbiage = 'Great! 0 todo items to complete';
+    let verbiage = 'Great! No todo items to complete';
 
     for (let i = 0; i < listItems.length; i++) {
       if (listItems[i].complete === true) {
@@ -1224,95 +1233,42 @@ const Dashboard = (props) => {
 
   const getMockHomework = () => {
     return (
-      <Card
-        className={clsx(classes.root)}
-        style={{opacity: '0.3'}}
-      >
-        <CardHeader title="Sample Home Work" />
+      <Card className={clsx(classes.root)}>
+        <CardHeader title="Home Work" />
         <Divider />
-        <PerfectScrollbar>
-          <Box minWidth={800}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    Title
-                </TableCell>
-                  <TableCell>
-                    Cost (USD)
-                </TableCell>
-                  <TableCell sortDirection="desc">
-                    <Tooltip
-                      enterDelay={300}
-                      title="Sort"
-                    >
-                      <TableSortLabel
-                        active
-                        direction="desc"
-                      >
-                        Date
-                    </TableSortLabel>
-                    </Tooltip>
-                  </TableCell>
-                  <TableCell>
-                    Status
-                </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {mockHWs.map((mockHomework) => (
-                  <TableRow
-                    hover={false}
-                    key={mockHomework.id}
-                  >
-                    <TableCell>
-                      {mockHomework.ref}
-                    </TableCell>
-                    <TableCell>
-                      {mockHomework.amount}
-                    </TableCell>
-                    <TableCell>
-                      {moment(mockHomework.createdAt).format('DD/MM/YYYY')}
-                    </TableCell>
-                    <TableCell>
-                      <Chip
-                        color="primary"
-                        label={mockHomework.status}
-                        size="small"
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Box>
-        </PerfectScrollbar>
-        <Box
-          display="flex"
-          justifyContent="flex-end"
-          p={2}
-
-        >
-          <Button
-            color="primary"
-            endIcon={<ArrowRightIcon />}
-            size="small"
-            variant="text"
-            disabled
-          >
-            View all
-        </Button>
-        </Box>
+          <CardContent>
+          <Typography gutterBottom variant="h5" component="h2" style={{ color: 'rgba(0, 0, 0, 0.54)', marginBottom: '30px', marginTop: '10px'}}>
+              Any home work you save, such as maintenance, repairs, installations, cleaning, and other will be displayed here.
+          </Typography>
+          <Typography gutterBottom variant="h6" component="h2" style={{ color: 'rgba(0, 0, 0, 0.54)', marginBottom: '10px' }}>
+              Some inspirations to get you started:
+          </Typography>
+          <Typography gutterBottom variant="body1" component="p" style={{ color: 'rgba(0, 0, 0, 0.54)'}}>
+              - Pool cleaning
+          </Typography>
+          <Typography gutterBottom variant="body1" component="p" style={{ color: 'rgba(0, 0, 0, 0.54)' }}>
+              - Dishwasher installation
+          </Typography>
+          <Typography gutterBottom variant="body1" component="p" style={{ color: 'rgba(0, 0, 0, 0.54)' }}>
+              - Generator maintenance
+          </Typography>
+          </CardContent>
+        <CardActions className={classes.addHWBtn}>
+          <MagiclyButton
+            btnLabel={'Add Home Work'}
+            onClick={routePage.bind(this, `home/work/add`)}
+          />
+        </CardActions>
       </Card>
     );
   };
 
-  const getRealUpcomingHomework = (recentHomeworks) => {
+  const getRealHomework = (recentHomeworks) => {
     return (
       <Card
         className={clsx(classes.root)}
       >
-        <CardHeader title="Recent Home Work" />
+        <CardHeader title="Home Work" />
         <Divider />
         <PerfectScrollbar>
           <Box minWidth={600}>
@@ -1322,9 +1278,6 @@ const Dashboard = (props) => {
                   <TableCell>
                     Title
                 </TableCell>
-                  <TableCell>
-                    Cost (USD)
-                </TableCell>
                   <TableCell sortDirection="desc">
                     <Tooltip
                       enterDelay={300}
@@ -1338,6 +1291,9 @@ const Dashboard = (props) => {
                     </TableSortLabel>
                     </Tooltip>
                   </TableCell>
+                  <TableCell>
+                    Cost (USD)
+                </TableCell>
                   <TableCell>
                     Type
                 </TableCell>
@@ -1358,10 +1314,10 @@ const Dashboard = (props) => {
                       }
                     </TableCell>
                     <TableCell>
-                      {recentHomework.cost}
+                      {moment(recentHomework.executionDate).format('MM/DD/YYYY')}
                     </TableCell>
                     <TableCell>
-                      {moment(recentHomework.executionDate).format('DD/MM/YYYY')}
+                      {recentHomework.cost}
                     </TableCell>
                     <TableCell>
                       <Chip
@@ -1396,9 +1352,9 @@ const Dashboard = (props) => {
     );
   };
 
-  const getUpcomingHomework = () => {
+  const getHomework = () => {
     if (data.homeworks && data.homeworks.edges && data.homeworks.edges.length > 0 && isNewUser !== true) {
-      return getRealUpcomingHomework(data.homeworks.edges);
+      return getRealHomework(data.homeworks.edges);
     } else {
       return getMockHomework();
     }
@@ -1411,7 +1367,7 @@ const Dashboard = (props) => {
         <Card
           className={clsx(classes.root)}
         >
-          <CardHeader title="Home Health" />
+          <CardHeader title="Home Work Breakdown" />
           <Divider />
           <CardContent>
             <Box
@@ -1469,7 +1425,7 @@ const Dashboard = (props) => {
       <Card
         className={clsx(classes.root)}
       >
-        <CardHeader title="Home Health" />
+        <CardHeader title="Home Work Breakdown" />
         <Divider />
         <CardContent>
           <Box
@@ -1607,7 +1563,7 @@ const Dashboard = (props) => {
         <Card
           className={clsx(classes.root)}
         >
-          <CardHeader title="Home Health" />
+          <CardHeader title="Home Work Breakdown" />
           <Divider />
           <CardContent>
             <Box
@@ -1665,7 +1621,7 @@ const Dashboard = (props) => {
       <Card
         className={clsx(classes.root)}
       >
-        <CardHeader title="Home Health" />
+        <CardHeader title="Home Work Breakdown" />
         <Divider />
         <CardContent>
           <Box
@@ -1726,47 +1682,20 @@ const Dashboard = (props) => {
 
   const getMockRecentRecommendations = () => {
     return (
-      <Card
-        className={clsx(classes.root)}
-        style={{ opacity: '0.3' }}
-      >
-        <CardHeader
-          subtitle={`${mockRecs.length} in total`}
-          title="Sample Recommendations"
-
-        />
+      <Card className={clsx(classes.root)}>
+        <CardHeader title="Recommendations" />
         <Divider />
-        <List >
-          {mockRecs.map((mockRec, i) => (
-            <ListItem
-              divider={i < mockRecs.length - 1}
-              key={mockRec.id}
-            >
-              <ListItemIcon>{<StarIcon />}</ListItemIcon>
-              <ListItemText
-                primary={mockRec.name}
-                secondary={`Type: ${mockRec.type}`}
-              />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <Box
-          display="flex"
-          justifyContent="flex-end"
-          p={2}
-
-        >
-          <Button
-            color="primary"
-            endIcon={<ArrowRightIcon />}
-            size="small"
-            variant="text"
-            disabled
-          >
-            View all
-          </Button>
-        </Box>
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2" style={{ color: 'rgba(0, 0, 0, 0.54)', marginBottom: '30px', marginTop: '10px' }}>
+            Any recommendations you save, such as restaurants, TV shows, movies, and more will be displayed here.
+          </Typography>
+        </CardContent>
+        <CardActions style={{ marginTop: '50px', marginBottom: '20px'  }}>
+          <MagiclyButton
+            btnLabel={'Add Recommendation'}
+            onClick={routePage.bind(this, `productivity/recommendations/add`)}
+          />
+        </CardActions>
       </Card>
     );
   };
@@ -1830,47 +1759,20 @@ const Dashboard = (props) => {
 
   const getMockRecentShoppingLists = () => {
     return (
-      <Card
-        className={clsx(classes.root)}
-        style={{ opacity: '0.3' }}
-      >
-        <CardHeader
-          subtitle={`${mockSLists.length} in total`}
-          title="Sample Shopping Lists"
-
-        />
+      <Card className={clsx(classes.root)}>
+        <CardHeader title="Shopping Lists" />
         <Divider />
-        <List >
-          {mockSLists.map((mockShoppingList, i) => (
-            <ListItem
-              divider={i < mockSLists.length - 1}
-              key={mockShoppingList.id}
-            >
-              <ListItemIcon>{<ShoppingCartIcon />}</ListItemIcon>
-              <ListItemText
-                primary={mockShoppingList.name}
-                secondary={`Updated ${mockShoppingList.updatedAt.fromNow()}`}
-              />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <Box
-          display="flex"
-          justifyContent="flex-end"
-          p={2}
-
-        >
-          <Button
-            color="primary"
-            endIcon={<ArrowRightIcon />}
-            size="small"
-            variant="text"
-            disabled
-          >
-            View all
-          </Button>
-        </Box>
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2" style={{ color: 'rgba(0, 0, 0, 0.54)', marginBottom: '30px', marginTop: '10px' }}>
+            Any shopping lists you save, such as grocery lists, birthday party lists, and more will be displayed here.
+          </Typography>
+        </CardContent>
+        <CardActions style={{ marginTop: '50px', marginBottom: '20px' }}>
+          <MagiclyButton
+            btnLabel={'Add Shopping List'}
+            onClick={routePage.bind(this, `productivity/shopping/add`)}
+          />
+        </CardActions>
       </Card>
     );
   };
@@ -1933,47 +1835,20 @@ const Dashboard = (props) => {
 
   const getMockRecentDocuments = () => {
     return (
-      <Card
-        className={clsx(classes.root)}
-        style={{ opacity: '0.3' }}
-      >
-        <CardHeader
-          subtitle={`${mockDocs.length} in total`}
-          title="Sample Documents"
-
-        />
+      <Card className={clsx(classes.root)}>
+        <CardHeader title="Documents" />
         <Divider />
-        <List >
-          {mockDocs.map((mockDoc, i) => (
-            <ListItem
-              divider={i < mockDocs.length - 1}
-              key={mockDoc.id}
-            >
-              <ListItemIcon>{<DescriptionIcon />}</ListItemIcon>
-              <ListItemText
-                primary={mockDoc.name}
-                secondary={`Type: ${mockDoc.type}`}
-              />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <Box
-          display="flex"
-          justifyContent="flex-end"
-          p={2}
-
-        >
-          <Button
-            color="primary"
-            endIcon={<ArrowRightIcon />}
-            size="small"
-            variant="text"
-            disabled
-          >
-            View all
-          </Button>
-        </Box>
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2" style={{ color: 'rgba(0, 0, 0, 0.54)', marginBottom: '30px', marginTop: '10px' }}>
+            Any documents you save, such as appliance manuals, warranties, receipts, and more will be displayed here.
+          </Typography>
+        </CardContent>
+        <CardActions style={{ marginTop: '50px', marginBottom: '20px' }}>
+          <MagiclyButton
+            btnLabel={'Add Document'}
+            onClick={routePage.bind(this, `home/documents/add`)}
+          />
+        </CardActions>
       </Card>
     );
   };
@@ -2103,7 +1978,7 @@ const Dashboard = (props) => {
           xl={9}
           xs={12}
         >
-          {getUpcomingHomework()}
+          {getHomework()}
         </Grid>
         <Grid
           item

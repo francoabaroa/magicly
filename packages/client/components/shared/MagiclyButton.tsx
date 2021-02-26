@@ -17,8 +17,8 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '40px',
       [theme.breakpoints.down('md')]: {
         fontSize: '14px',
-        width: '150px',
-        height: '45px'
+        width: '160px',
+        height: '55px'
       },
     },
     saveCancelBtns: {
