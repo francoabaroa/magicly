@@ -282,6 +282,12 @@ const SignUpPage = () => {
                   <a className={classes.link}> Sign In</a>
                 </Link>
               </h4>
+              <Grid item xs={12} lg={12} md={12} sm={12}>
+                <p style={{ fontSize: '13px', textAlign: 'center' }}>By clicking Sign Up, you agree to our <a className={classes.link} href={'/terms'}>Terms</a> and <a className={classes.link} href={'/privacy'}>Privacy Policy</a>.</p>
+              </Grid>
+              <Grid item xs={12} lg={12} md={12} sm={12}>
+                <p style={{ fontSize: '13px', textAlign: 'center' }}> We'll occasionally send you account-related emails.</p>
+              </Grid>
             </Grid>
           </Grid>
         </div>

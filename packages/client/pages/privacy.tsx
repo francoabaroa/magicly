@@ -56,6 +56,8 @@ const PrivacyPage = () => {
       <div className={classes.root}>
         <Grid container>
           <Grid item xs={12}>
+            <p><em>Last updated: October 4, 2020</em></p>
+
             <p>
               The privacy of your data — and it is your data, not ours! — is a big deal to us. In this policy, we lay out: what data we collect and why; how your data is handled; and your rights to your data. We promise we never sell your data: never have, never will.
               This policy applies to all products built and maintained by Sincero, LLC including Magicly (all versions).
