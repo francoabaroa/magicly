@@ -144,6 +144,8 @@ export default {
           type,
           listType,
           notes,
+          executionDate,
+          notificationType
         },
         { me, models }
       ) => {
@@ -168,6 +170,8 @@ export default {
             notes,
             listId,
             complete: false,
+            executionDate,
+            notificationType
           });
 
           return listItem;

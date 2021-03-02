@@ -42,12 +42,16 @@ const CREATE_LIST_ITEM = gql`
     $type: ItemType!,
     $listType: ListType!,
     $notes: String,
+    $executionDate: Date,
+    $notificationType: NotificationType,
   ) {
     createListItem(
       name: $name,
       type: $type,
       listType: $listType,
       notes: $notes,
+      executionDate: $executionDate,
+      notificationType: $notificationType
     ) {
       id
     }
@@ -195,12 +199,21 @@ const NewTodoListItemForm = () => {
       return;
     }
 
+    let notificationType = 'NONE';
+
+    // TODO: tempororary until other notification types are supported
+    if (reminder === 'yes') {
+      notificationType = 'EMAIL';
+    }
+
     const variables = {
       variables: {
         name,
         type,
         notes,
-        listType: list
+        listType: list,
+        executionDate,
+        notificationType
       }
     };
     createListItem(variables);
