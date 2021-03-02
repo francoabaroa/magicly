@@ -215,5 +215,8 @@ export default {
     list: async (listItem, args, { loaders, models }) => {
       return await loaders.list.load(listItem.listId);
     },
+    executionDate: async (listItem, args, { loaders }) => {
+      return new Date(listItem.executionDate);
+    },
   },
 };
