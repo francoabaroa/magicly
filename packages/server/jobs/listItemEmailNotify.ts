@@ -50,54 +50,49 @@ const db = createModels(
   isProduction
 );
 
-const getCapitalizedString = (name: string) => {
-  const lowerCaseTitle = name.toLowerCase();
-  if (typeof lowerCaseTitle !== 'string') return ''
-  return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
-};
+const sendIndividualEmail = async (listItem) => {
+  let subject = listItem.name;
+  let text = 'You have an item due today: ' + listItem.name;
+  let list  = await db.List.findByPk(listItem.listId);
+  let user = await db.User.findByPk(list['userId']);
 
-const sendIndividualEmail = async (homework) => {
-  let uppercaseType = getCapitalizedString(homework.type);
-  let subject = uppercaseType + ': ' + homework.title;
-  let text = 'You have a home work due today: ' + homework.title;
-  let user = await db.User.findByPk(homework.userId);
-
+  // TODO: check where the list came from so you can tell the user!!
   return new Promise((resolve, reject) => {
     transporter.sendMail({
       from: 'magicly@sincero.tech',
       to: user.email,
       subject,
       text,
-      html: `<p> You have a home work due today: <span style="font-weight:bold">${homework.title}</span> <p> Thanks and have a great day! </p> <p>The Magicly Team</p> <span style="font-size:12px; font-style: italic;">This mailbox is not monitored in real-time. If you reply back to this email, please give us some time to go through your response and get back to you.</span> </p>`
+      html: `<p> You have an item due today: <span style="font-weight:bold">${listItem.name}</span> <p> Thanks and have a great day! </p> <p>The Magicly Team</p> <span style="font-size:12px; font-style: italic;">This mailbox is not monitored in real-time. If you reply back to this email, please give us some time to go through your response and get back to you.</span> </p>`
     }, (err, info) => {
       if (err) {
-        let child = logger().child({ function: 'sendIndividualEmail', objectId: homework.id });
+        let child = logger().child({ function: 'sendIndividualEmail', objectId: listItem.id });
         child.warn('SEND_INDIVIDUAL_ERROR');
         reject(err);
       }
       if (info) {
-        resolve(homework);
+        resolve(listItem);
       }
     });
   })
 };
 
-const getHomeworks = async () => {
+const getListItems = async () => {
   const Op = Sequelize.Op;
-  const homeworks = await db.Homework.findAll({
+  const listItems = await db.ListItem.findAll({
+    attributes: ['id', 'name', 'listId'] ,
     where: {
-      status: 'UPCOMING',
       notificationType: 'EMAIL',
       executionDate: {
         [Op.eq]: moment().format('YYYY-MM-DD'),
       },
     }
-  })
-  return homeworks;
+  });
+  return listItems;
 };
 
-const sendEmails = async (homeworks) => {
-  const records = homeworks.map(result => result.dataValues);
+const sendEmails = async (listItems) => {
+  const records = listItems.map(result => result.dataValues);
   const emailedRecords = [];
 
   for (const record of records) {
@@ -107,31 +102,32 @@ const sendEmails = async (homeworks) => {
     }
   }
 
-  const homeworkIds = emailedRecords.map(homework => homework['id']);
-  return homeworkIds;
+  const listItemIds = emailedRecords.map(listItem => listItem['id']);
+  return listItemIds;
 };
 
-const markEmailsAsSent = async (returnedHomeworkIds) => {
-  if (returnedHomeworkIds.length === 0) {
+const markEmailsAsSent = async (returnedListItemIds) => {
+  if (returnedListItemIds.length === 0) {
     return false;
   }
 
-  let marked = await db.Homework.update(
+  let marked = await db.ListItem.update(
     { notificationType: 'NONE' },
-    { where: { id: returnedHomeworkIds }
-  });
+    {
+      where: { id: returnedListItemIds }
+    });
   return marked.length > 0;
 };
 
-const findAndSendHomeworkEmails = async () => {
+const findAndSendListItemEmails = async () => {
   try {
     await db.sequelize.authenticate();
-    let child = logger().child({ function: 'findAndSendEmailsBeforeGetHomeworks', isProduction, dirname: __dirname });
+    let child = logger().child({ function: 'findAndSendEmailsBeforeGetListItems', isProduction, dirname: __dirname });
     child.warn('FIND_AND_SEND_EMAILS_CONTINUE');
     console.log('Connection has been established successfully.', isProduction, __dirname);
-    const homeworks = await getHomeworks();
-    const returnedHomeworkIds = await sendEmails(homeworks);
-    const done = await markEmailsAsSent(returnedHomeworkIds);
+    const listItems = await getListItems();
+    const returnedListItemIds = await sendEmails(listItems);
+    const done = await markEmailsAsSent(returnedListItemIds);
     return done;
   } catch (error) {
     console.error('Unable to connect to the database:', error);
@@ -139,9 +135,9 @@ const findAndSendHomeworkEmails = async () => {
 
 };
 
-findAndSendHomeworkEmails().then(result => {
+findAndSendListItemEmails().then(result => {
   console.log('Result: ', result);
 }).catch(error => {
-  let child = logger().child({ function: 'findAndSendHomeworkEmails', error});
+  let child = logger().child({ function: 'findAndSendListItemEmails', error });
   child.warn('FIND_AND_SEND_EMAILS_ERROR');
 });
