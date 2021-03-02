@@ -41,6 +41,7 @@ const QUERY = gql`
           name
           type
           notes
+          executionDate
         }
       }
       pageInfo {
@@ -267,6 +268,7 @@ const ListsPage = () => {
       <ListItemRow
         key={key}
         listItem={listItem}
+        includeExecutionDate={true}
       />
     );
   };

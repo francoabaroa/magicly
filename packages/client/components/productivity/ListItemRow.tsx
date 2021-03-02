@@ -13,6 +13,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
+import moment from 'moment';
+import momentTimezone from 'moment-timezone';
 
 // TODO: clean up before prod
 let url = null;
@@ -40,6 +42,20 @@ const COMPLETE_LIST_ITEM = gql`
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    execDate: {
+      marginLeft: '15px',
+      fontSize: '20px',
+      textDecoration: 'none',
+      fontFamily: 'Overpass, serif',
+      color: '#840032',
+      padding: '8px',
+      borderRadius: '10px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '16px',
+        marginTop: '15px',
+        marginBottom: '0px',
+      },
+    },
     link: {
       marginLeft: '15px',
       fontSize: '20px',
@@ -104,6 +120,12 @@ const ListItemRow = (props) => {
     isComplete = props.listItem.complete;
   }
   const [complete, setComplete] = useState(isComplete);
+  const executionDate = new Date(props.listItem.executionDate);
+  const month = executionDate.getUTCMonth() + 1; //months from 1-12
+  const day = executionDate.getUTCDate();
+  const year = executionDate.getUTCFullYear();
+  // TODO: this is hacky and you know it. fix it and dont be lazy
+  const correctDate = year + "/" + month + "/" + day;
   let textDecoration = complete ? 'line-through' : 'none';
 
   if (error) return <MagiclyError message={error.message} hideLayout={true}/>;
@@ -122,6 +144,7 @@ const ListItemRow = (props) => {
     completeListItem(variables);
   };
 
+  // TODO: USE OF TIMEZONE BELOW AND 1969 date
   return (
       <Grid container justify="center" alignContent="center" alignItems="center" className={classes.leftText}>
         <Grid item xs={1} lg={1} md={1} sm={1} style={{maxWidth: '40px'}}>
@@ -145,6 +168,14 @@ const ListItemRow = (props) => {
               </Link> :
               null
           }
+        {
+          props.includeExecutionDate && momentTimezone(props.listItem.executionDate).tz('America/New_York').format('YYYY') !== '1969' ?
+            <span
+              className={classes.execDate}>
+              {momentTimezone(correctDate).tz('America/New_York').format('MM/DD/YYYY')}
+            </span> :
+            null
+        }
         </Grid>
         <Grid item xs={12} lg={12} md={12} sm={12}>
           <hr className={classes.horizontalLine} />

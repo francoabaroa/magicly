@@ -53,6 +53,7 @@ import {
 import clsx from 'clsx';
 import { v4 as uuid } from 'uuid';
 import moment from 'moment';
+import momentTimezone from 'moment-timezone';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { TrainRounded } from '@material-ui/icons';
@@ -1263,7 +1264,46 @@ const Dashboard = (props) => {
     );
   };
 
+  const getRealIndividualHomework = (recentHomework) => {
+    const executionDate = new Date(recentHomework.executionDate);
+    const month = executionDate.getUTCMonth() + 1; //months from 1-12
+    const day = executionDate.getUTCDate();
+    const year = executionDate.getUTCFullYear();
+    // TODO: this is hacky and you know it. fix it and dont be lazy
+    const correctDate = year + "/" + month + "/" + day;
+
+    return (
+      <TableRow
+        hover
+        key={recentHomework.id}
+        onClick={routePage.bind(this, `home/work/view/${recentHomework.id}`)}
+      >
+        <TableCell>
+          {
+            recentHomework.title.length > 21 ?
+              recentHomework.title.substring(0, 21) + '...' :
+              recentHomework.title
+          }
+        </TableCell>
+        <TableCell>
+          {momentTimezone(correctDate).tz('America/New_York').format('MM/DD/YYYY')}
+        </TableCell>
+        <TableCell>
+          {recentHomework.cost}
+        </TableCell>
+        <TableCell>
+          <Chip
+            color="primary"
+            label={recentHomework.type}
+            size="small"
+          />
+        </TableCell>
+      </TableRow>
+    );
+  };
+
   const getRealHomework = (recentHomeworks) => {
+
     return (
       <Card
         className={clsx(classes.root)}
@@ -1301,32 +1341,7 @@ const Dashboard = (props) => {
               </TableHead>
               <TableBody>
                 {recentHomeworks.map((recentHomework) => (
-                  <TableRow
-                    hover
-                    key={recentHomework.id}
-                    onClick={routePage.bind(this, `home/work/view/${recentHomework.id}`)}
-                  >
-                    <TableCell>
-                      {
-                        recentHomework.title.length > 21 ?
-                        recentHomework.title.substring(0, 21) + '...' :
-                        recentHomework.title
-                      }
-                    </TableCell>
-                    <TableCell>
-                      {moment(recentHomework.executionDate).format('MM/DD/YYYY')}
-                    </TableCell>
-                    <TableCell>
-                      {recentHomework.cost}
-                    </TableCell>
-                    <TableCell>
-                      <Chip
-                        color="primary"
-                        label={recentHomework.type}
-                        size="small"
-                      />
-                    </TableCell>
-                  </TableRow>
+                  getRealIndividualHomework(recentHomework)
                 ))}
               </TableBody>
             </Table>
