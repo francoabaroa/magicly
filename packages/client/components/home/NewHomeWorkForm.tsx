@@ -30,6 +30,19 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 
+import moment from 'moment-timezone';
+
+import {
+  Box,
+  Container,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  Checkbox,
+  Typography,
+} from '@material-ui/core';
+
 // TODO: clean up before prod
 let url = null;
 if (process.env.NODE_ENV === 'development') {
@@ -70,6 +83,10 @@ const CREATE_HOMEWORK = gql`
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    itemz: {
+      display: 'flex',
+      flexDirection: 'column'
+    },
     inputStyling: {
       backgroundColor: '#E5DADA',
     },
@@ -111,6 +128,9 @@ const useStyles = makeStyles((theme: Theme) =>
       fontStyle: 'normal',
       fontWeight: 'bold',
     },
+    formTextFields: {
+      marginBottom: '15px',
+    },
     checked: {},
     radio: {
       '&$checked': {
@@ -128,8 +148,9 @@ const NewHomeWorkForm = () => {
 
   const [cost, setCost] = useState('');
   const [costCurrency, setCostCurrency] = useState('USD');
-  const [document, setDocument] = useState('no');
-  const [executionDate, setExecutionDate] = useState(new Date());
+  const [document, setDocument] = useState('');
+  const [isRecurring, setIsRecurring] = useState('');
+  const [executionDate, setExecutionDate] = useState(null);
   const [executor, setExecutor] = useState('');
   const [keywords, setKeywords] = useState([]);
   const [notes, setNotes] = useState('');
@@ -140,6 +161,8 @@ const NewHomeWorkForm = () => {
   const [type, setType] = useState('');
 
   const submitForm = () => {
+    // TODO: this cannot be a fixed timezone!!
+    let execDate = moment(executionDate).tz('America/New_York').format();
     const variables = {
       variables: {
         title,
@@ -150,10 +173,10 @@ const NewHomeWorkForm = () => {
         cost: parseFloat(cost),
         costCurrency,
         notes,
-        executionDate,
+        executionDate: execDate,
         executor
       }
-    };
+    }
     createHomework(variables);
   }
 
@@ -197,8 +220,14 @@ const NewHomeWorkForm = () => {
     }
   };
 
-  const handleDateChange = (date) => {
-    setExecutionDate(date);
+  const getCapitalizedString = (name: string) => {
+    const lowerCaseTitle = name.toLowerCase();
+    if (typeof lowerCaseTitle !== 'string') return ''
+    return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
+  };
+
+  const handleDateChange = (event) => {
+    setExecutionDate(event.target.value);
   };
 
   const onSetReminder = (event) => {
@@ -222,126 +251,204 @@ const NewHomeWorkForm = () => {
     return workStatus === 'UPCOMING';
   };
 
+  let homeworkTypeOptions = ['MAINTENANCE', 'REPAIR', 'INSTALLATION', 'CLEANING', 'OTHER'];
   return (
-    <div>
-        <Grid container justify="center" alignContent="center" alignItems="center" className={classes.form}>
-          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-          <MagiclyPageTitle
-            title={'New Home Work'}
-          />
-          </Grid>
-
-          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <TextField autoComplete="off" id="standard-basic" label="Title" onChange={event => setTitle(event.target.value)} required className={classes.formControl} />
-          </Grid>
-
-          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <FormControl className={classes.formControl} required>
-              <InputLabel>Work type</InputLabel>
-              <Select
-                value={type}
-                onChange={setHomeWorkType}
-              >
-                <MenuItem value='MAINTENANCE'>Maintenance</MenuItem>
-                <MenuItem value='REPAIR'>Repair</MenuItem>
-                <MenuItem value='INSTALLATION'>Installation</MenuItem>
-                <MenuItem value='CLEANING'>Cleaning</MenuItem>
-                <MenuItem value='OTHER'>Other</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <TextField autoComplete="off" id="standard-basic" label="Who will do it?" onChange={event => setExecutor(event.target.value)} className={classes.formControl} />
-          </Grid>
-
-          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <TextField autoComplete="off" type="number" id="standard-basic" label="Cost estimate (USD)" onChange={event => setCost(event.target.value)} className={classes.formControl} />
-          </Grid>
-
-          {/* TODO: date storage for backend!! 2020-08-27 */}
-          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                className={classes.datePicker}
-                margin="normal"
-                id="date-picker-dialog"
-                label="Date"
-                format="MM/dd/yyyy"
-                value={executionDate}
-                onChange={handleDateChange}
-                KeyboardButtonProps={{
-                  'aria-label': 'change date',
-                }}
+    <Container maxWidth="lg">
+      <Box mt={3}>
+      <form
+        autoComplete="off"
+        noValidate
+      >
+            <Card>
+              <CardHeader
+                title="New Home Work"
               />
-            </MuiPickersUtilsProvider>
-          </Grid>
+              <Divider />
+              <CardContent>
+                    <TextField
+                      fullWidth
+                      // helperText="Please add a title"
+                      label="Title"
+                      name="title"
+                      onChange={event => setTitle(event.target.value)}
+                      required
+                      variant="outlined"
+                      className={classes.formTextFields}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Work type"
+                      name="type"
+                      required
+                      select
+                      SelectProps={{ native: true }}
+                      value={type}
+                      onChange={setHomeWorkType}
+                      variant="outlined"
+                      className={classes.formTextFields}
+                    >
+                  {homeworkTypeOptions.map((option, index) => (
+                        <option
+                          key={index}
+                          value={option}
+                        >
+                      {getCapitalizedString(option)}
+                        </option>
+                      ))}
+                    </TextField>
+                    <TextField
+                      fullWidth
+                      label="Who will do it?"
+                      name="executor"
+                      onChange={event => setExecutor(event.target.value)}
+                      required
+                      variant="outlined"
+                      className={classes.formTextFields}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Cost estimate (USD)"
+                      onChange={event => setCost(event.target.value)}
+                      name="cost"
+                      autoComplete="off"
+                      type="number"
+                      variant="outlined"
+                      className={classes.formTextFields}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Date"
+                      name="date"
+                      type="date"
+                      InputLabelProps={{ shrink: true }}
+                      defaultValue={executionDate}
+                      onChange={handleDateChange}
+                      variant="outlined"
+                      className={classes.formTextFields}
+                    />
 
-          <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-            <TextField autoComplete="off" className={classes.notes} id="standard-basic" label="Additional notes" onChange={event => setNotes(event.target.value)} />
-          </Grid>
+                    <TextField
+                      fullWidth
+                      label="Notes"
+                      onChange={event => setNotes(event.target.value)}
+                      name="notes"
+                      variant="outlined"
+                      className={classes.formTextFields}
+                    />
+                <Grid
+                  container
+                  spacing={1}
+                  wrap="wrap"
+                >
+                  {/* <Grid
+                    className={classes.itemz}
+                    item
+                    lg={12}
+                    md={4}
+                    sm={6}
+                    xs={12}
+                  >
+                    <Typography
+                      color="textPrimary"
+                      variant="h6"
+                    >
+                      Do you want to make this a recurring event?
+                </Typography>
+                    <RadioGroup aria-label="recurring" name="recurring1" value={isRecurring} onChange={event => setIsRecurring(event.target.value)}>
+                      <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                      <FormControlLabel value="no" control={<Radio />} label="No" />
+                    </RadioGroup>
+                  </Grid> */}
 
-          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-            <FormControl component="fieldset">
-              <FormLabel component="legend">Is this work upcoming or in the past?</FormLabel>
-              <RadioGroup aria-label="workStatus" name="workStatus1" value={workStatus} onChange={onSetWorkStatus}>
-                <FormControlLabel value="UPCOMING" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Upcoming" />
-                <FormControlLabel value="PAST" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Past" />
-              </RadioGroup>
-            </FormControl>
-          </Grid>
+                  <Grid
+                    className={classes.itemz}
+                    item
+                    lg={12}
+                    md={4}
+                    sm={6}
+                    xs={12}
+                  >
+                    <Typography
+                      color="textPrimary"
+                      variant="h6"
+                    >
+                      Is this work upcoming or in the past?
+                </Typography>
+                    <RadioGroup aria-label="status" name="status1" value={workStatus} onChange={onSetWorkStatus}>
+                      <FormControlLabel value="UPCOMING" control={<Radio />} label="Upcoming" />
+                      <FormControlLabel value="PAST" control={<Radio />} label="Past" />
+                    </RadioGroup>
+                  </Grid>
 
-          {/* if YES, show option to attach doc */}
-          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-            <FormControl component="fieldset">
-              <FormLabel component="legend">Do you want to add a document to this?</FormLabel>
-              <RadioGroup aria-label="attach" name="attach1" value={document} onChange={event => setDocument(event.target.value)}>
-                <FormControlLabel value="yes" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Yes" />
-                <FormControlLabel value="no" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="No" />
-              </RadioGroup>
-            </FormControl>
-          </Grid>
+                  {/* if YES, show option to attach doc */}
+                  <Grid
+                    className={classes.itemz}
+                    item
+                    lg={12}
+                    md={4}
+                    sm={6}
+                    xs={12}
+                  >
+                    <Typography
+                      color="textPrimary"
+                      variant="h6"
+                    >
+                      Do you want to add a document to this?
+                </Typography>
+                    <RadioGroup aria-label="document" name="document1" value={document} onChange={event => setDocument(event.target.value)}>
+                      <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                      <FormControlLabel value="no" control={<Radio />} label="No" />
+                    </RadioGroup>
+                  </Grid>
 
-          {/* if YES, show option to select notificationType */}
-          {/* TODO: need to add NONE to notificationType */}
-          {/* TODO: need to get their phone number for this */}
-          {
-            showNotificationPrompt() ?
-              <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-                <FormControl component="fieldset">
-                  <FormLabel component="legend">Do you want to set an email reminder?</FormLabel>
-                  <RadioGroup aria-label="notif" name="notif1" value={reminder} onChange={onSetReminder}>
-                    <FormControlLabel value="yes" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Yes" />
-                    <FormControlLabel value="no" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="No" />
-                  </RadioGroup>
-                </FormControl>
-              </Grid> :
-              null
-          }
+                  {/* if YES, show option to select notificationType */}
+                  {/* TODO: need to add NONE to notificationType */}
+                  {/* TODO: need to get their phone number for this */}
+                  {
+                    showNotificationPrompt() ?
+                      <Grid
+                        className={classes.itemz}
+                        item
+                        lg={12}
+                        md={4}
+                        sm={6}
+                        xs={12}
+                      >
+                        <Typography
+                          color="textPrimary"
+                          variant="h6"
+                        >
+                          Do you want to set an email reminder?
+                </Typography>
+                        <RadioGroup aria-label="reminder" name="reminder1" value={reminder} onChange={onSetReminder}>
+                          <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                          <FormControlLabel value="no" control={<Radio />} label="No" />
+                        </RadioGroup>
+                      </Grid> :
+                      null
+                  }
 
-          {/* {
-            reminder === 'yes' ?
-              setReminderType() :
-              null
-          } */}
-
-          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.buttonsTop}>
-            <MagiclyButton
-              btnLabel={'Save'}
-              onClick={submitForm}
-            />
-          </Grid>
-        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-          <MagiclyButton
-            btnLabel={'Cancel'}
-            isWhiteBackgroundBtn={true}
-            onClick={() => router.back()}
-          />
-        </Grid>
-
-      </Grid>
-    </div>
-  )
+                </Grid>
+              </CardContent>
+              <Divider />
+              <Box
+                display="flex"
+                justifyContent="flex-end"
+                p={2}
+              >
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={submitForm}
+                >
+                  Save
+            </Button>
+              </Box>
+            </Card>
+      </form>
+      </Box>
+    </Container>
+  );
 }
 
 export default NewHomeWorkForm;
