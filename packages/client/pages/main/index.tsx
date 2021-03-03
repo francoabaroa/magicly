@@ -230,9 +230,14 @@ const MainPage = () => {
   };
 
   const getQueryStringValue = (key) => {
-    return decodeURIComponent(
-      window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1")
-    );
+    try {
+      const component = decodeURIComponent(
+        window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1")
+      );
+      return component;
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const getGreeting = (me: any, isNewUser: boolean) => {
