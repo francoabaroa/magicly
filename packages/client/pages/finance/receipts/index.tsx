@@ -234,7 +234,7 @@ const ReceiptsPage = () => {
   const getEmptyUI = () => {
     return (
       <Grid container justify="center" alignContent="center" alignItems="center">
-        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }} onClick={routePage.bind(this, 'home/documents/add')}>
+        <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }} onClick={routePageWithQuery.bind(this, `finance/receipts/add`, { receipt: true })}>
           <AddAPhoto fontSize={'large'} className={classes.hugeIcon} />
         </Grid>
         <Grid item xs={12} lg={12} md={12} sm={12} style={{ textAlign: 'center' }}>
