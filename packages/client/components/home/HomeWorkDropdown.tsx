@@ -1,14 +1,10 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { APP_CONFIG } from '../../constants/appStrings';
 import MagiclyLoading from '../shared/MagiclyLoading';
 import MagiclyError from '../shared/MagiclyError';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
+import TextField from '@material-ui/core/TextField';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 const QUERY = gql`
@@ -33,12 +29,18 @@ const useStyles = makeStyles((theme: Theme) =>
         margin: theme.spacing(1),
       },
     },
+    formTextFields: {
+      marginBottom: '15px',
+    },
     formControl: {
       minWidth: '550px',
       [theme.breakpoints.down('xs')]: {
         minWidth: '350px',
       },
     },
+    selectRoot: {
+      marginBottom: '15px',
+    }
   }),
 );
 
@@ -52,26 +54,55 @@ const HomeWorkDropdown = (props) => {
   if (error) return <MagiclyError message={error.message} hideLayout={true}/>;
   if (data && data.me && data.me.homeworks) {
     data.me.homeworks.forEach((homework, key) => {
-      homeWorkDropdownItems.push(<MenuItem key={key} value={homework.id}>{homework.title}</MenuItem>)
+      homeWorkDropdownItems.push(homework)
     })
   }
 
-  return (
-    <div className={classes.root}>
-      {/* <h1>Add a new todo list item</h1> */}
-      <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Related Home Work</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={props.homeworkId}
-          onChange={props.setHomeworkId}
+  const getCapitalizedString = (name: string) => {
+    const lowerCaseTitle = name.toLowerCase();
+    if (typeof lowerCaseTitle !== 'string') return ''
+    return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
+  };
+
+  const getIndividualHomeworkDropdown = () => {
+    let homeworkOptions = [];
+    homeworkOptions.push(
+      <option
+        key={0}
+      >
+        {'None'}
+      </option>
+    );
+
+    homeWorkDropdownItems.forEach((option, index) => {
+      homeworkOptions.push(
+        <option
+          key={index + 1}
+          value={option.id}
         >
-          { homeWorkDropdownItems }
-        </Select>
-      </FormControl>
-    </div>
-  )
+          {getCapitalizedString(option.title)}
+        </option>
+      );
+    });
+
+    return homeworkOptions;
+  };
+
+  return (
+    <TextField
+      fullWidth
+      label="Related Home Work"
+      name="type"
+      required
+      select
+      SelectProps={{ native: true }}
+      onChange={props.setHomeworkId}
+      variant="outlined"
+      className={classes.formTextFields}
+    >
+      {getIndividualHomeworkDropdown()}
+    </TextField>
+  );
 }
 
 export default HomeWorkDropdown;

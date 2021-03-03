@@ -1,22 +1,24 @@
 import React, { useState, SetStateAction, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { APP_CONFIG, DOC_TYPE } from '../../constants/appStrings';
-import MagiclyPageTitle from '../../components/shared/MagiclyPageTitle';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
-import MagiclyButton from '../shared/MagiclyButton';
 import MagiclyError from '../shared/MagiclyError';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import HomeWorkDropdown from './HomeWorkDropdown';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
+
+import {
+  Box,
+  Container,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+} from '@material-ui/core';
 
 // TODO: clean up before prod
 let url = null;
@@ -55,6 +57,9 @@ const ADD_DOCUMENT = gql`
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    formTextFields: {
+      marginBottom: '15px',
+    },
     root: {
       display: 'flex',
       flexDirection: 'column',
@@ -119,23 +124,30 @@ const useStyles = makeStyles((theme: Theme) =>
       zIndex: theme.zIndex.drawer + 1,
       color: '#fff',
     },
+    fileChip: {
+      margin: '0 auto',
+      marginTop: '0px',
+      marginBottom: '20px',
+      display: 'block',
+      textAlign: 'center'
+    },
     uploadBtn: {
       fontFamily: 'Overpass, serif',
       fontWeight: 'bold',
       fontSize: '14px',
       margin: '0 auto',
+      textAlign: 'center',
       display: 'block',
       color: '#FFF',
       backgroundColor: '#002642',
       borderRadius: '50px',
-      width: '175px',
+      maxWidth: '160px',
       height: '40px',
-      marginTop: '10px',
-      marginBottom: '10px',
+      marginBottom: '15px',
       [theme.breakpoints.down('md')]: {
         fontSize: '14px',
-        width: '150px',
-        height: '45px'
+        maxWidth: '160px',
+        height: '40px'
       },
     },
   }),
@@ -277,111 +289,130 @@ const UploadDocument = (props) => {
   };
 
   let title = receipt === 'true' ? 'Receipt' : 'Document';
+  let docTypeOptions = [
+    DOC_TYPE.IMAGE,
+    DOC_TYPE.RECEIPT,
+    DOC_TYPE.MANUAL,
+    DOC_TYPE.WARRANTY,
+    DOC_TYPE.TAX,
+    DOC_TYPE.PROPERTY,
+    DOC_TYPE.INSURANCE,
+    DOC_TYPE.CERTIFICATE,
+    DOC_TYPE.FAMILY,
+    DOC_TYPE.EXPENSE,
+    DOC_TYPE.INVESTMENT,
+    DOC_TYPE.HEALTH,
+    DOC_TYPE.OTHER
+  ];
+
   return (
-    <div className={classes.root}>
-      <Grid container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
-        <Grid item xs={12} lg={12} md={12} sm={12}>
-          <MagiclyPageTitle
-            title={'Add a New ' + title}
-          />
-        </Grid>
+    <Container maxWidth="lg">
+      <Box mt={3}>
+        <form
+          autoComplete="off"
+          noValidate
+        >
+          <Card>
+            <CardHeader
+              title={`New ${title}`}
+            />
+            <Divider />
+            <CardContent>
 
-        <Grid item xs={12} lg={12} md={12} sm={12}>
-          <Button
-            variant="contained"
-            component="label"
-            className={classes.uploadBtn}
-          >
-            Choose {title}
-            <input id="fileinput" type="file" required onChange={onChange} style={{ display: "none" }} />
-          </Button>
-          {filename.length > 0 ?
-            <div style={{ paddingLeft: '5px' }}> <span>{filename}</span> <span onClick={removeFile} className={classes.xButton}>×</span></div> :
-            null
-          }
-        </Grid>
+              <Button
+                variant="contained"
+                component="label"
+                className={classes.uploadBtn}
+              >
+                Choose {title}
+                <input id="fileinput" type="file" required onChange={onChange} style={{ display: "none" }} />
+              </Button>
 
-        <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-          <TextField autoComplete="off" id="standard-basic" label={title + ' name'} onChange={event => setName(event.target.value)} required className={classes.formControl} />
-        </Grid>
+              {filename.length > 0 ?
+                <div className={classes.fileChip}> <span>{filename}</span> <span onClick={removeFile} className={classes.xButton}>×</span></div> :
+                null
+              }
 
-        {receipt === 'true' ? null : <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-          <FormControl className={classes.formControl} required>
-            <InputLabel>Document type</InputLabel>
-            <Select
-              value={type}
-              onChange={handleTypeSelect}
+              <TextField
+                fullWidth
+                name="name"
+                autoComplete="off"
+                label={title + ' name'}
+                onChange={event => setName(event.target.value)}
+                required
+                variant="outlined"
+                className={classes.formTextFields}
+              />
+
+              {receipt === 'true' ? null : <TextField
+                fullWidth
+                label="Document type"
+                name="type"
+                required
+                select
+                SelectProps={{ native: true }}
+                value={type}
+                onChange={handleTypeSelect}
+                variant="outlined"
+                className={classes.formTextFields}
+              >
+                {docTypeOptions.map((option, index) => (
+                  <option
+                    key={index}
+                    value={option}
+                  >
+                    {getCapitalizedString(option)}
+                  </option>
+                ))}
+              </TextField>}
+
+              {receipt === 'true' ? <TextField
+                fullWidth
+                name="cost"
+                autoComplete="off"
+                label="Receipt value (USD)"
+                onChange={event => setDocValue(event.target.value)}
+                required
+                type="number"
+                variant="outlined"
+                className={classes.formTextFields}
+              /> : null}
+
+              <HomeWorkDropdown setHomeworkId={setHWID} homeworkId={homeworkId} />
+
+              <TextField
+                fullWidth
+                label="Notes"
+                name="notes"
+                onChange={event => setNotes(event.target.value)}
+                variant="outlined"
+                className={classes.formTextFields}
+              />
+
+              <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
+                <CircularProgress color="inherit" />
+              </Backdrop>
+
+            </CardContent>
+            <Divider />
+            <Box
+              display="flex"
+              justifyContent="flex-end"
+              p={2}
             >
-              <MenuItem value={DOC_TYPE.IMAGE}>{getCapitalizedString(DOC_TYPE.IMAGE)}</MenuItem>
-              <MenuItem value={DOC_TYPE.RECEIPT}>{getCapitalizedString(DOC_TYPE.RECEIPT)}</MenuItem>
-              <MenuItem value={DOC_TYPE.MANUAL}>{getCapitalizedString(DOC_TYPE.MANUAL)}</MenuItem>
-              <MenuItem value={DOC_TYPE.WARRANTY}>{getCapitalizedString(DOC_TYPE.WARRANTY)}</MenuItem>
-              <MenuItem value={DOC_TYPE.TAX}>{getCapitalizedString(DOC_TYPE.TAX)}</MenuItem>
-              <MenuItem value={DOC_TYPE.PROPERTY}>{getCapitalizedString(DOC_TYPE.PROPERTY)}</MenuItem>
-              <MenuItem value={DOC_TYPE.INSURANCE}>{getCapitalizedString(DOC_TYPE.INSURANCE)}</MenuItem>
-              <MenuItem value={DOC_TYPE.CERTIFICATE}>{getCapitalizedString(DOC_TYPE.CERTIFICATE)}</MenuItem>
-              <MenuItem value={DOC_TYPE.FAMILY}>{getCapitalizedString(DOC_TYPE.FAMILY)}</MenuItem>
-              <MenuItem value={DOC_TYPE.EXPENSE}>{getCapitalizedString(DOC_TYPE.EXPENSE)}</MenuItem>
-              <MenuItem value={DOC_TYPE.INVESTMENT}>{getCapitalizedString(DOC_TYPE.INVESTMENT)}</MenuItem>
-              <MenuItem value={DOC_TYPE.HEALTH}>{getCapitalizedString(DOC_TYPE.HEALTH)}</MenuItem>
-              <MenuItem value={DOC_TYPE.OTHER}>{getCapitalizedString(DOC_TYPE.OTHER)}</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>}
-
-        {receipt === 'true' ? <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-          <TextField autoComplete="off" id="standard-basic" label="Receipt value (USD)" onChange={event => setDocValue(event.target.value)} className={classes.formControl} />
-        </Grid> : null}
-
-        <Grid item xs={12} lg={7} md={12} sm={12} className={classes.moreDetailsBtn}>
-          <MagiclyButton
-            btnLabel={moreDetails ? 'Hide Details' : 'Add More Details'}
-            onClick={toggleMoreDetailsButton}
-          />
-        </Grid>
-
-        {moreDetails ? <Grid item xs={12} lg={12}>
-          <HomeWorkDropdown setHomeworkId={setHWID} homeworkId={homeworkId} />
-        </Grid> : null}
-
-        {/* <Grid item xs={12} lg={12} md={12} sm={12}>
-          <FormControl component="fieldset">
-            <FormLabel component="legend">Do you want to save this in an existing folder or new one?</FormLabel>
-            <RadioGroup aria-label="folder" name="folder1" value={folder} onChange={handleChange}>
-              <FormControlLabel value={"Existing"} control={<Radio />} label="Existing" />
-              <FormControlLabel value={"New"} control={<Radio />} label="New" />
-            </RadioGroup>
-          </FormControl>
-        </Grid> */}
-
-        {/* <Grid item xs={12} lg={12} md={12} sm={12}>
-          <p>Enter keywords describing this document (separated by a comma, for example: home, warranty, 2009): <input type='text' onChange={separateKeywords} autoComplete='on' required /></p>
-        </Grid> */}
-
-        {moreDetails ? <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-          <TextField autoComplete="off" className={classes.notes} id="standard-basic" label="Additional notes" onChange={event => setNotes(event.target.value)} />
-        </Grid> : null}
-
-        <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
-          <CircularProgress color="inherit" />
-        </Backdrop>
-
-        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-          <MagiclyButton
-            btnLabel={'Save'}
-            onClick={submitForm}
-          />
-        </Grid>
-        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.cancelBtn}>
-          <MagiclyButton
-            btnLabel={'Cancel'}
-            isWhiteBackgroundBtn={true}
-            onClick={() => router.push('/home/documents' , undefined)}
-          />
-        </Grid>
-      </Grid>
-    </div>
-  )
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={submitForm}
+              >
+                Save
+            </Button>
+            </Box>
+          </Card>
+        </form>
+      </Box>
+    </Container>
+  );
 }
 
 export default UploadDocument;
