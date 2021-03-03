@@ -16,6 +16,15 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
+import {
+  Box,
+  Container,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+} from '@material-ui/core';
+
 // TODO: clean up before prod
 let url = null;
 if (process.env.NODE_ENV === 'development') {
@@ -50,6 +59,9 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down('xs')]: {
         minWidth: '350px',
       },
+    },
+    formTextFields: {
+      marginBottom: '15px',
     },
     name: {
       minWidth: '550px',
@@ -87,15 +99,10 @@ const NewRecommendationForm = () => {
   const [createListItem, { data, loading, error }] = useMutation(CREATE_LIST_ITEM);
   const router = useRouter();
   const [name, setName] = useState('');
-  const [type, setType] = useState('');
+  const [type, setType] = useState(ITEM_TYPE.MOVIE);
   const [notes, setNotes] = useState('');
 
   const submitForm = () => {
-    if (type === '') {
-      alert('You need to select a recommendation type');
-      return;
-    }
-
     const variables = {
       variables: {
         name,
@@ -120,7 +127,7 @@ const NewRecommendationForm = () => {
   }
 
   const handleTypeSelect = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setType(event.target.value as string);
+    setType(event.target.value as ITEM_TYPE);
   };
 
   const getCapitalizedString = (name: string) => {
@@ -129,74 +136,105 @@ const NewRecommendationForm = () => {
     return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
   };
 
+  let docTypeOptions = [
+    ITEM_TYPE.MOVIE,
+    ITEM_TYPE.TV,
+    ITEM_TYPE.FOOD,
+    ITEM_TYPE.RESTAURANT,
+    ITEM_TYPE.MUSIC,
+    ITEM_TYPE.TRAVEL,
+    ITEM_TYPE.ACCOMODATION,
+    ITEM_TYPE.HOME,
+    ITEM_TYPE.FINANCE,
+    ITEM_TYPE.BOOK,
+    ITEM_TYPE.PODCAST,
+    ITEM_TYPE.PRODUCT,
+    ITEM_TYPE.SERVICE,
+    ITEM_TYPE.PERSONAL,
+    ITEM_TYPE.WORK,
+    ITEM_TYPE.FAMILY,
+    ITEM_TYPE.HEALTH,
+    ITEM_TYPE.SHOPPING,
+    ITEM_TYPE.GIFT,
+    ITEM_TYPE.OTHER
+  ];
+
   return (
-    <div>
-      <Grid container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+    <Container maxWidth="lg">
+      <Box mt={3}>
+        <form
+          autoComplete="off"
+          noValidate
+        >
+          <Card>
+            <CardHeader
+              title={`New Recommendation`}
+            />
+            <Divider />
+            <CardContent>
 
-        <Grid item xs={12} lg={12} md={12} sm={12}>
-          <MagiclyPageTitle
-            title={'Add A New Recommendation'}
-          />
-        </Grid>
+              <TextField
+                fullWidth
+                name="name"
+                autoComplete="off"
+                label={'Recommendation name'}
+                onChange={event => setName(event.target.value)}
+                required
+                variant="outlined"
+                className={classes.formTextFields}
+              />
 
-        <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-          <TextField autoComplete="off" id="standard-basic" label="Recommendation name" onChange={event => setName(event.target.value)} required className={classes.name} />
-        </Grid>
+              <TextField
+                fullWidth
+                label="Recommendation type"
+                name="type"
+                required
+                select
+                SelectProps={{ native: true }}
+                defaultValue={type}
+                onChange={handleTypeSelect}
+                variant="outlined"
+                className={classes.formTextFields}
+              >
+                {docTypeOptions.map((option, index) => (
+                  <option
+                    key={index}
+                    value={option}
+                  >
+                    {option === 'TV' ? 'TV' : getCapitalizedString(option)}
+                  </option>
+                ))}
+              </TextField>
 
-        <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-          <FormControl required className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label">Recommendation type</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={type}
-              onChange={handleTypeSelect}
+              <TextField
+                fullWidth
+                label="Notes"
+                name="notes"
+                onChange={event => setNotes(event.target.value)}
+                variant="outlined"
+                className={classes.formTextFields}
+              />
+
+            </CardContent>
+            <Divider />
+            <Box
+              display="flex"
+              justifyContent="flex-end"
+              p={2}
             >
-              <MenuItem value={ITEM_TYPE.MOVIE}>{getCapitalizedString(ITEM_TYPE.MOVIE)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.TV}>{ITEM_TYPE.TV}</MenuItem>
-              <MenuItem value={ITEM_TYPE.FOOD}>{getCapitalizedString(ITEM_TYPE.FOOD)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.RESTAURANT}>{getCapitalizedString(ITEM_TYPE.RESTAURANT)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.MUSIC}>{getCapitalizedString(ITEM_TYPE.MUSIC)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.TRAVEL}>{getCapitalizedString(ITEM_TYPE.TRAVEL)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.ACCOMODATION}>{getCapitalizedString(ITEM_TYPE.ACCOMODATION)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.HOME}>{getCapitalizedString(ITEM_TYPE.HOME)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.FINANCE}>{getCapitalizedString(ITEM_TYPE.FINANCE)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.BOOK}>{getCapitalizedString(ITEM_TYPE.BOOK)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.PODCAST}>{getCapitalizedString(ITEM_TYPE.PODCAST)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.PRODUCT}>{getCapitalizedString(ITEM_TYPE.PRODUCT)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.SERVICE}>{getCapitalizedString(ITEM_TYPE.SERVICE)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.PERSONAL}>{getCapitalizedString(ITEM_TYPE.PERSONAL)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.WORK}>{getCapitalizedString(ITEM_TYPE.WORK)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.FAMILY}>{getCapitalizedString(ITEM_TYPE.FAMILY)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.HEALTH}>{getCapitalizedString(ITEM_TYPE.HEALTH)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.SHOPPING}>{getCapitalizedString(ITEM_TYPE.SHOPPING)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.GIFT}>{getCapitalizedString(ITEM_TYPE.GIFT)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.OTHER}>{getCapitalizedString(ITEM_TYPE.OTHER)}</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-          <TextField autoComplete="off" className={classes.notes} id="standard-basic" label="Additional notes" onChange={event => setNotes(event.target.value)} />
-        </Grid>
-
-        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.saveBtn}>
-          <MagiclyButton
-            btnLabel={'Save'}
-            onClick={submitForm}
-          />
-        </Grid>
-        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-          <MagiclyButton
-            btnLabel={'Cancel'}
-            isWhiteBackgroundBtn={true}
-            onClick={() => router.back()}
-          />
-        </Grid>
-
-      </Grid>
-    </div>
-  )
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={submitForm}
+              >
+                Save
+            </Button>
+            </Box>
+          </Card>
+        </form>
+      </Box>
+    </Container>
+  );
 }
 
 export default NewRecommendationForm;
