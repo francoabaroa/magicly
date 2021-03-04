@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     centerText: {
       textAlign: 'center',
+      marginBottom: '10px'
     },
     title: {
       fontFamily: 'Playfair Display, serif',
@@ -259,6 +260,12 @@ const ViewHomeWorkPage = () => {
           </Grid> */}
 
           <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerTextTopBtn}>
+            <MagiclyButton
+              btnLabel={'Mark Done'}
+              onClick={()=>{}}
+            />
+          </Grid>
+          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
             <MagiclyButton
               btnLabel={'Edit'}
               onClick={routePage.bind(this, `home/work/edit/${data.homework.id}`)}
