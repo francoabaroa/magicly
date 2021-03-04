@@ -30,6 +30,9 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import moment from 'moment-timezone';
 
 import {
@@ -137,6 +140,10 @@ const useStyles = makeStyles((theme: Theme) =>
         color: '#840032'
       }
     },
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: '#fff',
+    },
   }),
 );
 
@@ -158,11 +165,33 @@ const NewHomeWorkForm = () => {
   const [workStatus, setWorkStatus] = useState('');
   const [reminder, setReminder] = useState('no');
   const [title, setTitle] = useState('');
-  const [type, setType] = useState('');
+  const [type, setType] = useState('EMPTY');
+  const [open, setOpen] = React.useState(false);
 
   const submitForm = () => {
     // TODO: this cannot be a fixed timezone!!
-    let execDate = moment(executionDate).tz('America/New_York').format();
+    let execDate = null;
+
+    if (executionDate) {
+      execDate = moment(executionDate).tz('America/New_York').format();
+    }
+
+    if (title.length === 0) {
+      alert('Please add a home work title');
+      return;
+    }
+
+    if (type.length === 0 || type === 'EMPTY') {
+      alert('Please add a home work type');
+      return;
+    }
+
+    if (workStatus.length === 0) {
+      alert('Please add home work status: upcoming or past');
+      return;
+    }
+
+    handleToggle();
     const variables = {
       variables: {
         title,
@@ -214,6 +243,14 @@ const NewHomeWorkForm = () => {
     }
   }
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleToggle = () => {
+    setOpen(!open);
+  };
+
   const setHomeWorkType = (event) => {
     if (event && event.target.value && typeof event.target.value === 'string') {
       setType(event.target.value.toUpperCase());
@@ -238,6 +275,22 @@ const NewHomeWorkForm = () => {
     } else if (event.target.value === 'no') {
       setNotificationType('NONE');
     }
+  };
+
+  const getHomeworkTypeOptions = (homeworkOptions) => {
+    let options = [];
+    options.push(<option key={0} disabled value={'EMPTY'}> Select a type </option>);
+    homeworkOptions.forEach((option, index) => {
+      options.push(
+        <option
+          key={index + 1}
+          value={option}
+        >
+          {getCapitalizedString(option)}
+        </option >
+      );
+    });
+    return options;
   };
 
   const onSetWorkStatus = (event) => {
@@ -287,14 +340,15 @@ const NewHomeWorkForm = () => {
                       variant="outlined"
                       className={classes.formTextFields}
                     >
-                  {homeworkTypeOptions.map((option, index) => (
+                {getHomeworkTypeOptions(homeworkTypeOptions)}
+                  {/* {homeworkTypeOptions.map((option, index) => (
                         <option
                           key={index}
                           value={option}
                         >
                       {getCapitalizedString(option)}
                         </option>
-                      ))}
+                      ))} */}
                     </TextField>
                     <TextField
                       fullWidth
@@ -429,6 +483,11 @@ const NewHomeWorkForm = () => {
                   }
 
                 </Grid>
+
+              <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
+                <CircularProgress color="inherit" />
+              </Backdrop>
+
               </CardContent>
               <Divider />
               <Box

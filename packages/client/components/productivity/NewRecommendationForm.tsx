@@ -8,6 +8,8 @@ import { useMutation } from '@apollo/react-hooks';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import {
   Box,
@@ -53,6 +55,10 @@ const useStyles = makeStyles((theme: Theme) =>
         minWidth: '350px',
       },
     },
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: '#fff',
+    },
     formTextFields: {
       marginBottom: '15px',
     },
@@ -92,10 +98,22 @@ const NewRecommendationForm = () => {
   const [createListItem, { data, loading, error }] = useMutation(CREATE_LIST_ITEM);
   const router = useRouter();
   const [name, setName] = useState('');
-  const [type, setType] = useState(ITEM_TYPE.MOVIE);
+  const [type, setType] = useState('EMPTY');
   const [notes, setNotes] = useState('');
+  const [open, setOpen] = React.useState(false);
 
   const submitForm = () => {
+    if (name === '' || name.length === 0) {
+      alert('You need to add the recommendation name');
+      return;
+    }
+
+    if (type === '' || type.length === 0 || type === 'EMPTY') {
+      alert('You need to add the recommendation type');
+      return;
+    }
+
+    handleToggle();
     const variables = {
       variables: {
         name,
@@ -119,8 +137,32 @@ const NewRecommendationForm = () => {
     }
   }
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleToggle = () => {
+    setOpen(!open);
+  };
+
   const handleTypeSelect = (event: React.ChangeEvent<{ value: unknown }>) => {
     setType(event.target.value as ITEM_TYPE);
+  };
+
+  const getItemTypeSelectOptions = (itemOptions) => {
+    let options = [];
+    options.push(<option key={0} disabled value={'EMPTY'}> Select a type </option>);
+    itemOptions.forEach((option, index) => {
+      options.push(
+        <option
+        key = { index + 1 }
+        value = { option }
+          >
+          { option === 'TV' ? 'TV' : getCapitalizedString(option)}
+      </option >
+      );
+    });
+    return options;
   };
 
   const getCapitalizedString = (name: string) => {
@@ -129,7 +171,7 @@ const NewRecommendationForm = () => {
     return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
   };
 
-  let docTypeOptions = [
+  let itemTypeOptions = [
     ITEM_TYPE.MOVIE,
     ITEM_TYPE.TV,
     ITEM_TYPE.FOOD,
@@ -189,14 +231,7 @@ const NewRecommendationForm = () => {
                 variant="outlined"
                 className={classes.formTextFields}
               >
-                {docTypeOptions.map((option, index) => (
-                  <option
-                    key={index}
-                    value={option}
-                  >
-                    {option === 'TV' ? 'TV' : getCapitalizedString(option)}
-                  </option>
-                ))}
+                {getItemTypeSelectOptions(itemTypeOptions)}
               </TextField>
 
               <TextField
@@ -207,6 +242,10 @@ const NewRecommendationForm = () => {
                 variant="outlined"
                 className={classes.formTextFields}
               />
+
+              <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
+                <CircularProgress color="inherit" />
+              </Backdrop>
 
             </CardContent>
             <Divider />

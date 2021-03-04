@@ -6,27 +6,15 @@ import MagiclyError from '../shared/MagiclyError';
 import { APP_CONFIG, LIST_TYPE, ITEM_TYPE } from '../../constants/appStrings';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
-import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-
-import 'date-fns';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import {
   Box,
@@ -201,6 +189,10 @@ const useStyles = makeStyles((theme: Theme) =>
         color: '#840032'
       }
     },
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: '#fff',
+    },
   }),
 );
 
@@ -215,10 +207,15 @@ const NewTodoListItemForm = () => {
   const [reminder, setReminder] = useState('no');
   const [executionDate, setExecutionDate] = useState(null);
   const [moreDetails, setMoreDetails] = useState(false);
+  const [open, setOpen] = React.useState(false);
 
   const submitForm = () => {
     // TODO: TEMPORARY TIMEZONE
-    let execDate = moment(executionDate).tz('America/New_York').format();
+    let execDate = null;
+
+    if (executionDate) {
+      execDate = moment(executionDate).tz('America/New_York').format();
+    }
 
     if (executionDate === null && reminder === 'yes') {
       alert('Please select a reminder date');
@@ -242,7 +239,7 @@ const NewTodoListItemForm = () => {
     if (reminder === 'yes') {
       notificationType = 'EMAIL';
     }
-
+    handleToggle();
     const variables = {
       variables: {
         name,
@@ -253,7 +250,6 @@ const NewTodoListItemForm = () => {
         notificationType
       }
     };
-
     createListItem(variables);
   }
 
@@ -267,6 +263,14 @@ const NewTodoListItemForm = () => {
       router.push('/productivity/lists', undefined);
     }
   }
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleToggle = () => {
+    setOpen(!open);
+  };
 
   const handleTypeSelect = (event: React.ChangeEvent<{ value: unknown }>) => {
     setType(event.target.value as ITEM_TYPE);
@@ -420,6 +424,11 @@ const NewTodoListItemForm = () => {
                 }
 
               </Grid>
+
+              <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
+                <CircularProgress color="inherit" />
+              </Backdrop>
+
             </CardContent>
             <Divider />
             <Box

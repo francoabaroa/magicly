@@ -12,6 +12,8 @@ import Cancel from '@material-ui/icons/Cancel';
 
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import {
   Box,
@@ -49,6 +51,10 @@ const CREATE_LIST_WITH_ITEMS = gql`
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: '#fff',
+    },
     root: {
       display: 'flex',
       justifyContent: 'center',
@@ -108,10 +114,19 @@ const NewShoppingListForm = () => {
   const [listName, setListName] = useState('');
   const [itemName, setItemName] = useState('');
   const [type, setType] = useState('SHOPPING');
+  const [open, setOpen] = React.useState(false);
   const [chipData, setChipData] = React.useState([]);
 
   const handleDelete = (chipToDelete) => () => {
     setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleToggle = () => {
+    setOpen(!open);
   };
 
   const submitForm = () => {
@@ -138,6 +153,7 @@ const NewShoppingListForm = () => {
       return;
     }
 
+    handleToggle();
     const variables = {
       variables: {
         name: listName,
@@ -168,6 +184,10 @@ const NewShoppingListForm = () => {
     const lowerCaseTitle = name.toLowerCase();
     if (typeof lowerCaseTitle !== 'string') return ''
     return lowerCaseTitle.charAt(0).toUpperCase() + lowerCaseTitle.slice(1)
+  };
+
+  const setItem = (event) => {
+    setItemName(event.target.value);
   };
 
   const addItem = () => {
@@ -223,9 +243,10 @@ const NewShoppingListForm = () => {
                 fullWidth
                 label="Item name"
                 name="itemName"
-                onChange={event => setItemName(event.target.value)}
+                onChange={setItem}
                 variant="outlined"
                 required
+                value={itemName}
                 className={classes.formTextFields}
               />
 
@@ -246,6 +267,10 @@ const NewShoppingListForm = () => {
 
                 </ul>
               </Grid>
+
+              <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
+                <CircularProgress color="inherit" />
+              </Backdrop>
 
             </CardContent>
             <Divider />

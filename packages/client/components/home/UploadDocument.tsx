@@ -173,7 +173,7 @@ const UploadDocument = (props) => {
   const [newFolderName, setNewFolderName] = useState('');
   const [moreDetails, setMoreDetails] = useState(hwid ? true : false);
   const [open, setOpen] = React.useState(false);
-  const [type, setType] = useState(receipt === 'true' ? DOC_TYPE.RECEIPT : '');
+  const [type, setType] = useState(receipt === 'true' ? DOC_TYPE.RECEIPT : 'EMPTY');
 
   const handleClose = () => {
     setOpen(false);
@@ -200,12 +200,22 @@ const UploadDocument = (props) => {
   if (error) return <MagiclyError message={error.message} hideLayout={true}/>;
 
   const submitForm = () => {
-    handleToggle();
-    if (type === '') {
-      alert('You need to select a document type');
+    if (name === '' || name.length === 0) {
+      alert('You need to add a document name');
       return;
     }
 
+    if (type === '' || type.length === 0 || type === 'EMPTY') {
+      alert('You need to add the document type');
+      return;
+    }
+
+    if (filename.length === 0)  {
+      alert('You need to add a document');
+      return;
+    }
+
+    handleToggle();
     const variables = {
       variables: {
         file: uploadedDoc,
@@ -282,6 +292,22 @@ const UploadDocument = (props) => {
     }
   };
 
+  const getDocTypeSelectOptions = (docOptions) => {
+    let options = [];
+    options.push(<option key={0} disabled value={'EMPTY'}> Select a type </option>);
+    docOptions.forEach((option, index) => {
+      options.push(
+        <option
+          key={index + 1}
+          value={option}
+        >
+          {getCapitalizedString(option)}
+        </option >
+      );
+    });
+    return options;
+  };
+
   const removeFile = () => {
     setUploadedDoc({});
     setFilename('');
@@ -356,14 +382,7 @@ const UploadDocument = (props) => {
                 variant="outlined"
                 className={classes.formTextFields}
               >
-                {docTypeOptions.map((option, index) => (
-                  <option
-                    key={index}
-                    value={option}
-                  >
-                    {getCapitalizedString(option)}
-                  </option>
-                ))}
+                {getDocTypeSelectOptions(docTypeOptions)}
               </TextField>}
 
               {receipt === 'true' ? <TextField
