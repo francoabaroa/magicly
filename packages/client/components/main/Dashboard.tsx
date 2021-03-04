@@ -1265,12 +1265,20 @@ const Dashboard = (props) => {
   };
 
   const getRealIndividualHomework = (recentHomework) => {
-    const executionDate = new Date(recentHomework.executionDate);
-    const month = executionDate.getUTCMonth() + 1; //months from 1-12
-    const day = executionDate.getUTCDate();
-    const year = executionDate.getUTCFullYear();
-    // TODO: this is hacky and you know it. fix it and dont be lazy
-    const correctDate = year + "/" + month + "/" + day;
+    let executionDate = null;
+    let formattedDate = null;
+    if (recentHomework.executionDate) {
+      executionDate = new Date(recentHomework.executionDate);
+    }
+
+    if (executionDate) {
+      const month = executionDate.getUTCMonth() + 1; //months from 1-12
+      const day = executionDate.getUTCDate();
+      const year = executionDate.getUTCFullYear();
+      // TODO: this is hacky and you know it. fix it and dont be lazy
+      const correctDate = year + "/" + month + "/" + day;
+      formattedDate = momentTimezone(correctDate).tz('America/New_York').format('MM/DD/YYYY')
+    }
 
     return (
       <TableRow
@@ -1286,10 +1294,10 @@ const Dashboard = (props) => {
           }
         </TableCell>
         <TableCell>
-          {momentTimezone(correctDate).tz('America/New_York').format('MM/DD/YYYY')}
+          {formattedDate ? formattedDate : null}
         </TableCell>
         <TableCell>
-          {recentHomework.cost}
+          {recentHomework.cost ? recentHomework.cost : 0}
         </TableCell>
         <TableCell>
           <Chip
