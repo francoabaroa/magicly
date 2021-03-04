@@ -171,6 +171,28 @@ export default {
         }
       },
     ),
+    markHomeworkDone: combineResolvers(
+      isAuthenticated,
+      isHomeworkOwner,
+      async (parent, { id }, { models }) => {
+        try {
+          const homework = await models.Homework.findByPk(id);
+
+          if (!homework) {
+            throw new ApolloError('No existing homework found.');
+          }
+
+          if (homework) {
+            homework.status = 'PAST';
+            await homework.save();
+          }
+
+          return homework;
+        } catch (error) {
+          throw new Error(error);
+        }
+      },
+    ),
   },
   Homework: {
     user: async (homework, args, { loaders }) => {

@@ -32,6 +32,7 @@ export default gql`
       executor: String
     ): Homework!
     deleteHomework(id: ID!): Boolean!
+    markHomeworkDone(id: ID!): Homework!
   }
   type Homework {
     id: ID!
