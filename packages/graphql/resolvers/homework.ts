@@ -177,6 +177,9 @@ export default {
       return await loaders.user.load(homework.userId);
     },
     executionDate: async (homework, args, { loaders }) => {
+      if (homework.executionDate === null) {
+        return null;
+      }
       return new Date(homework.executionDate);
     },
     documents: async (homework, args, { models }) => {
