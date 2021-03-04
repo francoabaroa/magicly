@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { APP_CONFIG, LIST_TYPE, ITEM_TYPE } from '../../constants/appStrings';
-import MagiclyButton from '../shared/MagiclyButton';
-import MagiclyPageTitle from '../shared/MagiclyPageTitle';
 import MagiclyLoading from '../shared/MagiclyLoading';
 import MagiclyError from '../shared/MagiclyError';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 

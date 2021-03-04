@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { APP_CONFIG, LIST_TYPE, ITEM_TYPE } from '../../constants/appStrings';
-import MagiclyPageTitle from '../shared/MagiclyPageTitle';
-import MagiclyButton from '../shared/MagiclyButton';
 import MagiclyError from '../shared/MagiclyError';
 import MagiclyLoading from '../shared/MagiclyLoading';
 import gql from 'graphql-tag';
@@ -13,7 +11,16 @@ import TextField from '@material-ui/core/TextField';
 import Cancel from '@material-ui/icons/Cancel';
 
 import Chip from '@material-ui/core/Chip';
-import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+
+import {
+  Box,
+  Container,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+} from '@material-ui/core';
 
 // TODO: clean up before prod
 let url = null;
@@ -50,7 +57,6 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(0.5),
       margin: 'auto',
       maxWidth: '550px',
-      border: '1px solid rgba(0, 38, 66, 0.1)',
       [theme.breakpoints.down('xs')]: {
         maxWidth: '350px',
       },
@@ -88,6 +94,9 @@ const useStyles = makeStyles((theme: Theme) =>
     saveBtn: {
       textAlign: 'center',
       marginBottom: '10px',
+    },
+    formTextFields: {
+      marginBottom: '15px',
     },
   }),
 );
@@ -186,96 +195,86 @@ const NewShoppingListForm = () => {
   let chipsDisplay = chipData.length === 0 ? 'none' : 'block';
 
   return (
-    <div>
-      <Grid container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
+    <Container maxWidth="lg">
+      <Box mt={3}>
+        <form
+          autoComplete="off"
+          noValidate
+        >
+          <Card>
+            <CardHeader
+              title={`New Shopping List`}
+            />
+            <Divider />
+            <CardContent>
 
-        <Grid item xs={12} lg={12} md={12} sm={12}>
-          <MagiclyPageTitle
-            title={'Create A New Shopping List'}
-          />
-        </Grid>
+              <TextField
+                fullWidth
+                name="name"
+                autoComplete="off"
+                label={'List name'}
+                onChange={event => setListName(event.target.value)}
+                required
+                variant="outlined"
+                className={classes.formTextFields}
+              />
 
-        <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-          <TextField autoComplete="off" id="standard-basic" label="List name" onChange={event => setListName(event.target.value)} required className={classes.name} />
-        </Grid>
+              <TextField
+                fullWidth
+                label="Item name"
+                name="itemName"
+                onChange={event => setItemName(event.target.value)}
+                variant="outlined"
+                required
+                className={classes.formTextFields}
+              />
 
-        <Grid item xs={12} lg={6} md={12} sm={12} className={classes.centerText} style={{ marginTop: '30px', marginBottom: '30px', display: chipsDisplay}}>
-          <Paper component="ul" className={classes.root}>
-            {chipData.map((data) => {
-              return (
-                <li key={data.key}>
-                  <Chip
-                    label={data.label}
-                    onDelete={handleDelete(data)}
-                    className={classes.chip}
-                    deleteIcon={<Cancel fontSize={'small'} className={classes.deleteIcon} />}
-                  />
-                </li>
-              );
-            })}
-          </Paper>
-        </Grid>
+              <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText} style={{ marginTop: '30px', marginBottom: '30px', display: chipsDisplay }}>
+                <ul className={classes.root} style={{listStyleType:'none'}}>
+                  {chipData.map((data) => {
+                    return (
+                      <li key={data.key}>
+                        <Chip
+                          label={data.label}
+                          onDelete={handleDelete(data)}
+                          className={classes.chip}
+                          deleteIcon={<Cancel fontSize={'small'} className={classes.deleteIcon} />}
+                        />
+                      </li>
+                    );
+                  })}
 
-        <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-          <TextField autoComplete="off" id="standard-basic" label="Item name" onChange={event => setItemName(event.target.value)} required className={classes.name} value={itemName} />
-        </Grid>
+                </ul>
+              </Grid>
 
-        {/* <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-          <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label">Item type</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={type}
-              onChange={handleTypeSelect}
+            </CardContent>
+            <Divider />
+            <Box
+              display="flex"
+              justifyContent="flex-end"
+              p={2}
             >
-              <MenuItem value={ITEM_TYPE.MOVIE}>{getCapitalizedString(ITEM_TYPE.MOVIE)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.TV}>{ITEM_TYPE.TV}</MenuItem>
-              <MenuItem value={ITEM_TYPE.FOOD}>{getCapitalizedString(ITEM_TYPE.FOOD)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.RESTAURANT}>{getCapitalizedString(ITEM_TYPE.RESTAURANT)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.MUSIC}>{getCapitalizedString(ITEM_TYPE.MUSIC)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.TRAVEL}>{getCapitalizedString(ITEM_TYPE.TRAVEL)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.ACCOMODATION}>{getCapitalizedString(ITEM_TYPE.ACCOMODATION)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.HOME}>{getCapitalizedString(ITEM_TYPE.HOME)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.FINANCE}>{getCapitalizedString(ITEM_TYPE.FINANCE)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.BOOK}>{getCapitalizedString(ITEM_TYPE.BOOK)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.PODCAST}>{getCapitalizedString(ITEM_TYPE.PODCAST)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.PRODUCT}>{getCapitalizedString(ITEM_TYPE.PRODUCT)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.SERVICE}>{getCapitalizedString(ITEM_TYPE.SERVICE)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.PERSONAL}>{getCapitalizedString(ITEM_TYPE.PERSONAL)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.WORK}>{getCapitalizedString(ITEM_TYPE.WORK)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.FAMILY}>{getCapitalizedString(ITEM_TYPE.FAMILY)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.HEALTH}>{getCapitalizedString(ITEM_TYPE.HEALTH)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.SHOPPING}>{getCapitalizedString(ITEM_TYPE.SHOPPING)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.GIFT}>{getCapitalizedString(ITEM_TYPE.GIFT)}</MenuItem>
-              <MenuItem value={ITEM_TYPE.OTHER}>{getCapitalizedString(ITEM_TYPE.OTHER)}</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid> */}
-
-        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.saveBtn} style={{marginTop: '30px'}}>
-          <MagiclyButton
-            btnLabel={'Add Item'}
-            onClick={addItem}
-          />
-        </Grid>
-        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.saveBtn}>
-          <MagiclyButton
-            btnLabel={'Save List'}
-            onClick={submitForm}
-          />
-        </Grid>
-        <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-          <MagiclyButton
-            btnLabel={'Cancel'}
-            isWhiteBackgroundBtn={true}
-            onClick={() => router.back()}
-          />
-        </Grid>
-
-      </Grid>
-    </div>
-  )
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={addItem}
+                style={{marginRight: '5px'}}
+              >
+                Add Item
+            </Button>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={submitForm}
+              >
+                Save List
+            </Button>
+            </Box>
+          </Card>
+        </form>
+      </Box>
+    </Container>
+  );
 }
 
 export default NewShoppingListForm;
