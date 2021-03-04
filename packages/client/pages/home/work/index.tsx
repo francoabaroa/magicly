@@ -297,7 +297,7 @@ const HomeWorkPage = () => {
       const yesterday = new Date(today)
       yesterday.setDate(yesterday.getDate() - 1);
 
-      if (new Date(homework.executionDate) > yesterday) {
+      if (homework.status === 'UPCOMING') {
         upcomingWork.push(
           getIndividualHomeWork(
             key,
