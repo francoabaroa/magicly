@@ -268,7 +268,7 @@ const HomeWorkPage = () => {
 
   const getIndividualHomeWork = (key: any, homework: any) => {
     return (
-      <Grid container justify="center" alignContent="center" alignItems="center" className={classes.leftText}>
+      <Grid container key={key} justify="center" alignContent="center" alignItems="center" className={classes.leftText}>
         <Grid item xs={1} lg={1} md={1} sm={1} style={{ maxWidth: '40px' }}>
           <Home fontSize={'large'} className={classes.toolIcon} />
         </Grid>
