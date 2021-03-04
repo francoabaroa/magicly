@@ -28,6 +28,19 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
+import {
+  Box,
+  Container,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  Checkbox,
+  Typography,
+} from '@material-ui/core';
+
+import moment from 'moment-timezone';
+
 // TODO: clean up before prod
 let url = null;
 if (process.env.NODE_ENV === 'development') {
@@ -60,6 +73,13 @@ const CREATE_LIST_ITEM = gql`
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    formTextFields: {
+      marginBottom: '15px',
+    },
+    radioButtonz: {
+      display: 'flex',
+      flexDirection: 'column'
+    },
     root: {
       display: 'flex',
       flexDirection: 'column',
@@ -146,6 +166,10 @@ const useStyles = makeStyles((theme: Theme) =>
         height: '45px'
       },
     },
+    formControlLabel: {
+      fontSize: '12px',
+      fontStyle: 'italic',
+    },
     notes: {
       minWidth: '350px',
       marginBottom: '25px',
@@ -185,17 +209,30 @@ const NewTodoListItemForm = () => {
   const [createListItem, { data, loading, error }] = useMutation(CREATE_LIST_ITEM);
   const router = useRouter();
   const [name, setName] = useState('');
-  const [list, setList] = useState('');
+  const [list, setListType] = useState(null);
   const [type, setType] = useState(ITEM_TYPE.TODO);
   const [notes, setNotes] = useState('');
   const [reminder, setReminder] = useState('no');
-  const [executionDate, setExecutionDate] = useState(new Date());
+  const [executionDate, setExecutionDate] = useState(null);
   const [moreDetails, setMoreDetails] = useState(false);
 
   const submitForm = () => {
+    // TODO: TEMPORARY TIMEZONE
+    let execDate = moment(executionDate).tz('America/New_York').format();
+
+    if (executionDate === null && reminder === 'yes') {
+      alert('Please select a reminder date');
+      return;
+    }
 
     if (name.length === 0) {
       // tell user
+      alert('Please add a task name');
+      return;
+    }
+
+    if (list === null) {
+      alert('Please select a list to save it under');
       return;
     }
 
@@ -212,12 +249,12 @@ const NewTodoListItemForm = () => {
         type,
         notes,
         listType: list,
-        executionDate,
+        executionDate: execDate,
         notificationType
       }
     };
-    createListItem(variables);
 
+    createListItem(variables);
   }
 
   if (loading) return <MagiclyLoading open={true} hideLayout={true}/>;
@@ -236,7 +273,7 @@ const NewTodoListItemForm = () => {
   };
 
   const handleListChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setList(event.target.value as LIST_TYPE);
+    setListType(event.target.value as LIST_TYPE);
   };
 
   const getCapitalizedString = (name: string) => {
@@ -258,260 +295,151 @@ const NewTodoListItemForm = () => {
   let laterListLabel = 'Later';
 
   return (
-    <div className={classes.root}>
-        <Grid container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
-          <Grid item xs={12} lg={12} md={12} sm={12}>
-            <h2 className={classes.title}>Type your task in the box below and select in which list you want to store it:</h2>
-          </Grid>
+    <Container maxWidth="lg">
+      <Box mt={3}>
+        <form
+          autoComplete="off"
+          noValidate
+        >
+          <Card>
+            <CardHeader
+              title="New Task"
+            />
+            <Divider />
+            <CardContent>
+              <TextField
+                fullWidth
+                label="Task name"
+                name="name"
+                onChange={event => setName(event.target.value)}
+                required
+                variant="outlined"
+                className={classes.formTextFields}
+              />
 
-          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-            <TextField style={{ paddingBottom: '10px' }} autoComplete="off" id="outlined-basic" variant="outlined" onChange={event => setName(event.target.value)} className={classes.textField} />
-          </Grid>
+              <TextField
+                fullWidth
+                label="Notes"
+                onChange={event => setNotes(event.target.value)}
+                name="notes"
+                variant="outlined"
+                className={classes.formTextFields}
+              />
 
-          <Grid item xs={12} lg={4} md={4} sm={12}>
-            <Grid container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
-              <Grid item xs={12} lg={12} md={12} sm={12}>
-                <FormControlLabel
-                  classes={{ label: classes.checkboxLabel }}
-                  value={LIST_TYPE.TODO}
-                  control={<Radio
-                    disableRipple
-                    classes={{ root: classes.radio, checked: classes.checked }}
-                    onChange={handleListChange}
-                    checked={list === LIST_TYPE.TODO}
-                    value={LIST_TYPE.TODO}
-                  />}
-                  label={todoListLabel}
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item xs={8} lg={8} md={12} sm={12}>
-                <div>all the stuff you "must" do -- commitments, obligations, things that have to be done</div>
-              </Grid>
-            </Grid>
-          </Grid>
+              <Grid
+                container
+                spacing={1}
+                wrap="wrap"
+              >
 
-        <Grid item xs={12} lg={4} md={4} sm={12} className={classes.watchList}>
-            <Grid container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
-              <Grid item xs={12} lg={12} md={12} sm={12}>
-                <FormControlLabel
-                  classes={{ label: classes.checkboxLabel }}
-                  value={LIST_TYPE.WATCH}
-                  control={<Radio
-                    disableRipple
-                    classes={{ root: classes.radio, checked: classes.checked }}
-                    onChange={handleListChange}
-                    checked={list === LIST_TYPE.WATCH}
-                    value={LIST_TYPE.WATCH}
-                  />}
-                  label={watchListLabel}
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item xs={8} lg={8} md={12} sm={12}>
-                <div>all the stuff that you have to follow up on, wait for someone else to get back to you on, or otherwise remember</div>
-              </Grid>
-            </Grid>
-          </Grid>
-
-          <Grid item xs={12} lg={4} md={4} sm={12} className={classes.laterList}>
-            <Grid container justify="center" alignContent="center" alignItems="center" className={classes.centerText}>
-              <Grid item xs={12} lg={12} md={12} sm={12}>
-                <FormControlLabel
-                  classes={{ label: classes.checkboxLabel }}
-                  value={LIST_TYPE.LATER}
-                  control={<Radio
-                    disableRipple
-                    classes={{ root: classes.radio, checked: classes.checked }}
-                    onChange={handleListChange}
-                    checked={list === LIST_TYPE.LATER}
-                    value={LIST_TYPE.LATER}
-                  />}
-                  label={laterListLabel}
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item xs={8} lg={8} md={12} sm={12}>
-                <div>everything else -- everything you might want to do or will do when you have time or wish you could do</div>
-              </Grid>
-            </Grid>
-          </Grid>
-
-          {
-            moreDetails ?
-              <Grid item xs={12} lg={7} md={12} sm={12} className={classes.itemType}>
-                <FormControl className={classes.formControl}>
-                  <InputLabel id="demo-simple-select-label">Type of item</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={type}
-                    onChange={handleTypeSelect}
+                <Grid
+                  className={classes.radioButtonz}
+                  item
+                  lg={12}
+                  md={4}
+                  sm={6}
+                  xs={12}
+                >
+                  <Typography
+                    color="textPrimary"
+                    variant="h6"
                   >
-                    <MenuItem
-                      value={ITEM_TYPE.TODO}>
-                      {getCapitalizedString(ITEM_TYPE.TODO)}
-                    </MenuItem>
-                    <MenuItem
-                      value={ITEM_TYPE.MOVIE}>
-                      {getCapitalizedString(ITEM_TYPE.MOVIE)}
-                    </MenuItem>
-                    <MenuItem
-                      value={ITEM_TYPE.TV}>{ITEM_TYPE.TV}
-                    </MenuItem>
-                    <MenuItem
-                      value={ITEM_TYPE.FOOD}>
-                      {getCapitalizedString(ITEM_TYPE.FOOD)}
-                    </MenuItem>
-                    <MenuItem
-                      value={ITEM_TYPE.RESTAURANT}>
-                      {getCapitalizedString(ITEM_TYPE.RESTAURANT)}
-                    </MenuItem>
-                    <MenuItem
-                      value={ITEM_TYPE.MUSIC}>
-                      {getCapitalizedString(ITEM_TYPE.MUSIC)}
-                    </MenuItem>
-                    <MenuItem
-                      value={ITEM_TYPE.TRAVEL}>
-                      {getCapitalizedString(ITEM_TYPE.TRAVEL)}
-                    </MenuItem>
-                    <MenuItem
-                      value={ITEM_TYPE.ACCOMODATION}>
-                      {getCapitalizedString(ITEM_TYPE.ACCOMODATION)}
-                    </MenuItem>
-                    <MenuItem
-                      value={ITEM_TYPE.HOME}>
-                      {getCapitalizedString(ITEM_TYPE.HOME)}
-                    </MenuItem>
-                    <MenuItem
-                      value={ITEM_TYPE.FINANCE}>
-                      {getCapitalizedString(ITEM_TYPE.FINANCE)}
-                    </MenuItem>
-                    <MenuItem
-                      value={ITEM_TYPE.BOOK}>
-                      {getCapitalizedString(ITEM_TYPE.BOOK)}
-                    </MenuItem>
-                    <MenuItem
-                      value={ITEM_TYPE.PODCAST}>
-                      {getCapitalizedString(ITEM_TYPE.PODCAST)}
-                    </MenuItem>
-                    <MenuItem
-                      value={ITEM_TYPE.PRODUCT}>
-                      {getCapitalizedString(ITEM_TYPE.PRODUCT)}
-                    </MenuItem>
-                    <MenuItem
-                      value={ITEM_TYPE.SERVICE}>
-                      {getCapitalizedString(ITEM_TYPE.SERVICE)}
-                    </MenuItem>
-                    <MenuItem
-                      value={ITEM_TYPE.PERSONAL}>
-                      {getCapitalizedString(ITEM_TYPE.PERSONAL)}
-                    </MenuItem>
-                    <MenuItem
-                      value={ITEM_TYPE.WORK}>
-                      {getCapitalizedString(ITEM_TYPE.WORK)}
-                    </MenuItem>
-                    <MenuItem
-                      value={ITEM_TYPE.FAMILY}>
-                      {getCapitalizedString(ITEM_TYPE.FAMILY)}
-                    </MenuItem>
-                    <MenuItem
-                      value={ITEM_TYPE.HEALTH}>
-                      {getCapitalizedString(ITEM_TYPE.HEALTH)}
-                    </MenuItem>
-                    <MenuItem
-                      value={ITEM_TYPE.SHOPPING}>
-                      {getCapitalizedString(ITEM_TYPE.SHOPPING)}
-                    </MenuItem>
-                    <MenuItem
-                      value={ITEM_TYPE.GIFT}>
-                      {getCapitalizedString(ITEM_TYPE.GIFT)}
-                    </MenuItem>
-                    <MenuItem
-                      value={ITEM_TYPE.OTHER}>
-                      {getCapitalizedString(ITEM_TYPE.OTHER)}
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-                </Grid> :
-              null
-          }
+                    Which list do you want to save this task in?
+                </Typography>
+                  <RadioGroup aria-label="reminder" name="reminder1" value={list} onChange={handleListChange}>
+                    <div>
+                      <FormControlLabel value="TODO" control={<Radio />} label={list === 'TODO' ? 'To-Do:' : 'To-Do'} />
+                      {
+                        list === 'TODO' ?
+                          <FormControlLabel value="TODO" control={<p />} label={'all the stuff you "must" do -- commitments, obligations, things that have to be done'} classes={{
+                            label: classes.formControlLabel
+                          }} /> :
+                        null
+                      }
+                    </div>
+                    <div>
+                      <FormControlLabel value="WATCH" control={<Radio />} label={list === 'WATCH' ? 'Watch:' : 'Watch'} />
+                      {
+                        list === 'WATCH' ?
+                          <FormControlLabel value="WATCH" control={<p />} label={'all the stuff that you have to follow up on, wait for someone else to get back to you on, or otherwise remember'} classes={{
+                            label: classes.formControlLabel
+                          }} /> :
+                          null
+                      }
+                    </div>
+                    <div>
+                      <FormControlLabel value="LATER" control={<Radio />} label={list === 'LATER' ? 'Later:' : 'Later'} />
+                      {
+                        list === 'LATER' ?
+                          <FormControlLabel value="LATER" control={<p />} label={'everything else -- everything you might want to do or will do when you have time or wish you could do'} classes={{
+                            label: classes.formControlLabel
+                          }} /> :
+                          null
+                      }
+                    </div>
 
-          {
-            moreDetails ?
-                <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-                <TextField autoComplete="off" className={classes.notes} id="standard-basic" label="Additional notes" onChange={event => setNotes(event.target.value)} /> </Grid> :
-              null
-          }
 
-          {/* if YES, show option to select notificationType */}
-          {/* TODO: need to add NONE to notificationType */}
-          {/* TODO: need to get their phone number for this */}
-
-          {/* {
-            reminder === 'yes' ?
-              setReminderType() :
-              null
-          } */}
-          {
-            moreDetails ?
-              <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-                <FormControl component="fieldset">
-                  <FormLabel component="legend">Would you like to set an email reminder for this?</FormLabel>
-                  <RadioGroup aria-label="notif" name="notif1" value={reminder} onChange={event => setReminder(event.target.value)}>
-                    <FormControlLabel value="yes" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="Yes" />
-                    <FormControlLabel value="no" control={<Radio disableRipple classes={{ root: classes.radio, checked: classes.checked }} />} label="No" />
                   </RadioGroup>
-                </FormControl>
-              </Grid> :
-              null
-          }
+                </Grid>
 
-          {/* TODO: date storage for backend!! 2020-08-27 */}
-          {
-            reminder === 'yes' ?
-              <Grid item xs={12} lg={7} md={12} sm={12} className={classes.centerText}>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    className={classes.datePicker}
-                    margin="normal"
-                    id="date-picker-dialog"
-                    label="When do you want to be reminded?"
-                    format="MM/dd/yyyy"
-                    value={executionDate}
-                    onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
-                </MuiPickersUtilsProvider>
-              </Grid> :
-              null
-          }
+                <Grid
+                  className={classes.radioButtonz}
+                  item
+                  lg={12}
+                  md={4}
+                  sm={6}
+                  xs={12}
+                >
+                  <Typography
+                    color="textPrimary"
+                    variant="h6"
+                  >
+                    Do you want to set an email reminder?
+                </Typography>
+                  <RadioGroup aria-label="reminder" name="reminder1" value={reminder} onChange={event => setReminder(event.target.value)}>
+                    <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="no" control={<Radio />} label="No" />
+                  </RadioGroup>
+                </Grid>
 
-        <Grid item xs={12} lg={7} md={12} sm={12} className={classes.moreDetailsBtn}>
-            <MagiclyButton
-              btnLabel={moreDetails ? 'Hide Details' : 'Add More Details'}
-              onClick={toggleMoreDetailsButton}
-            />
-          </Grid>
+                {
+                  reminder === 'yes' ?
+                    <TextField
+                      fullWidth
+                      label="Reminder date"
+                      name="date"
+                      type="date"
+                      InputLabelProps={{ shrink: true }}
+                      defaultValue={executionDate}
+                      onChange={handleDateChange}
+                      variant="outlined"
+                      className={classes.formTextFields}
+                      style={{marginTop:'15px'}}
+                    /> :
+                    null
+                }
 
-          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.centerText}>
-            <MagiclyButton
-              btnLabel={'Save'}
-              onClick={submitForm}
-            />
-          </Grid>
-          <Grid item xs={12} lg={12} md={12} sm={12} className={classes.cancelBtn}>
-            <MagiclyButton
-              btnLabel={'Cancel'}
-              isWhiteBackgroundBtn={true}
-              onClick={() => router.back()}
-            />
-          </Grid>
-        </Grid>
-    </div>
-  )
+              </Grid>
+            </CardContent>
+            <Divider />
+            <Box
+              display="flex"
+              justifyContent="flex-end"
+              p={2}
+            >
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={submitForm}
+              >
+                Save
+            </Button>
+            </Box>
+          </Card>
+        </form>
+      </Box>
+    </Container>
+  );
 }
 
 export default NewTodoListItemForm;

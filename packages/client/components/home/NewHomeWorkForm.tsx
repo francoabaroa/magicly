@@ -83,7 +83,7 @@ const CREATE_HOMEWORK = gql`
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    itemz: {
+    radioButtonz: {
       display: 'flex',
       flexDirection: 'column'
     },
@@ -341,7 +341,7 @@ const NewHomeWorkForm = () => {
                   wrap="wrap"
                 >
                   {/* <Grid
-                    className={classes.itemz}
+                    className={classes.radioButtonz}
                     item
                     lg={12}
                     md={4}
@@ -361,7 +361,7 @@ const NewHomeWorkForm = () => {
                   </Grid> */}
 
                   <Grid
-                    className={classes.itemz}
+                    className={classes.radioButtonz}
                     item
                     lg={12}
                     md={4}
@@ -382,7 +382,7 @@ const NewHomeWorkForm = () => {
 
                   {/* if YES, show option to attach doc */}
                   <Grid
-                    className={classes.itemz}
+                    className={classes.radioButtonz}
                     item
                     lg={12}
                     md={4}
@@ -407,7 +407,7 @@ const NewHomeWorkForm = () => {
                   {
                     showNotificationPrompt() ?
                       <Grid
-                        className={classes.itemz}
+                        className={classes.radioButtonz}
                         item
                         lg={12}
                         md={4}
