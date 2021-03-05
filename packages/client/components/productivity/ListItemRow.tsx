@@ -154,11 +154,17 @@ const ListItemRow = (props) => {
           />
         </Grid>
         <Grid item xs={10} lg={5} md={5} sm={10}>
-        <span
-          className={classes.link}
-          style={{ textDecoration }}>
-            {props.listItem.name}
-        </span>
+          {
+            props.isListsPage ?
+            <Link href="lists/view/[id]" as={`lists/view/${props.listItem.id}`}>
+              <a className={classes.link} style={{ textDecoration }}>{props.listItem.name}</a>
+            </Link> :
+            <span
+              className={classes.link}
+              style={{ textDecoration }}>
+              {props.listItem.name}
+            </span>
+          }
         </Grid>
       <Grid item xs={1} lg={1} md={1} sm={1} className={classes.hwType}>
           {

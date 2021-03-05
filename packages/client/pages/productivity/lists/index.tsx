@@ -269,6 +269,7 @@ const ListsPage = () => {
         key={key}
         listItem={listItem}
         includeExecutionDate={true}
+        isListsPage={true}
       />
     );
   };
