@@ -78,8 +78,8 @@ if (process.env.DATABASE_URL) {
     'params': {
       dialect: 'postgres',
       protocol: 'postgres',
-      "dialectOptions": {
-        "ssl": true
+      dialectOptions: {
+        ssl: true
       },
       operatorsAliases: false
     },
