@@ -24,7 +24,7 @@ Before we decided on the super app, we interviewed over 100 people in the Longev
 ***
 ### Features
 
-Magicly let's you do manage different things:
+Magicly let's you manage different things in your life:
 
 * **Home**
 
