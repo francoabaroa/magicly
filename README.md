@@ -12,9 +12,7 @@
 
 [Screenshots](#screenshots)
 
-[Developement Status](#developement-status)
-
-[Documentation](#documentation)
+[Developement Status & Documentation](#developement-status)
 
 ***
 ### What is Magicly?
