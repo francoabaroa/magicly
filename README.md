@@ -1,13 +1,29 @@
 # Magicly
 
-https://user-images.githubusercontent.com/18104028/235388926-edd0d761-7bdf-4cec-a264-09878a77a741.mov
+### Table of Contents
 
-[Full Demo](https://www.youtube.com/watch?v=DTq8N8jZ1Is)
+[What is Magicly?](#what-is-magicly)
+
+[Mission](#mission)
+
+[Why A Super App?](#why-a-super-app)
+
+[Features](#features)
+
+[Screenshots](#screenshots)
+
+[Developement Status](#developement-status)
+
+[Documentation](#documentation)
 
 ***
 ### What is Magicly?
 
 Magicly is a super app to help you manage the different aspects of your life: your home, finances, and productivity. The end goal was to build the WeChat for 50+ year olds.
+
+[Full Demo](https://www.youtube.com/watch?v=DTq8N8jZ1Is)
+
+https://user-images.githubusercontent.com/18104028/235388926-edd0d761-7bdf-4cec-a264-09878a77a741.mov
 
 ***
 ### Mission
@@ -62,7 +78,7 @@ Magicly let's you manage different things in your life:
     * Search your finance transactions and store receipts/expenses
     
 ***
-### Screenshots & Walkthrough
+### Screenshots
 
 * **Main Dashboard**
 
