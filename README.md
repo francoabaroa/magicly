@@ -203,6 +203,7 @@ Magicly let's you manage different things in your life:
 ### Developement Status
 
 Magicly's development has been discontinued. We plan on open-sourcing our anonymized user research, findings and learnings in the hopes it might be useful for someone someday.
+
 ***
 ### Documenation
 
