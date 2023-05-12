@@ -135,8 +135,6 @@ const Index = () => {
             <h3 className={classes.call}>Call to Learn More 1-855-MAGICLY</h3>
           </Grid>
         </Grid>
-        {/* <div className={classes.root}>
-        </div> */}
       </div>
     </Layout>
   );
